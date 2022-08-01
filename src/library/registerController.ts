@@ -14,6 +14,16 @@ export interface libraryComponent extends ComponentOptions {
    */
   order: number;
   /**
+   * 在左侧物料面板显示的信息
+   */
+  libraryPanelShowDetail: {
+    /**
+     * 在左侧物料面板显示的中文名称
+     */
+    title: string;
+    icon: JSX.Element;
+  };
+  /**
    * 提示信息
    * 鼠标指向“?”触发
    */
