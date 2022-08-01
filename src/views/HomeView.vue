@@ -149,14 +149,9 @@ export default {
 
         <!--        中间手机模型-->
         <div class="panel panel-main h-full">
-          <div
-            class="phone-wrapper"
-            @dragenter="onPhoneDragEnter"
-            @dragover="onPhoneDragOver"
-            @drop="onPhoneDragDrop"
-          >
+          <div class="phone-wrapper">
             <draggable
-              :list="phoneLibraryComponentsDragData"
+              v-model="phoneLibraryComponentsDragData"
               class="phone"
               group="library"
               item-key="id"
@@ -180,13 +175,6 @@ export default {
     </el-main>
   </el-container>
 </template>
-
-<style lang="scss">
-//组件使用提示
-.tips-wrapper {
-  @apply shadow;
-}
-</style>
 
 <style lang="scss" scoped>
 .app-container {
@@ -215,18 +203,6 @@ export default {
         .el-tab-pane {
           @apply h-full;
         }
-      }
-    }
-
-    .el-collapse {
-      @apply border-transparent #{!important};
-      :deep(.el-collapse-item__wrap),
-      :deep(.el-collapse-item__header) {
-        @apply border-transparent #{!important};
-      }
-
-      :deep(.el-collapse-item__content) {
-        padding-bottom: 0;
       }
     }
   }
