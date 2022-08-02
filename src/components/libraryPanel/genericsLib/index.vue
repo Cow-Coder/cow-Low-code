@@ -8,12 +8,12 @@
       :title="tabsList[tabItemKey].title"
     >
       <draggable
+        :clone="onCloneCallback"
         :group="{ name: 'library', pull: 'clone', put: false }"
         :list="tabItemVal"
         :sort="false"
         class="library-list"
         item-key="id"
-        @clone="onClone"
       >
         <template #item="{ element }">
           <div class="library-item">
@@ -59,10 +59,15 @@
 
 <script lang="tsx">
 import draggable from "vuedraggable";
+import {
+  ELibraryName,
+  type ILibraryPanel,
+} from "@/components/libraryPanel/types";
 
 const vmOptions = {
   name: "genericsLib",
-  libraryName: "generics",
+  libraryName: ELibraryName.generics,
+  libraryTitle: "通用组件",
   tabsList: {
     show: {
       title: "展示",
@@ -74,17 +79,21 @@ const vmOptions = {
       title: "容器",
     },
   },
+} as ILibraryPanel;
+
+export default {
+  ...vmOptions,
   components: {
     draggable,
   },
 };
-
-export default vmOptions;
 </script>
 
 <script lang="tsx" setup>
-import registerController from "@/library/registerController";
+import registerController from "@/library";
 import { ref } from "vue";
+import type { ILibraryComponent } from "@/library/types";
+import { createEditableInstancedLibraryComponentData } from "@/utils/library";
 
 // console.log(`registerController`, registerController);
 const currenLibName = vmOptions.libraryName;
@@ -93,11 +102,11 @@ const tabsList = vmOptions.tabsList;
 console.log(`tabsList`, currentModules);
 
 // 保持折叠面板默认打开
-const collapseOpenArr = ref(Object.keys(vmOptions.tabsList) ?? []);
+const collapseOpenArr = ref(Object.keys(vmOptions.tabsList ?? {}) ?? []);
 
-// TODO:怎么传参到对面区域去
-function onClone(original: CustomEvent) {
+function onCloneCallback(original: ILibraryComponent) {
   console.log(`original`, original);
+  return createEditableInstancedLibraryComponentData(original);
 }
 </script>
 

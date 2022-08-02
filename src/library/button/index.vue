@@ -1,16 +1,17 @@
 <template>
-  <el-button>按钮template</el-button>
+  <van-button type="primary">主要按钮</van-button>
 </template>
 
 <script lang="tsx">
-import type { libraryComponent } from "@/library/registerController";
 import { Button } from "vant";
 import { ElIcon } from "element-plus";
 import { Aim } from "@element-plus/icons-vue";
+import { ELibraryName } from "@/components/libraryPanel/types";
+import type { ILibraryComponent } from "@/library/types";
 
 export default {
   name: "LibButton",
-  libraryName: "generics",
+  libraryName: ELibraryName.generics,
   tabName: "show",
   order: 1,
   libraryPanelShowDetail: {
@@ -39,7 +40,7 @@ export default {
   setup() {
     return {};
   },
-} as libraryComponent;
+} as ILibraryComponent;
 </script>
 
 <style lang="scss" scoped></style>
