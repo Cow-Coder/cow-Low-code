@@ -7,14 +7,15 @@
 </template>
 
 <script lang="tsx">
-import type { libraryComponent } from "@/library/registerController";
 import { Image as VanImage } from "vant";
 import { ElIcon } from "element-plus";
 import { Aim } from "@element-plus/icons-vue";
+import { ELibraryName } from "@/components/libraryPanel/types";
+import type { ILibraryComponent } from "@/library/types";
 
 export default {
   name: "LibImage",
-  libraryName: "generics",
+  libraryName: ELibraryName.generics,
   tabName: "show",
   order: 2,
   libraryPanelShowDetail: {
@@ -36,7 +37,7 @@ export default {
       </>
     ),
   },
-} as libraryComponent;
+} as ILibraryComponent;
 </script>
 
 <style scoped></style>

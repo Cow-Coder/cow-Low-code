@@ -24,12 +24,14 @@ const stylePanelWidth = computed(() => {
 });
 
 //----------左侧组件栏
+import libraryPanels from "@/components/libraryPanel";
 import * as monaco from "monaco-editor";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
-// import cssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker";
-// import htmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
-// import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -38,15 +40,6 @@ window.MonacoEnvironment = {
     if (label === "json") {
       return new jsonWorker();
     }
-    // if (label === "css" || label === "scss" || label === "less") {
-    //   return new cssWorker();
-    // }
-    // if (label === "html" || label === "handlebars" || label === "razor") {
-    //   return new htmlWorker();
-    // }
-    // if (label === "typescript" || label === "javascript") {
-    //   return new tsWorker();
-    // }
     return new editorWorker();
   },
 };
@@ -71,43 +64,15 @@ onMounted(() => {
 
 //-------------拖拽、数据核心
 // TODO:禁止自己拖入自己，从组件区域拖出去再拖入自己区域时候图标应该是禁止，不应该是默认的
-const DRAG_DATA_CONSTANTS = {
-  dataTransferKey: "componentName",
-};
-
-function onPhoneDragEnter(e: DragEvent) {
-  console.log(e.dataTransfer!.getData(DRAG_DATA_CONSTANTS.dataTransferKey));
-}
-
-function onPhoneDragOver(e: DragEvent) {
-  e.preventDefault();
-}
-
-function onPhoneDragDrop(e: DragEvent) {
-  console.log(e.dataTransfer!.getData(DRAG_DATA_CONSTANTS.dataTransferKey));
-}
-
-function onLibraryComponentDragStart(e: DragEvent) {
-  e.dataTransfer!.setData(DRAG_DATA_CONSTANTS.dataTransferKey, "test");
-}
-
-const phoneLibraryComponentsDragData = ref<Record<string, unknown>[]>([
-  { name: "John 1", id: 0 },
-  { name: "Joao 2", id: 1 },
-  { name: "Jean 3", id: 2 },
-]);
 </script>
 
 <script lang="ts">
 //-------------拖拽、数据核心
-import draggable from "vuedraggable";
-import genericsLib from "@/components/genericsLib.vue";
+import editPanel from "@/components/editPanel/index.vue";
 
-console.log(`generics`, genericsLib);
 export default {
   components: {
-    draggable,
-    genericsLib,
+    editPanel,
   },
 };
 </script>
@@ -134,8 +99,14 @@ export default {
         <!--        左侧面板-->
         <div class="panel panel-left h-full">
           <el-tabs tab-position="left" type="border-card">
-            <el-tab-pane label="通用组件">
-              <generics-lib></generics-lib>
+            <el-tab-pane
+              v-for="(panel, libraryName) in libraryPanels"
+              :key="libraryName"
+              :label="panel.libraryTitle"
+            >
+              <keep-alive>
+                <component :is="panel"></component>
+              </keep-alive>
             </el-tab-pane>
             <!--            代码面板-->
             <el-tab-pane label="代码">
@@ -149,17 +120,8 @@ export default {
 
         <!--        中间手机模型-->
         <div class="panel panel-main h-full">
-          <div class="phone-wrapper">
-            <draggable
-              v-model="phoneLibraryComponentsDragData"
-              class="phone"
-              group="library"
-              item-key="id"
-            >
-              <template #item="{ element }">
-                <div>{{ element.name }}</div>
-              </template>
-            </draggable>
+          <div class="edit-wrapper">
+            <edit-panel></edit-panel>
           </div>
         </div>
 
@@ -210,12 +172,12 @@ export default {
   .panel-main {
     @apply flex-1;
 
-    .phone-wrapper {
+    .edit-wrapper {
       flex-basis: 375px;
       min-height: 812px;
 
       @apply flex-col flex m-auto;
-      .phone {
+      .edit {
         box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
         @apply h-full w-full flex-1;
       }
