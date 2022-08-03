@@ -7,43 +7,46 @@
   >
     <template #item="{ element }">
       <div>
-        <component :is="parseLibraryComponent(element)"></component>
+        <component
+          :is="parseLibraryComponent(element)"
+          @mousedown="onChoose(element)"
+        ></component>
       </div>
     </template>
   </draggable>
 </template>
 
 <script lang="ts">
-import draggable from "vuedraggable";
-
 export default {
   name: "editPanel",
-  components: {
-    draggable,
-  },
 };
 </script>
 
 <script lang="ts" setup>
 import type { IEditableInstancedLibraryComponentData } from "@/components/editPanel/types";
-import { useVModel } from "@vueuse/core";
 import { libraryRecord } from "@/library";
-import type { PropType } from "vue";
+import Draggable from "vuedraggable";
+import { useCode } from "@/stores/code";
+import { storeToRefs } from "pinia";
 
-const emit = defineEmits(["update:moduleValue"]);
+const codeStore = useCode();
+const { jsonCode: editableInstancedLibraryComponentData } =
+  storeToRefs(codeStore);
 
-const props = defineProps({
-  moduleValue: {
-    type: Array as PropType<IEditableInstancedLibraryComponentData[]>,
-    default: () => [],
-  },
-});
-const editableInstancedLibraryComponentData = useVModel(
-  props,
-  "moduleValue",
-  emit,
-  { passive: true }
-);
+// const emit = defineEmits(["update:moduleValue"]);
+
+// const props = defineProps({
+//   moduleValue: {
+//     type: Array as PropType<IEditableInstancedLibraryComponentData[]>,
+//     default: () => [],
+//   },
+// });
+// const editableInstancedLibraryComponentData = useVModel(
+//   props,
+//   "moduleValue",
+//   emit,
+//   { passive: true }
+// );
 
 // 根据名称解析物料组件库内的组件，这里没有注册全局组件是避免污染全局组件名称
 function parseLibraryComponent(data: IEditableInstancedLibraryComponentData) {
@@ -55,6 +58,12 @@ function parseLibraryComponent(data: IEditableInstancedLibraryComponentData) {
   }
   throw new Error(`not found library component: ${data.libraryName}`);
 }
+
+function onChoose(data: IEditableInstancedLibraryComponentData) {
+  console.log("onChoose", data);
+}
+
+// TODO: 拖拽到编辑器时候显示真实的组件，而不是显示物料面板的按钮
 </script>
 
 <style scoped></style>

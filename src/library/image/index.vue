@@ -11,9 +11,14 @@ import { Image as VanImage } from "vant";
 import { ElIcon } from "element-plus";
 import { Aim } from "@element-plus/icons-vue";
 import { ELibraryName } from "@/components/libraryPanel/types";
-import type { ILibraryComponent } from "@/library/types";
+import {
+  createEditableConfigPanelItem,
+  defineLibraryComponent,
+} from "@/utils/library";
+import { EAttributePanels } from "@/components/attributePanel/types";
+import { EEditableConfigItemInputType } from "@/components/editPanel/types";
 
-export default {
+export default defineLibraryComponent({
   name: "LibImage",
   libraryName: ELibraryName.generics,
   tabName: "show",
@@ -37,7 +42,16 @@ export default {
       </>
     ),
   },
-} as ILibraryComponent;
+  editableConfig: {
+    [EAttributePanels.attribute]: [
+      createEditableConfigPanelItem({
+        name: "url",
+        title: "url链接",
+        type: EEditableConfigItemInputType.input,
+      }),
+    ],
+  },
+});
 </script>
 
 <style scoped></style>

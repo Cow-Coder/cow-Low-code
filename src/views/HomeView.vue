@@ -25,56 +25,14 @@ const stylePanelWidth = computed(() => {
 
 //----------左侧组件栏
 import libraryPanels from "@/components/libraryPanel";
-import * as monaco from "monaco-editor";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-window.MonacoEnvironment = {
-  getWorker(_: string, label: string) {
-    if (label === "json") {
-      return new jsonWorker();
-    }
-    return new editorWorker();
-  },
-};
-import { useStorage } from "@/stores/storage";
-import { storeToRefs } from "pinia";
-
-const Storage = useStorage();
-const { code } = storeToRefs(Storage);
-const codeContainer = ref<InstanceType<typeof HTMLElement>>();
-onMounted(() => {
-  monaco.editor.create(codeContainer.value!, {
-    value: JSON.stringify(code.value),
-    language: "json",
-    automaticLayout: true, //开启自适应大小
-    minimap: {
-      enabled: false, // 不需要小的缩略图
-    },
-    lineNumbers: "off", //关闭显示行号
-    folding: false, //关闭折叠
-  });
-});
+import CodePanel from "@/components/codePanel/index.vue";
 
 //-------------拖拽、数据核心
 // TODO:禁止自己拖入自己，从组件区域拖出去再拖入自己区域时候图标应该是禁止，不应该是默认的
-</script>
+import EditPanel from "@/components/editPanel/index.vue";
 
-<script lang="ts">
-//-------------拖拽、数据核心
-import editPanel from "@/components/editPanel/index.vue";
-
-export default {
-  components: {
-    editPanel,
-  },
-};
+//-------------右侧面板
+import AttributePanel from "@/components/attributePanel/index.vue";
 </script>
 
 <template>
@@ -110,10 +68,7 @@ export default {
             </el-tab-pane>
             <!--            代码面板-->
             <el-tab-pane label="代码">
-              <div
-                ref="codeContainer"
-                class="code-container h-full w-full"
-              ></div>
+              <code-panel></code-panel>
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -127,11 +82,7 @@ export default {
 
         <!--        右侧参数面板-->
         <div class="panel panel-right h-full">
-          <el-tabs type="border-card">
-            <el-tab-pane label="常规"> 1212</el-tab-pane>
-            <el-tab-pane label="外观"> 1212</el-tab-pane>
-            <el-tab-pane label="其他">1321</el-tab-pane>
-          </el-tabs>
+          <attribute-panel></attribute-panel>
         </div>
       </div>
     </el-main>

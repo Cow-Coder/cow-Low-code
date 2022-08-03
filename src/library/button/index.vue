@@ -1,4 +1,5 @@
 <template>
+  <!--  TODO: van开头的组件不会自动识别 -->
   <van-button type="primary">主要按钮</van-button>
 </template>
 
@@ -7,9 +8,14 @@ import { Button } from "vant";
 import { ElIcon } from "element-plus";
 import { Aim } from "@element-plus/icons-vue";
 import { ELibraryName } from "@/components/libraryPanel/types";
-import type { ILibraryComponent } from "@/library/types";
+import { EAttributePanels } from "@/components/attributePanel/types";
+import {
+  createEditableConfigPanelItem,
+  defineLibraryComponent,
+} from "@/utils/library";
+import { EEditableConfigItemInputType } from "@/components/editPanel/types";
 
-export default {
+export default defineLibraryComponent({
   name: "LibButton",
   libraryName: ELibraryName.generics,
   tabName: "show",
@@ -37,10 +43,20 @@ export default {
       </>
     ),
   },
+  editableConfig: {
+    [EAttributePanels.attribute]: [
+      createEditableConfigPanelItem({
+        name: "title",
+        title: "按钮名称",
+        default: "按钮",
+        type: EEditableConfigItemInputType.input,
+      }),
+    ],
+  },
   setup() {
     return {};
   },
-} as ILibraryComponent;
+});
 </script>
 
 <style lang="scss" scoped></style>
