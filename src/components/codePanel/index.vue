@@ -3,22 +3,22 @@
 </template>
 
 <script lang="ts" setup>
-import * as monaco from "monaco-editor";
+import * as Monaco from "monaco-editor";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
+import EditorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
+import JsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 window.MonacoEnvironment = {
   getWorker(_: string, label: string) {
     if (label === "json") {
-      return new jsonWorker();
+      return new JsonWorker();
     }
-    return new editorWorker();
+    return new EditorWorker();
   },
 };
 import { useCodeStore } from "@/stores/code";
@@ -26,17 +26,17 @@ import { storeToRefs } from "pinia";
 import { onMounted, ref, shallowRef, watch } from "vue";
 import { debounce } from "lodash";
 
-const Storage = useCodeStore();
-const { jsonCode } = storeToRefs(Storage);
+const codeStore = useCodeStore();
+const { jsonCode } = storeToRefs(codeStore);
 const codeContainerRef = ref<InstanceType<typeof HTMLElement>>();
-const editorInstanceRef = shallowRef<monaco.editor.IStandaloneCodeEditor>();
-let editorTextModel: monaco.editor.ITextModel | null = null;
+const editorInstanceRef = shallowRef<Monaco.editor.IStandaloneCodeEditor>();
+let editorTextModel: Monaco.editor.ITextModel | null = null;
 const formatCode = debounce(() => {
   if (!editorInstanceRef.value) return false;
   editorInstanceRef.value.getAction("editor.action.formatDocument").run();
-}, 500);
+}, 0);
 onMounted(() => {
-  editorInstanceRef.value = monaco.editor.create(codeContainerRef.value!, {
+  editorInstanceRef.value = Monaco.editor.create(codeContainerRef.value!, {
     value: "",
     language: "json",
     automaticLayout: true, //开启自适应大小
@@ -59,10 +59,11 @@ onMounted(() => {
   watch(
     jsonCode,
     (value) => {
+      console.log(`jsonCode`, jsonCode, value);
       if (!editorTextModel) return false;
       editorTextModel.setValue(JSON.stringify(value));
     },
-    { immediate: true }
+    { immediate: true, deep: true }
   );
 });
 </script>
