@@ -26,10 +26,10 @@ export default {
 import type { IEditableInstancedLibraryComponentData } from "@/components/editPanel/types";
 import { libraryRecord } from "@/library";
 import Draggable from "vuedraggable";
-import { useCode } from "@/stores/code";
+import { useCodeStore } from "@/stores/code";
 import { storeToRefs } from "pinia";
 
-const codeStore = useCode();
+const codeStore = useCodeStore();
 const { jsonCode: editableInstancedLibraryComponentData } =
   storeToRefs(codeStore);
 
@@ -61,6 +61,7 @@ function parseLibraryComponent(data: IEditableInstancedLibraryComponentData) {
 
 function onChoose(data: IEditableInstancedLibraryComponentData) {
   console.log("onChoose", data);
+  codeStore.dispatchFocus(data.uuid);
 }
 
 // TODO: 拖拽到编辑器时候显示真实的组件，而不是显示物料面板的按钮

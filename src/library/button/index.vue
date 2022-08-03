@@ -44,7 +44,7 @@ export default defineLibraryComponent({
     ),
   },
   editableConfig: {
-    [EAttributePanels.attribute]: [
+    [EAttributePanels.generic]: [
       createEditableConfigPanelItem({
         name: "title",
         title: "按钮名称",

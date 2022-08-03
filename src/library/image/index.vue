@@ -43,7 +43,7 @@ export default defineLibraryComponent({
     ),
   },
   editableConfig: {
-    [EAttributePanels.attribute]: [
+    [EAttributePanels.generic]: [
       createEditableConfigPanelItem({
         name: "url",
         title: "url链接",
