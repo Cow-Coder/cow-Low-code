@@ -75,3 +75,37 @@ export interface IEditableConfigPanelItemSchema {
    */
   default?: any;
 }
+
+/**
+ * 编辑面板每个config的结构
+ */
+export interface ILibraryComponentPropItem {
+  /**
+   * 表单类型
+   */
+  formType: EEditableConfigItemInputType;
+  /**
+   * 描述标题
+   */
+  title: string;
+  /**
+   * 提示信息
+   */
+  tips?: string;
+  /**
+   * 默认值
+   */
+  default?: any;
+  /**
+   * 当前属性应该显示在哪个面板
+   */
+  belongToPanel: EAttributePanels;
+}
+
+/**
+ * 编辑区被选中物料组件的定位数据
+ */
+export interface IEditableInstancedLibraryComponentDataAtFocus {
+  path: string | undefined;
+  uuid: string | undefined;
+}
