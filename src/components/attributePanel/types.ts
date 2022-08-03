@@ -3,9 +3,9 @@
  */
 export enum EAttributePanels {
   /**
-   * 属性 编辑面板
+   * 常规 编辑面板
    */
-  attribute = "attribute",
+  generic = "generic",
   /**
    * 外观 编辑面板
    */
