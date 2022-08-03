@@ -22,6 +22,16 @@ export const useCodeStore = defineStore(
      */
     const focusData = ref<ILibraryComponentInstanceFocus>();
 
+    /**
+     * store恢复初始状态
+     * Q: 为什么不用 store.$reset() ?
+     * A: 使用持久化插件之后reset是sessionStorage的数据
+     */
+    function clear() {
+      jsonCode.value = [];
+      focusData.value = undefined;
+    }
+
     function dispatchFocus(uuid: string, path?: string) {
       focusData.value = {
         uuid,
@@ -73,6 +83,7 @@ export const useCodeStore = defineStore(
       focusData,
       dispatchFocus,
       getLibraryComponentInstanceDataAndSchema,
+      clear,
     };
   },
   {

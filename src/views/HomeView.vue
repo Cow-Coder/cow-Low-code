@@ -1,6 +1,13 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from "vue";
+import { useCodeStore } from "@/stores/code";
+import libraryPanels from "@/components/libraryPanel";
+import CodePanel from "@/components/codePanel/index.vue";
+import AttributePanel from "@/components/attributePanel/index.vue";
+import EditPanel from "@/components/editPanel/index.vue";
+import { ElMessage } from "element-plus";
 
+// TODO:禁止自己拖入自己，从组件区域拖出去再拖入自己区域时候图标应该是禁止，不应该是默认的
 //-----------页面布局
 const styleHeaderHeight = "60px";
 
@@ -22,17 +29,13 @@ const stylePanelWidth = computed(() => {
     },
   });
 });
+const codeStore = useCodeStore();
 
-//----------左侧组件栏
-import libraryPanels from "@/components/libraryPanel";
-import CodePanel from "@/components/codePanel/index.vue";
-
-//-------------拖拽、数据核心
-// TODO:禁止自己拖入自己，从组件区域拖出去再拖入自己区域时候图标应该是禁止，不应该是默认的
-import EditPanel from "@/components/editPanel/index.vue";
-
-//-------------右侧面板
-import AttributePanel from "@/components/attributePanel/index.vue";
+//--------------顶部
+function resetAll() {
+  codeStore.clear();
+  ElMessage.success("清空所有数据成功");
+}
 </script>
 
 <template>
@@ -45,7 +48,7 @@ import AttributePanel from "@/components/attributePanel/index.vue";
         <el-col :span="4"> LowCodeDemo</el-col>
         <el-col :span="16"></el-col>
         <el-col :span="4" class="justify-end flex items-center">
-          <el-button type="danger">重置</el-button>
+          <el-button type="danger" @click="resetAll">重置</el-button>
           <el-button type="primary">预览</el-button>
         </el-col>
       </el-row>
