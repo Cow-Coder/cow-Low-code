@@ -43,7 +43,7 @@ export function createLibraryComponentInstanceProps(
   const _props = cloneDeep(props);
   const result = {} as ILibraryComponentInstanceProps;
   Object.entries(_props).forEach(([propKey, propSchema]) => {
-    result[propKey] = propSchema.default ?? undefined;
+    if (propSchema.default) result[propKey] = propSchema.default;
   });
   return result;
 }

@@ -110,17 +110,17 @@ function formRender(
     propsSchema,
     cursorPanel
   );
-  const propsDataRefs = toRefs(propsData);
+  // const propsDataRefs = toRefs(propsData);
 
   const formItemChildRender = (
-    propsData: Ref,
+    propsData: ILibraryComponentInstanceProps,
     formItemSchema: IAttributePanelFormItemSchema
   ) => {
     console.log(`configValue`, propsData);
     if (formItemSchema.formType === EEditableConfigItemInputType.input) {
       return (
         <>
-          <ElInput v-model={propsData.value}></ElInput>
+          <ElInput v-model={propsData[formItemSchema.name]}></ElInput>
         </>
       );
     }
@@ -130,7 +130,7 @@ function formRender(
   const formItemList = cursorPropsArray.map((propItem) => {
     return (
       <ElFormItem label={propItem.title} key={propItem.name}>
-        {formItemChildRender(propsDataRefs[propItem.name], propItem)}
+        {formItemChildRender(propsData, propItem)}
       </ElFormItem>
     );
   });
