@@ -13,8 +13,9 @@ export type IEditableConfig = Partial<{
   [key in EAttributePanels]: IEditableConfigPanelItemSchema[];
 }>;
 
-export interface ILibraryComponent<T extends IEditableConfig = IEditableConfig>
-  extends ComponentOptions {
+export interface ILibraryComponent<
+  T extends IEditableConfig = IEditableConfig
+> {
   /**
    * 物料组件标识符
    */

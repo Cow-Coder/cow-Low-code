@@ -21,12 +21,12 @@ window.MonacoEnvironment = {
     return new editorWorker();
   },
 };
-import { useCode } from "@/stores/code";
+import { useCodeStore } from "@/stores/code";
 import { storeToRefs } from "pinia";
 import { onMounted, ref, shallowRef, watch } from "vue";
 import { debounce } from "lodash";
 
-const Storage = useCode();
+const Storage = useCodeStore();
 const { jsonCode } = storeToRefs(Storage);
 const codeContainerRef = ref<InstanceType<typeof HTMLElement>>();
 const editorInstanceRef = shallowRef<monaco.editor.IStandaloneCodeEditor>();
