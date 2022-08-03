@@ -19,6 +19,7 @@
     "lodash": "^4.17.21",
     "monaco-editor": "^0.33.0",
     "pinia": "^2.0.16",
+    "pinia-plugin-persist": "^1.0.0",
     "uuid": "^8.3.2",
     "vant": "^3.5.3",
     "vue": "^3.2.37",

@@ -58,7 +58,6 @@
 </template>
 
 <script lang="tsx">
-import draggable from "vuedraggable";
 import {
   ELibraryName,
   type ILibraryPanel,
@@ -81,12 +80,7 @@ const vmOptions = {
   },
 } as ILibraryPanel;
 
-export default {
-  ...vmOptions,
-  components: {
-    draggable,
-  },
-};
+export default vmOptions;
 </script>
 
 <script lang="tsx" setup>
@@ -94,18 +88,23 @@ import registerController from "@/library";
 import { ref } from "vue";
 import type { ILibraryComponent } from "@/library/types";
 import { createEditableInstancedLibraryComponentData } from "@/utils/library";
+import Draggable from "vuedraggable";
 
 // console.log(`registerController`, registerController);
 const currenLibName = vmOptions.libraryName;
 const currentModules = registerController[currenLibName] ?? {};
 const tabsList = vmOptions.tabsList;
-console.log(`tabsList`, currentModules);
+// console.log(`tabsList`, currentModules);
 
 // 保持折叠面板默认打开
 const collapseOpenArr = ref(Object.keys(vmOptions.tabsList ?? {}) ?? []);
 
+/**
+ * 当drop事件发生的时候，此函数的返回值会push到目标容器list中
+ * @param original
+ */
 function onCloneCallback(original: ILibraryComponent) {
-  console.log(`original`, original);
+  // console.log(`original`, original);
   return createEditableInstancedLibraryComponentData(original);
 }
 </script>

@@ -1,9 +1,22 @@
 import type { ComponentOptions } from "vue";
 import type { ELibraryName } from "@/components/libraryPanel/types";
+import type { EAttributePanels } from "@/components/attributePanel/types";
+import type { IEditableConfigPanelItemSchema } from "@/components/editPanel/types";
 
-export interface ILibraryComponent extends ComponentOptions {
+/**
+ * 物料组件可编辑的参数
+ * 存在的意义是为了在组件types.ts中定义时候约束[键名]
+ * 此类型是作用于物料组件的，而不是物料组件实例
+ * TODO:这里的泛型可以删除了
+ */
+export type IEditableConfig = Partial<{
+  [key in EAttributePanels]: IEditableConfigPanelItemSchema[];
+}>;
+
+export interface ILibraryComponent<T extends IEditableConfig = IEditableConfig>
+  extends ComponentOptions {
   /**
-   * 组件标识符
+   * 物料组件标识符
    */
   name: string;
   /**
@@ -48,4 +61,8 @@ export interface ILibraryComponent extends ComponentOptions {
      */
     preview?: JSX.Element;
   };
+  /**
+   *右侧属性面板可编辑参数
+   */
+  editableConfig?: T;
 }
