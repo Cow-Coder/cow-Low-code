@@ -59,7 +59,7 @@ export interface IAttributePanelFormItemSchema
 /**
  * 编辑区被选中物料组件的定位数据
  */
-export interface ILibraryComponentInstanceDataAtFocus {
-  path: string | undefined;
+export interface ILibraryComponentInstanceFocus {
+  path?: string | undefined;
   uuid: string | undefined;
 }

@@ -36,7 +36,7 @@ import { panelList } from "@/components/attributePanel/config";
 import type {
   IAttributePanelFormItemSchema,
   ILibraryComponentInstanceData,
-  ILibraryComponentInstanceDataAtFocus,
+  ILibraryComponentInstanceFocus,
   ILibraryComponentInstanceProps,
 } from "@/components/editPanel/types";
 import { useCodeStore } from "@/stores/code";
@@ -60,7 +60,7 @@ const componentSchemaProps = shallowRef<ILibraryComponentProps>();
 watch(focusData, () => {
   if (!focusData.value) return false;
   const [focusedLibraryComponentInstanceData, focusedLibraryComponentSchema] =
-    getLibraryComponentInstanceDataAndSchema(focusData.value);
+    codeStore.getLibraryComponentInstanceDataAndSchema(focusData.value);
   componentData.value = focusedLibraryComponentInstanceData;
   componentSchema.value = focusedLibraryComponentSchema;
   componentDataProps.value = focusedLibraryComponentInstanceData.props;
@@ -90,41 +90,6 @@ function getLibraryComponentPropsArrayInAPanel(
     });
     return previousValue;
   }, [] as IAttributePanelFormItemSchema[]);
-}
-
-/**
- * 获取当前选中组件的数据和定义
- * @param focusData
- */
-function getLibraryComponentInstanceDataAndSchema(
-  focusData: ILibraryComponentInstanceDataAtFocus
-): [ILibraryComponentInstanceData, ILibraryComponent] {
-  let focusedLibraryComponentInstanceData = undefined;
-  for (const jsonCodeElement of jsonCode.value) {
-    if (jsonCodeElement.uuid && jsonCodeElement.uuid === focusData.uuid) {
-      // console.log(`jsonCodeElement`, jsonCodeElement, jsonCode);
-      focusedLibraryComponentInstanceData = jsonCodeElement;
-      break;
-    }
-  }
-  if (!focusedLibraryComponentInstanceData)
-    throw new Error(
-      `not found focusedLibraryComponentData(uuid): ${focusData.uuid}`
-    );
-  let focusedLibraryComponentSchema = undefined;
-  for (const e of libraryRecord[
-    focusedLibraryComponentInstanceData.libraryName
-  ]) {
-    if (e.name == focusedLibraryComponentInstanceData.componentName) {
-      focusedLibraryComponentSchema = e;
-      break;
-    }
-  }
-  if (!focusedLibraryComponentSchema)
-    throw new Error(
-      `not found focusedLibraryComponentSchema(name): ${focusedLibraryComponentInstanceData.componentName}`
-    );
-  return [focusedLibraryComponentInstanceData, focusedLibraryComponentSchema];
 }
 
 import { ElForm, ElFormItem } from "element-plus";

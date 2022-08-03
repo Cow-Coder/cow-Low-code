@@ -2,8 +2,10 @@ import { defineStore } from "pinia";
 import { ref, shallowRef } from "vue";
 import type {
   ILibraryComponentInstanceData,
-  ILibraryComponentInstanceDataAtFocus,
+  ILibraryComponentInstanceFocus,
 } from "@/components/editPanel/types";
+import type { ILibraryComponent } from "@/library/types";
+import { libraryRecord } from "@/library";
 
 export const useCodeStore = defineStore(
   "CodeStore",
@@ -18,7 +20,7 @@ export const useCodeStore = defineStore(
      * 3. 使用 focusData 记录被选中组件在JSON中的路径，根据路径就可以直达被选中组件
      *    问题是拖动组件换顺序之后要全部重新计算
      */
-    const focusData = ref<ILibraryComponentInstanceDataAtFocus>();
+    const focusData = ref<ILibraryComponentInstanceFocus>();
 
     function dispatchFocus(uuid: string, path?: string) {
       focusData.value = {
@@ -28,10 +30,49 @@ export const useCodeStore = defineStore(
       return focusData;
     }
 
+    /**
+     * 获取当前选中组件的数据和定义
+     * @param focusData
+     */
+    function getLibraryComponentInstanceDataAndSchema(
+      focusData: ILibraryComponentInstanceFocus
+    ): [ILibraryComponentInstanceData, ILibraryComponent] {
+      let focusedLibraryComponentInstanceData = undefined;
+      for (const jsonCodeElement of jsonCode.value) {
+        if (jsonCodeElement.uuid && jsonCodeElement.uuid === focusData.uuid) {
+          // console.log(`jsonCodeElement`, jsonCodeElement, jsonCode);
+          focusedLibraryComponentInstanceData = jsonCodeElement;
+          break;
+        }
+      }
+      if (!focusedLibraryComponentInstanceData)
+        throw new Error(
+          `not found focusedLibraryComponentData(uuid): ${focusData.uuid}`
+        );
+      let focusedLibraryComponentSchema = undefined;
+      for (const e of libraryRecord[
+        focusedLibraryComponentInstanceData.libraryName
+      ]) {
+        if (e.name == focusedLibraryComponentInstanceData.componentName) {
+          focusedLibraryComponentSchema = e;
+          break;
+        }
+      }
+      if (!focusedLibraryComponentSchema)
+        throw new Error(
+          `not found focusedLibraryComponentSchema(name): ${focusedLibraryComponentInstanceData.componentName}`
+        );
+      return [
+        focusedLibraryComponentInstanceData,
+        focusedLibraryComponentSchema,
+      ];
+    }
+
     return {
       jsonCode,
       focusData,
       dispatchFocus,
+      getLibraryComponentInstanceDataAndSchema,
     };
   },
   {
