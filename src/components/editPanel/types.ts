@@ -1,7 +1,7 @@
 import type { ELibraryName } from "@/components/libraryPanel/types";
 import type { ILibraryComponentPropItem } from "@/library/types";
 
-export type ILibraryComponentInstanceProps = Record<string, any>;
+export type ILibraryComponentInstanceProps = Data;
 
 /**
  * 物料组件实例的数据

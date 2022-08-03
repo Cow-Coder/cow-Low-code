@@ -59,7 +59,6 @@ onMounted(() => {
   watch(
     jsonCode,
     (value) => {
-      console.log(`jsonCode`, jsonCode, value);
       if (!editorTextModel) return false;
       editorTextModel.setValue(JSON.stringify(value));
     },
