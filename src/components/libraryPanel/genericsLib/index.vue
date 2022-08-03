@@ -87,7 +87,7 @@ export default vmOptions;
 import registerController from "@/library";
 import { ref } from "vue";
 import type { ILibraryComponent } from "@/library/types";
-import { createEditableInstancedLibraryComponentData } from "@/utils/library";
+import { createLibraryComponentInstance } from "@/utils/library";
 import Draggable from "vuedraggable";
 
 // console.log(`registerController`, registerController);
@@ -105,7 +105,7 @@ const collapseOpenArr = ref(Object.keys(vmOptions.tabsList ?? {}) ?? []);
  */
 function onCloneCallback(original: ILibraryComponent) {
   // console.log(`original`, original);
-  return createEditableInstancedLibraryComponentData(original);
+  return createLibraryComponentInstance(original);
 }
 </script>
 

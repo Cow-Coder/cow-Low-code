@@ -23,7 +23,7 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import type { IEditableInstancedLibraryComponentData } from "@/components/editPanel/types";
+import type { ILibraryComponentInstanceData } from "@/components/editPanel/types";
 import { libraryRecord } from "@/library";
 import Draggable from "vuedraggable";
 import { useCodeStore } from "@/stores/code";
@@ -33,23 +33,8 @@ const codeStore = useCodeStore();
 const { jsonCode: editableInstancedLibraryComponentData } =
   storeToRefs(codeStore);
 
-// const emit = defineEmits(["update:moduleValue"]);
-
-// const props = defineProps({
-//   moduleValue: {
-//     type: Array as PropType<IEditableInstancedLibraryComponentData[]>,
-//     default: () => [],
-//   },
-// });
-// const editableInstancedLibraryComponentData = useVModel(
-//   props,
-//   "moduleValue",
-//   emit,
-//   { passive: true }
-// );
-
 // 根据名称解析物料组件库内的组件，这里没有注册全局组件是避免污染全局组件名称
-function parseLibraryComponent(data: IEditableInstancedLibraryComponentData) {
+function parseLibraryComponent(data: ILibraryComponentInstanceData) {
   console.log(`parseLibraryComponent`, data);
   for (const libMapElementElement of libraryRecord[data.libraryName]) {
     if (libMapElementElement.name === data.componentName) {
@@ -59,7 +44,7 @@ function parseLibraryComponent(data: IEditableInstancedLibraryComponentData) {
   throw new Error(`not found library component: ${data.libraryName}`);
 }
 
-function onChoose(data: IEditableInstancedLibraryComponentData) {
+function onChoose(data: ILibraryComponentInstanceData) {
   console.log("onChoose", data);
   codeStore.dispatchFocus(data.uuid);
 }
