@@ -6,23 +6,20 @@
     item-key="id"
   >
     <template #item="{ element }">
-      <div>
-        <component
-          :is="parseLibraryComponent(element)"
-          @mousedown="onChoose(element)"
-        ></component>
+      <div @mousedown="onChoose(element)">
+        <component :is="parseLibraryComponent(element)"></component>
       </div>
     </template>
   </draggable>
 </template>
 
-<script lang="ts">
+<script lang="tsx">
 export default {
   name: "editPanel",
 };
 </script>
 
-<script lang="ts" setup>
+<script lang="tsx" setup>
 import type { ILibraryComponentInstanceData } from "@/components/editPanel/types";
 import { libraryRecord } from "@/library";
 import Draggable from "vuedraggable";
@@ -37,9 +34,12 @@ const { jsonCode: editableInstancedLibraryComponentData } =
 function parseLibraryComponent(data: ILibraryComponentInstanceData) {
   console.log(`parseLibraryComponent`, data);
   for (const libMapElementElement of libraryRecord[data.libraryName]) {
-    if (libMapElementElement.name === data.componentName) {
-      return libMapElementElement;
-    }
+    if (libMapElementElement.name !== data.componentName) continue;
+    return (
+      <>
+        <libMapElementElement {...data.props}></libMapElementElement>
+      </>
+    );
   }
   throw new Error(`not found library component: ${data.libraryName}`);
 }
