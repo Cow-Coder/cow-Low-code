@@ -1,4 +1,4 @@
-import type { ComponentOptions } from "vue";
+import type { ComponentOptions, Prop } from "vue";
 import type { ELibraryName } from "@/components/libraryPanel/types";
 import type { EAttributePanels } from "@/components/attributePanel/types";
 import type { EEditableConfigItemInputType } from "@/components/editPanel/types";
@@ -6,7 +6,7 @@ import type { EEditableConfigItemInputType } from "@/components/editPanel/types"
 /**
  * 组件单个prop
  */
-export interface ILibraryComponentPropItem {
+export type ILibraryComponentPropItem = {
   /**
    * 表单类型
    */
@@ -27,7 +27,7 @@ export interface ILibraryComponentPropItem {
    * 当前属性应该显示在哪个面板
    */
   belongToPanel: EAttributePanels;
-}
+} & Prop<unknown>;
 
 /**
  * 组件Props

@@ -47,14 +47,13 @@ export enum EEditableConfigItemInputType {
 /**
  * attribute属性编辑面板每个form表单项结构
  */
-export interface IAttributePanelFormItemSchema
-  extends ILibraryComponentPropItem {
+export type IAttributePanelFormItemSchema = {
   /**
    * 表单name，唯一标识符
    * 对应 ILibraryComponentPropItem 的键名
    */
   name: string;
-}
+} & ILibraryComponentPropItem;
 
 /**
  * 编辑区被选中物料组件的定位数据
