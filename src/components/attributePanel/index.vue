@@ -5,34 +5,12 @@
       :key="panelItem.name"
       :label="panelItem.title"
     >
-      <el-form
-        v-if="
-          componentSchema &&
-          getPanelEditableConfigByEnumPanel(componentSchema, panelItem['name'])
+      <component
+        v-if="componentSchemaProps"
+        :is="
+          formRender(componentDataProps, panelItem.name, componentSchemaProps)
         "
-        :model="
-          getPanelEditableConfigByEnumPanel(componentData, panelItem['name'])
-        "
-      >
-        <el-form-item
-          v-for="formItemSchema in getPanelEditableConfigByEnumPanel(
-            componentSchema,
-            panelItem['name']
-          )"
-          :key="formItemSchema.name"
-          :label="formItemSchema.title"
-        >
-          <component
-            :is="
-              formItemChildRender(
-                componentData,
-                panelItem['name'],
-                formItemSchema
-              )
-            "
-          ></component>
-        </el-form-item>
-      </el-form>
+      ></component>
     </el-tab-pane>
   </el-tabs>
 </template>
@@ -49,120 +27,148 @@ export default {
 1. 纯粹遍历 panelList
    问题在于组件属性schema和data全部都要从起点开始拿
    比如
-   componentSchema.editableConfig.panelItem['name'][第几个表单项].type
-   componentData.editableConfig.panelItem['name'].xxx属性
+   componentSchema.props.panelItem['name'][第几个表单项].type
+   componentData.props.panelItem['name'].xxx属性
 2. 把组件属性schema和data糅合进 panelList 里面，然后一起遍历
    问题在于当被选中物料组件变化时候又需要重新糅合一遍
  */
 import { panelList } from "@/components/attributePanel/config";
 import type {
-  IEditableConfigPanelItemSchema,
-  IEditableConfigValue,
-  IEditableInstancedLibraryComponentData,
-  IEditableInstancedLibraryComponentDataAtFocus,
+  IAttributePanelFormItemSchema,
+  ILibraryComponentInstanceData,
+  ILibraryComponentInstanceDataAtFocus,
+  ILibraryComponentInstanceProps,
 } from "@/components/editPanel/types";
 import { useCodeStore } from "@/stores/code";
 import { storeToRefs } from "pinia";
-import { ref, watch, shallowRef, type Ref, unref, toRefs } from "vue";
+import { ref, watch, shallowRef, type Ref, unref, toRefs, toRef } from "vue";
 import { libraryRecord } from "@/library";
-import type { ILibraryComponent } from "@/library/types";
+import type {
+  ILibraryComponent,
+  ILibraryComponentProps,
+} from "@/library/types";
 import { EEditableConfigItemInputType } from "@/components/editPanel/types";
 import { EAttributePanels } from "@/components/attributePanel/types";
 import { ElInput } from "element-plus";
 
-const componentData = ref<IEditableInstancedLibraryComponentData>();
-const componentSchema = shallowRef<ILibraryComponent>();
-
 const codeStore = useCodeStore();
 const { focusData, jsonCode } = storeToRefs(codeStore);
+const componentData = ref<ILibraryComponentInstanceData>();
+const componentDataProps = ref<ILibraryComponentInstanceProps>();
+const componentSchema = shallowRef<ILibraryComponent>();
+const componentSchemaProps = shallowRef<ILibraryComponentProps>();
+watch(focusData, () => {
+  if (!focusData.value) return false;
+  const [focusedLibraryComponentInstanceData, focusedLibraryComponentSchema] =
+    getLibraryComponentInstanceDataAndSchema(focusData.value);
+  componentData.value = focusedLibraryComponentInstanceData;
+  componentSchema.value = focusedLibraryComponentSchema;
+  componentDataProps.value = focusedLibraryComponentInstanceData.props;
+  componentSchemaProps.value = focusedLibraryComponentSchema.props;
+});
 
-function getPanelEditableConfigByEnumPanel(
-  component:
-    | ILibraryComponent
-    | IEditableInstancedLibraryComponentData
-    | Ref<ILibraryComponent | IEditableInstancedLibraryComponentData>,
+function getLibraryComponentPropsRecordInAPanel(
+  propsSchema: ILibraryComponentProps,
   panel: EAttributePanels
 ) {
-  const _component = unref(component);
-  if (!_component.editableConfig) return undefined;
-  return _component.editableConfig[panel];
-}
-
-function getEditableConfigDataValue<T = any>(
-  component:
-    | IEditableInstancedLibraryComponentData
-    | Ref<IEditableInstancedLibraryComponentData>,
-  panel: EAttributePanels,
-  formItemName: string
-): Ref<T> {
-  const editableConfig = getPanelEditableConfigByEnumPanel(component, panel);
-  if (!editableConfig)
-    throw new Error(`not found editableConfig of panel: ${panel}`);
-  const _editableConfig = toRefs(editableConfig);
-  return _editableConfig[formItemName];
-}
-
-function formItemChildRender(
-  component:
-    | IEditableInstancedLibraryComponentData
-    | Ref<IEditableInstancedLibraryComponentData>,
-  panel: EAttributePanels,
-  formItemSchema: IEditableConfigPanelItemSchema
-) {
-  const _component = unref(component);
-  const configValue = getEditableConfigDataValue(
-    _component,
-    panel,
-    formItemSchema.name
+  const propsFilterArr = Object.entries(propsSchema).filter(
+    (e) => e[1].belongToPanel === panel
   );
-  console.log(`configValue`, configValue);
-  if (formItemSchema.type === EEditableConfigItemInputType.input) {
-    return (
-      <>
-        <ElInput v-model={configValue.value}></ElInput>
-      </>
-    );
-  }
-  return undefined;
+  return Object.fromEntries(propsFilterArr);
+}
+
+function getLibraryComponentPropsArrayInAPanel(
+  propsSchema: ILibraryComponentProps,
+  panel: EAttributePanels
+) {
+  return Object.entries(
+    getLibraryComponentPropsRecordInAPanel(propsSchema, panel)
+  ).reduce((previousValue, currentValue) => {
+    previousValue.push({
+      ...currentValue[1],
+      name: currentValue[0],
+    });
+    return previousValue;
+  }, [] as IAttributePanelFormItemSchema[]);
 }
 
 /**
  * 获取当前选中组件的数据和定义
  * @param focusData
  */
-function getLibraryComponentInstanceDataAndSchemaByFocusData(
-  focusData: IEditableInstancedLibraryComponentDataAtFocus
-): [IEditableInstancedLibraryComponentData, ILibraryComponent] {
-  let focusedLibraryComponentData = undefined;
+function getLibraryComponentInstanceDataAndSchema(
+  focusData: ILibraryComponentInstanceDataAtFocus
+): [ILibraryComponentInstanceData, ILibraryComponent] {
+  let focusedLibraryComponentInstanceData = undefined;
   for (const jsonCodeElement of jsonCode.value) {
     if (jsonCodeElement.uuid && jsonCodeElement.uuid === focusData.uuid) {
       // console.log(`jsonCodeElement`, jsonCodeElement, jsonCode);
-      focusedLibraryComponentData = jsonCodeElement;
+      focusedLibraryComponentInstanceData = jsonCodeElement;
       break;
     }
   }
-  if (!focusedLibraryComponentData)
+  if (!focusedLibraryComponentInstanceData)
     throw new Error(
       `not found focusedLibraryComponentData(uuid): ${focusData.uuid}`
     );
   let focusedLibraryComponentSchema = undefined;
-  for (const e of libraryRecord[focusedLibraryComponentData.libraryName]) {
-    if (e.name == focusedLibraryComponentData.componentName) {
+  for (const e of libraryRecord[
+    focusedLibraryComponentInstanceData.libraryName
+  ]) {
+    if (e.name == focusedLibraryComponentInstanceData.componentName) {
       focusedLibraryComponentSchema = e;
       break;
     }
   }
   if (!focusedLibraryComponentSchema)
     throw new Error(
-      `not found focusedLibraryComponentSchema(name): ${focusedLibraryComponentData.componentName}`
+      `not found focusedLibraryComponentSchema(name): ${focusedLibraryComponentInstanceData.componentName}`
     );
-  return [focusedLibraryComponentData, focusedLibraryComponentSchema];
+  return [focusedLibraryComponentInstanceData, focusedLibraryComponentSchema];
 }
-watch(focusData, () => {
-  if (!focusData.value) return false;
-  const [focusedLibraryComponentData, focusedLibraryComponentSchema] =
-    getLibraryComponentInstanceDataAndSchemaByFocusData(focusData.value);
-  componentData.value = unref(focusedLibraryComponentData);
-  componentSchema.value = unref(focusedLibraryComponentSchema);
-});
+
+import { ElForm, ElFormItem } from "element-plus";
+
+/**
+ * 渲染表单
+ * @param propsSchema
+ * @param propsData
+ * @param cursorPanel
+ */
+function formRender(
+  propsData: ILibraryComponentInstanceProps,
+  cursorPanel: EAttributePanels,
+  propsSchema: ILibraryComponentProps
+) {
+  if (!propsSchema) return undefined;
+  const cursorPropsArray = getLibraryComponentPropsArrayInAPanel(
+    propsSchema,
+    cursorPanel
+  );
+  const propsDataRefs = toRefs(propsData);
+
+  const formItemChildRender = (
+    propsData: Ref,
+    formItemSchema: IAttributePanelFormItemSchema
+  ) => {
+    console.log(`configValue`, propsData);
+    if (formItemSchema.formType === EEditableConfigItemInputType.input) {
+      return (
+        <>
+          <ElInput v-model={propsData.value}></ElInput>
+        </>
+      );
+    }
+    return undefined;
+  };
+
+  const formItemList = cursorPropsArray.map((propItem) => {
+    return (
+      <ElFormItem label={propItem.title} key={propItem.name}>
+        {formItemChildRender(propsDataRefs[propItem.name], propItem)}
+      </ElFormItem>
+    );
+  });
+  return <ElForm model={propsData}>{formItemList}</ElForm>;
+}
 </script>

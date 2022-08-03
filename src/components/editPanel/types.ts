@@ -1,20 +1,14 @@
 import type { ELibraryName } from "@/components/libraryPanel/types";
-import type { EAttributePanels } from "@/components/attributePanel/types";
+import type { ILibraryComponentPropItem } from "@/library/types";
+
+export type ILibraryComponentInstanceProps = Record<string, any>;
 
 /**
- * 此类型是作用于物料组件实例的
+ * 物料组件实例的数据
  */
-export type IEditableConfigValue = Partial<{
-  [key in EAttributePanels]: Record<string, any>;
-}>;
-
-/**
- * 物料组件实例的参数
- */
-export interface IEditableInstancedLibraryComponentData {
+export interface ILibraryComponentInstanceData {
   /**
    * 全局唯一ID
-   * TODO:暂时不知道干啥用
    */
   uuid: string;
   /**
@@ -32,7 +26,7 @@ export interface IEditableInstancedLibraryComponentData {
   /**
    *右侧属性面板可编辑参数
    */
-  editableConfig?: IEditableConfigValue;
+  props?: ILibraryComponentInstanceProps;
 }
 
 /**
@@ -51,61 +45,21 @@ export enum EEditableConfigItemInputType {
 }
 
 /**
- * 编辑面板每个config的结构
+ * attribute属性编辑面板每个form表单项结构
  */
-export interface IEditableConfigPanelItemSchema {
+export interface IAttributePanelFormItemSchema
+  extends ILibraryComponentPropItem {
   /**
    * 表单name，唯一标识符
+   * 对应 ILibraryComponentPropItem 的键名
    */
   name: string;
-  /**
-   * 表单类型
-   */
-  type: EEditableConfigItemInputType;
-  /**
-   * 描述标题
-   */
-  title: string;
-  /**
-   * 提示信息
-   */
-  tips?: string;
-  /**
-   * 默认值
-   */
-  default?: any;
-}
-
-/**
- * 编辑面板每个config的结构
- */
-export interface ILibraryComponentPropItem {
-  /**
-   * 表单类型
-   */
-  formType: EEditableConfigItemInputType;
-  /**
-   * 描述标题
-   */
-  title: string;
-  /**
-   * 提示信息
-   */
-  tips?: string;
-  /**
-   * 默认值
-   */
-  default?: any;
-  /**
-   * 当前属性应该显示在哪个面板
-   */
-  belongToPanel: EAttributePanels;
 }
 
 /**
  * 编辑区被选中物料组件的定位数据
  */
-export interface IEditableInstancedLibraryComponentDataAtFocus {
+export interface ILibraryComponentInstanceDataAtFocus {
   path: string | undefined;
   uuid: string | undefined;
 }

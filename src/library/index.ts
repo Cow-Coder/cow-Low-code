@@ -6,7 +6,7 @@ const libraryComponents = import.meta.glob<ILibraryComponent>(
     eager: true,
   }
 );
-
+// console.log(`libraryComponents`, libraryComponents);
 const libraryTree: Record<string, Record<string, ILibraryComponent[]>> = {};
 const libTemp: Record<string, ILibraryComponent[]> = {};
 
@@ -35,3 +35,4 @@ Object.entries(libraryTree).forEach(([_, modules]) => {
 });
 export const libraryRecord = libTemp;
 export default libraryTree;
+// console.log(`libraryRecord`, libraryRecord, `libraryTree`, libraryTree);

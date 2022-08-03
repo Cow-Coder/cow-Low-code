@@ -1,11 +1,13 @@
 import { v4 as uuidv4 } from "uuid";
-import type { IEditableConfig, ILibraryComponent } from "@/library/types";
 import type {
-  IEditableConfigPanelItemSchema,
-  IEditableConfigValue,
-  IEditableInstancedLibraryComponentData,
+  ILibraryComponent,
+  ILibraryComponentPropItem,
+  ILibraryComponentProps,
+} from "@/library/types";
+import type {
+  ILibraryComponentInstanceData,
+  ILibraryComponentInstanceProps,
 } from "@/components/editPanel/types";
-import { EAttributePanels } from "@/components/attributePanel/types";
 import { cloneDeep } from "lodash";
 
 export const uuid = uuidv4;
@@ -14,42 +16,34 @@ export const uuid = uuidv4;
  * 从物料组件克隆一个组件实例
  * @param com
  */
-export function createEditableInstancedLibraryComponentData(
+export function createLibraryComponentInstance(
   com: ILibraryComponent
-): IEditableInstancedLibraryComponentData {
+): ILibraryComponentInstanceData {
   const data = {
-    uuid: uuidv4(),
+    uuid: uuid(),
     componentName: com.name,
     libraryName: com.libraryName,
     focus: false,
   };
-  if (com.editableConfig) {
+  if (com.props) {
     Object.assign(data, {
-      editableConfig: createEditableValueByConfig(com.editableConfig),
+      props: createLibraryComponentInstanceProps(com.props),
     });
   }
   return data;
 }
 
 /**
- * 生成组件实例属性
- * @param config
+ * 生成组件实例props
+ * @param props
  */
-export function createEditableValueByConfig(
-  config: IEditableConfig
-): IEditableConfigValue {
-  const _config = cloneDeep(config);
-  const result = {} as IEditableConfigValue;
-  Object.entries(_config).forEach(([panelIdentifier, configSchema]) => {
-    const enumPanelIdentifier =
-      panelIdentifier as keyof typeof EAttributePanels;
-    result[EAttributePanels[enumPanelIdentifier]] = configSchema.reduce(
-      (pre, cursor) => {
-        pre[cursor.name] = cursor.default ?? undefined;
-        return pre;
-      },
-      {} as Record<string, any>
-    );
+export function createLibraryComponentInstanceProps(
+  props: ILibraryComponentProps
+): ILibraryComponentInstanceProps {
+  const _props = cloneDeep(props);
+  const result = {} as ILibraryComponentInstanceProps;
+  Object.entries(_props).forEach(([propKey, propSchema]) => {
+    result[propKey] = propSchema.default ?? undefined;
   });
   return result;
 }
@@ -63,11 +57,11 @@ export function defineLibraryComponent(com: ILibraryComponent) {
 }
 
 /**
- * 快速创建物料组件可编辑的一个属性
+ * 快速创建物料组件的一个prop
  * @param data
  */
-export function createEditableConfigPanelItem(
-  data: IEditableConfigPanelItemSchema
+export function createLibraryComponentPropItem(
+  data: ILibraryComponentPropItem
 ) {
   return data;
 }

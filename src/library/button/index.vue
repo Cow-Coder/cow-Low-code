@@ -1,6 +1,6 @@
 <template>
   <!--  TODO: van开头的组件不会自动识别 -->
-  <van-button type="primary">主要按钮</van-button>
+  <van-button type="primary">{{ title }}</van-button>
 </template>
 
 <script lang="tsx">
@@ -10,53 +10,50 @@ import { Aim } from "@element-plus/icons-vue";
 import { ELibraryName } from "@/components/libraryPanel/types";
 import { EAttributePanels } from "@/components/attributePanel/types";
 import {
-  createEditableConfigPanelItem,
+  createLibraryComponentPropItem,
   defineLibraryComponent,
 } from "@/utils/library";
 import { EEditableConfigItemInputType } from "@/components/editPanel/types";
 
-export default defineLibraryComponent({
-  name: "LibButton",
-  libraryName: ELibraryName.generics,
-  tabName: "show",
-  order: 1,
-  libraryPanelShowDetail: {
-    title: "按钮",
-    icon: (
-      <>
-        <ElIcon size={16}>
-          <Aim />
-        </ElIcon>
-      </>
-    ),
+export default {
+  ...defineLibraryComponent({
+    name: "LibButton",
+    libraryName: ELibraryName.generics,
+    tabName: "show",
+    order: 1,
+    libraryPanelShowDetail: {
+      title: "按钮",
+      icon: (
+        <>
+          <ElIcon size={16}>
+            <Aim />
+          </ElIcon>
+        </>
+      ),
+    },
+    tips: {
+      title: "按钮",
+      desc: "用来展示一个按钮，你可以配置不同的展示样式，配置不同的点击行为。",
+      preview: (
+        <>
+          <Button>按钮jsx</Button>
+          <Button type="primary">按钮jsx</Button>
+          <Button type="success" plain>
+            按钮jsx
+          </Button>
+        </>
+      ),
+    },
+  }),
+  props: {
+    title: createLibraryComponentPropItem({
+      title: "按钮名称",
+      default: "按钮",
+      formType: EEditableConfigItemInputType.input,
+      belongToPanel: EAttributePanels.generic,
+    }),
   },
-  tips: {
-    title: "按钮",
-    desc: "用来展示一个按钮，你可以配置不同的展示样式，配置不同的点击行为。",
-    preview: (
-      <>
-        <Button>按钮jsx</Button>
-        <Button type="primary">按钮jsx</Button>
-        <Button type="success" plain>
-          按钮jsx
-        </Button>
-      </>
-    ),
-  },
-  editableConfig: {
-    [EAttributePanels.generic]: [
-      createEditableConfigPanelItem({
-        name: "title",
-        title: "按钮名称",
-        default: "按钮",
-        type: EEditableConfigItemInputType.input,
-      }),
-    ],
-  },
-  setup() {
-    return {};
-  },
-});
+};
 </script>
 
 <style lang="scss" scoped></style>

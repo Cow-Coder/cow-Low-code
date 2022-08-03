@@ -1,21 +1,40 @@
 import type { ComponentOptions } from "vue";
 import type { ELibraryName } from "@/components/libraryPanel/types";
 import type { EAttributePanels } from "@/components/attributePanel/types";
-import type { IEditableConfigPanelItemSchema } from "@/components/editPanel/types";
+import type { EEditableConfigItemInputType } from "@/components/editPanel/types";
 
 /**
- * 物料组件可编辑的参数
- * 存在的意义是为了在组件types.ts中定义时候约束[键名]
- * 此类型是作用于物料组件的，而不是物料组件实例
- * TODO:这里的泛型可以删除了
+ * 组件单个prop
  */
-export type IEditableConfig = Partial<{
-  [key in EAttributePanels]: IEditableConfigPanelItemSchema[];
-}>;
+export interface ILibraryComponentPropItem {
+  /**
+   * 表单类型
+   */
+  formType: EEditableConfigItemInputType;
+  /**
+   * 描述标题
+   */
+  title: string;
+  /**
+   * 提示信息
+   */
+  tips?: string;
+  /**
+   * 默认值
+   */
+  default?: any;
+  /**
+   * 当前属性应该显示在哪个面板
+   */
+  belongToPanel: EAttributePanels;
+}
 
-export interface ILibraryComponent<
-  T extends IEditableConfig = IEditableConfig
-> {
+/**
+ * 组件Props
+ */
+export type ILibraryComponentProps = Record<string, ILibraryComponentPropItem>;
+
+export interface ILibraryComponent extends ComponentOptions {
   /**
    * 物料组件标识符
    */
@@ -63,7 +82,7 @@ export interface ILibraryComponent<
     preview?: JSX.Element;
   };
   /**
-   *右侧属性面板可编辑参数
+   * 右侧属性面板可编辑参数 && 物料组件props
    */
-  editableConfig?: T;
+  props?: ILibraryComponentProps;
 }
