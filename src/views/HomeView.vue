@@ -1,11 +1,7 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref } from "vue";
 import { useCodeStore } from "@/stores/code";
 import libraryPanels from "@/components/libraryPanel";
-import CodePanel from "@/components/codePanel/index.vue";
 import AttributePanel from "@/components/attributePanel/index.vue";
-import EditPanel from "@/components/editPanel/index.vue";
-import { ElMessage } from "element-plus";
 
 // TODO:禁止自己拖入自己，从组件区域拖出去再拖入自己区域时候图标应该是禁止，不应该是默认的
 //-----------页面布局
@@ -71,7 +67,7 @@ function resetAll() {
             </el-tab-pane>
             <!--            代码面板-->
             <el-tab-pane label="代码">
-              <code-panel></code-panel>
+              <router-view></router-view>
             </el-tab-pane>
           </el-tabs>
         </div>

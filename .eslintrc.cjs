@@ -14,6 +14,11 @@ module.exports = {
         "eslint:recommended",
         "@vue/eslint-config-typescript/recommended",
         "@vue/eslint-config-prettier",
+
+        /**
+         * @link https://github.com/antfu/unplugin-auto-import#eslint
+         */
+        './.eslintrc-auto-import.json'
     ],
     rules: {
         'vue/multi-word-component-names': 'off',

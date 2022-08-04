@@ -8,7 +8,7 @@ import type {
   ILibraryComponentInstanceData,
   ILibraryComponentInstanceProps,
 } from "@/components/editPanel/types";
-import { cloneDeep } from "lodash";
+import { cloneDeep } from "lodash-es";
 
 export const uuid = uuidv4;
 
