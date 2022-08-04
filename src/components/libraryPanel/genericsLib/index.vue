@@ -1,34 +1,28 @@
 <template>
-  <library-panel-base
-    :current-modules="currentModules"
-    :vm-options="vmOptions"
-  ></library-panel-base>
+  <library-panel-base :current-modules="currentModules" :vm-options="vmOptions" />
 </template>
 
 <script lang="tsx">
-import {
-  ELibraryName,
-  type ILibraryPanel,
-} from "@/components/libraryPanel/types";
-import LibraryPanelBase from "@/components/libraryPanel/libraryPanelBase.vue";
-import { getLibraryModules } from "@/library";
+import { ELibraryName, type ILibraryPanel } from '@/components/libraryPanel/types'
+import LibraryPanelBase from '@/components/libraryPanel/libraryPanelBase.vue'
+import { getLibraryModules } from '@/library'
 
 const vmOptions = {
-  name: "genericsLib",
+  name: 'genericsLib',
   libraryName: ELibraryName.generics,
-  libraryTitle: "通用组件",
+  libraryTitle: '通用组件',
   tabsList: {
     show: {
-      title: "展示",
+      title: '展示',
     },
     form: {
-      title: "表单",
+      title: '表单',
     },
     container: {
-      title: "容器",
+      title: '容器',
     },
   },
-} as ILibraryPanel;
+} as ILibraryPanel
 
 /**
  * 这里是自动处理面板物料
@@ -41,11 +35,11 @@ export default {
     LibraryPanelBase,
   },
   setup() {
-    const currentModules = getLibraryModules(vmOptions.libraryName);
+    const currentModules = getLibraryModules(vmOptions.libraryName)
     return {
       vmOptions,
       currentModules,
-    };
+    }
   },
-};
+}
 </script>

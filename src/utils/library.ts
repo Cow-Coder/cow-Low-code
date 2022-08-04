@@ -1,16 +1,16 @@
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid'
+import { cloneDeep } from 'lodash-es'
 import type {
   ILibraryComponent,
   ILibraryComponentPropItem,
   ILibraryComponentProps,
-} from "@/library/types";
+} from '@/library/types'
 import type {
   ILibraryComponentInstanceData,
   ILibraryComponentInstanceProps,
-} from "@/components/editPanel/types";
-import { cloneDeep } from "lodash-es";
+} from '@/components/editPanel/types'
 
-export const uuid = uuidv4;
+export const uuid = uuidv4
 
 /**
  * 从物料组件克隆一个组件实例
@@ -24,13 +24,13 @@ export function createLibraryComponentInstance(
     componentName: com.name,
     libraryName: com.libraryName,
     focus: false,
-  };
+  }
   if (com.props) {
     Object.assign(data, {
       props: createLibraryComponentInstanceProps(com.props),
-    });
+    })
   }
-  return data;
+  return data
 }
 
 /**
@@ -40,12 +40,12 @@ export function createLibraryComponentInstance(
 export function createLibraryComponentInstanceProps(
   props: ILibraryComponentProps
 ): ILibraryComponentInstanceProps {
-  const _props = cloneDeep(props);
-  const result = {} as ILibraryComponentInstanceProps;
+  const _props = cloneDeep(props)
+  const result = {} as ILibraryComponentInstanceProps
   Object.entries(_props).forEach(([propKey, propSchema]) => {
-    if (propSchema.default) result[propKey] = propSchema.default;
-  });
-  return result;
+    if (propSchema.default) result[propKey] = propSchema.default
+  })
+  return result
 }
 
 /**
@@ -53,15 +53,13 @@ export function createLibraryComponentInstanceProps(
  * @param com
  */
 export function defineLibraryComponent(com: ILibraryComponent) {
-  return com;
+  return com
 }
 
 /**
  * 快速创建物料组件的一个prop
  * @param data
  */
-export function createLibraryComponentPropItem(
-  data: ILibraryComponentPropItem
-) {
-  return data;
+export function createLibraryComponentPropItem(data: ILibraryComponentPropItem) {
+  return data
 }

@@ -1,11 +1,11 @@
-import App from "./App.vue";
-import router from "./router";
-import piniaPersist from "pinia-plugin-persist";
-import storeReset from "@/stores/plugins/storeReset";
-import "@/assets/tailwind.css";
+import piniaPersist from 'pinia-plugin-persist'
+import App from './App.vue'
+import router from './router'
+import storeReset from '@/stores/plugins/storeReset'
+import '@/assets/tailwind.css'
 
-const app = createApp(App);
+const app = createApp(App)
 
-app.use(router);
-app.use(createPinia().use(piniaPersist).use(storeReset));
-app.mount("#app");
+app.use(router)
+app.use(createPinia().use(piniaPersist).use(storeReset))
+app.mount('#app')

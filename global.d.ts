@@ -1,2 +1,2 @@
-type ValueOf<T> = T[keyof T];
-type Data = Record<string, unknown>;
+type ValueOf<T> = T[keyof T]
+type Data = Record<string, unknown>

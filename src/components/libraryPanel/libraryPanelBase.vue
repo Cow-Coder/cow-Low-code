@@ -19,17 +19,11 @@
           <div class="library-item">
             <div class="drag-wrapper button library-component">
               <div class="component-icon">
-                <component
-                  :is="element.libraryPanelShowDetail.icon"
-                ></component>
+                <component :is="element.libraryPanelShowDetail.icon" />
               </div>
               <div class="desc">{{ element.libraryPanelShowDetail.title }}</div>
               <div class="ask-icon">
-                <el-tooltip
-                  effect="light"
-                  placement="right"
-                  popper-class="tips-wrapper"
-                >
+                <el-tooltip effect="light" placement="right" popper-class="tips-wrapper">
                   <template #default>
                     <el-icon size="16">
                       <!--                      TODO: 换一个icon-->
@@ -43,7 +37,7 @@
                         {{ element.tips.desc }}
                       </div>
                       <div class="tips-preview">
-                        <component :is="element.tips.preview"></component>
+                        <component :is="element.tips.preview" />
                       </div>
                     </div>
                   </template>
@@ -58,11 +52,11 @@
 </template>
 
 <script lang="tsx" setup>
-import Draggable from "vuedraggable";
-import { ILibraryComponent } from "@/library/types";
-import { createLibraryComponentInstance } from "@/utils/library";
-import { ILibraryPanel } from "@/components/libraryPanel/types";
-import type { PropType } from "vue";
+import Draggable from 'vuedraggable'
+import type { PropType } from 'vue'
+import type { ILibraryComponent } from '@/library/types'
+import type { ILibraryPanel } from '@/components/libraryPanel/types'
+import { createLibraryComponentInstance } from '@/utils/library'
 
 const props = defineProps({
   currentModules: {
@@ -73,14 +67,14 @@ const props = defineProps({
     required: true,
     type: Object as PropType<ILibraryPanel>,
   },
-});
+})
 
-const currenLibName = toRef(props.vmOptions, "libraryName");
-const tabsList = toRef(props.vmOptions, "tabsList");
+// const currenLibName = toRef(props.vmOptions, 'libraryName')
+const tabsList = toRef(props.vmOptions, 'tabsList')
 // console.log(`tabsList`, currentModules);
 
 // 保持折叠面板默认打开
-const collapseOpenArr = ref(Object.keys(props.vmOptions.tabsList ?? {}) ?? []);
+const collapseOpenArr = ref(Object.keys(props.vmOptions.tabsList ?? {}) ?? [])
 
 /**
  * 当drop事件发生的时候，此函数的返回值会push到目标容器list中
@@ -88,7 +82,7 @@ const collapseOpenArr = ref(Object.keys(props.vmOptions.tabsList ?? {}) ?? []);
  */
 function onCloneCallback(original: ILibraryComponent) {
   // console.log(`original`, original);
-  return createLibraryComponentInstance(original);
+  return createLibraryComponentInstance(original)
 }
 </script>
 

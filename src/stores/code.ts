@@ -1,16 +1,14 @@
-import { defineStore } from "pinia";
-import { ref, shallowRef } from "vue";
 import type {
   ILibraryComponentInstanceData,
   ILibraryComponentInstanceFocus,
-} from "@/components/editPanel/types";
-import type { ILibraryComponent } from "@/library/types";
-import { libraryRecord } from "@/library";
+} from '@/components/editPanel/types'
+import type { ILibraryComponent } from '@/library/types'
+import { libraryRecord } from '@/library'
 
 export const useCodeStore = defineStore(
-  "CodeStore",
+  'CodeStore',
   () => {
-    const jsonCode = ref<ILibraryComponentInstanceData[]>([]);
+    const jsonCode = ref<ILibraryComponentInstanceData[]>([])
     /**
      * 想到三种方案
      * 1. 在原本组件实例数据上根据 focus:true 自动去找是哪个组件被选中了
@@ -20,7 +18,7 @@ export const useCodeStore = defineStore(
      * 3. 使用 focusData 记录被选中组件在JSON中的路径，根据路径就可以直达被选中组件
      *    问题是拖动组件换顺序之后要全部重新计算
      */
-    const focusData = ref<ILibraryComponentInstanceFocus>();
+    const focusData = ref<ILibraryComponentInstanceFocus>()
 
     /**
      * store恢复初始状态
@@ -28,19 +26,19 @@ export const useCodeStore = defineStore(
      * A: 使用持久化插件之后reset是sessionStorage的数据
      */
     function clear() {
-      jsonCode.value = [];
-      focusData.value = undefined;
+      jsonCode.value = []
+      focusData.value = undefined
     }
 
     function dispatchFocus(uuid: string, path?: string) {
       focusData.value = {
         uuid,
-        path: path ?? "",
-      };
-      return focusData;
+        path: path ?? '',
+      }
+      return focusData
     }
     function freeFocus() {
-      focusData.value = undefined;
+      focusData.value = undefined
     }
 
     /**
@@ -50,35 +48,28 @@ export const useCodeStore = defineStore(
     function getLibraryComponentInstanceDataAndSchema(
       focusData: ILibraryComponentInstanceFocus
     ): [ILibraryComponentInstanceData, ILibraryComponent] {
-      let focusedLibraryComponentInstanceData = undefined;
+      let focusedLibraryComponentInstanceData = undefined
       for (const jsonCodeElement of jsonCode.value) {
         if (jsonCodeElement.uuid && jsonCodeElement.uuid === focusData.uuid) {
           // console.log(`jsonCodeElement`, jsonCodeElement, jsonCode);
-          focusedLibraryComponentInstanceData = jsonCodeElement;
-          break;
+          focusedLibraryComponentInstanceData = jsonCodeElement
+          break
         }
       }
       if (!focusedLibraryComponentInstanceData)
-        throw new Error(
-          `not found focusedLibraryComponentData(uuid): ${focusData.uuid}`
-        );
-      let focusedLibraryComponentSchema = undefined;
-      for (const e of libraryRecord[
-        focusedLibraryComponentInstanceData.libraryName
-      ]) {
+        throw new Error(`not found focusedLibraryComponentData(uuid): ${focusData.uuid}`)
+      let focusedLibraryComponentSchema = undefined
+      for (const e of libraryRecord[focusedLibraryComponentInstanceData.libraryName]) {
         if (e.name == focusedLibraryComponentInstanceData.componentName) {
-          focusedLibraryComponentSchema = e;
-          break;
+          focusedLibraryComponentSchema = e
+          break
         }
       }
       if (!focusedLibraryComponentSchema)
         throw new Error(
           `not found focusedLibraryComponentSchema(name): ${focusedLibraryComponentInstanceData.componentName}`
-        );
-      return [
-        focusedLibraryComponentInstanceData,
-        focusedLibraryComponentSchema,
-      ];
+        )
+      return [focusedLibraryComponentInstanceData, focusedLibraryComponentSchema]
     }
 
     return {
@@ -88,7 +79,7 @@ export const useCodeStore = defineStore(
       getLibraryComponentInstanceDataAndSchema,
       clear,
       freeFocus,
-    };
+    }
   },
   {
     persist: {
@@ -96,9 +87,9 @@ export const useCodeStore = defineStore(
       strategies: [
         {
           storage: sessionStorage,
-          paths: ["jsonCode"],
+          paths: ['jsonCode'],
         },
       ],
     },
   }
-);
+)
