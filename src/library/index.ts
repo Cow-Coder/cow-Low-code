@@ -35,4 +35,8 @@ Object.entries(libraryTree).forEach(([_, modules]) => {
 });
 export const libraryRecord = libTemp;
 export default libraryTree;
+
+export function getLibraryModules(libraryName: string) {
+  return libraryTree[libraryName] ?? {};
+}
 // console.log(`libraryRecord`, libraryRecord, `libraryTree`, libraryTree);
