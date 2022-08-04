@@ -2,7 +2,7 @@
 解决tailwind覆盖el-button样式
 @link https://github.com/element-plus/element-plus/issues/5693#issuecomment-1053944933
  */
-@import "preflight.css";
+@import 'preflight.css';
 
 @tailwind base;
 @tailwind components;

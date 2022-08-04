@@ -1,7 +1,7 @@
-import type { ELibraryName } from "@/components/libraryPanel/types";
-import type { ILibraryComponentPropItem } from "@/library/types";
+import type { ELibraryName } from '@/components/libraryPanel/types'
+import type { ILibraryComponentPropItem } from '@/library/types'
 
-export type ILibraryComponentInstanceProps = Data;
+export type ILibraryComponentInstanceProps = Data
 
 /**
  * 物料组件实例的数据
@@ -10,23 +10,23 @@ export interface ILibraryComponentInstanceData {
   /**
    * 全局唯一ID
    */
-  uuid: string;
+  uuid: string
   /**
    * 是否选中当前物料组件实例
    */
-  focus: boolean;
+  focus: boolean
   /**
    * 物料库标识符
    */
-  libraryName: ELibraryName;
+  libraryName: ELibraryName
   /**
    * 在vue中组件名
    */
-  componentName: string;
+  componentName: string
   /**
    *右侧属性面板可编辑参数
    */
-  props?: ILibraryComponentInstanceProps;
+  props?: ILibraryComponentInstanceProps
 }
 
 /**
@@ -37,11 +37,11 @@ export enum EEditableConfigItemInputType {
   /**
    * 输入框
    */
-  input = "input",
+  input = 'input',
   /**
    * 开关
    */
-  switch = "switch",
+  switch = 'switch',
 }
 
 /**
@@ -52,13 +52,13 @@ export type IAttributePanelFormItemSchema = {
    * 表单name，唯一标识符
    * 对应 ILibraryComponentPropItem 的键名
    */
-  name: string;
-} & ILibraryComponentPropItem;
+  name: string
+} & ILibraryComponentPropItem
 
 /**
  * 编辑区被选中物料组件的定位数据
  */
 export interface ILibraryComponentInstanceFocus {
-  path?: string | undefined;
-  uuid: string | undefined;
+  path?: string | undefined
+  uuid: string | undefined
 }

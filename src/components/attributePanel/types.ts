@@ -5,15 +5,15 @@ export enum EAttributePanels {
   /**
    * 常规 编辑面板
    */
-  generic = "generic",
+  generic = 'generic',
   /**
    * 外观 编辑面板
    */
-  appearance = "appearance",
+  appearance = 'appearance',
   /**
    * 事件 编辑面板
    */
-  event = "event",
+  event = 'event',
 }
 
 /**
@@ -23,9 +23,9 @@ export interface IAttributePanelTabConfig {
   /**
    * 显示的文字
    */
-  title: string;
+  title: string
   /**
    * 唯一标识符
    */
-  name: EAttributePanels;
+  name: EAttributePanels
 }

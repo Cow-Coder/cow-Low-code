@@ -19,17 +19,11 @@
           <div class="library-item">
             <div class="drag-wrapper button library-component">
               <div class="component-icon">
-                <component
-                  :is="element.libraryPanelShowDetail.icon"
-                ></component>
+                <component :is="element.libraryPanelShowDetail.icon" />
               </div>
               <div class="desc">{{ element.libraryPanelShowDetail.title }}</div>
               <div class="ask-icon">
-                <el-tooltip
-                  effect="light"
-                  placement="right"
-                  popper-class="tips-wrapper"
-                >
+                <el-tooltip effect="light" placement="right" popper-class="tips-wrapper">
                   <template #default>
                     <el-icon :size="16">
                       <!--                      TODO: 换一个icon-->
@@ -43,7 +37,7 @@
                         {{ element.tips.desc }}
                       </div>
                       <div class="tips-preview">
-                        <component :is="element.tips.preview"></component>
+                        <component :is="element.tips.preview" />
                       </div>
                     </div>
                   </template>
@@ -57,60 +51,67 @@
   </el-collapse>
 </template>
 
+<script lang="tsx" setup></script>
+
 <script lang="tsx">
+import Draggable from 'vuedraggable'
+import type { ILibraryComponent } from '@/library/types'
+import { ELibraryName, type ILibraryPanel } from '@/components/libraryPanel/types'
+import { getLibraryModules } from '@/library'
+import { createLibraryComponentInstance } from '@/utils/library'
+
 /**
  * 完全自行控制
  */
-import {
-  ELibraryName,
-  type ILibraryPanel,
-} from "@/components/libraryPanel/types";
-
 const vmOptions = {
-  name: "genericsLib",
+  name: 'genericsLib',
   libraryName: ELibraryName.generics,
-  libraryTitle: "通用组件",
+  libraryTitle: '通用组件',
   tabsList: {
     show: {
-      title: "展示",
+      title: '展示',
     },
     form: {
-      title: "表单",
+      title: '表单',
     },
     container: {
-      title: "容器",
+      title: '容器',
     },
   },
-} as ILibraryPanel;
+} as ILibraryPanel
 
 /**
  * 这里是手动处理面板物料
  * 如果要自动处理，参考
  * @see index.vue
  */
-export default vmOptions;
-</script>
+export default {
+  ...vmOptions,
+  components: {
+    Draggable,
+  },
+  setup() {
+    const currentModules = getLibraryModules(vmOptions.libraryName)
+    const tabsList = vmOptions.tabsList
 
-<script lang="tsx" setup>
-import { getLibraryModules } from "@/library";
-import { ref } from "vue";
-import type { ILibraryComponent } from "@/library/types";
-import { createLibraryComponentInstance } from "@/utils/library";
-import Draggable from "vuedraggable";
+    // 保持折叠面板默认打开
+    const collapseOpenArr = ref(Object.keys(vmOptions.tabsList ?? {}) ?? [])
 
-const currentModules = getLibraryModules(vmOptions.libraryName);
-const tabsList = vmOptions.tabsList;
-
-// 保持折叠面板默认打开
-const collapseOpenArr = ref(Object.keys(vmOptions.tabsList ?? {}) ?? []);
-
-/**
- * 当drop事件发生的时候，此函数的返回值会push到目标容器list中
- * @param original
- */
-function onCloneCallback(original: ILibraryComponent) {
-  // console.log(`original`, original);
-  return createLibraryComponentInstance(original);
+    /**
+     * 当drop事件发生的时候，此函数的返回值会push到目标容器list中
+     * @param original
+     */
+    function onCloneCallback(original: ILibraryComponent) {
+      // console.log(`original`, original);
+      return createLibraryComponentInstance(original)
+    }
+    return {
+      currentModules,
+      tabsList,
+      collapseOpenArr,
+      onCloneCallback,
+    }
+  },
 }
 </script>
 

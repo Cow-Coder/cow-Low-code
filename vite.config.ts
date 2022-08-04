@@ -1,22 +1,21 @@
-import { fileURLToPath, URL } from "node:url";
+import { URL, fileURLToPath } from 'node:url'
 
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import vueJsx from "@vitejs/plugin-vue-jsx";
-import Inspect from "vite-plugin-inspect";
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
+import Inspect from 'vite-plugin-inspect'
 
-import AutoImport from "unplugin-auto-import/vite";
-import Components from "unplugin-vue-components/vite";
-import IconsResolver from "unplugin-icons/resolver";
-import Icons from "unplugin-icons/vite";
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import IconsResolver from 'unplugin-icons/resolver'
+import Icons from 'unplugin-icons/vite'
 
-import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
-import ElementPlus from "unplugin-element-plus/vite";
-import { VantResolver } from "unplugin-vue-components/resolvers";
+import { ElementPlusResolver, VantResolver } from 'unplugin-vue-components/resolvers'
+import ElementPlus from 'unplugin-element-plus/vite'
 
-import { manualChunksPlugin } from "vite-plugin-webpackchunkname";
+// import { manualChunksPlugin } from 'vite-plugin-webpackchunkname'
 
-import { visualizer } from "rollup-plugin-visualizer";
+import { visualizer } from 'rollup-plugin-visualizer'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -39,9 +38,9 @@ export default defineConfig({
        */
       imports: [
         // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
-        "vue",
-        "@vueuse/core",
-        "pinia",
+        'vue',
+        '@vueuse/core',
+        'pinia',
       ],
       // Auto import for module exports under directories
       // by default it only scan one level of modules under the directory
@@ -59,7 +58,7 @@ export default defineConfig({
          * @link https://github.com/sxzz/element-plus-best-practices/blob/db2dfc983ccda5570033a0ac608a1bd9d9a7f658/vite.config.ts#L27
          */
         ElementPlusResolver({
-          importStyle: "sass",
+          importStyle: 'sass',
         }),
         /**
          * @link https://github.com/sxzz/element-plus-best-practices/blob/db2dfc983ccda5570033a0ac608a1bd9d9a7f658/vite.config.ts#L33
@@ -80,7 +79,7 @@ export default defineConfig({
       dirs: [],
       resolvers: [
         ElementPlusResolver({
-          importStyle: "sass",
+          importStyle: 'sass',
         }),
         /**
          * 自动注册图标组件
@@ -98,7 +97,7 @@ export default defineConfig({
      * @link https://element-plus.gitee.io/zh-CN/guide/quickstart.html#%E6%89%8B%E5%8A%A8%E5%AF%BC%E5%85%A5
      */
     ElementPlus({
-      defaultLocale: "zh-cn",
+      defaultLocale: 'zh-cn',
     }),
     Icons({
       /**
@@ -129,16 +128,16 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
   build: {
     rollupOptions: {
       output: {
         manualChunks: {
-          editor: ["monaco-editor"],
+          editor: ['monaco-editor'],
         },
       },
     },
   },
-});
+})
