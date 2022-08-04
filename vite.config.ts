@@ -58,7 +58,9 @@ export default defineConfig({
          * 自动导入 Element Plus 相关函数，如：ElMessage, ElMessageBox... (带样式)
          * @link https://github.com/sxzz/element-plus-best-practices/blob/db2dfc983ccda5570033a0ac608a1bd9d9a7f658/vite.config.ts#L27
          */
-        ElementPlusResolver(),
+        ElementPlusResolver({
+          importStyle: "sass",
+        }),
         /**
          * @link https://github.com/sxzz/element-plus-best-practices/blob/db2dfc983ccda5570033a0ac608a1bd9d9a7f658/vite.config.ts#L33
          */
@@ -77,7 +79,9 @@ export default defineConfig({
        */
       dirs: [],
       resolvers: [
-        ElementPlusResolver(),
+        ElementPlusResolver({
+          importStyle: "sass",
+        }),
         /**
          * 自动注册图标组件
          * @link https://github.com/sxzz/element-plus-best-practices/blob/db2dfc983ccda5570033a0ac608a1bd9d9a7f658/vite.config.ts#L45
@@ -112,6 +116,17 @@ export default defineConfig({
       gzipSize: true,
     }),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        /**
+         * webstorm无法识别导入
+         * 元素 'color-primary' 仅按名称解析，未使用显式导入
+         */
+        additionalData: `@use "element-plus/theme-chalk/src/common/var.scss" as *;`,
+      },
+    },
+  },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),

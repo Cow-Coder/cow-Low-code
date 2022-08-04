@@ -40,8 +40,6 @@ import type {
   ILibraryComponentInstanceProps,
 } from "@/components/editPanel/types";
 import { useCodeStore } from "@/stores/code";
-import { storeToRefs } from "pinia";
-import { ref, watch, shallowRef, type Ref, unref, toRefs, toRef } from "vue";
 import { libraryRecord } from "@/library";
 import type {
   ILibraryComponent,
@@ -49,22 +47,47 @@ import type {
 } from "@/library/types";
 import { EEditableConfigItemInputType } from "@/components/editPanel/types";
 import { EAttributePanels } from "@/components/attributePanel/types";
-import { ElInput } from "element-plus";
+import type { WritableComputedRef } from "vue";
 
 const codeStore = useCodeStore();
 const { focusData, jsonCode } = storeToRefs(codeStore);
+
 const componentData = ref<ILibraryComponentInstanceData>();
-const componentDataProps = ref<ILibraryComponentInstanceProps>();
 const componentSchema = shallowRef<ILibraryComponent>();
-const componentSchemaProps = shallowRef<ILibraryComponentProps>();
 watch(focusData, () => {
-  if (!focusData.value) return false;
+  if (!focusData.value) {
+    componentSchema.value = undefined;
+    return false;
+  }
   const [focusedLibraryComponentInstanceData, focusedLibraryComponentSchema] =
     codeStore.getLibraryComponentInstanceDataAndSchema(focusData.value);
   componentData.value = focusedLibraryComponentInstanceData;
   componentSchema.value = focusedLibraryComponentSchema;
-  componentDataProps.value = focusedLibraryComponentInstanceData.props;
-  componentSchemaProps.value = focusedLibraryComponentSchema.props;
+});
+
+const componentDataProps: WritableComputedRef<
+  ILibraryComponentInstanceProps | undefined
+> = computed({
+  get() {
+    if (!componentData.value) return undefined;
+    return componentData.value.props;
+  },
+  set(val) {
+    if (!componentData.value) return undefined;
+    componentData.value.props = val;
+  },
+});
+const componentSchemaProps: WritableComputedRef<
+  ILibraryComponentProps | undefined
+> = computed({
+  get() {
+    if (!componentSchema.value) return undefined;
+    return componentSchema.value.props;
+  },
+  set(val) {
+    if (!componentSchema.value) return undefined;
+    componentSchema.value.props = val;
+  },
 });
 
 function getLibraryComponentPropsRecordInAPanel(
@@ -91,8 +114,7 @@ function getLibraryComponentPropsArrayInAPanel(
     return previousValue;
   }, [] as IAttributePanelFormItemSchema[]);
 }
-
-import { ElForm, ElFormItem } from "element-plus";
+import { ElInput, ElFormItem, ElForm } from "element-plus";
 
 /**
  * 渲染表单
@@ -116,7 +138,7 @@ function formRender(
     propsData: ILibraryComponentInstanceProps,
     formItemSchema: IAttributePanelFormItemSchema
   ) => {
-    console.log(`configValue`, propsData);
+    // console.log(`configValue`, propsData);
     if (formItemSchema.formType === EEditableConfigItemInputType.input) {
       return (
         <>
