@@ -1,7 +1,7 @@
 <template>
   <library-panel-base
-    :vm-options="vmOptions"
     :current-modules="currentModules"
+    :vm-options="vmOptions"
   ></library-panel-base>
 </template>
 
@@ -30,6 +30,11 @@ const vmOptions = {
   },
 } as ILibraryPanel;
 
+/**
+ * 这里是自动处理面板物料
+ * 如果要自行完全控制，参考
+ * @see manual.vue
+ */
 export default {
   ...vmOptions,
   components: {

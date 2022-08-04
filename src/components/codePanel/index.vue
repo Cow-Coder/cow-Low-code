@@ -24,7 +24,7 @@ window.MonacoEnvironment = {
 import { useCodeStore } from "@/stores/code";
 import { storeToRefs } from "pinia";
 import { onMounted, ref, shallowRef, watch } from "vue";
-import { debounce } from "lodash";
+import { debounce } from "lodash-es";
 
 const codeStore = useCodeStore();
 const { jsonCode } = storeToRefs(codeStore);

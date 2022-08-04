@@ -83,6 +83,11 @@ const vmOptions = {
   },
 } as ILibraryPanel;
 
+/**
+ * 这里是手动处理面板物料
+ * 如果要自动处理，参考
+ * @see index.vue
+ */
 export default vmOptions;
 </script>
 
