@@ -12,7 +12,6 @@
     "cz": "czg"
   },
   "dependencies": {
-    "@element-plus/icons-vue": "^2.0.6",
     "@vueuse/core": "^9.0.2",
     "@vueuse/integrations": "^9.0.2",
     "element-plus": "^2.2.12",
@@ -30,6 +29,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
+    "@iconify-json/ep": "^1.1.6",
     "@rushstack/eslint-patch": "^1.1.0",
     "@types/node": "^16.11.47",
     "@types/sass": "^1.43.1",

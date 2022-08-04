@@ -7,9 +7,6 @@ export {};
 
 declare module "@vue/runtime-core" {
   export interface GlobalComponents {
-    AttributePanel: typeof import("./src/components/attributePanel/index.vue")["default"];
-    CodePanel: typeof import("./src/components/codePanel/index.vue")["default"];
-    EditPanel: typeof import("./src/components/editPanel/index.vue")["default"];
     ElButton: typeof import("element-plus/es")["ElButton"];
     ElCol: typeof import("element-plus/es")["ElCol"];
     ElCollapse: typeof import("element-plus/es")["ElCollapse"];
@@ -22,9 +19,7 @@ declare module "@vue/runtime-core" {
     ElTabPane: typeof import("element-plus/es")["ElTabPane"];
     ElTabs: typeof import("element-plus/es")["ElTabs"];
     ElTooltip: typeof import("element-plus/es")["ElTooltip"];
-    GenericsLib: typeof import("./src/components/libraryPanel/genericsLib/index.vue")["default"];
-    LibraryPanelBase: typeof import("./src/components/libraryPanel/libraryPanelBase.vue")["default"];
-    Manual: typeof import("./src/components/libraryPanel/genericsLib/manual.vue")["default"];
+    IEpQuestionFilled: typeof import("~icons/ep/question-filled")["default"];
     RouterLink: typeof import("vue-router")["RouterLink"];
     RouterView: typeof import("vue-router")["RouterView"];
     VanButton: typeof import("vant/es")["Button"];
