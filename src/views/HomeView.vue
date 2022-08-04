@@ -27,8 +27,12 @@ const stylePanelWidth = computed(() => {
   });
 });
 const codeStore = useCodeStore();
-
+function freeFocus() {
+  codeStore.freeFocus();
+}
 //--------------顶部
+
+// TODO: 抽离出 hooks
 function resetAll() {
   codeStore.clear();
   ElMessage.success("清空所有数据成功");
@@ -74,7 +78,7 @@ function resetAll() {
         </div>
 
         <!--        中间手机模型-->
-        <div class="panel panel-main h-full">
+        <div class="panel panel-main h-full" @mousedown="freeFocus">
           <div class="edit-wrapper">
             <edit-panel></edit-panel>
           </div>

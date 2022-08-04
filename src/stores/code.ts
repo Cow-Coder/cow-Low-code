@@ -39,6 +39,9 @@ export const useCodeStore = defineStore(
       };
       return focusData;
     }
+    function freeFocus() {
+      focusData.value = undefined;
+    }
 
     /**
      * 获取当前选中组件的数据和定义
@@ -84,6 +87,7 @@ export const useCodeStore = defineStore(
       dispatchFocus,
       getLibraryComponentInstanceDataAndSchema,
       clear,
+      freeFocus,
     };
   },
   {
