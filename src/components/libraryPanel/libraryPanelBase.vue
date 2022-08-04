@@ -31,9 +31,9 @@
                   popper-class="tips-wrapper"
                 >
                   <template #default>
-                    <el-icon :size="16">
+                    <el-icon size="16">
                       <!--                      TODO: 换一个icon-->
-                      <QuestionFilled />
+                      <i-ep-question-filled />
                     </el-icon>
                   </template>
                   <template #content>
@@ -59,10 +59,10 @@
 
 <script lang="tsx" setup>
 import Draggable from "vuedraggable";
-import { PropType, ref, toRef } from "vue";
 import { ILibraryComponent } from "@/library/types";
 import { createLibraryComponentInstance } from "@/utils/library";
 import { ILibraryPanel } from "@/components/libraryPanel/types";
+import type { PropType } from "vue";
 
 const props = defineProps({
   currentModules: {

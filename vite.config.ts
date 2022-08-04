@@ -43,13 +43,16 @@ export default defineConfig({
         "@vueuse/core",
         "pinia",
       ],
+      // Auto import for module exports under directories
+      // by default it only scan one level of modules under the directory
+      dirs: [],
       /**
        * @link https://github.com/antfu/unplugin-auto-import#eslint
        */
       eslintrc: {
         enabled: true,
       },
-      // vueTemplate: true,
+      vueTemplate: true,
       resolvers: [
         /**
          * 自动导入 Element Plus 相关函数，如：ElMessage, ElMessageBox... (带样式)
@@ -60,16 +63,23 @@ export default defineConfig({
          * @link https://github.com/sxzz/element-plus-best-practices/blob/db2dfc983ccda5570033a0ac608a1bd9d9a7f658/vite.config.ts#L33
          */
         IconsResolver(),
+        VantResolver(),
       ],
     }),
     /**
      * 自动导入组件
      */
     Components({
+      /**
+       * relative paths to the directory to search for components.
+       * @default ['src/components']
+       * @link relative paths to the directory to search for components.
+       */
+      dirs: [],
       resolvers: [
         ElementPlusResolver(),
         /**
-         * TODO: 自动导入ICON没有弄清效果
+         * 自动注册图标组件
          * @link https://github.com/sxzz/element-plus-best-practices/blob/db2dfc983ccda5570033a0ac608a1bd9d9a7f658/vite.config.ts#L45
          */
         IconsResolver(),
@@ -79,6 +89,8 @@ export default defineConfig({
     /**
      * 1. 为 Element Plus 按需引入样式
      * 2. 替换默认语言
+     *
+     * 解决手动导入时候需要额外导入组件样式的问题
      * @link https://element-plus.gitee.io/zh-CN/guide/quickstart.html#%E6%89%8B%E5%8A%A8%E5%AF%BC%E5%85%A5
      */
     ElementPlus({
