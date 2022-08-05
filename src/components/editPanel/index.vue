@@ -36,11 +36,12 @@ function parseLibraryComponent(data: ILibraryComponentInstanceData) {
   // console.log(`parseLibraryComponent`, data)
   for (const libMapElementElement of libraryRecord[data.libraryName]) {
     if (libMapElementElement.name !== data.componentName) continue
-    return (
-      <>
-        <libMapElementElement {...data.props}></libMapElementElement>
-      </>
-    )
+    /*
+     * "props": {
+     *       "title": "按钮"
+     *     }
+     */
+    return <libMapElementElement {...data.props}></libMapElementElement>
   }
   throw new Error(`not found library component: ${data.libraryName}`)
 }
