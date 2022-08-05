@@ -1,46 +1,81 @@
 # cow_code-Low-Code
 
-This template should help get you started developing with Vue 3 in Vite.
+# TODO
 
-## Recommended IDE Setup
+- [ ] 属性面板左右拖动
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+# 目录结构
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+```
+cow-Low-code
+├── public
+│   └── favicon.ico
+├── src
+├── README.md
+├── auto-imports.d.ts 			# 自动导入API https://github.com/antfu/unplugin-auto-import#configuration
+├── commitlint.config.js		
+├── components.d.ts				# 自动导入组件
+├── env.d.ts
+├── global.d.ts					# 自行定义的
+├── index.html
+├── package-lock.json
+├── package.json
+├── postcss.config.js			# tailwindcss
+├── stats.html					# rollup-plugin-visualizer https://github.com/btd/rollup-plugin-visualizer
+├── tailwind.config.js			# tailwindcss
+├── tsconfig.config.json
+├── tsconfig.json
+└── vite.config.ts
 ```
 
-### Compile and Hot-Reload for Development
 
-```sh
-npm run dev
+
+`src` 目录
+
+```
+src
+├── assets
+│   ├── preflight.css			# 影响element-plus按钮颜色而导入的
+│   └── tailwind.css			# tailwind 默认配置
+├── components
+│   ├── attributePanel
+│   │   ├── components
+│   │   ├── config.ts
+│   │   ├── index.vue
+│   │   └── types.ts
+│   ├── codePanel
+│   │   └── index.vue
+│   ├── editPanel
+│   │   ├── index.vue
+│   │   └── types.ts
+│   └── libraryPanel
+│       ├── genericsLib
+│       ├── index.ts
+│       ├── libraryPanelBase.vue
+│       └── types.ts
+├── hooks						# 
+│   └── useVModelByComputed.ts
+├── library						# 物料组件库
+│   ├── button					# 物料组件名
+│   │   └── index.vue			# Lib + 物料组件名
+│   ├── image
+│   │   └── index.vue			# 自动识别index.vue或者index.tsx为组件
+│   ├── swipe
+│   │   ├── index.vue
+│   │   └── preview.tsx			
+│   ├── index.ts				# library入口文件
+│   └── types.ts
+├── router
+│   └── index.ts
+├── stores
+│   ├── plugins
+│   │   └── storeReset.ts		# https://seb-l.github.io/pinia-plugin-persist/
+│   └── code.ts					# store
+├── utils
+│   └── library.ts				# 工具函数
+├── views
+│   └── HomeView.vue
+├── App.vue
+└── main.ts
 ```
 
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
