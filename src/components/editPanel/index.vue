@@ -4,12 +4,16 @@
     class="edit"
     group="library"
     item-key="id"
+    :disabled="isDownCtrlLeft"
   >
     <template #item="{ element }">
       <div
         :class="{ 'focus-component': isFocusComponent(element) }"
         class="edit-component-item"
-        @mousedown.stop="onChoose(element)"
+        @mousedown.capture.stop="onChoose(element)"
+        @touchstart.capture="onTouchEvent"
+        @touchmove.capture="onTouchEvent"
+        @touchend.capture="onTouchEvent"
       >
         <component :is="parseLibraryComponent(element)" />
       </div>
@@ -20,6 +24,7 @@
 <script lang="tsx" setup>
 import Draggable from 'vuedraggable'
 import type { ILibraryComponentInstanceData } from '@/components/editPanel/types'
+import type { SortableEvent } from 'sortablejs'
 import { libraryRecord } from '@/library'
 import { useCodeStore } from '@/stores/code'
 
@@ -45,9 +50,19 @@ function onChoose(data: ILibraryComponentInstanceData) {
   codeStore.dispatchFocus(data.uuid)
 }
 
+const isDownCtrlLeft = ref(false)
 function isFocusComponent(data: ILibraryComponentInstanceData) {
-  return data.uuid == focusData.value?.uuid
+  return data.uuid == focusData.value?.uuid && !isDownCtrlLeft.value
 }
+
+function onTouchEvent(e: TouchEvent) {
+  if (!e.ctrlKey) e.stopPropagation()
+}
+
+useEventListener(window, 'keydown', (e) => {
+  e.code === 'ControlLeft' ? (isDownCtrlLeft.value = true) : undefined
+})
+useEventListener(window, 'keyup', () => (isDownCtrlLeft.value = false))
 
 // TODO: 拖拽到编辑器时候显示真实的组件，而不是显示物料面板的按钮
 </script>

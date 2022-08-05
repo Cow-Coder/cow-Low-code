@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import storeReset from '@/stores/plugins/storeReset'
 import '@/assets/tailwind.css'
+import '@vant/touch-emulator'
 
 const app = createApp(App)
 

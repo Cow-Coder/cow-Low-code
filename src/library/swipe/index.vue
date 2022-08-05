@@ -1,27 +1,32 @@
 <template>
-  <van-image height="100" :src="url" width="100" />
+  <van-swipe :autoplay="3000" class="my-swipe" indicator-color="white">
+    <van-swipe-item>1</van-swipe-item>
+    <van-swipe-item>2</van-swipe-item>
+    <van-swipe-item>3</van-swipe-item>
+    <van-swipe-item>4</van-swipe-item>
+  </van-swipe>
 </template>
 
 <script lang="tsx">
-import { Image as VanImage } from 'vant'
 import { ElIcon } from 'element-plus'
 import { ELibraryName } from '@/components/libraryPanel/types'
 import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
 import { EAttributePanels } from '@/components/attributePanel/types'
 import { EEditableConfigItemInputType } from '@/components/editPanel/types'
+import { preview } from '@/library/swipe/preview'
 
 export default {
   ...defineLibraryComponent({
-    name: 'LibImage',
+    name: 'LibSwipe',
     libraryName: ELibraryName.generics,
     tabName: 'show',
-    order: 2,
+    order: 3,
     libraryPanelShowDetail: {
-      title: '图片展示',
+      title: '轮播图',
       icon: () => (
         <>
           <ElIcon size={16}>
-            <i-ep-aim />
+            <i-ep-copy-document />
           </ElIcon>
         </>
       ),
@@ -29,16 +34,12 @@ export default {
     tips: {
       title: '图片展示',
       desc: '可以用来展示一张图片，支持静态设置图片地址',
-      preview: () => (
-        <>
-          <VanImage width="100" height="100"></VanImage>
-        </>
-      ),
+      preview,
     },
   }),
   props: {
     url: createLibraryComponentPropItem({
-      title: 'url链接',
+      title: '图片链接列表',
       formType: EEditableConfigItemInputType.input,
       belongToPanel: EAttributePanels.generic,
     }),
@@ -46,4 +47,12 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.my-swipe .van-swipe-item {
+  color: #fff;
+  font-size: 20px;
+  line-height: 150px;
+  text-align: center;
+  background-color: #39a9ed;
+}
+</style>
