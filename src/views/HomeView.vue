@@ -87,7 +87,12 @@ const isShowTrigger = ref(false)
           <div class="edit-wrapper">
             <edit-panel />
           </div>
-          <a-trigger v-model:popup-visible="isShowTrigger" trigger="click" position="top">
+          <a-trigger
+            v-model:popup-visible="isShowTrigger"
+            trigger="click"
+            position="top"
+            update-at-scroll
+          >
             <div class="button-trigger" :class="{ 'button-trigger-active': isShowTrigger }">
               <IconClose v-if="isShowTrigger" />
               <IconQuestionCircle v-else />
@@ -154,7 +159,7 @@ const isShowTrigger = ref(false)
 
     // 悬浮菜单
     .button-trigger {
-      @apply flex justify-center items-center absolute rounded-full cursor-pointer transition-all text-white;
+      @apply flex justify-center items-center absolute rounded-full cursor-pointer transition-all text-white select-none;
       bottom: 40px;
       right: 40px;
       width: 40px;
