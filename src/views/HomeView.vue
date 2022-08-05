@@ -9,26 +9,20 @@ import EditPanel from '@/components/editPanel/index.vue'
 // TODO:禁止自己拖入自己，从组件区域拖出去再拖入自己区域时候图标应该是禁止，不应该是默认的
 //-----------页面布局
 const styleHeaderHeight = '60px'
-
-interface IPanelWidth {
-  left: number
-  main: number
-  right: number
-}
-
-const panelWidth = ref<IPanelWidth>({
-  left: 20,
-  main: 60,
-  right: 20,
-})
-const stylePanelWidth = computed(() => {
-  return new Proxy(panelWidth.value, {
-    get: (target, property: keyof IPanelWidth) => {
-      return `${target[property]}%`
-    },
-  })
-})
 const codeStore = useCodeStore()
+
+const editPanelRef = ref<InstanceType<typeof HTMLElement>>()
+const editPanelRect = useElementBounding(editPanelRef)
+const maxWidthRightPanel = computed(() => {
+  return `${useWindowSize().width.value - editPanelRect.right.value - 100}px`
+})
+const rightPanelResizeBarOpacity = ref(0)
+function onRightPanelResizeStart() {
+  rightPanelResizeBarOpacity.value = 1
+}
+function onRightPanelResizeEnd() {
+  rightPanelResizeBarOpacity.value = 0
+}
 
 function freeFocus() {
   codeStore.freeFocus()
@@ -84,7 +78,7 @@ const isShowTrigger = ref(false)
 
         <!--        中间手机模型-->
         <div class="panel panel-main h-full" @mousedown="freeFocus">
-          <div class="edit-wrapper">
+          <div ref="editPanelRef" class="edit-wrapper">
             <edit-panel />
           </div>
           <a-trigger
@@ -116,7 +110,14 @@ const isShowTrigger = ref(false)
 
         <!--        右侧参数面板-->
         <div class="panel panel-right h-full">
-          <attribute-panel />
+          <a-resize-box
+            class="panel-right-wrapper"
+            :directions="['left']"
+            @moving-start="onRightPanelResizeStart"
+            @moving-end="onRightPanelResizeEnd"
+          >
+            <attribute-panel />
+          </a-resize-box>
         </div>
       </div>
     </el-main>
@@ -124,6 +125,17 @@ const isShowTrigger = ref(false)
 </template>
 
 <style lang="scss" scoped>
+//右侧面板伸缩条
+:deep(.arco-resizebox-trigger-icon-wrapper) {
+  @apply transition-all;
+  opacity: v-bind(rightPanelResizeBarOpacity);
+}
+:deep(.arco-resizebox-trigger) {
+  &:hover .arco-resizebox-trigger-icon-wrapper {
+    @apply opacity-100;
+  }
+}
+
 .app-container {
   :deep(.el-main) {
     --el-main-padding: 0;
@@ -135,13 +147,14 @@ const isShowTrigger = ref(false)
 }
 
 .main-wrapper {
-  @apply flex;
+  @apply relative;
   .panel {
-    @apply flex;
+    @apply flex absolute;
   }
 
   .panel-left {
-    width: max(v-bind('stylePanelWidth.left'), 385px);
+    width: 385px;
+    @apply left-0 top-0;
 
     .el-tabs {
       @apply flex-grow;
@@ -184,7 +197,13 @@ const isShowTrigger = ref(false)
   }
 
   .panel-right {
-    width: max(v-bind('stylePanelWidth.left'), 385px);
+    @apply right-0 top-0;
+    .panel-right-wrapper {
+      @apply flex;
+      width: 385px;
+      min-width: 20vw;
+      max-width: v-bind(maxWidthRightPanel);
+    }
 
     .el-tabs {
       @apply flex-grow flex-col;
