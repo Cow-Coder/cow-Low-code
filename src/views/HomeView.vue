@@ -11,15 +11,28 @@ import EditPanel from '@/components/editPanel/index.vue'
 const styleHeaderHeight = '60px'
 const codeStore = useCodeStore()
 
+// 限制属性面板
 const editPanelRef = ref<InstanceType<typeof HTMLElement>>()
-const editPanelRect = useElementBounding(editPanelRef)
+const editPanelRect = useElementSize(editPanelRef)
+const bodyRect = useElementSize(document.body)
+const blankWidth = 100
 const maxWidthRightPanel = computed(() => {
-  return `${useWindowSize().width.value - editPanelRect.right.value - 100}px`
+  return `${bodyRect.width.value / 2 - editPanelRect.width.value / 2 - blankWidth}px`
 })
+
+// 矫正编辑器面板
+const libraryPanelRef = ref<InstanceType<typeof HTMLElement>>()
+const libraryPanelRect = useElementSize(libraryPanelRef)
+const editWrapperLeft = computed(() => {
+  // 计算屏幕中线 到 物料面板右侧 距离
+  return `${bodyRect.width.value / 2 - libraryPanelRect.width.value}px`
+})
+
 const rightPanelResizeBarOpacity = ref(0)
 function onRightPanelResizeStart() {
   rightPanelResizeBarOpacity.value = 1
 }
+
 function onRightPanelResizeEnd() {
   rightPanelResizeBarOpacity.value = 0
 }
@@ -58,7 +71,7 @@ const isShowTrigger = ref(false)
     <el-main>
       <div class="main-wrapper h-full">
         <!--        左侧面板-->
-        <div class="panel panel-left h-full">
+        <div ref="libraryPanelRef" class="panel panel-left h-full">
           <el-tabs tab-position="left" type="border-card">
             <el-tab-pane
               v-for="(panel, libraryName) in libraryPanels"
@@ -83,19 +96,19 @@ const isShowTrigger = ref(false)
           </div>
           <a-trigger
             v-model:popup-visible="isShowTrigger"
-            trigger="click"
             position="top"
+            trigger="click"
             update-at-scroll
           >
-            <div class="button-trigger" :class="{ 'button-trigger-active': isShowTrigger }">
+            <div :class="{ 'button-trigger-active': isShowTrigger }" class="button-trigger">
               <IconClose v-if="isShowTrigger" />
               <IconQuestionCircle v-else />
             </div>
             <template #content>
               <a-menu
                 :style="{ marginBottom: '-4px' }"
-                mode="popButton"
                 :tooltip-props="{ position: 'left' }"
+                mode="popButton"
               >
                 <a-menu-item>
                   <template #icon>
@@ -111,8 +124,8 @@ const isShowTrigger = ref(false)
         <!--        右侧参数面板-->
         <div class="panel panel-right h-full">
           <a-resize-box
-            class="panel-right-wrapper"
             :directions="['left']"
+            class="panel-right-wrapper"
             @moving-start="onRightPanelResizeStart"
             @moving-end="onRightPanelResizeEnd"
           >
@@ -130,6 +143,7 @@ const isShowTrigger = ref(false)
   @apply transition-all;
   opacity: v-bind(rightPanelResizeBarOpacity);
 }
+
 :deep(.arco-resizebox-trigger) {
   &:hover .arco-resizebox-trigger-icon-wrapper {
     @apply opacity-100;
@@ -147,14 +161,13 @@ const isShowTrigger = ref(false)
 }
 
 .main-wrapper {
-  @apply relative;
+  @apply flex;
   .panel {
-    @apply flex absolute;
+    @apply flex;
   }
 
   .panel-left {
     width: 385px;
-    @apply left-0 top-0;
 
     .el-tabs {
       @apply flex-grow;
@@ -168,7 +181,7 @@ const isShowTrigger = ref(false)
   }
 
   .panel-main {
-    @apply flex-1 relative;
+    @apply flex-grow relative;
 
     // 悬浮菜单
     .button-trigger {
@@ -179,6 +192,7 @@ const isShowTrigger = ref(false)
       height: 40px;
       background-color: var(--color-neutral-5);
     }
+
     .button-trigger.button-trigger-active {
       background-color: var(--color-neutral-4);
     }
@@ -187,8 +201,9 @@ const isShowTrigger = ref(false)
       flex-basis: 375px;
       min-height: 812px;
       max-width: 375px;
+      left: v-bind(editWrapperLeft);
 
-      @apply flex-col flex m-auto;
+      @apply flex-col flex m-auto  absolute transform-gpu -translate-x-1/2;
       .edit {
         box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
         @apply h-full w-full flex-1;
@@ -197,7 +212,6 @@ const isShowTrigger = ref(false)
   }
 
   .panel-right {
-    @apply right-0 top-0;
     .panel-right-wrapper {
       @apply flex;
       width: 385px;
