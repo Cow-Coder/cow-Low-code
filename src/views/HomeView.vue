@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { ref } from 'vue'
+import { IconBulb, IconClose, IconQuestionCircle } from '@arco-design/web-vue/es/icon'
 import { useCodeStore } from '@/stores/code'
 import libraryPanels from '@/components/libraryPanel'
 import AttributePanel from '@/components/attributePanel/index.vue'
@@ -39,6 +41,9 @@ function resetAll() {
   codeStore.clear()
   ElMessage.success('清空所有数据成功')
 }
+
+//-----------------悬浮菜单
+const isShowTrigger = ref(false)
 </script>
 
 <template>
@@ -82,6 +87,26 @@ function resetAll() {
           <div class="edit-wrapper">
             <edit-panel />
           </div>
+          <a-trigger v-model:popup-visible="isShowTrigger" trigger="click" position="top">
+            <div class="button-trigger" :class="{ 'button-trigger-active': isShowTrigger }">
+              <IconClose v-if="isShowTrigger" />
+              <IconQuestionCircle v-else />
+            </div>
+            <template #content>
+              <a-menu
+                :style="{ marginBottom: '-4px' }"
+                mode="popButton"
+                :tooltip-props="{ position: 'left' }"
+              >
+                <a-menu-item>
+                  <template #icon>
+                    <IconBulb />
+                  </template>
+                  按住<kbd>ctrl</kbd>可以临时禁止拖动
+                </a-menu-item>
+              </a-menu>
+            </template>
+          </a-trigger>
         </div>
 
         <!--        右侧参数面板-->
@@ -125,7 +150,20 @@ function resetAll() {
   }
 
   .panel-main {
-    @apply flex-1;
+    @apply flex-1 relative;
+
+    // 悬浮菜单
+    .button-trigger {
+      @apply flex justify-center items-center absolute rounded-full cursor-pointer transition-all text-white;
+      bottom: 40px;
+      right: 40px;
+      width: 40px;
+      height: 40px;
+      background-color: var(--color-neutral-5);
+    }
+    .button-trigger.button-trigger-active {
+      background-color: var(--color-neutral-4);
+    }
 
     .edit-wrapper {
       flex-basis: 375px;
