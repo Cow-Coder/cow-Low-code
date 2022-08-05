@@ -1,4 +1,4 @@
-import type { ComponentOptions, Prop } from 'vue'
+import type { ComponentOptions, DefineComponent, Prop } from 'vue'
 import type { ELibraryName } from '@/components/libraryPanel/types'
 import type { EAttributePanels } from '@/components/attributePanel/types'
 import type { EEditableConfigItemInputType } from '@/components/editPanel/types'
@@ -27,12 +27,14 @@ export type ILibraryComponentPropItem = {
    * 当前属性应该显示在哪个面板
    */
   belongToPanel: EAttributePanels
-} & Prop<unknown>
+} & Prop<any>
 
 /**
  * 组件Props
  */
 export type ILibraryComponentProps = Record<string, ILibraryComponentPropItem>
+
+export type IDefineComponent = (() => JSX.Element) | DefineComponent
 
 export interface ILibraryComponent extends ComponentOptions {
   /**
@@ -59,7 +61,7 @@ export interface ILibraryComponent extends ComponentOptions {
      * 在左侧物料面板显示的中文名称
      */
     title: string
-    icon: JSX.Element
+    icon: IDefineComponent
   }
   /**
    * 提示信息
@@ -79,7 +81,7 @@ export interface ILibraryComponent extends ComponentOptions {
     /**
      * 可预览的组件
      */
-    preview?: JSX.Element
+    preview?: IDefineComponent
   }
   /**
    * 右侧属性面板可编辑参数 && 物料组件props

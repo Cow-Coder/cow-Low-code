@@ -22,10 +22,14 @@ declare module '@vue/runtime-core' {
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    IEpAim: typeof import('~icons/ep/aim')['default']
+    IEpCopyDocument: typeof import('~icons/ep/copy-document')['default']
     IEpQuestionFilled: typeof import('~icons/ep/question-filled')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     VanButton: typeof import('vant/es')['Button']
     VanImage: typeof import('vant/es')['Image']
+    VanSwipe: typeof import('vant/es')['Swipe']
+    VanSwipeItem: typeof import('vant/es')['SwipeItem']
   }
 }

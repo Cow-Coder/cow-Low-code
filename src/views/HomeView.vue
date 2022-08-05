@@ -130,6 +130,7 @@ function resetAll() {
     .edit-wrapper {
       flex-basis: 375px;
       min-height: 812px;
+      max-width: 375px;
 
       @apply flex-col flex m-auto;
       .edit {

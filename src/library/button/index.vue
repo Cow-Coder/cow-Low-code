@@ -6,7 +6,6 @@
 <script lang="tsx">
 import { Button } from 'vant'
 import { ElIcon } from 'element-plus'
-import { Aim } from '@element-plus/icons-vue'
 import { ELibraryName } from '@/components/libraryPanel/types'
 import { EAttributePanels } from '@/components/attributePanel/types'
 import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
@@ -20,10 +19,10 @@ export default {
     order: 1,
     libraryPanelShowDetail: {
       title: '按钮',
-      icon: (
+      icon: () => (
         <>
           <ElIcon size={16}>
-            <Aim />
+            <i-ep-aim />
           </ElIcon>
         </>
       ),
@@ -31,7 +30,7 @@ export default {
     tips: {
       title: '按钮',
       desc: '用来展示一个按钮，你可以配置不同的展示样式，配置不同的点击行为。',
-      preview: (
+      preview: () => (
         <>
           <Button>按钮jsx</Button>
           <Button type="primary">按钮jsx</Button>
