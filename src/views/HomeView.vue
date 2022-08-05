@@ -235,6 +235,8 @@ $blank-min-width: 100px;
   :deep(.button-trigger-wrapper) {
     @apply fixed;
     bottom: calc(40px + var(--button-trigger-bottom));
+    right: calc(var(--library-panel-width) + 40px - 4px);
+    left: unset !important;
     top: unset !important;
   }
   .button-trigger {
