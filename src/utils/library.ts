@@ -24,12 +24,8 @@ export function createLibraryComponentInstance(
     componentName: com.name,
     libraryName: com.libraryName,
     focus: false,
-  }
-  if (com.props) {
-    Object.assign(data, {
-      props: createLibraryComponentInstanceProps(com.props),
-    })
-  }
+  } as ILibraryComponentInstanceData
+  if (com.props) data['props'] = createLibraryComponentInstanceProps(com.props)
   return data
 }
 

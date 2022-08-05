@@ -53,6 +53,6 @@ export default {
   font-size: 20px;
   line-height: 150px;
   text-align: center;
-  background-color: #39a9ed;
+  background-color: $color-success;
 }
 </style>

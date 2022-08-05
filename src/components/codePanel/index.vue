@@ -11,7 +11,6 @@ import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
-import { storeToRefs } from 'pinia'
 import { debounce } from 'lodash-es'
 import { useCodeStore } from '@/stores/code'
 
