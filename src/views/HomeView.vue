@@ -50,44 +50,40 @@ const isShowTrigger = ref(false)
 <template>
   <el-container class="app-container">
     <!--    顶栏-->
-    <el-affix>
-      <el-header :height="`${styleHeaderHeight}px`" class="shadow bg-white">
-        <el-row
-          :style="{ height: `${styleHeaderHeight}px`, 'line-height': `${styleHeaderHeight}px` }"
-        >
-          <el-col :span="4"> LowCodeDemo</el-col>
-          <el-col :span="16" />
-          <el-col :span="4" class="justify-end flex items-center">
-            <el-button type="danger" @click="resetAll">重置</el-button>
-            <el-button type="primary">预览</el-button>
-          </el-col>
-        </el-row>
-      </el-header>
-    </el-affix>
+    <el-header :height="`${styleHeaderHeight}px`" class="shadow bg-white sticky top-0 z-40">
+      <el-row
+        :style="{ height: `${styleHeaderHeight}px`, 'line-height': `${styleHeaderHeight}px` }"
+      >
+        <el-col :span="4"> LowCodeDemo</el-col>
+        <el-col :span="16" />
+        <el-col :span="4" class="justify-end flex items-center">
+          <el-button type="danger" @click="resetAll">重置</el-button>
+          <el-button type="primary">预览</el-button>
+        </el-col>
+      </el-row>
+    </el-header>
 
     <!--    下部中间操作区-->
-    <el-main class="flex flex-grow">
+    <el-main class="flex flex-grow overflow-visible">
       <div class="main-wrapper">
         <!--        左侧面板-->
-        <el-affix :offset="styleHeaderHeight">
-          <div ref="libraryPanelRef" class="panel panel-left">
-            <el-tabs tab-position="left" type="border-card">
-              <el-tab-pane
-                v-for="(panel, libraryName) in libraryPanels"
-                :key="libraryName"
-                :label="panel.libraryTitle"
-              >
-                <keep-alive>
-                  <component :is="panel" />
-                </keep-alive>
-              </el-tab-pane>
-              <!--            代码面板-->
-              <el-tab-pane label="代码">
-                <router-view />
-              </el-tab-pane>
-            </el-tabs>
-          </div>
-        </el-affix>
+        <div ref="libraryPanelRef" class="panel panel-left">
+          <el-tabs tab-position="left" type="border-card">
+            <el-tab-pane
+              v-for="(panel, libraryName) in libraryPanels"
+              :key="libraryName"
+              :label="panel.libraryTitle"
+            >
+              <keep-alive>
+                <component :is="panel" />
+              </keep-alive>
+            </el-tab-pane>
+            <!--            代码面板-->
+            <el-tab-pane label="代码">
+              <router-view />
+            </el-tab-pane>
+          </el-tabs>
+        </div>
 
         <!--        中间手机模型-->
         <div class="panel panel-main h-full" @mousedown="freeFocus">
@@ -97,18 +93,16 @@ const isShowTrigger = ref(false)
         </div>
 
         <!--        右侧参数面板-->
-        <el-affix :offset="styleHeaderHeight">
-          <div class="panel panel-right">
-            <a-resize-box
-              :directions="['left']"
-              class="panel-right-wrapper"
-              @moving-start="onRightPanelResizeStart"
-              @moving-end="onRightPanelResizeEnd"
-            >
-              <attribute-panel />
-            </a-resize-box>
-          </div>
-        </el-affix>
+        <div class="panel panel-right">
+          <a-resize-box
+            :directions="['left']"
+            class="panel-right-wrapper"
+            @moving-start="onRightPanelResizeStart"
+            @moving-end="onRightPanelResizeEnd"
+          >
+            <attribute-panel />
+          </a-resize-box>
+        </div>
 
         <a-trigger
           v-model:popup-visible="isShowTrigger"
@@ -160,7 +154,7 @@ $blank-min-width: 100px;
 
 .app-container {
   @apply min-h-screen flex-col;
-  --style-headerheight: v-bind(`${styleHeaderHeight}px`);
+  --style-header-height: v-bind(`${styleHeaderHeight}px`);
   --body-width: v-bind(bodyWidth);
   --edit-panel-width: v-bind(editPanelWidth);
   --library-panel-width: v-bind(libraryPanelWidth);
@@ -185,7 +179,9 @@ $blank-min-width: 100px;
   .panel-right,
   .panel-left {
     // 防止未悬浮情况下元素塌陷
-    min-height: calc(100vh - var(--style-headerheight));
+    height: calc(100vh - var(--style-header-height));
+    @apply sticky;
+    top: var(--style-header-height);
   }
 
   .panel-left {
