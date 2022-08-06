@@ -21,8 +21,8 @@
    问题在于当被选中物料组件变化时候又需要重新糅合一遍
  */
 import { ref } from 'vue'
-import { ElButton, ElForm, ElFormItem, ElInput } from 'element-plus'
-import { IndefiniteNumberInputBox } from './components/formRender/indefiniteNumberInputBox.tsx'
+import { ElForm, ElFormItem, ElInput } from 'element-plus'
+import { IndefiniteNumberInputBox } from './components/formRender/indefiniteNumberInputBox'
 import type {
   IAttributePanelFormItemSchema,
   ILibraryComponentInstanceData,
@@ -46,10 +46,16 @@ watch(focusData, () => {
     componentSchema.value = undefined
     return false
   }
-  const [focusedLibraryComponentInstanceData, focusedLibraryComponentSchema] =
-    codeStore.getLibraryComponentInstanceDataAndSchema(focusData.value)
-  componentData.value = focusedLibraryComponentInstanceData
-  componentSchema.value = focusedLibraryComponentSchema
+  const focus = focusData.value
+  /**
+   * TODO: 临时解决一下选中组件不跟手的问题，大概300ms延迟
+   */
+  setTimeout(() => {
+    const [focusedLibraryComponentInstanceData, focusedLibraryComponentSchema] =
+      codeStore.getLibraryComponentInstanceDataAndSchema(focus)
+    componentData.value = focusedLibraryComponentInstanceData
+    componentSchema.value = focusedLibraryComponentSchema
+  }, 0)
 })
 
 const componentDataProps: WritableComputedRef<ILibraryComponentInstanceProps | undefined> =
@@ -124,6 +130,8 @@ function formRender(
     }
     if (formItemSchema.formType === EEditableConfigItemInputType.indefiniteNumberInputBox) {
       const list = propsData[formItemSchema.name]
+      if (!Array.isArray(list))
+        throw new TypeError('invalid Data at EEditableConfigItemInputType.indefiniteNumberInputBox')
       return (
         <IndefiniteNumberInputBox
           modelValue={list}
