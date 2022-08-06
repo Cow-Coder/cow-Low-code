@@ -14,6 +14,9 @@ export const IndefiniteNumberInputBox = defineComponent({
     },
   },
   emits: ['update:modelValue'],
+  /**
+   * TODO: 批量添加、编辑、上下拖动换顺序 还没有实现
+   */
   setup(props, { emit }) {
     const list = useVModel(props, 'modelValue', emit)
     const currentPopoverShowIndex = ref(-1)
