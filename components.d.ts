@@ -7,10 +7,13 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    ACollapse: typeof import('@arco-design/web-vue')['Collapse']
+    ACollapseItem: typeof import('@arco-design/web-vue')['CollapseItem']
     AMenu: typeof import('@arco-design/web-vue')['Menu']
     AMenuItem: typeof import('@arco-design/web-vue')['MenuItem']
     APopover: typeof import('@arco-design/web-vue')['Popover']
     AResizeBox: typeof import('@arco-design/web-vue')['ResizeBox']
+    ASpace: typeof import('@arco-design/web-vue')['Space']
     ATrigger: typeof import('@arco-design/web-vue')['Trigger']
     ElAffix: typeof import('element-plus/es')['ElAffix']
     ElButton: typeof import('element-plus/es')['ElButton']

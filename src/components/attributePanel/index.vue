@@ -1,10 +1,11 @@
 <template>
-  <el-tabs type="border-card">
+  <el-tabs type="border-card" class="attitude-tab-pane">
     <el-tab-pane v-for="panelItem in panelList" :key="panelItem.name" :label="panelItem.title">
       <keep-alive>
+        <component :is="panelItem.component" v-if="panelItem.component" />
         <component
           :is="formRender(componentDataProps, panelItem.name, componentSchemaProps)"
-          v-if="componentSchemaProps"
+          v-else
         />
       </keep-alive>
     </el-tab-pane>
@@ -115,16 +116,16 @@ function getLibraryComponentPropsArrayInAPanel(
 function formRender(
   propsData: ILibraryComponentInstanceProps,
   cursorPanel: EAttributePanels,
-  propsSchema: ILibraryComponentProps
+  propsSchema: ILibraryComponentProps | undefined
 ) {
   if (!propsSchema) return undefined
+  const $style = useCssModule()
   const cursorPropsArray = getLibraryComponentPropsArrayInAPanel(propsSchema, cursorPanel)
   // const propsDataRefs = toRefs(propsData);
   const formItemChildRender = (
     propsData: ILibraryComponentInstanceProps,
     formItemSchema: IAttributePanelFormItemSchema
   ) => {
-    // const $style = useCssModule()
     if (formItemSchema.formType === EEditableConfigItemInputType.input) {
       return <ElInput v-model={propsData[formItemSchema.name]}></ElInput>
     }
@@ -162,7 +163,11 @@ function formRender(
       </ElFormItem>
     )
   })
-  return <ElForm model={propsData}>{formItemList}</ElForm>
+  return (
+    <ElForm class={$style.attitudePanelInner} model={propsData}>
+      {formItemList}
+    </ElForm>
+  )
 }
 </script>
 
@@ -172,8 +177,19 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.el-form-item__content {
-  @apply justify-end;
+<style lang="scss" scoped>
+.attitude-tab-pane {
+  :deep(.el-tabs__content) {
+    @apply p-0;
+    .el-form-item__content {
+      @apply justify-end;
+    }
+  }
+}
+</style>
+
+<style lang="scss" module>
+.attitudePanelInner {
+  padding: 15px;
 }
 </style>
