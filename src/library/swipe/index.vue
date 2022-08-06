@@ -13,7 +13,7 @@ import { ELibraryName } from '@/components/libraryPanel/types'
 import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
 import { EAttributePanels } from '@/components/attributePanel/types'
 import { EEditableConfigItemInputType } from '@/components/editPanel/types'
-import { preview } from '@/library/swipe/preview'
+import preview from '@/library/swipe/preview.vue'
 
 export default {
   ...defineLibraryComponent({
