@@ -16,21 +16,34 @@ const codeStore = useCodeStore()
 // 限制属性面板
 const editPanelRef = ref<InstanceType<typeof HTMLElement>>()
 const editPanelRect = reactive(useElementSize(editPanelRef))
+const editPanelWidth = ref(`${editPanelRect.width}px`)
+watchThrottled(editPanelRect, () => (editPanelWidth.value = `${editPanelRect.width}px`), {
+  throttle: 10,
+})
+
 const bodyRect = reactive(useElementSize(document.body))
-const bodyWidth = computed(() => `${bodyRect.width}px`)
-const editPanelWidth = computed(() => `${editPanelRect.width}px`)
+const bodyWidth = ref(`${bodyRect.width}px`)
+watchThrottled(bodyRect, () => (bodyWidth.value = `${bodyRect.width}px`), {
+  throttle: 10,
+})
+
 // 矫正编辑器面板
 const libraryPanelRef = ref<InstanceType<typeof HTMLElement>>()
 const libraryPanelRect = reactive(useElementSize(libraryPanelRef))
-const libraryPanelWidth = computed(() => `${libraryPanelRect.width}px`)
+const libraryPanelWidth = ref(`${libraryPanelRect.width}px`)
+watchThrottled(libraryPanelRect, () => (libraryPanelWidth.value = `${libraryPanelRect.width}px`), {
+  throttle: 10,
+})
+
 // 矫正属性面板
 const attitudePanelRef = ref<InstanceType<typeof HTMLElement>>()
 const attitudePanelRect = reactive(useElementSize(attitudePanelRef))
 const attitudePanelWidth = ref(`${attitudePanelRect.width}px`)
-const attitudePanelRectThrottle = throttle(() => {
-  attitudePanelWidth.value = `${attitudePanelRect.width}px`
-}, 10)
-watch(attitudePanelRect, () => attitudePanelRectThrottle())
+watchThrottled(
+  attitudePanelRect,
+  () => (attitudePanelWidth.value = `${attitudePanelRect.width}px`),
+  { throttle: 10 }
+)
 
 const rightPanelResizeBarOpacity = ref(0)
 
