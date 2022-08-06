@@ -20,7 +20,9 @@
 2. 把组件属性schema和data糅合进 panelList 里面，然后一起遍历
    问题在于当被选中物料组件变化时候又需要重新糅合一遍
  */
-import { ElForm, ElFormItem, ElInput } from 'element-plus'
+import { ref } from 'vue'
+import { ElButton, ElForm, ElFormItem, ElInput } from 'element-plus'
+import { IndefiniteNumberInputBox } from './components/formRender/indefiniteNumberInputBox.tsx'
 import type {
   IAttributePanelFormItemSchema,
   ILibraryComponentInstanceData,
@@ -28,10 +30,11 @@ import type {
 } from '@/components/editPanel/types'
 import type { ILibraryComponent, ILibraryComponentProps } from '@/library/types'
 import type { EAttributePanels } from '@/components/attributePanel/types'
-import type { WritableComputedRef } from 'vue'
+import type { CSSProperties, WritableComputedRef } from 'vue'
+import { EEditableConfigItemInputType } from '@/components/editPanel/types'
 import { panelList } from '@/components/attributePanel/config'
 import { useCodeStore } from '@/stores/code'
-import { EEditableConfigItemInputType } from '@/components/editPanel/types'
+import { ELibraryComponentFormItemLabelPosition } from '@/library/types'
 
 const codeStore = useCodeStore()
 const { focusData } = storeToRefs(codeStore)
@@ -114,20 +117,36 @@ function formRender(
     propsData: ILibraryComponentInstanceProps,
     formItemSchema: IAttributePanelFormItemSchema
   ) => {
+    const $style = useCssModule('form')
     // console.log(`configValue`, propsData);
     if (formItemSchema.formType === EEditableConfigItemInputType.input) {
+      return <ElInput v-model={propsData[formItemSchema.name]}></ElInput>
+    }
+    if (formItemSchema.formType === EEditableConfigItemInputType.indefiniteNumberInputBox) {
+      const list = propsData[formItemSchema.name]
       return (
-        <>
-          <ElInput v-model={propsData[formItemSchema.name]}></ElInput>
-        </>
+        <IndefiniteNumberInputBox
+          modelValue={list}
+          onUpdate:modelValue={(e: string[]) => {
+            if (!Array.isArray(list))
+              throw new TypeError(
+                'invalid Data at EEditableConfigItemInputType.indefiniteNumberInputBox'
+              )
+            list.splice(0, list.length, ...e)
+          }}
+        />
       )
     }
     return undefined
   }
 
   const formItemList = cursorPropsArray.map((propItem) => {
+    const style = {} as CSSProperties
+    if (propItem.labelPosition === ELibraryComponentFormItemLabelPosition.top) {
+      style['display'] = 'block'
+    }
     return (
-      <ElFormItem label={propItem.title} key={propItem.name}>
+      <ElFormItem label={propItem.title} key={propItem.name} style={style}>
         {formItemChildRender(propsData, propItem)}
       </ElFormItem>
     )
@@ -141,3 +160,36 @@ export default {
   name: 'AttributePanel',
 }
 </script>
+
+<style lang="scss" module="form">
+.indefiniteNumberInput {
+  &__popover {
+    @apply p-0;
+    :global(.arco-popover-content) {
+      @apply mt-0;
+      width: 100px;
+      :global(.el-button + .el-button) {
+        @apply ml-0;
+      }
+    }
+  }
+  &__inputGroup {
+    @apply flex content-between w-full;
+    &__input {
+      margin-right: 12px;
+    }
+  }
+
+  &__buttonGroup {
+    @apply flex content-around w-full;
+  }
+
+  &__gap {
+    margin-top: 10px;
+
+    &:first-child {
+      @apply mt-0;
+    }
+  }
+}
+</style>
