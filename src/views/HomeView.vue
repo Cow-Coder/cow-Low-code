@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { IconBulb, IconClose, IconQuestionCircle } from '@arco-design/web-vue/es/icon'
 import { useCodeStore } from '@/stores/code'
 import libraryPanels from '@/components/libraryPanel'
@@ -13,16 +13,21 @@ const codeStore = useCodeStore()
 
 // 限制属性面板
 const editPanelRef = ref<InstanceType<typeof HTMLElement>>()
-const editPanelRect = useElementSize(editPanelRef)
-const bodyRect = useElementSize(document.body)
-const bodyWidth = computed(() => `${bodyRect.width.value}px`)
-const editPanelWidth = computed(() => `${editPanelRect.width.value}px`)
+const editPanelRect = reactive(useElementSize(editPanelRef))
+const bodyRect = reactive(useElementSize(document.body))
+const bodyWidth = computed(() => `${bodyRect.width}px`)
+const editPanelWidth = computed(() => `${editPanelRect.width}px`)
 // 矫正编辑器面板
 const libraryPanelRef = ref<InstanceType<typeof HTMLElement>>()
-const libraryPanelRect = useElementSize(libraryPanelRef)
-const libraryPanelWidth = computed(() => `${libraryPanelRect.width.value}px`)
+const libraryPanelRect = reactive(useElementSize(libraryPanelRef))
+const libraryPanelWidth = computed(() => `${libraryPanelRect.width}px`)
+// 矫正属性面板
+const attitudePanelRef = ref<InstanceType<typeof HTMLElement>>()
+const attitudePanelRect = reactive(useElementSize(attitudePanelRef))
+const attitudePanelWidth = computed(() => `${attitudePanelRect.width}px`)
 
 const rightPanelResizeBarOpacity = ref(0)
+
 function onRightPanelResizeStart() {
   rightPanelResizeBarOpacity.value = 1
 }
@@ -93,7 +98,7 @@ const isShowTrigger = ref(false)
         </div>
 
         <!--        右侧参数面板-->
-        <div class="panel panel-right">
+        <div ref="attitudePanelRef" class="panel panel-right">
           <a-resize-box
             :directions="['left']"
             class="panel-right-wrapper"
@@ -106,11 +111,11 @@ const isShowTrigger = ref(false)
 
         <a-trigger
           v-model:popup-visible="isShowTrigger"
-          update-at-scroll
+          :render-to-body="false"
+          class="button-trigger-wrapper"
           position="top"
           trigger="click"
-          class="button-trigger-wrapper"
-          :render-to-body="false"
+          update-at-scroll
         >
           <div :class="{ 'button-trigger-active': isShowTrigger }" class="button-trigger">
             <IconClose v-if="isShowTrigger" />
@@ -154,10 +159,11 @@ $blank-min-width: 100px;
 
 .app-container {
   @apply min-h-screen flex-col;
-  --style-header-height: v-bind(`${styleHeaderHeight}px`);
+  --style-header-height: v-bind(` $ {styleHeaderHeight} px `);
   --body-width: v-bind(bodyWidth);
   --edit-panel-width: v-bind(editPanelWidth);
   --library-panel-width: v-bind(libraryPanelWidth);
+  --attitude-panel-width: v-bind(attitudePanelWidth);
   --blank-min-width: #{$blank-min-width};
 
   :deep(.el-main) {
@@ -232,20 +238,23 @@ $blank-min-width: 100px;
 
   // 悬浮菜单
   --button-trigger-bottom: 40px;
+
   :deep(.button-trigger-wrapper) {
     @apply fixed;
     bottom: calc(40px + var(--button-trigger-bottom));
-    right: calc(var(--library-panel-width) + 40px - 4px);
+    right: calc(var(--attitude-panel-width) + 40px - 4px);
     left: unset !important;
     top: unset !important;
   }
+
   .button-trigger {
     @apply flex justify-center items-center rounded-full cursor-pointer transition text-white select-none fixed;
     width: 40px;
     height: 40px;
     background-color: var(--color-neutral-5);
-    right: calc(var(--library-panel-width) + 40px);
+    right: calc(var(--attitude-panel-width) + 40px);
     bottom: var(--button-trigger-bottom);
+
     &.button-trigger-active {
       background-color: var(--color-neutral-4);
     }
