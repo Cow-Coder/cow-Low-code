@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { IconBulb, IconClose, IconQuestionCircle } from '@arco-design/web-vue/es/icon'
+import { debounce, throttle } from 'lodash-es'
 import { useCodeStore } from '@/stores/code'
 import libraryPanels from '@/components/libraryPanel'
 import AttributePanel from '@/components/attributePanel/index.vue'
@@ -24,7 +25,11 @@ const libraryPanelWidth = computed(() => `${libraryPanelRect.width}px`)
 // 矫正属性面板
 const attitudePanelRef = ref<InstanceType<typeof HTMLElement>>()
 const attitudePanelRect = reactive(useElementSize(attitudePanelRef))
-const attitudePanelWidth = computed(() => `${attitudePanelRect.width}px`)
+const attitudePanelWidth = ref(`${attitudePanelRect.width}px`)
+const attitudePanelRectThrottle = throttle(() => {
+  attitudePanelWidth.value = `${attitudePanelRect.width}px`
+}, 10)
+watch(attitudePanelRect, () => attitudePanelRectThrottle())
 
 const rightPanelResizeBarOpacity = ref(0)
 

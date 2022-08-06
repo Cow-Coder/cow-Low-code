@@ -50,7 +50,7 @@ watch(focusData, () => {
   }
   const focus = focusData.value
   /**
-   * TODO: 临时解决一下选中组件不跟手的问题，大概300ms延迟
+   * 开启vue devtool会出现 选中组件不跟手的问题，大概300ms延迟
    */
   setTimeout(() => {
     const [focusedLibraryComponentInstanceData, focusedLibraryComponentSchema] =
