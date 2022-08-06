@@ -1,10 +1,12 @@
 <template>
   <el-tabs type="border-card">
     <el-tab-pane v-for="panelItem in panelList" :key="panelItem.name" :label="panelItem.title">
-      <component
-        :is="formRender(componentDataProps, panelItem.name, componentSchemaProps)"
-        v-if="componentSchemaProps"
-      />
+      <keep-alive>
+        <component
+          :is="formRender(componentDataProps, panelItem.name, componentSchemaProps)"
+          v-if="componentSchemaProps"
+        />
+      </keep-alive>
     </el-tab-pane>
   </el-tabs>
 </template>
@@ -21,20 +23,20 @@
    问题在于当被选中物料组件变化时候又需要重新糅合一遍
  */
 import { ref } from 'vue'
-import { ElForm, ElFormItem, ElInput } from 'element-plus'
+import { ElForm, ElFormItem, ElInput, ElSwitch } from 'element-plus'
 import { IndefiniteNumberInputBox } from './components/formRender/indefiniteNumberInputBox'
+import type { CSSProperties, WritableComputedRef } from 'vue'
 import type {
   IAttributePanelFormItemSchema,
   ILibraryComponentInstanceData,
   ILibraryComponentInstanceProps,
 } from '@/components/editPanel/types'
-import type { ILibraryComponent, ILibraryComponentProps } from '@/library/types'
 import type { EAttributePanels } from '@/components/attributePanel/types'
-import type { CSSProperties, WritableComputedRef } from 'vue'
+import type { ILibraryComponent, ILibraryComponentProps } from '@/library/types'
 import { EEditableConfigItemInputType } from '@/components/editPanel/types'
+import { ELibraryComponentFormItemLabelPosition } from '@/library/types'
 import { panelList } from '@/components/attributePanel/config'
 import { useCodeStore } from '@/stores/code'
-import { ELibraryComponentFormItemLabelPosition } from '@/library/types'
 
 const codeStore = useCodeStore()
 const { focusData } = storeToRefs(codeStore)
@@ -118,13 +120,11 @@ function formRender(
   if (!propsSchema) return undefined
   const cursorPropsArray = getLibraryComponentPropsArrayInAPanel(propsSchema, cursorPanel)
   // const propsDataRefs = toRefs(propsData);
-
   const formItemChildRender = (
     propsData: ILibraryComponentInstanceProps,
     formItemSchema: IAttributePanelFormItemSchema
   ) => {
-    const $style = useCssModule('form')
-    // console.log(`configValue`, propsData);
+    const $style = useCssModule()
     if (formItemSchema.formType === EEditableConfigItemInputType.input) {
       return <ElInput v-model={propsData[formItemSchema.name]}></ElInput>
     }
@@ -144,6 +144,9 @@ function formRender(
           }}
         />
       )
+    }
+    if (formItemSchema.formType === EEditableConfigItemInputType.switch) {
+      return <ElSwitch v-model={propsData[formItemSchema.name]}></ElSwitch>
     }
     return undefined
   }
@@ -169,35 +172,8 @@ export default {
 }
 </script>
 
-<style lang="scss" module="form">
-.indefiniteNumberInput {
-  &__popover {
-    @apply p-0;
-    :global(.arco-popover-content) {
-      @apply mt-0;
-      width: 100px;
-      :global(.el-button + .el-button) {
-        @apply ml-0;
-      }
-    }
-  }
-  &__inputGroup {
-    @apply flex content-between w-full;
-    &__input {
-      margin-right: 12px;
-    }
-  }
-
-  &__buttonGroup {
-    @apply flex content-around w-full;
-  }
-
-  &__gap {
-    margin-top: 10px;
-
-    &:first-child {
-      @apply mt-0;
-    }
-  }
+<style lang="scss">
+.el-form-item__content {
+  @apply justify-end;
 }
 </style>
