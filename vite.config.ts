@@ -114,7 +114,7 @@ export default defineConfig({
           libraryName: '@arco-design/web-vue',
           esModule: true,
           resolveStyle: (name) => {
-            const exclude = ['menu-item']
+            const exclude = ['menu-item', 'collapse-item']
             if (exclude.includes(name)) return ''
             // css
             return `@arco-design/web-vue/es/${name}/style/css.js`

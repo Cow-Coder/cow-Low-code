@@ -1,4 +1,4 @@
-import type { ComponentOptions, DefineComponent, Prop } from 'vue'
+import type { Component, ComponentOptions, Prop } from 'vue'
 import type { ELibraryName } from '@/components/libraryPanel/types'
 import type { EAttributePanels } from '@/components/attributePanel/types'
 import type { EEditableConfigItemInputType } from '@/components/editPanel/types'
@@ -46,8 +46,14 @@ export type ILibraryComponentPropItem = {
  */
 export type ILibraryComponentProps = Record<string, ILibraryComponentPropItem>
 
-export type IDefineComponent = (() => JSX.Element) | DefineComponent
+/**
+ * vue组件和jsx组件
+ */
+export type IDefineComponent = (() => JSX.Element) | Component
 
+/**
+ * 物料组件
+ */
 export interface ILibraryComponent extends ComponentOptions {
   /**
    * 物料组件标识符
