@@ -124,7 +124,7 @@ function formRender(
     propsData: ILibraryComponentInstanceProps,
     formItemSchema: IAttributePanelFormItemSchema
   ) => {
-    const $style = useCssModule()
+    // const $style = useCssModule()
     if (formItemSchema.formType === EEditableConfigItemInputType.input) {
       return <ElInput v-model={propsData[formItemSchema.name]}></ElInput>
     }
