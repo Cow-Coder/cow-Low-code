@@ -4,6 +4,14 @@ import type { EAttributePanels } from '@/components/attributePanel/types'
 import type { EEditableConfigItemInputType } from '@/components/editPanel/types'
 
 /**
+ * 该项表单label显示位置
+ */
+export enum ELibraryComponentFormItemLabelPosition {
+  aside = 'aside',
+  top = 'top',
+}
+
+/**
  * 组件单个prop
  */
 export type ILibraryComponentPropItem = {
@@ -23,6 +31,10 @@ export type ILibraryComponentPropItem = {
    * 默认值
    */
   default?: any
+  /**
+   * 该项表单label显示位置
+   */
+  labelPosition?: ELibraryComponentFormItemLabelPosition
   /**
    * 当前属性应该显示在哪个面板
    */
