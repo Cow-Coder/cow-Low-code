@@ -6,6 +6,7 @@ import { useCodeStore } from '@/stores/code'
 import libraryPanels from '@/components/libraryPanel'
 import AttributePanel from '@/components/attributePanel/index.vue'
 import EditPanel from '@/components/editPanel/index.vue'
+import CodePanel from '@/components/codePanel/index.vue'
 
 // TODO:禁止自己拖入自己，从组件区域拖出去再拖入自己区域时候图标应该是禁止，不应该是默认的
 //-----------页面布局
@@ -87,8 +88,8 @@ const isShowTrigger = ref(false)
               </keep-alive>
             </el-tab-pane>
             <!--            代码面板-->
-            <el-tab-pane label="代码">
-              <router-view />
+            <el-tab-pane label="代码" lazy>
+              <code-panel />
             </el-tab-pane>
           </el-tabs>
         </div>
