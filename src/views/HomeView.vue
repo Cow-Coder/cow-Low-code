@@ -8,7 +8,7 @@ import EditPanel from '@/components/editPanel/index.vue'
 
 // TODO:禁止自己拖入自己，从组件区域拖出去再拖入自己区域时候图标应该是禁止，不应该是默认的
 //-----------页面布局
-const styleHeaderHeight = 60
+const styleHeaderHeight = '60px'
 const codeStore = useCodeStore()
 
 // 限制属性面板
@@ -55,10 +55,8 @@ const isShowTrigger = ref(false)
 <template>
   <el-container class="app-container">
     <!--    顶栏-->
-    <el-header :height="`${styleHeaderHeight}px`" class="shadow bg-white sticky top-0 z-40">
-      <el-row
-        :style="{ height: `${styleHeaderHeight}px`, 'line-height': `${styleHeaderHeight}px` }"
-      >
+    <el-header :height="styleHeaderHeight" class="shadow bg-white sticky top-0 z-40">
+      <el-row :style="{ height: styleHeaderHeight, 'line-height': styleHeaderHeight }">
         <el-col :span="4"> LowCodeDemo</el-col>
         <el-col :span="16" />
         <el-col :span="4" class="justify-end flex items-center">
@@ -159,7 +157,7 @@ $blank-min-width: 100px;
 
 .app-container {
   @apply min-h-screen flex-col;
-  --style-header-height: v-bind(` $ {styleHeaderHeight} px `);
+  --style-header-height: v-bind(styleHeaderHeight);
   --body-width: v-bind(bodyWidth);
   --edit-panel-width: v-bind(editPanelWidth);
   --library-panel-width: v-bind(libraryPanelWidth);
