@@ -7,8 +7,8 @@ import { createLibraryComponentInstance } from '@/utils/library'
  * @param original
  */
 const onCloneCallback = (original: ILibraryComponent) => {
-  // console.log(`original`, original);
-  return createLibraryComponentInstance(original)
+  const data = createLibraryComponentInstance(original)
+  return data
 }
 
 const log = function (evt: any) {
@@ -21,7 +21,8 @@ export const leftDraggableConfig: IDraggable = {
     group: { name: 'library', pull: 'clone', put: false },
     sort: false,
     itemKey: 'id',
+    libraryClass: true,
+    handleClone: onCloneCallback,
   },
-  handleCloneF: onCloneCallback,
   handleChangeF: log,
 }

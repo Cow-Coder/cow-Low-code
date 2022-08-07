@@ -160,6 +160,7 @@ const isShowTrigger = ref(false)
 
 <style lang="scss" scoped>
 // 属性面板距离编辑器最小距离
+@use '@/var-constent/css/index';
 $blank-min-width: 100px;
 
 //右侧面板伸缩条
@@ -226,7 +227,7 @@ $blank-min-width: 100px;
 
     .edit-wrapper {
       flex-basis: 375px;
-      min-height: 812px;
+      min-height: index.$screamMinHeight;
       max-width: 375px;
       --tw-translate-x: calc(
         (var(--body-width) - var(--edit-panel-width)) / 2 - var(--library-panel-width)
