@@ -4,7 +4,7 @@
 
 <script lang="tsx">
 import { ELibraryName, type ILibraryPanel } from '@/components/libraryPanel/types'
-import LibraryPanelBase from '@/components/libraryPanel/libraryPanelBase.vue'
+import LibraryPanelBase from '@/components/libraryPanel/comps/libraryPanelBase.vue'
 import { getLibraryModules } from '@/library'
 
 const vmOptions = {

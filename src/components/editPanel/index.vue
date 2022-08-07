@@ -2,7 +2,7 @@
   <draggable
     v-model="editableInstancedLibraryComponentData"
     class="edit"
-    group="library"
+    :group="{ name: 'library' }"
     item-key="id"
     :disabled="isDownCtrlLeft"
   >
@@ -24,9 +24,10 @@
 <script lang="tsx" setup>
 import Draggable from 'vuedraggable'
 import type { ILibraryComponentInstanceData } from '@/components/editPanel/types'
-import type { SortableEvent } from 'sortablejs'
+import type { IDraggable } from '@/base-ui/draggable'
 import { libraryRecord } from '@/library'
 import { useCodeStore } from '@/stores/code'
+import { editDraggableConfig } from '@/components/editPanel/config/edit-draggable-config'
 
 const codeStore = useCodeStore()
 const { jsonCode: editableInstancedLibraryComponentData, focusData } = storeToRefs(codeStore)
@@ -55,6 +56,12 @@ const isDownCtrlLeft = ref(false)
 function isFocusComponent(data: ILibraryComponentInstanceData) {
   return data.uuid == focusData.value?.uuid && !isDownCtrlLeft.value
 }
+
+const editDraggableConfigRef = computed(() => {
+  const draggableProp = editDraggableConfig.draggableProp
+  draggableProp.disabled = isDownCtrlLeft.value
+  return editDraggableConfig
+})
 
 function onTouchEvent(e: TouchEvent) {
   if (!e.ctrlKey) e.stopPropagation()
