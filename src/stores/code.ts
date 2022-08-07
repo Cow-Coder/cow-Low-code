@@ -58,6 +58,7 @@ export const useCodeStore = defineStore(
       }
       if (!focusedLibraryComponentInstanceData)
         throw new Error(`not found focusedLibraryComponentData(uuid): ${focusData.uuid}`)
+        
       let focusedLibraryComponentSchema = undefined
       for (const e of libraryRecord[focusedLibraryComponentInstanceData.libraryName]) {
         if (e.name == focusedLibraryComponentInstanceData.componentName) {

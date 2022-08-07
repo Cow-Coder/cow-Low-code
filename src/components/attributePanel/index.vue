@@ -24,8 +24,10 @@
    问题在于当被选中物料组件变化时候又需要重新糅合一遍
  */
 import { ref } from 'vue'
-import { ElForm, ElFormItem, ElInput, ElSwitch } from 'element-plus'
+import { ElForm, ElFormItem, ElInput, ElOption, ElSelect, ElSwitch } from 'element-plus'
 import { IndefiniteNumberInputBox } from './components/formRender/indefiniteNumberInputBox'
+
+import { SwitchWithSlots } from './components/formRender/switchWithSlots'
 import type { CSSProperties, WritableComputedRef } from 'vue'
 import type {
   IAttributePanelFormItemSchema,
@@ -108,7 +110,7 @@ function getLibraryComponentPropsArrayInAPanel(
 }
 
 /**
- * 渲染表单
+ *渲染表单
  * @param propsSchema
  * @param propsData
  * @param cursorPanel
@@ -123,12 +125,15 @@ function formRender(
   const cursorPropsArray = getLibraryComponentPropsArrayInAPanel(propsSchema, cursorPanel)
   // const propsDataRefs = toRefs(propsData);
   const formItemChildRender = (
+    //根据prop名称渲染组件
     propsData: ILibraryComponentInstanceProps,
     formItemSchema: IAttributePanelFormItemSchema
   ) => {
+    //input
     if (formItemSchema.formType === EEditableConfigItemInputType.input) {
       return <ElInput v-model={propsData[formItemSchema.name]}></ElInput>
     }
+    //indefiniteNumberInputBox
     if (formItemSchema.formType === EEditableConfigItemInputType.indefiniteNumberInputBox) {
       const list = propsData[formItemSchema.name]
       if (!Array.isArray(list))
@@ -146,12 +151,33 @@ function formRender(
         />
       )
     }
+    //switch
     if (formItemSchema.formType === EEditableConfigItemInputType.switch) {
-      return <ElSwitch v-model={propsData[formItemSchema.name]}></ElSwitch>
+      return (
+        <>
+          <ElSwitch v-model={propsData[formItemSchema.name]}></ElSwitch>
+        </>
+      )
     }
+    //select
+    if (formItemSchema.formType === EEditableConfigItemInputType.select) {
+      return (
+        <ElSelect v-model={propsData[formItemSchema.name]}>
+          {formItemSchema.selectOptions.map((item: string) => (
+            <ElOption label={item} value={item}></ElOption>
+          ))}
+        </ElSelect>
+      )
+    }
+    //
+    if (formItemSchema.formType === EEditableConfigItemInputType.switchWithSlots) {
+      const tips = formItemSchema.default
+      return <SwitchWithSlots v-model={propsData[formItemSchema.name]}></SwitchWithSlots>
+    }
+
     return undefined
   }
-
+  //渲染整个props列表
   const formItemList = cursorPropsArray.map((propItem) => {
     const style = {} as CSSProperties
     if (propItem.labelPosition === ELibraryComponentFormItemLabelPosition.top) {
