@@ -1,10 +1,8 @@
 <template>
-  <draggable
-    v-model="editableInstancedLibraryComponentData"
+  <page-draggable
     class="edit"
-    group="library"
-    item-key="id"
-    :disabled="isDownCtrlLeft"
+    :draggable-config="editDraggableConfigRef"
+    :data-list="editableInstancedLibraryComponentData"
   >
     <template #item="{ element }">
       <div
@@ -18,15 +16,15 @@
         <component :is="parseLibraryComponent(element)" />
       </div>
     </template>
-  </draggable>
+  </page-draggable>
 </template>
 
 <script lang="tsx" setup>
-import Draggable from 'vuedraggable'
 import type { ILibraryComponentInstanceData } from '@/components/editPanel/types'
-import type { SortableEvent } from 'sortablejs'
 import { libraryRecord } from '@/library'
 import { useCodeStore } from '@/stores/code'
+import { editDraggableConfig } from '@/components/editPanel/config/edit-draggable-config'
+import PageDraggable from '@/common/page-draggable/src/page-draggable.vue'
 
 const codeStore = useCodeStore()
 const { jsonCode: editableInstancedLibraryComponentData, focusData } = storeToRefs(codeStore)
@@ -58,6 +56,12 @@ const isDownCtrlLeft = ref(false)
 function isFocusComponent(data: ILibraryComponentInstanceData) {
   return data.uuid == focusData.value?.uuid && !isDownCtrlLeft.value
 }
+
+const editDraggableConfigRef = computed(() => {
+  const draggableProp = editDraggableConfig.draggableProp
+  draggableProp.disabled = isDownCtrlLeft.value
+  return editDraggableConfig
+})
 
 function onTouchEvent(e: TouchEvent) {
   if (!e.ctrlKey) e.stopPropagation()

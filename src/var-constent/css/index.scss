@@ -1,0 +1,9 @@
+$screamMinHeight: 812px;
+
+@mixin panelLeftAndRight {
+    // 防止未悬浮情况下元素塌陷
+    height: calc(100vh - var(--style-header-height));
+    @apply sticky;
+    top: var(--style-header-height);
+  
+}
