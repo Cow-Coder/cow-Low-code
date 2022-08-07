@@ -46,8 +46,24 @@ export enum EEditableConfigItemInputType {
    * 不定个数输入框
    */
   indefiniteNumberInputBox = 'indefiniteNumberInputBox',
+  /**
+   * 下拉框
+   */
+  select = 'select',
+  /**
+   * 带插槽的开关
+   */
+  switchWithSlots = 'switchWithSlots',
 }
+/**
+ * selectpropsType
+ */
 
+export type EditableConfigItemSelectType = {
+  label: string
+  options: string[]
+  defaultValue: any
+}
 /**
  * attribute属性编辑面板每个form表单项结构
  */

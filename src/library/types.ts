@@ -39,6 +39,10 @@ export type ILibraryComponentPropItem = {
    * 当前属性应该显示在哪个面板
    */
   belongToPanel: EAttributePanels
+  /**
+   * select选项
+   */
+  selectOptions?: any[]
 } & Prop<any>
 
 /**
