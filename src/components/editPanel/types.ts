@@ -4,6 +4,14 @@ import type { ILibraryComponentPropItem } from '@/library/types'
 export type ILibraryComponentInstanceProps = Data
 
 /**
+ * 事件触发时需要执行的动作类型
+ */
+export enum EActionType {
+  reload = 'reload',
+  request = 'request',
+}
+
+/**
  * 物料组件实例的数据
  */
 export interface ILibraryComponentInstanceData {
@@ -13,6 +21,7 @@ export interface ILibraryComponentInstanceData {
   uuid: string
   /**
    * 是否选中当前物料组件实例
+   * @deprecated
    */
   focus: boolean
   /**
@@ -27,6 +36,23 @@ export interface ILibraryComponentInstanceData {
    *右侧属性面板可编辑参数
    */
   props?: ILibraryComponentInstanceProps
+  /**
+   * 事件触发器
+   */
+  eventTriggers?: ILibraryComponentInstanceEventTriggers
+}
+
+export type ILibraryComponentInstanceEventTriggers = {
+  /**
+   * 事件标识符
+   * @name name
+   * @see IEventTrigger
+   */
+  [name: string]: {
+    actions: Array<{
+      actionType: EActionType
+    }>
+  }
 }
 
 /**

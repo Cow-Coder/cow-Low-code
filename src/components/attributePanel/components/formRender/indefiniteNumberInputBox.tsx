@@ -1,10 +1,13 @@
 import { ElButton, ElInput } from 'element-plus'
 import { Popover } from '@arco-design/web-vue'
-import { toRefs } from '@vueuse/core'
 import { MoreFilled } from '@element-plus/icons-vue'
 import $style from './form.module.scss'
 import type { PropType } from 'vue'
+import $popoverStyle from '@/assets/popover.module.scss'
 
+/**
+ * 这个组件可以改成vue实现试一下
+ */
 export const IndefiniteNumberInputBox = defineComponent({
   name: 'IndefiniteNumberInputBox',
   props: {
@@ -45,7 +48,7 @@ export const IndefiniteNumberInputBox = defineComponent({
             <Popover
               trigger="click"
               position="br"
-              contentClass={$style.indefiniteNumberInput__popover}
+              contentClass={$popoverStyle.popoverWithOutTitle}
               popupVisible={popoverShow.value(index)}
               onUpdate:popupVisible={(e) =>
                 e ? (currentPopoverShowIndex.value = index) : (currentPopoverShowIndex.value = -1)

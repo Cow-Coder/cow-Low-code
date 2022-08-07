@@ -2,7 +2,13 @@
   <el-tabs type="border-card" class="attitude-tab-pane">
     <el-tab-pane v-for="panelItem in panelList" :key="panelItem.name" :label="panelItem.title">
       <keep-alive>
-        <component :is="panelItem.component" v-if="panelItem.component" />
+        <component
+          :is="panelItem.component"
+          v-if="panelItem.component"
+          v-model:component-instance-data="componentData"
+          :component-schema="componentSchema"
+          :cursor-panel="panelItem.name"
+        />
         <component
           :is="formRender(componentDataProps, panelItem.name, componentSchemaProps)"
           v-else
@@ -47,6 +53,7 @@ const componentSchema = shallowRef<ILibraryComponent>()
 watch(focusData, () => {
   if (!focusData.value) {
     componentSchema.value = undefined
+    componentData.value = undefined
     return false
   }
   const focus = focusData.value
@@ -179,8 +186,12 @@ export default {
 
 <style lang="scss" scoped>
 .attitude-tab-pane {
+  @apply flex;
   :deep(.el-tabs__content) {
-    @apply p-0;
+    @apply p-0 flex flex-grow;
+    .el-tab-pane {
+      @apply flex-grow;
+    }
     .el-form-item__content {
       @apply justify-end;
     }
