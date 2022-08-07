@@ -42,6 +42,17 @@ export default {
         </>
       ),
     },
+    eventTriggers: {
+      click: {
+        title: '点击',
+      },
+      enter: {
+        title: '鼠标移入',
+      },
+      leave: {
+        title: '鼠标移出',
+      },
+    },
   }),
   props: {
     title: createLibraryComponentPropItem({
