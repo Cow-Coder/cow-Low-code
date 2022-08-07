@@ -4,7 +4,6 @@
       v-bind="props.draggableConfig.draggableProp"
       :data-list="dataList"
       @handleChange="props.draggableConfig?.handleChangeF"
-      @handleClone="props.draggableConfig?.handleCloneF"
     >
       <template #item="{ element }">
         <div class="page-drag-slot">
@@ -17,11 +16,12 @@
 
 <script lang="ts" setup>
 import type { IDraggable } from '@/base-ui/draggable/type'
+import type { ILibraryComponent } from '@/library/types'
 import ZyDraggable from '@/base-ui/draggable'
 
 const props = defineProps<{
   draggableConfig: IDraggable
-  dataList: any
+  dataList: Record<string, ILibraryComponent[]>
 }>()
 </script>
 

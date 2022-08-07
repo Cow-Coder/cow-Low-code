@@ -1,4 +1,4 @@
-import ZyDraggable from './src/zy-draggable.vue'
+import ZyDraggable from './src/cl-draggable.vue'
 
 export * from './type'
 

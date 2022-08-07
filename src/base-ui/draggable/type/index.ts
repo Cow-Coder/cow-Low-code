@@ -1,4 +1,4 @@
-import type { DefineComponent } from 'vue'
+export type cloneType = (original: any) => any
 
 export type groupType = {
   name?: string
@@ -11,11 +11,12 @@ export type IDraggableItem<T> = {
   itemKey?: string
   sort?: boolean
   disabled?: boolean
+  handleClone?: cloneType
+  libraryClass?: boolean
 }
 
 export interface IDraggable<T = any> {
   draggableProp: IDraggableItem<T>
   // itemSlot: DefineComponent,
-  handleChangeF?: (env: any) => any
-  handleCloneF?: (component: any) => any
+  handleChangeF?: (component: any) => any
 }

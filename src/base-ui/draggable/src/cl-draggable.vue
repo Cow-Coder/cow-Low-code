@@ -1,14 +1,14 @@
 <template>
   <div class="accept-draggable">
     <draggable
-      class="library-list"
+      :class="props.libraryClass ? 'library-list' : 'default-drag'"
       :list="props.dataList"
       :item-key="props.itemKey"
       :group="props.group"
       :sort="props.sort"
       :disabled="props.disabled"
+      :clone="props.handleClone"
       @change="handleChange"
-      @clone="handleClone"
     >
       <template #item="{ element }">
         <div class="library-item">
@@ -21,15 +21,18 @@
 
 <script lang="ts" setup>
 import Draggable from 'vuedraggable'
-import type { groupType } from '@/base-ui/draggable'
+import type { cloneType, groupType } from '@/base-ui/draggable'
+import type { ILibraryComponent } from '@/library/types'
 import { DRAGGABLE_GROUP_NAME } from '@//var-constent'
 
 interface propsType {
-  dataList: []
+  dataList: Record<string, ILibraryComponent[]>
   group?: groupType
   itemKey?: string
   sort?: boolean
   disabled?: boolean
+  libraryClass?: boolean
+  handleClone?: cloneType
 }
 
 const props = withDefaults(defineProps<propsType>(), {
@@ -37,27 +40,28 @@ const props = withDefaults(defineProps<propsType>(), {
   itemKey: 'id',
   sort: true,
   disabled: false,
+  libraryClass: false,
 })
 
 const emit = defineEmits<{
   (e: 'handleChange', evt: any): any
-  (e: 'handleClone', component: any): any
 }>()
 
 const handleChange = (evt: any) => {
   emit('handleChange', evt)
 }
-
-const handleClone = (component: any) => {
-  emit('handleClone', component)
-}
 </script>
 
 <style lang="scss" scoped>
+@use '@/var-constent/css/index';
 .library-list {
   @apply flex flex-wrap;
   .library-item {
     flex: 0 0 50%;
   }
+}
+
+.default-drag {
+  min-height: index.$screamMinHeight;
 }
 </style>

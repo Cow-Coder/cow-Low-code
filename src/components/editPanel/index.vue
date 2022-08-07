@@ -1,10 +1,8 @@
 <template>
-  <draggable
-    v-model="editableInstancedLibraryComponentData"
+  <page-draggable
     class="edit"
-    :group="{ name: 'library' }"
-    item-key="id"
-    :disabled="isDownCtrlLeft"
+    :draggable-config="editDraggableConfigRef"
+    :data-list="editableInstancedLibraryComponentData"
   >
     <template #item="{ element }">
       <div
@@ -18,16 +16,15 @@
         <component :is="parseLibraryComponent(element)" />
       </div>
     </template>
-  </draggable>
+  </page-draggable>
 </template>
 
 <script lang="tsx" setup>
-import Draggable from 'vuedraggable'
 import type { ILibraryComponentInstanceData } from '@/components/editPanel/types'
-import type { IDraggable } from '@/base-ui/draggable'
 import { libraryRecord } from '@/library'
 import { useCodeStore } from '@/stores/code'
 import { editDraggableConfig } from '@/components/editPanel/config/edit-draggable-config'
+import PageDraggable from '@/common/page-draggable/src/page-draggable.vue'
 
 const codeStore = useCodeStore()
 const { jsonCode: editableInstancedLibraryComponentData, focusData } = storeToRefs(codeStore)
