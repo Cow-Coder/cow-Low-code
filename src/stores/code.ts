@@ -48,6 +48,9 @@ export const useCodeStore = defineStore(
     function getLibraryComponentInstanceDataAndSchema(
       focusData: ILibraryComponentInstanceFocus
     ): [ILibraryComponentInstanceData, ILibraryComponent] {
+      /**
+       * TODO: 这里应该加缓存，记录已经找到过的组件的uuid，缓存进键值对
+       */
       let focusedLibraryComponentInstanceData = undefined
       for (const jsonCodeElement of jsonCode.value) {
         if (jsonCodeElement.uuid && jsonCodeElement.uuid === focusData.uuid) {
@@ -58,6 +61,7 @@ export const useCodeStore = defineStore(
       }
       if (!focusedLibraryComponentInstanceData)
         throw new Error(`not found focusedLibraryComponentData(uuid): ${focusData.uuid}`)
+        
       let focusedLibraryComponentSchema = undefined
       for (const e of libraryRecord[focusedLibraryComponentInstanceData.libraryName]) {
         if (e.name == focusedLibraryComponentInstanceData.componentName) {

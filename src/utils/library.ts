@@ -1,12 +1,14 @@
 import { v4 as uuidv4 } from 'uuid'
 import { cloneDeep } from 'lodash-es'
 import type {
+  IEventTrigger,
   ILibraryComponent,
   ILibraryComponentPropItem,
   ILibraryComponentProps,
 } from '@/library/types'
 import type {
   ILibraryComponentInstanceData,
+  ILibraryComponentInstanceEventTriggers,
   ILibraryComponentInstanceProps,
 } from '@/components/editPanel/types'
 
@@ -25,7 +27,8 @@ export function createLibraryComponentInstance(
     libraryName: com.libraryName,
     focus: false,
   } as ILibraryComponentInstanceData
-  if (com.props) data['props'] = createLibraryComponentInstanceProps(com.props)
+  if (com.props) data.props = createLibraryComponentInstanceProps(com.props)
+  if (com.eventTriggers) data.eventTriggers = {}
   return data
 }
 
@@ -43,6 +46,31 @@ export function createLibraryComponentInstanceProps(
     if (propSchema.default) result[propKey] = propSchema.default
   })
   return result
+}
+
+/**
+ * 生成组件实例的 事件触发器
+ * @param triggersSchema
+ */
+export function createLibraryComponentInstanceEventTriggers(
+  triggersSchema: IEventTrigger
+): ILibraryComponentInstanceEventTriggers {
+  const _triggersSchema = cloneDeep(triggersSchema)
+  const result = {} as ILibraryComponentInstanceEventTriggers
+  Object.entries(_triggersSchema).forEach(([trigger]) => {
+    result[trigger] = {
+      actions: [],
+    }
+  })
+  return result
+}
+
+export function createLibraryComponentInstanceEventAction(
+  actionName: string
+): ValueOf<ILibraryComponentInstanceEventTriggers> {
+  return {
+    actions: [],
+  }
 }
 
 /**

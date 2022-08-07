@@ -39,6 +39,10 @@ export type ILibraryComponentPropItem = {
    * 当前属性应该显示在哪个面板
    */
   belongToPanel: EAttributePanels
+  /**
+   * select选项
+   */
+  selectOptions?: any[]
 } & Prop<any>
 
 /**
@@ -50,6 +54,19 @@ export type ILibraryComponentProps = Record<string, ILibraryComponentPropItem>
  * vue组件和jsx组件
  */
 export type IDefineComponent = (() => JSX.Element) | Component
+
+export type IEventTrigger = {
+  /**
+   * 事件标识符
+   * @name name
+   */
+  [name: string]: {
+    /**
+     * 事件名称
+     */
+    title: string
+  }
+}
 
 /**
  * 物料组件
@@ -105,4 +122,8 @@ export interface ILibraryComponent extends ComponentOptions {
    * 右侧属性面板可编辑参数 && 物料组件props
    */
   props?: ILibraryComponentProps
+  /**
+   * 定义触发事件的情况
+   */
+  eventTriggers?: IEventTrigger
 }

@@ -32,6 +32,9 @@ const { jsonCode: editableInstancedLibraryComponentData, focusData } = storeToRe
 // 根据名称解析物料组件库内的组件，这里没有注册全局组件是避免污染全局组件名称
 function parseLibraryComponent(data: ILibraryComponentInstanceData) {
   // console.log(`parseLibraryComponent`, data)
+  /**
+   * TODO: 可以不用每次都遍历，把libraryRecord用Object.fromEntries转成键值对
+   */
   for (const libMapElementElement of libraryRecord[data.libraryName]) {
     if (libMapElementElement.name !== data.componentName) continue
     /*

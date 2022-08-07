@@ -1,11 +1,13 @@
 <template>
   <!--  TODO: van开头的组件不会自动识别 -->
-  <van-button type="primary">{{ title }}</van-button>
+  <van-button :type="buttonType" :size="buttonSize" :url="url" @click="showTips(isShowTips)">{{
+    title
+  }}</van-button>
 </template>
-
+<script lang="ts"></script>
 <script lang="tsx">
-import { Button } from 'vant'
-import { ElIcon } from 'element-plus'
+import { Button, Dialog } from 'vant'
+import { ElIcon, ElInput } from 'element-plus'
 import { ELibraryName } from '@/components/libraryPanel/types'
 import { EAttributePanels } from '@/components/attributePanel/types'
 import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
@@ -40,6 +42,17 @@ export default {
         </>
       ),
     },
+    eventTriggers: {
+      click: {
+        title: '点击',
+      },
+      enter: {
+        title: '鼠标移入',
+      },
+      leave: {
+        title: '鼠标移出',
+      },
+    },
   }),
   props: {
     title: createLibraryComponentPropItem({
@@ -47,6 +60,43 @@ export default {
       default: '按钮',
       formType: EEditableConfigItemInputType.input,
       belongToPanel: EAttributePanels.generic,
+    }),
+    buttonType: createLibraryComponentPropItem({
+      title: '按钮类型',
+      default: 'defalut',
+      selectOptions: ['defalut', 'primary', 'success', 'info', 'warning', 'danger'],
+      formType: EEditableConfigItemInputType.select,
+      belongToPanel: EAttributePanels.generic,
+      type: String,
+    }),
+    buttonSize: createLibraryComponentPropItem({
+      title: '按钮大小',
+      default: 'normal',
+      selectOptions: ['large', 'normal', 'small', 'mimi'],
+      formType: EEditableConfigItemInputType.select,
+      belongToPanel: EAttributePanels.generic,
+      type: String,
+    }),
+    to: createLibraryComponentPropItem({
+      title: '路由导航',
+      default: '',
+      formType: EEditableConfigItemInputType.input,
+      belongToPanel: EAttributePanels.generic,
+      type: String,
+    }),
+    url: createLibraryComponentPropItem({
+      title: 'url跳转',
+      default: '',
+      formType: EEditableConfigItemInputType.input,
+      belongToPanel: EAttributePanels.generic,
+      type: String,
+    }),
+    isShowTips: createLibraryComponentPropItem({
+      title: '提示弹框',
+      default: false,
+      formType: EEditableConfigItemInputType.switchWithSlots,
+      belongToPanel: EAttributePanels.generic,
+      type: String,
     }),
   },
 }
