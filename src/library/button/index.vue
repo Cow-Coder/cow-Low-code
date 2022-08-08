@@ -1,12 +1,15 @@
 <template>
-  <!--  TODO: van开头的组件不会自动识别 -->
-  <van-button :type="buttonType" :size="buttonSize" :url="url" @click="showTips(isShowTips)">{{
-    title
-  }}</van-button>
+  <div>
+    <!--  TODO: van开头的组件不会自动识别 -->
+    <van-button :type="buttonType" :size="buttonSize" :url="url" @click="showTips(tips)">{{
+      title
+    }}</van-button>
+  </div>
 </template>
-<script lang="ts"></script>
 <script lang="tsx">
+import { ref } from 'vue'
 import { Button, Dialog } from 'vant'
+import 'vant/es/dialog/style'
 import { ElIcon, ElInput } from 'element-plus'
 import { ELibraryName } from '@/components/libraryPanel/types'
 import { EAttributePanels } from '@/components/attributePanel/types'
@@ -91,15 +94,33 @@ export default {
       belongToPanel: EAttributePanels.generic,
       type: String,
     }),
-    isShowTips: createLibraryComponentPropItem({
+    tips: createLibraryComponentPropItem({
       title: '提示弹框',
-      default: false,
+      default: '',
       formType: EEditableConfigItemInputType.switchWithSlots,
       belongToPanel: EAttributePanels.generic,
       type: String,
     }),
   },
+  setup() {
+    const show = ref(false)
+
+    //提示弹框
+    const showTips = (tips: string) => {
+      if (tips.length) {
+        show.value = true
+        Dialog.confirm({ message: tips })
+          .then((e) => {
+            console.log(e)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
+    }
+    return { showTips, show }
+  },
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped />
