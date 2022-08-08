@@ -13,7 +13,7 @@ cow-Low-code
 ├── src
 ├── README.md
 ├── auto-imports.d.ts 			# 自动导入API https://github.com/antfu/unplugin-auto-import#configuration
-├── commitlint.config.js		
+├── commitlint.config.js
 ├── components.d.ts				# 自动导入组件
 ├── env.d.ts
 ├── global.d.ts					# 自行定义的
@@ -27,8 +27,6 @@ cow-Low-code
 ├── tsconfig.json
 └── vite.config.ts
 ```
-
-
 
 `src` 目录
 
@@ -53,7 +51,7 @@ src
 │       ├── index.ts
 │       ├── libraryPanelBase.vue
 │       └── types.ts
-├── hooks						# 
+├── hooks						#
 │   └── useVModelByComputed.ts
 ├── library						# 物料组件库
 │   ├── button					# 物料组件名
@@ -62,7 +60,7 @@ src
 │   │   └── index.vue			# 自动识别index.vue或者index.tsx为组件
 │   ├── swipe
 │   │   ├── index.vue
-│   │   └── preview.tsx			
+│   │   └── preview.tsx
 │   ├── index.ts				# library入口文件
 │   └── types.ts
 ├── router
@@ -78,4 +76,3 @@ src
 ├── App.vue
 └── main.ts
 ```
-

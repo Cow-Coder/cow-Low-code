@@ -1,7 +1,15 @@
-import type { ComponentOptions, DefineComponent, Prop } from 'vue'
+import type { Component, ComponentOptions, Prop } from 'vue'
 import type { ELibraryName } from '@/components/libraryPanel/types'
 import type { EAttributePanels } from '@/components/attributePanel/types'
 import type { EEditableConfigItemInputType } from '@/components/editPanel/types'
+
+/**
+ * 该项表单label显示位置
+ */
+export enum ELibraryComponentFormItemLabelPosition {
+  aside = 'aside',
+  top = 'top',
+}
 
 /**
  * 组件单个prop
@@ -24,6 +32,10 @@ export type ILibraryComponentPropItem = {
    */
   default?: any
   /**
+   * 该项表单label显示位置
+   */
+  labelPosition?: ELibraryComponentFormItemLabelPosition
+  /**
    * 当前属性应该显示在哪个面板
    */
   belongToPanel: EAttributePanels
@@ -34,8 +46,14 @@ export type ILibraryComponentPropItem = {
  */
 export type ILibraryComponentProps = Record<string, ILibraryComponentPropItem>
 
-export type IDefineComponent = (() => JSX.Element) | DefineComponent
+/**
+ * vue组件和jsx组件
+ */
+export type IDefineComponent = (() => JSX.Element) | Component
 
+/**
+ * 物料组件
+ */
 export interface ILibraryComponent extends ComponentOptions {
   /**
    * 物料组件标识符

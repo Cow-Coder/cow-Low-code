@@ -10,8 +10,9 @@ import Components from 'unplugin-vue-components/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
 
-import { ElementPlusResolver, VantResolver } from 'unplugin-vue-components/resolvers'
+import { ArcoResolver, ElementPlusResolver, VantResolver } from 'unplugin-vue-components/resolvers'
 import ElementPlus from 'unplugin-element-plus/vite'
+import { createStyleImportPlugin } from 'vite-plugin-style-import'
 
 // import { manualChunksPlugin } from 'vite-plugin-webpackchunkname'
 
@@ -60,11 +61,12 @@ export default defineConfig({
         ElementPlusResolver({
           importStyle: 'sass',
         }),
+        VantResolver(),
+        ArcoResolver(),
         /**
          * @link https://github.com/sxzz/element-plus-best-practices/blob/db2dfc983ccda5570033a0ac608a1bd9d9a7f658/vite.config.ts#L33
          */
         IconsResolver(),
-        VantResolver(),
       ],
     }),
     /**
@@ -81,12 +83,15 @@ export default defineConfig({
         ElementPlusResolver({
           importStyle: 'sass',
         }),
+        VantResolver(),
+        ArcoResolver({
+          sideEffect: true,
+        }),
         /**
          * 自动注册图标组件
          * @link https://github.com/sxzz/element-plus-best-practices/blob/db2dfc983ccda5570033a0ac608a1bd9d9a7f658/vite.config.ts#L45
          */
         IconsResolver(),
-        VantResolver(),
       ],
     }),
     /**
@@ -98,6 +103,24 @@ export default defineConfig({
      */
     ElementPlus({
       defaultLocale: 'zh-cn',
+    }),
+    /**
+     * arco.design 手动导入的方式按需加载组件样式
+     * @link https://arco.design/vue/docs/start#%E6%8C%89%E9%9C%80%E5%8A%A0%E8%BD%BD
+     */
+    createStyleImportPlugin({
+      libs: [
+        {
+          libraryName: '@arco-design/web-vue',
+          esModule: true,
+          resolveStyle: (name) => {
+            const exclude = ['menu-item', 'collapse-item']
+            if (exclude.includes(name)) return ''
+            // css
+            return `@arco-design/web-vue/es/${name}/style/css.js`
+          },
+        },
+      ],
     }),
     Icons({
       /**

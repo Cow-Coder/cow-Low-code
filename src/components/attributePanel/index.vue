@@ -1,10 +1,13 @@
 <template>
-  <el-tabs type="border-card">
+  <el-tabs type="border-card" class="attitude-tab-pane">
     <el-tab-pane v-for="panelItem in panelList" :key="panelItem.name" :label="panelItem.title">
-      <component
-        :is="formRender(componentDataProps, panelItem.name, componentSchemaProps)"
-        v-if="componentSchemaProps"
-      />
+      <keep-alive>
+        <component :is="panelItem.component" v-if="panelItem.component" />
+        <component
+          :is="formRender(componentDataProps, panelItem.name, componentSchemaProps)"
+          v-else
+        />
+      </keep-alive>
     </el-tab-pane>
   </el-tabs>
 </template>
@@ -20,18 +23,21 @@
 2. 把组件属性schema和data糅合进 panelList 里面，然后一起遍历
    问题在于当被选中物料组件变化时候又需要重新糅合一遍
  */
-import { ElForm, ElFormItem, ElInput } from 'element-plus'
+import { ref } from 'vue'
+import { ElForm, ElFormItem, ElInput, ElSwitch } from 'element-plus'
+import { IndefiniteNumberInputBox } from './components/formRender/indefiniteNumberInputBox'
+import type { CSSProperties, WritableComputedRef } from 'vue'
 import type {
   IAttributePanelFormItemSchema,
   ILibraryComponentInstanceData,
   ILibraryComponentInstanceProps,
 } from '@/components/editPanel/types'
-import type { ILibraryComponent, ILibraryComponentProps } from '@/library/types'
 import type { EAttributePanels } from '@/components/attributePanel/types'
-import type { WritableComputedRef } from 'vue'
+import type { ILibraryComponent, ILibraryComponentProps } from '@/library/types'
+import { EEditableConfigItemInputType } from '@/components/editPanel/types'
+import { ELibraryComponentFormItemLabelPosition } from '@/library/types'
 import { panelList } from '@/components/attributePanel/config'
 import { useCodeStore } from '@/stores/code'
-import { EEditableConfigItemInputType } from '@/components/editPanel/types'
 
 const codeStore = useCodeStore()
 const { focusData } = storeToRefs(codeStore)
@@ -43,10 +49,16 @@ watch(focusData, () => {
     componentSchema.value = undefined
     return false
   }
-  const [focusedLibraryComponentInstanceData, focusedLibraryComponentSchema] =
-    codeStore.getLibraryComponentInstanceDataAndSchema(focusData.value)
-  componentData.value = focusedLibraryComponentInstanceData
-  componentSchema.value = focusedLibraryComponentSchema
+  const focus = focusData.value
+  /**
+   * 开启vue devtool会出现 选中组件不跟手的问题，大概300ms延迟
+   */
+  setTimeout(() => {
+    const [focusedLibraryComponentInstanceData, focusedLibraryComponentSchema] =
+      codeStore.getLibraryComponentInstanceDataAndSchema(focus)
+    componentData.value = focusedLibraryComponentInstanceData
+    componentSchema.value = focusedLibraryComponentSchema
+  }, 0)
 })
 
 const componentDataProps: WritableComputedRef<ILibraryComponentInstanceProps | undefined> =
@@ -104,35 +116,58 @@ function getLibraryComponentPropsArrayInAPanel(
 function formRender(
   propsData: ILibraryComponentInstanceProps,
   cursorPanel: EAttributePanels,
-  propsSchema: ILibraryComponentProps
+  propsSchema: ILibraryComponentProps | undefined
 ) {
   if (!propsSchema) return undefined
+  const $style = useCssModule()
   const cursorPropsArray = getLibraryComponentPropsArrayInAPanel(propsSchema, cursorPanel)
   // const propsDataRefs = toRefs(propsData);
-
   const formItemChildRender = (
     propsData: ILibraryComponentInstanceProps,
     formItemSchema: IAttributePanelFormItemSchema
   ) => {
-    // console.log(`configValue`, propsData);
     if (formItemSchema.formType === EEditableConfigItemInputType.input) {
+      return <ElInput v-model={propsData[formItemSchema.name]}></ElInput>
+    }
+    if (formItemSchema.formType === EEditableConfigItemInputType.indefiniteNumberInputBox) {
+      const list = propsData[formItemSchema.name]
+      if (!Array.isArray(list))
+        throw new TypeError('invalid Data at EEditableConfigItemInputType.indefiniteNumberInputBox')
       return (
-        <>
-          <ElInput v-model={propsData[formItemSchema.name]}></ElInput>
-        </>
+        <IndefiniteNumberInputBox
+          modelValue={list}
+          onUpdate:modelValue={(e: string[]) => {
+            if (!Array.isArray(list))
+              throw new TypeError(
+                'invalid Data at EEditableConfigItemInputType.indefiniteNumberInputBox'
+              )
+            list.splice(0, list.length, ...e)
+          }}
+        />
       )
+    }
+    if (formItemSchema.formType === EEditableConfigItemInputType.switch) {
+      return <ElSwitch v-model={propsData[formItemSchema.name]}></ElSwitch>
     }
     return undefined
   }
 
   const formItemList = cursorPropsArray.map((propItem) => {
+    const style = {} as CSSProperties
+    if (propItem.labelPosition === ELibraryComponentFormItemLabelPosition.top) {
+      style['display'] = 'block'
+    }
     return (
-      <ElFormItem label={propItem.title} key={propItem.name}>
+      <ElFormItem label={propItem.title} key={propItem.name} style={style}>
         {formItemChildRender(propsData, propItem)}
       </ElFormItem>
     )
   })
-  return <ElForm model={propsData}>{formItemList}</ElForm>
+  return (
+    <ElForm class={$style.attitudePanelInner} model={propsData}>
+      {formItemList}
+    </ElForm>
+  )
 }
 </script>
 
@@ -141,3 +176,20 @@ export default {
   name: 'AttributePanel',
 }
 </script>
+
+<style lang="scss" scoped>
+.attitude-tab-pane {
+  :deep(.el-tabs__content) {
+    @apply p-0;
+    .el-form-item__content {
+      @apply justify-end;
+    }
+  }
+}
+</style>
+
+<style lang="scss" module>
+.attitudePanelInner {
+  padding: 15px;
+}
+</style>

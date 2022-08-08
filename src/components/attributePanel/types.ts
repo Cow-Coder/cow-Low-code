@@ -1,3 +1,6 @@
+import type { IDefineComponent, ILibraryComponentProps } from '@/library/types'
+import type { ILibraryComponentInstanceProps } from '@/components/editPanel/types'
+
 /**
  * 右侧编辑面板的子tab枚举
  */
@@ -28,4 +31,14 @@ export interface IAttributePanelTabConfig {
    * 唯一标识符
    */
   name: EAttributePanels
+  /**
+   * 自定义组件
+   */
+  component?: IDefineComponent
+}
+
+export interface formRenderSchema {
+  propsData: ILibraryComponentInstanceProps | undefined
+  cursorPanel: EAttributePanels
+  propsSchema: ILibraryComponentProps | undefined
 }

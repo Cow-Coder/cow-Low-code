@@ -11,7 +11,7 @@ import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
-import { debounce } from 'lodash-es'
+import { throttle } from 'lodash-es'
 import { useCodeStore } from '@/stores/code'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -30,7 +30,7 @@ const { jsonCode } = storeToRefs(codeStore)
 const codeContainerRef = ref<InstanceType<typeof HTMLElement>>()
 const editorInstanceRef = shallowRef<Monaco.editor.IStandaloneCodeEditor>()
 let editorTextModel: Monaco.editor.ITextModel | null = null
-const formatCode = debounce(() => {
+const formatCode = throttle(() => {
   if (!editorInstanceRef.value) return false
   editorInstanceRef.value.getAction('editor.action.formatDocument').run()
 }, 0)
@@ -54,6 +54,10 @@ onMounted(() => {
   editorInstanceRef.value.onDidChangeModelContent((e) => {
     formatCode()
   })
+  /**
+   * 第一次点开时候虽然调用了，但是Monaco并没有相应格式化操作，所以这里延迟一下
+   */
+  setTimeout(() => formatCode(), 50)
   editorTextModel = editorInstanceRef.value.getModel()
   watch(
     jsonCode,
