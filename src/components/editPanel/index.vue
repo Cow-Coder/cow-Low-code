@@ -24,7 +24,7 @@ import type { ILibraryComponentInstanceData } from '@/components/editPanel/types
 import { libraryRecord } from '@/library'
 import { useCodeStore } from '@/stores/code'
 import { editDraggableConfig } from '@/components/editPanel/config/edit-draggable-config'
-import PageDraggable from '@/common/pageDraggable/page-draggable.vue'
+import PageDraggable from '@/components/pageDraggable/index.vue'
 
 const codeStore = useCodeStore()
 const { jsonCode: editableInstancedLibraryComponentData, focusData } = storeToRefs(codeStore)
