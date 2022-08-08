@@ -22,7 +22,7 @@
 
 <script lang="ts" setup>
 import Draggable from 'vuedraggable'
-import type { cloneType, groupType, moveType } from '@/components/base-ui/kzy-draggable/index.vue'
+import type { cloneType, groupType, moveType } from '@/components/base-ui/kzy-draggable/types'
 import type { ILibraryComponent } from '@/library/types'
 import { DRAGGABLE_GROUP_NAME } from '@//constant'
 
