@@ -1,32 +1,59 @@
 <script lang="ts" setup>
+import { reactive, ref } from 'vue'
+import { IconBulb, IconClose, IconQuestionCircle } from '@arco-design/web-vue/es/icon'
+import { debounce, throttle } from 'lodash-es'
 import { useCodeStore } from '@/stores/code'
 import libraryPanels from '@/components/libraryPanel'
 import AttributePanel from '@/components/attributePanel/index.vue'
 import EditPanel from '@/components/editPanel/index.vue'
+import CodePanel from '@/components/codePanel/index.vue'
 
 // TODO:禁止自己拖入自己，从组件区域拖出去再拖入自己区域时候图标应该是禁止，不应该是默认的
 //-----------页面布局
 const styleHeaderHeight = '60px'
+const codeStore = useCodeStore()
 
-interface IPanelWidth {
-  left: number
-  main: number
-  right: number
+// 限制属性面板
+const editPanelRef = ref<InstanceType<typeof HTMLElement>>()
+const editPanelRect = reactive(useElementSize(editPanelRef))
+const editPanelWidth = ref(`${editPanelRect.width}px`)
+watchThrottled(editPanelRect, () => (editPanelWidth.value = `${editPanelRect.width}px`), {
+  throttle: 10,
+})
+
+const bodyRect = reactive(useElementSize(document.body))
+const bodyWidth = ref(`${bodyRect.width}px`)
+watchThrottled(bodyRect, () => (bodyWidth.value = `${bodyRect.width}px`), {
+  throttle: 10,
+})
+
+// 矫正编辑器面板
+const libraryPanelRef = ref<InstanceType<typeof HTMLElement>>()
+const libraryPanelRect = reactive(useElementSize(libraryPanelRef))
+const libraryPanelWidth = ref(`${libraryPanelRect.width}px`)
+watchThrottled(libraryPanelRect, () => (libraryPanelWidth.value = `${libraryPanelRect.width}px`), {
+  throttle: 10,
+})
+
+// 矫正属性面板
+const attitudePanelRef = ref<InstanceType<typeof HTMLElement>>()
+const attitudePanelRect = reactive(useElementSize(attitudePanelRef))
+const attitudePanelWidth = ref(`${attitudePanelRect.width}px`)
+watchThrottled(
+  attitudePanelRect,
+  () => (attitudePanelWidth.value = `${attitudePanelRect.width}px`),
+  { throttle: 10 }
+)
+
+const rightPanelResizeBarOpacity = ref(0)
+
+function onRightPanelResizeStart() {
+  rightPanelResizeBarOpacity.value = 1
 }
 
-const panelWidth = ref<IPanelWidth>({
-  left: 20,
-  main: 60,
-  right: 20,
-})
-const stylePanelWidth = computed(() => {
-  return new Proxy(panelWidth.value, {
-    get: (target, property: keyof IPanelWidth) => {
-      return `${target[property]}%`
-    },
-  })
-})
-const codeStore = useCodeStore()
+function onRightPanelResizeEnd() {
+  rightPanelResizeBarOpacity.value = 0
+}
 
 function freeFocus() {
   codeStore.freeFocus()
@@ -39,12 +66,15 @@ function resetAll() {
   codeStore.clear()
   ElMessage.success('清空所有数据成功')
 }
+
+//-----------------悬浮菜单
+const isShowTrigger = ref(false)
 </script>
 
 <template>
-  <el-container class="app-container h-screen">
+  <el-container class="app-container">
     <!--    顶栏-->
-    <el-header :height="styleHeaderHeight" class="shadow">
+    <el-header :height="styleHeaderHeight" class="shadow bg-white sticky top-0 z-40">
       <el-row :style="{ height: styleHeaderHeight, 'line-height': styleHeaderHeight }">
         <el-col :span="4"> LowCodeDemo</el-col>
         <el-col :span="16" />
@@ -56,10 +86,10 @@ function resetAll() {
     </el-header>
 
     <!--    下部中间操作区-->
-    <el-main>
-      <div class="main-wrapper h-full">
+    <el-main class="flex flex-grow overflow-visible">
+      <div class="main-wrapper">
         <!--        左侧面板-->
-        <div class="panel panel-left h-full">
+        <div ref="libraryPanelRef" class="panel panel-left">
           <el-tabs tab-position="left" type="border-card">
             <el-tab-pane
               v-for="(panel, libraryName) in libraryPanels"
@@ -71,30 +101,88 @@ function resetAll() {
               </keep-alive>
             </el-tab-pane>
             <!--            代码面板-->
-            <el-tab-pane label="代码">
-              <router-view />
+            <el-tab-pane label="代码" lazy>
+              <code-panel />
             </el-tab-pane>
           </el-tabs>
         </div>
 
         <!--        中间手机模型-->
         <div class="panel panel-main h-full" @mousedown="freeFocus">
-          <div class="edit-wrapper">
+          <div ref="editPanelRef" class="edit-wrapper">
             <edit-panel />
           </div>
         </div>
 
         <!--        右侧参数面板-->
-        <div class="panel panel-right h-full">
-          <attribute-panel />
+        <div ref="attitudePanelRef" class="panel panel-right">
+          <a-resize-box
+            :directions="['left']"
+            class="panel-right-wrapper"
+            @moving-start="onRightPanelResizeStart"
+            @moving-end="onRightPanelResizeEnd"
+          >
+            <attribute-panel />
+          </a-resize-box>
         </div>
+
+        <a-trigger
+          v-model:popup-visible="isShowTrigger"
+          :render-to-body="false"
+          class="button-trigger-wrapper"
+          position="top"
+          trigger="click"
+          update-at-scroll
+        >
+          <div :class="{ 'button-trigger-active': isShowTrigger }" class="button-trigger">
+            <IconClose v-if="isShowTrigger" />
+            <IconQuestionCircle v-else />
+          </div>
+          <template #content>
+            <a-menu
+              :style="{ marginBottom: '-4px' }"
+              :tooltip-props="{ position: 'left' }"
+              mode="popButton"
+            >
+              <a-menu-item>
+                <template #icon>
+                  <IconBulb />
+                </template>
+                按住<kbd>ctrl</kbd>可以临时禁止拖动
+              </a-menu-item>
+            </a-menu>
+          </template>
+        </a-trigger>
       </div>
     </el-main>
   </el-container>
 </template>
 
 <style lang="scss" scoped>
+// 属性面板距离编辑器最小距离
+$blank-min-width: 100px;
+
+//右侧面板伸缩条
+:deep(.arco-resizebox-trigger-icon-wrapper) {
+  @apply transition-all;
+  opacity: v-bind(rightPanelResizeBarOpacity);
+}
+
+:deep(.arco-resizebox-trigger) {
+  &:hover .arco-resizebox-trigger-icon-wrapper {
+    @apply opacity-100;
+  }
+}
+
 .app-container {
+  @apply min-h-screen flex-col;
+  --style-header-height: v-bind(styleHeaderHeight);
+  --body-width: v-bind(bodyWidth);
+  --edit-panel-width: v-bind(editPanelWidth);
+  --library-panel-width: v-bind(libraryPanelWidth);
+  --attitude-panel-width: v-bind(attitudePanelWidth);
+  --blank-min-width: #{$blank-min-width};
+
   :deep(.el-main) {
     --el-main-padding: 0;
   }
@@ -105,13 +193,22 @@ function resetAll() {
 }
 
 .main-wrapper {
-  @apply flex;
+  background-color: #f7f7f959;
+  @apply flex flex-grow;
   .panel {
     @apply flex;
   }
 
+  .panel-right,
   .panel-left {
-    width: max(v-bind('stylePanelWidth.left'), 385px);
+    // 防止未悬浮情况下元素塌陷
+    height: calc(100vh - var(--style-header-height));
+    @apply sticky;
+    top: var(--style-header-height);
+  }
+
+  .panel-left {
+    width: 385px;
 
     .el-tabs {
       @apply flex-grow;
@@ -125,14 +222,17 @@ function resetAll() {
   }
 
   .panel-main {
-    @apply flex-1;
+    @apply flex-grow relative;
 
     .edit-wrapper {
       flex-basis: 375px;
       min-height: 812px;
       max-width: 375px;
+      --tw-translate-x: calc(
+        (var(--body-width) - var(--edit-panel-width)) / 2 - var(--library-panel-width)
+      );
 
-      @apply flex-col flex m-auto;
+      @apply flex-col flex transform-gpu;
       .edit {
         box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
         @apply h-full w-full flex-1;
@@ -141,10 +241,39 @@ function resetAll() {
   }
 
   .panel-right {
-    width: max(v-bind('stylePanelWidth.left'), 385px);
+    .panel-right-wrapper {
+      @apply flex;
+      width: 385px;
+      min-width: 20vw;
+      max-width: calc(var(--body-width) / 2 - var(--edit-panel-width) / 2 - var(--blank-min-width));
+    }
 
     .el-tabs {
       @apply flex-grow flex-col;
+    }
+  }
+
+  // 悬浮菜单
+  --button-trigger-bottom: 40px;
+
+  :deep(.button-trigger-wrapper) {
+    @apply fixed;
+    bottom: calc(40px + var(--button-trigger-bottom));
+    right: calc(var(--attitude-panel-width) + 40px - 4px);
+    left: unset !important;
+    top: unset !important;
+  }
+
+  .button-trigger {
+    @apply flex justify-center items-center rounded-full cursor-pointer transition text-white select-none fixed;
+    width: 40px;
+    height: 40px;
+    background-color: var(--color-neutral-5);
+    right: calc(var(--attitude-panel-width) + 40px);
+    bottom: var(--button-trigger-bottom);
+
+    &.button-trigger-active {
+      background-color: var(--color-neutral-4);
     }
   }
 }

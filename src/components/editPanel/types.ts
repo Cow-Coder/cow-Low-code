@@ -42,6 +42,10 @@ export enum EEditableConfigItemInputType {
    * 开关
    */
   switch = 'switch',
+  /**
+   * 不定个数输入框
+   */
+  indefiniteNumberInputBox = 'indefiniteNumberInputBox',
 }
 
 /**
