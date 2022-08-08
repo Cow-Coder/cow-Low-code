@@ -11,10 +11,10 @@ import { ref } from 'vue'
 import { Button, Dialog } from 'vant'
 import 'vant/es/dialog/style'
 import { ElIcon, ElInput } from 'element-plus'
-import { ELibraryName } from '@/components/libraryPanel/types'
-import { EAttributePanels } from '@/components/attributePanel/types'
+import { ELibraryName } from '@/views/library-panel/types'
+import { EAttributePanels } from '@/views/attribute-panel/types'
 import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
-import { EEditableConfigItemInputType } from '@/components/editPanel/types'
+import { EEditableConfigItemInputType } from '@/views/edit-panel/types'
 
 export default {
   ...defineLibraryComponent({
