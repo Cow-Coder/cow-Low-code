@@ -6,7 +6,7 @@ export const SwitchWithSlots = defineComponent({
   name: 'SwitchWithSlots',
   props: {
     modelValue: {
-      required: true,
+      required: false,
       type: String as PropType<string>,
     },
   },
@@ -14,7 +14,7 @@ export const SwitchWithSlots = defineComponent({
 
   setup(props, { emit }) {
     const tipsVal = useVModel(props, 'modelValue', emit)
-    const isShow = ref(false)
+    const isShow = ref(tipsVal == undefined ? true : false)
     //关闭重置tipsVal
     watch(isShow, (val) => val && (tipsVal.value = ''))
     return () => (

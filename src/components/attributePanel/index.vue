@@ -178,7 +178,6 @@ function formRender(
     }
     //
     if (formItemSchema.formType === EEditableConfigItemInputType.switchWithSlots) {
-      const tips = formItemSchema.default
       return <SwitchWithSlots v-model={propsData[formItemSchema.name]}></SwitchWithSlots>
     }
 
