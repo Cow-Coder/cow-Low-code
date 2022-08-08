@@ -2,7 +2,7 @@
   <el-container class="app-container">
     <!-- 顶栏 -->
     <el-header :height="styleHeaderHeight" class="shadow bg-white sticky top-0 z-40">
-      <top-header :style-header-height="styleHeaderHeight" @handleResetAll="resetAll" />
+      <home-header :style-header-height="styleHeaderHeight" @handleResetAll="resetAll" />
     </el-header>
 
     <!--    左中右操作区-->
@@ -31,10 +31,10 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import EditPanel from '@/components/editPanel/index.vue'
-import TopHeader from '@/views/headers'
-import HomeLeft from '@/views/left'
-import HomeRight from '@/views/right'
-import FloatTips from '@/views/floatTips'
+import HomeHeader from '@/views/homeHeaders/index.vue'
+import HomeLeft from '@/views/homeLeft/index.vue'
+import HomeRight from '@/views/homeRight/index.vue'
+import FloatTips from '@/views/floatTips/index.vue'
 import { useCodeStore } from '@/stores/code'
 
 // TODO:禁止自己拖入自己，从组件区域拖出去再拖入自己区域时候图标应该是禁止，不应该是默认的
