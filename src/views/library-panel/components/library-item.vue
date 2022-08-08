@@ -31,10 +31,14 @@
 </template>
 
 <script lang="ts" setup>
-import type { ILibraryComponent } from '@/library/types'
+import type { LibraryComponent } from '@/library/types'
+
+defineOptions({
+  name: 'LibraryItem',
+})
 
 const props = defineProps<{
-  element: ILibraryComponent
+  element: LibraryComponent
 }>()
 </script>
 

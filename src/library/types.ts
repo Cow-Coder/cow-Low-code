@@ -14,7 +14,7 @@ export enum ELibraryComponentFormItemLabelPosition {
 /**
  * 组件单个prop
  */
-export type ILibraryComponentPropItem = {
+export type LibraryComponentPropItem = {
   /**
    * 表单类型
    */
@@ -48,14 +48,14 @@ export type ILibraryComponentPropItem = {
 /**
  * 组件Props
  */
-export type ILibraryComponentProps = Record<string, ILibraryComponentPropItem>
+export type LibraryComponentProps = Record<string, LibraryComponentPropItem>
 
 /**
  * vue组件和jsx组件
  */
-export type IDefineComponent = (() => JSX.Element) | Component
+export type DefineComponent = (() => JSX.Element) | Component
 
-export type IEventTrigger = {
+export type EventTrigger = {
   /**
    * 事件标识符
    * @name name
@@ -71,7 +71,7 @@ export type IEventTrigger = {
 /**
  * 物料组件
  */
-export interface ILibraryComponent extends ComponentOptions {
+export interface LibraryComponent extends ComponentOptions {
   /**
    * 物料组件标识符
    */
@@ -96,7 +96,7 @@ export interface ILibraryComponent extends ComponentOptions {
      * 在左侧物料面板显示的中文名称
      */
     title: string
-    icon: IDefineComponent
+    icon: DefineComponent
   }
   /**
    * 提示信息
@@ -116,14 +116,14 @@ export interface ILibraryComponent extends ComponentOptions {
     /**
      * 可预览的组件
      */
-    preview?: IDefineComponent
+    preview?: DefineComponent
   }
   /**
    * 右侧属性面板可编辑参数 && 物料组件props
    */
-  props?: ILibraryComponentProps
+  props?: LibraryComponentProps
   /**
    * 定义触发事件的情况
    */
-  eventTriggers?: IEventTrigger
+  eventTriggers?: EventTrigger
 }

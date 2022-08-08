@@ -1,6 +1,6 @@
-import type { IDraggable } from '@/components/base-ui/kzy-draggable/types'
+import type { Draggable } from '@/components/base-ui/kzy-draggable/types'
 
-export const editDraggableConfig: IDraggable = {
+export const editDraggableConfig: Draggable = {
   draggableProp: {
     group: { name: 'library' },
     itemKey: 'id',

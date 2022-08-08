@@ -1,6 +1,6 @@
 import type { ComponentOptions } from 'vue'
 
-export interface ITabList {
+export interface TabList {
   /**
    * 折叠面板中的折叠项的唯一标识符
    */
@@ -16,7 +16,7 @@ export enum ELibraryName {
   generics = 'generics',
 }
 
-export interface ILibraryPanel extends ComponentOptions {
+export interface LibraryPanel extends ComponentOptions {
   /**
    * 物料面板的唯一标识符
    */
@@ -28,5 +28,5 @@ export interface ILibraryPanel extends ComponentOptions {
   /**
    * 折叠面板的折叠项目
    */
-  tabsList?: ITabList
+  tabsList?: TabList
 }

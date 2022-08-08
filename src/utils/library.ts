@@ -1,15 +1,15 @@
 import { v4 as uuidv4 } from 'uuid'
 import { cloneDeep } from 'lodash-es'
 import type {
-  IEventTrigger,
-  ILibraryComponent,
-  ILibraryComponentPropItem,
-  ILibraryComponentProps,
+  EventTrigger,
+  LibraryComponent,
+  LibraryComponentPropItem,
+  LibraryComponentProps,
 } from '@/library/types'
 import type {
-  ILibraryComponentInstanceData,
-  ILibraryComponentInstanceEventTriggers,
-  ILibraryComponentInstanceProps,
+  LibraryComponentInstanceData,
+  LibraryComponentInstanceEventTriggers,
+  LibraryComponentInstanceProps,
 } from '@/views/edit-panel/types'
 
 export const uuid = uuidv4
@@ -19,14 +19,14 @@ export const uuid = uuidv4
  * @param com
  */
 export function createLibraryComponentInstance(
-  com: ILibraryComponent
-): ILibraryComponentInstanceData {
+  com: LibraryComponent
+): LibraryComponentInstanceData {
   const data = {
     uuid: uuid(),
     componentName: com.name,
     libraryName: com.libraryName,
     focus: false,
-  } as ILibraryComponentInstanceData
+  } as LibraryComponentInstanceData
   if (com.props) data.props = createLibraryComponentInstanceProps(com.props)
   if (com.eventTriggers) data.eventTriggers = {}
   return data
@@ -37,10 +37,10 @@ export function createLibraryComponentInstance(
  * @param props
  */
 export function createLibraryComponentInstanceProps(
-  props: ILibraryComponentProps
-): ILibraryComponentInstanceProps {
+  props: LibraryComponentProps
+): LibraryComponentInstanceProps {
   const _props = cloneDeep(props)
-  const result = {} as ILibraryComponentInstanceProps
+  const result = {} as LibraryComponentInstanceProps
   Object.entries(_props).forEach(([propKey, propSchema]) => {
     if (propSchema.default) result[propKey] = propSchema.default
   })
@@ -52,10 +52,10 @@ export function createLibraryComponentInstanceProps(
  * @param triggersSchema
  */
 export function createLibraryComponentInstanceEventTriggers(
-  triggersSchema: IEventTrigger
-): ILibraryComponentInstanceEventTriggers {
+  triggersSchema: EventTrigger
+): LibraryComponentInstanceEventTriggers {
   const _triggersSchema = cloneDeep(triggersSchema)
-  const result = {} as ILibraryComponentInstanceEventTriggers
+  const result = {} as LibraryComponentInstanceEventTriggers
   Object.entries(_triggersSchema).forEach(([trigger]) => {
     result[trigger] = {
       actions: [],
@@ -66,7 +66,7 @@ export function createLibraryComponentInstanceEventTriggers(
 
 export function createLibraryComponentInstanceEventAction(
   actionName: string
-): ValueOf<ILibraryComponentInstanceEventTriggers> {
+): ValueOf<LibraryComponentInstanceEventTriggers> {
   return {
     actions: [],
   }
@@ -76,7 +76,7 @@ export function createLibraryComponentInstanceEventAction(
  * 快速定义物料组件
  * @param com
  */
-export function defineLibraryComponent(com: ILibraryComponent) {
+export function defineLibraryComponent(com: LibraryComponent) {
   return com
 }
 
@@ -84,6 +84,6 @@ export function defineLibraryComponent(com: ILibraryComponent) {
  * 快速创建物料组件的一个prop
  * @param data
  */
-export function createLibraryComponentPropItem(data: ILibraryComponentPropItem) {
+export function createLibraryComponentPropItem(data: LibraryComponentPropItem) {
   return data
 }

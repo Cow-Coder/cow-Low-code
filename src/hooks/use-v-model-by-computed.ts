@@ -1,6 +1,6 @@
 import type { WritableComputedRef } from 'vue'
 
-type IRecordKey = string | number | symbol
+type RecordKey = string | number | symbol
 
 /**
  * TODO: 自动类型推断写不出来，必须手动指定返回类型
@@ -9,8 +9,8 @@ type IRecordKey = string | number | symbol
  */
 export function useVModelByComputed<
   R,
-  K extends IRecordKey = IRecordKey,
-  T extends Record<IRecordKey, any> | undefined = Record<IRecordKey, any> | undefined
+  K extends RecordKey = RecordKey,
+  T extends Record<RecordKey, any> | undefined = Record<RecordKey, any> | undefined
 >(data: T, key: K): WritableComputedRef<R | undefined> {
   return computed({
     get() {

@@ -1,7 +1,7 @@
 import type { ELibraryName } from '@/views/library-panel/types'
-import type { ILibraryComponentPropItem } from '@/library/types'
+import type { LibraryComponentPropItem } from '@/library/types'
 
-export type ILibraryComponentInstanceProps = Data
+export type LibraryComponentInstanceProps = Data
 
 /**
  * 事件触发时需要执行的动作类型
@@ -14,7 +14,7 @@ export enum EActionType {
 /**
  * 物料组件实例的数据
  */
-export interface ILibraryComponentInstanceData {
+export interface LibraryComponentInstanceData {
   /**
    * 全局唯一ID
    */
@@ -35,14 +35,14 @@ export interface ILibraryComponentInstanceData {
   /**
    *右侧属性面板可编辑参数
    */
-  props?: ILibraryComponentInstanceProps
+  props?: LibraryComponentInstanceProps
   /**
    * 事件触发器
    */
-  eventTriggers?: ILibraryComponentInstanceEventTriggers
+  eventTriggers?: LibraryComponentInstanceEventTriggers
 }
 
-export type ILibraryComponentInstanceEventTriggers = {
+export type LibraryComponentInstanceEventTriggers = {
   /**
    * 事件标识符
    * @name name
@@ -93,13 +93,13 @@ export type EditableConfigItemSelectType = {
 /**
  * attribute属性编辑面板每个form表单项结构
  */
-export type IAttributePanelFormItemSchema = {
+export type AttributePanelFormItemSchema = {
   /**
    * 表单name，唯一标识符
    * 对应 ILibraryComponentPropItem 的键名
    */
   name: string
-} & ILibraryComponentPropItem
+} & LibraryComponentPropItem
 
 /**
  * 编辑区被选中物料组件的定位数据

@@ -31,26 +31,30 @@
  */
 import { ref } from 'vue'
 import { ElForm, ElFormItem, ElInput, ElOption, ElSelect, ElSwitch } from 'element-plus'
-import { IndefiniteNumberInputBox } from './components/form-render/indefinite-number-input-box'
-import { SwitchWithSlots } from './components/form-render/switch-with-slots'
+import { IndefiniteNumberInputBox } from './components/form-render/IndefiniteNumberInputBox'
+import { SwitchWithSlots } from './components/form-render/SwitchWithSlots'
 import type { CSSProperties, WritableComputedRef } from 'vue'
 import type {
-  IAttributePanelFormItemSchema,
-  ILibraryComponentInstanceData,
-  ILibraryComponentInstanceProps,
+  AttributePanelFormItemSchema,
+  LibraryComponentInstanceData,
+  LibraryComponentInstanceProps,
 } from '@/views/edit-panel/types'
 import type { EAttributePanels } from '@/views/attribute-panel/types'
-import type { ILibraryComponent, ILibraryComponentProps } from '@/library/types'
+import type { LibraryComponent, LibraryComponentProps } from '@/library/types'
 import { EEditableConfigItemInputType } from '@/views/edit-panel/types'
 import { ELibraryComponentFormItemLabelPosition } from '@/library/types'
-import { panelList } from '@/views/attribute-panel/config'
+import { panelList } from '@/views/attribute-panel/config/panel-config'
 import { useCodeStore } from '@/stores/code'
+
+defineOptions({
+  name: 'AttributePanel',
+})
 
 const codeStore = useCodeStore()
 const { focusData } = storeToRefs(codeStore)
 
-const componentData = ref<ILibraryComponentInstanceData>()
-const componentSchema = shallowRef<ILibraryComponent>()
+const componentData = ref<LibraryComponentInstanceData>()
+const componentSchema = shallowRef<LibraryComponent>()
 watch(focusData, () => {
   if (!focusData.value) {
     componentSchema.value = undefined
@@ -69,8 +73,8 @@ watch(focusData, () => {
   }, 0)
 })
 
-const componentDataProps: WritableComputedRef<ILibraryComponentInstanceProps | undefined> =
-  computed({
+const componentDataProps: WritableComputedRef<LibraryComponentInstanceProps | undefined> = computed(
+  {
     get() {
       if (!componentData.value) return undefined
       return componentData.value.props
@@ -79,8 +83,9 @@ const componentDataProps: WritableComputedRef<ILibraryComponentInstanceProps | u
       if (!componentData.value) return undefined
       componentData.value.props = val
     },
-  })
-const componentSchemaProps: WritableComputedRef<ILibraryComponentProps | undefined> = computed({
+  }
+)
+const componentSchemaProps: WritableComputedRef<LibraryComponentProps | undefined> = computed({
   get() {
     if (!componentSchema.value) return undefined
     return componentSchema.value.props
@@ -92,7 +97,7 @@ const componentSchemaProps: WritableComputedRef<ILibraryComponentProps | undefin
 })
 
 function getLibraryComponentPropsRecordInAPanel(
-  propsSchema: ILibraryComponentProps,
+  propsSchema: LibraryComponentProps,
   panel: EAttributePanels
 ) {
   const propsFilterArr = Object.entries(propsSchema).filter((e) => e[1].belongToPanel === panel)
@@ -100,7 +105,7 @@ function getLibraryComponentPropsRecordInAPanel(
 }
 
 function getLibraryComponentPropsArrayInAPanel(
-  propsSchema: ILibraryComponentProps,
+  propsSchema: LibraryComponentProps,
   panel: EAttributePanels
 ) {
   return Object.entries(getLibraryComponentPropsRecordInAPanel(propsSchema, panel)).reduce(
@@ -111,7 +116,7 @@ function getLibraryComponentPropsArrayInAPanel(
       })
       return previousValue
     },
-    [] as IAttributePanelFormItemSchema[]
+    [] as AttributePanelFormItemSchema[]
   )
 }
 
@@ -122,9 +127,9 @@ function getLibraryComponentPropsArrayInAPanel(
  * @param cursorPanel
  */
 function formRender(
-  propsData: ILibraryComponentInstanceProps,
+  propsData: LibraryComponentInstanceProps,
   cursorPanel: EAttributePanels,
-  propsSchema: ILibraryComponentProps | undefined
+  propsSchema: LibraryComponentProps | undefined
 ) {
   if (!propsSchema) return undefined
   const $style = useCssModule()
@@ -132,8 +137,8 @@ function formRender(
   // const propsDataRefs = toRefs(propsData);
   const formItemChildRender = (
     //根据prop名称渲染组件
-    propsData: ILibraryComponentInstanceProps,
-    formItemSchema: IAttributePanelFormItemSchema
+    propsData: LibraryComponentInstanceProps,
+    formItemSchema: AttributePanelFormItemSchema
   ) => {
     //input
     if (formItemSchema.formType === EEditableConfigItemInputType.input) {
@@ -199,12 +204,6 @@ function formRender(
       {formItemList}
     </ElForm>
   )
-}
-</script>
-
-<script lang="tsx">
-export default {
-  name: 'AttributePanel',
 }
 </script>
 

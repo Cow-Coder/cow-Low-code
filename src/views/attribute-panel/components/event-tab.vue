@@ -66,14 +66,18 @@
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue'
 import { Delete, Plus } from '@icon-park/vue-next'
-import type { IEventTrigger } from '@/library/types'
-import type { ILibraryComponentInstanceEventTriggers } from '@/views/edit-panel/types'
+import type { EventTrigger } from '@/library/types'
+import type { LibraryComponentInstanceEventTriggers } from '@/views/edit-panel/types'
 import $popoverStyle from '@/assets/style/popover.module.scss'
 import {
   createCustomAttributeTabEmits,
   createCustomAttributeTabProps,
 } from '@/views/attribute-panel/helper'
 import { createLibraryComponentInstanceEventAction } from '@/utils/library'
+
+defineOptions({
+  name: 'EventTab',
+})
 
 const props = defineProps(createCustomAttributeTabProps())
 const emit = defineEmits(createCustomAttributeTabEmits())
@@ -102,7 +106,7 @@ watch(componentSchema!, () => {
   })
 })
 
-function onAddEventTrigger(eventName: string, eventSchema: ValueOf<IEventTrigger>) {
+function onAddEventTrigger(eventName: string, eventSchema: ValueOf<EventTrigger>) {
   isPopoverShow.value = false
   if (!componentInstanceEventTriggers.value)
     throw new TypeError(`componentInstanceEventTriggers 不能是 undefined`)
@@ -113,21 +117,15 @@ function onAddEventTrigger(eventName: string, eventSchema: ValueOf<IEventTrigger
     collapseActiveKey.value.push(eventName)
   }
 }
-function onAddEvent(eventName: string, eventObj: ValueOf<ILibraryComponentInstanceEventTriggers>) {
+function onAddEvent(eventName: string, eventObj: ValueOf<LibraryComponentInstanceEventTriggers>) {
   // console.log(111)
 }
 function onDeleteEventTrigger(
   eventName: string,
-  eventObj: ValueOf<ILibraryComponentInstanceEventTriggers>
+  eventObj: ValueOf<LibraryComponentInstanceEventTriggers>
 ) {
   delete componentInstanceEventTriggers.value![eventName]
 }
-</script>
-
-<script lang="ts">
-export default defineComponent({
-  name: 'EventTab',
-})
 </script>
 
 <style lang="scss" scoped>

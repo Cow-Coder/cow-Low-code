@@ -55,8 +55,8 @@
 
 <script lang="tsx">
 import Draggable from 'vuedraggable'
-import type { ILibraryComponent } from '@/library/types'
-import { ELibraryName, type ILibraryPanel } from '@/views/library-panel/types'
+import type { LibraryComponent } from '@/library/types'
+import { ELibraryName, type LibraryPanel } from '@/views/library-panel/types'
 import { getLibraryModules } from '@/library'
 import { createLibraryComponentInstance } from '@/utils/library'
 
@@ -78,7 +78,7 @@ const vmOptions = {
       title: '容器',
     },
   },
-} as ILibraryPanel
+} as LibraryPanel
 
 /**
  * 这里是手动处理面板物料
@@ -101,7 +101,7 @@ export default {
      * 当drop事件发生的时候，此函数的返回值会push到目标容器list中
      * @param original
      */
-    function onCloneCallback(original: ILibraryComponent) {
+    function onCloneCallback(original: LibraryComponent) {
       // console.log(`original`, original);
       return createLibraryComponentInstance(original)
     }

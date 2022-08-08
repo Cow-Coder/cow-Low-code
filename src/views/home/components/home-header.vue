@@ -12,11 +12,15 @@
 </template>
 
 <script lang="ts" setup>
-interface propsType {
+defineOptions({
+  name: 'HomeHeader',
+})
+
+interface HeaderProps {
   styleHeaderHeight?: string
 }
 
-const props = withDefaults(defineProps<propsType>(), {
+const props = withDefaults(defineProps<HeaderProps>(), {
   styleHeaderHeight: '60px',
 })
 

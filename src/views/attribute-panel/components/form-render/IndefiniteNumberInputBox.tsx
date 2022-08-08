@@ -1,7 +1,7 @@
 import { ElButton, ElInput } from 'element-plus'
 import { Popover } from '@arco-design/web-vue'
 import { MoreFilled } from '@element-plus/icons-vue'
-import $style from '../style/form.module.scss'
+import $style from '../../style/form.module.scss'
 import type { PropType } from 'vue'
 import $popoverStyle from '@/assets/style/popover.module.scss'
 

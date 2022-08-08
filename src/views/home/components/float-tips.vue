@@ -32,6 +32,10 @@
 
 <script lang="ts" setup>
 import { IconBulb, IconClose, IconQuestionCircle } from '@arco-design/web-vue/es/icon'
+
+defineOptions({
+  name: 'FloatTips',
+})
 // 悬浮菜单
 const isShowTrigger = ref(false)
 </script>

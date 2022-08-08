@@ -3,7 +3,7 @@
     <kzy-draggable
       v-bind="props.draggableConfig.draggableProp"
       :data-list="dataList"
-      @handleChange="props.draggableConfig?.handleChangeF"
+      @handle-change="props.draggableConfig?.handleChangeF"
     >
       <template #item="{ element }">
         <div class="page-drag-slot">
@@ -15,13 +15,13 @@
 </template>
 
 <script lang="ts" setup>
-import type { IDraggable } from '@/components/base-ui/kzy-draggable/types'
-import type { ILibraryComponent } from '@/library/types'
+import type { Draggable } from '@/components/base-ui/kzy-draggable/types'
+import type { LibraryComponent } from '@/library/types'
 import KzyDraggable from '@/components/base-ui/kzy-draggable/index.vue'
 
 const props = defineProps<{
-  draggableConfig: IDraggable
-  dataList: Record<string, ILibraryComponent[]>
+  draggableConfig: Draggable
+  dataList: Record<string, LibraryComponent[]>
 }>()
 </script>
 

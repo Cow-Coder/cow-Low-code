@@ -14,6 +14,10 @@
 <script lang="ts" setup>
 import AttributePanel from '@/views/attribute-panel/index.vue'
 
+defineOptions({
+  name: 'HomeRight',
+})
+
 const rightPanelResizeBarOpacity = ref(0)
 
 function onRightPanelResizeStart() {

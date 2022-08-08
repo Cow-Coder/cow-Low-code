@@ -25,7 +25,7 @@ cow-Low-code
 ├── tailwind.config.js			# tailwindcss
 ├── tsconfig.config.json
 ├── tsconfig.json
-└── vite.config.ts
+└── vite.panel-config.ts
 ```
 
 `src` 目录
@@ -38,7 +38,7 @@ src
 ├── components
 │   ├── attributePanel
 │   │   ├── components
-│   │   ├── config.ts
+│   │   ├── panel-config.ts
 │   │   ├── index.vue
 │   │   └── types.ts
 │   ├── codePanel
@@ -67,7 +67,7 @@ src
 │   └── types.ts
 ├── stores
 │   ├── plugins
-│   │   └── storeReset.ts		# https://seb-l.github.io/pinia-plugin-persist/
+│   │   └── store-reset.ts		# https://seb-l.github.io/pinia-plugin-persist/
 │   └── code.ts					# store
 ├── utils
 │   └── library.ts				# 工具函数

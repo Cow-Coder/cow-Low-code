@@ -13,6 +13,7 @@ import Icons from 'unplugin-icons/vite'
 import { ArcoResolver, ElementPlusResolver, VantResolver } from 'unplugin-vue-components/resolvers'
 import ElementPlus from 'unplugin-element-plus/vite'
 import { createStyleImportPlugin } from 'vite-plugin-style-import'
+import VueMarcos from 'unplugin-vue-macros/vite'
 
 // import { manualChunksPlugin } from 'vite-plugin-webpackchunkname'
 
@@ -27,6 +28,11 @@ export default defineConfig({
     //  */
     // manualChunksPlugin(),
     vue(),
+    /**
+     * 可以在 setup 里面声明 options
+     * https://www.npmjs.com/package/unplugin-vue-define-options
+     */
+    VueMarcos(),
     vueJsx(),
     /**
      * 自动导入API

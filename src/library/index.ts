@@ -1,10 +1,10 @@
-import type { ILibraryComponent } from '@/library/types'
+import type { LibraryComponent } from '@/library/types'
 
-const libraryComponents = import.meta.glob<ILibraryComponent>('./*/index.(vue|jsx)', {
+const libraryComponents = import.meta.glob<LibraryComponent>('./*/index.(vue|jsx)', {
   eager: true,
 })
-const libraryTree: Record<string, Record<string, ILibraryComponent[]>> = {}
-const libTemp: Record<string, ILibraryComponent[]> = {}
+const libraryTree: Record<string, Record<string, LibraryComponent[]>> = {}
+const libTemp: Record<string, LibraryComponent[]> = {}
 
 // 添加每一个lib下面的组件
 Object.entries(libraryComponents).forEach(([, module]) => {

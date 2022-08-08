@@ -1,14 +1,14 @@
 import type {
-  ILibraryComponentInstanceData,
   ILibraryComponentInstanceFocus,
+  LibraryComponentInstanceData,
 } from '@/views/edit-panel/types'
-import type { ILibraryComponent } from '@/library/types'
+import type { LibraryComponent } from '@/library/types'
 import { libraryRecord } from '@/library'
 
 export const useCodeStore = defineStore(
   'CodeStore',
   () => {
-    const jsonCode = ref<ILibraryComponentInstanceData[]>([])
+    const jsonCode = ref<LibraryComponentInstanceData[]>([])
     /**
      * 想到三种方案
      * 1. 在原本组件实例数据上根据 focus:true 自动去找是哪个组件被选中了
@@ -47,7 +47,7 @@ export const useCodeStore = defineStore(
      */
     function getLibraryComponentInstanceDataAndSchema(
       focusData: ILibraryComponentInstanceFocus
-    ): [ILibraryComponentInstanceData, ILibraryComponent] {
+    ): [LibraryComponentInstanceData, LibraryComponent] {
       /**
        * TODO: 这里应该加缓存，记录已经找到过的组件的uuid，缓存进键值对
        */

@@ -1,5 +1,5 @@
-import type { IDefineComponent, ILibraryComponentProps } from '@/library/types'
-import type { ILibraryComponentInstanceProps } from '@/views/edit-panel/types'
+import type { DefineComponent, LibraryComponentProps } from '@/library/types'
+import type { LibraryComponentInstanceProps } from '@/views/edit-panel/types'
 
 /**
  * 右侧编辑面板的子tab枚举
@@ -22,7 +22,7 @@ export enum EAttributePanels {
 /**
  * 单个子tab配置
  */
-export interface IAttributePanelTabConfig {
+export interface AttributePanelTabConfig {
   /**
    * 显示的文字
    */
@@ -34,11 +34,11 @@ export interface IAttributePanelTabConfig {
   /**
    * 自定义组件
    */
-  component?: IDefineComponent
+  component?: DefineComponent
 }
 
 export interface formRenderSchema {
-  propsData: ILibraryComponentInstanceProps | undefined
+  propsData: LibraryComponentInstanceProps | undefined
   cursorPanel: EAttributePanels
-  propsSchema: ILibraryComponentProps | undefined
+  propsSchema: LibraryComponentProps | undefined
 }
