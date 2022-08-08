@@ -15,9 +15,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { IDraggable } from '@/base-ui/draggable/type'
+import type { IDraggable } from '@/baseUi/draggable/types'
 import type { ILibraryComponent } from '@/library/types'
-import ZyDraggable from '@/base-ui/draggable'
+import ZyDraggable from '@/baseUi/draggable'
 
 const props = defineProps<{
   draggableConfig: IDraggable

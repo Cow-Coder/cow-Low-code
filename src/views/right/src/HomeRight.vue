@@ -26,7 +26,7 @@ function onRightPanelResizeEnd() {
 </script>
 
 <style lang="scss" scoped>
-@use '@/var-constent/css/index';
+@use '@/constant/css/index';
 
 //右侧面板伸缩条
 :deep(.arco-resizebox-trigger-icon-wrapper) {
