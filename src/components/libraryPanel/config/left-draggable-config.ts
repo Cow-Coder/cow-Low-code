@@ -1,4 +1,4 @@
-import type { IDraggable } from '@/base-ui/draggable'
+import type { IDraggable } from '@/baseUi/draggable'
 import type { ILibraryComponent } from '@/library/types'
 import { createLibraryComponentInstance } from '@/utils/library'
 

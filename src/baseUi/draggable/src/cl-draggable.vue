@@ -21,9 +21,9 @@
 
 <script lang="ts" setup>
 import Draggable from 'vuedraggable'
-import type { cloneType, groupType } from '@/base-ui/draggable'
+import type { cloneType, groupType } from '@/baseUi/draggable'
 import type { ILibraryComponent } from '@/library/types'
-import { DRAGGABLE_GROUP_NAME } from '@//var-constent'
+import { DRAGGABLE_GROUP_NAME } from '@//constant'
 
 interface propsType {
   dataList: Record<string, ILibraryComponent[]>
@@ -53,7 +53,7 @@ const handleChange = (evt: any) => {
 </script>
 
 <style lang="scss" scoped>
-@use '@/var-constent/css/index';
+@use '@/constant/css/index';
 .library-list {
   @apply flex flex-wrap;
   .library-item {

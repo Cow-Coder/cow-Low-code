@@ -24,7 +24,7 @@
 import type { PropType } from 'vue'
 import type { ILibraryComponent } from '@/library/types'
 import type { ILibraryPanel } from '@/components/libraryPanel/types'
-import PageDraggable from '@/common/page-draggable'
+import PageDraggable from '@/common/pageDraggable'
 import { leftDraggableConfig } from '@/components/libraryPanel/config/left-draggable-config'
 import LibraryItem from '@/components/libraryPanel/comps/libraryItem.vue'
 

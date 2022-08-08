@@ -31,11 +31,11 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import EditPanel from '@/components/editPanel/index.vue'
-import TopHeader from '@/views/headers/src/HomeHeader.vue'
-import HomeLeft from '@/views/left/src/HomeLeft.vue'
-import HomeRight from '@/views/right/src/HomeRight.vue'
-import FloatTips from '@/views/FloatTips/src/FloatTips.vue'
-import { useHomeF } from '@/views/hooks/useHomeF'
+import TopHeader from '@/views/headers'
+import HomeLeft from '@/views/left'
+import HomeRight from '@/views/right'
+import FloatTips from '@/views/floatTips'
+import { useCodeStore } from '@/stores/code'
 
 // TODO:禁止自己拖入自己，从组件区域拖出去再拖入自己区域时候图标应该是禁止，不应该是默认的
 //-----------页面布局
@@ -73,13 +73,20 @@ watchThrottled(
   { throttle: 10 }
 )
 
-// 本页面使用的Hooks
-const [freeFocus, resetAll] = useHomeF()
+const codeStore = useCodeStore()
+function freeFocus() {
+  codeStore.freeFocus()
+}
+
+function resetAll() {
+  codeStore.clear()
+  ElMessage.success('清空所有数据成功')
+}
 </script>
 
 <style lang="scss" scoped>
 // 属性面板距离编辑器最小距离
-@use '@/var-constent/css/index';
+@use '@/constant/css/index';
 $blank-min-width: 100px;
 
 .app-container {

@@ -1,5 +1,5 @@
 import ZyDraggable from './src/cl-draggable.vue'
 
-export * from './type'
+export * from './types'
 
 export default ZyDraggable

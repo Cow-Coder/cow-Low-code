@@ -6,7 +6,7 @@ export type groupType = {
   put?: boolean
 }
 
-export type IDraggableItem<T> = {
+export type IDraggableItem = {
   group?: groupType
   itemKey?: string
   sort?: boolean
@@ -15,8 +15,8 @@ export type IDraggableItem<T> = {
   libraryClass?: boolean
 }
 
-export interface IDraggable<T = any> {
-  draggableProp: IDraggableItem<T>
+export interface IDraggable {
+  draggableProp: IDraggableItem
   // itemSlot: DefineComponent,
   handleChangeF?: (component: any) => any
 }

@@ -24,7 +24,7 @@ import CodePanel from '@/components/codePanel/index.vue'
 </script>
 
 <style lang="scss" scoped>
-@use '@/var-constent/css/index';
+@use '@/constant/css/index';
 .panel-left {
   width: 385px;
   @include index.panelLeftAndRight;
