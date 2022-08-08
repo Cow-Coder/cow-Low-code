@@ -10,7 +10,7 @@ import type {
   ILibraryComponentInstanceData,
   ILibraryComponentInstanceEventTriggers,
   ILibraryComponentInstanceProps,
-} from '@/components/editPanel/types'
+} from '@/views/edit-panel/types'
 
 export const uuid = uuidv4
 

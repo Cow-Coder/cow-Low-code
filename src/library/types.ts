@@ -1,7 +1,7 @@
 import type { Component, ComponentOptions, Prop } from 'vue'
-import type { ELibraryName } from '@/components/libraryPanel/types'
-import type { EAttributePanels } from '@/components/attributePanel/types'
-import type { EEditableConfigItemInputType } from '@/components/editPanel/types'
+import type { ELibraryName } from '@/views/library-panel/types'
+import type { EAttributePanels } from '@/views/attribute-panel/types'
+import type { EEditableConfigItemInputType } from '@/views/edit-panel/types'
 
 /**
  * 该项表单label显示位置

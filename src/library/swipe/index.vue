@@ -16,11 +16,11 @@
 <script lang="tsx">
 import { ElIcon } from 'element-plus'
 import { Image as VanImage } from 'vant'
-import { ELibraryName } from '@/components/libraryPanel/types'
+import { ELibraryName } from '@/views/library-panel/types'
 import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
-import { EAttributePanels } from '@/components/attributePanel/types'
-import { EEditableConfigItemInputType } from '@/components/editPanel/types'
-import preview from '@/library/swipe/preview.vue'
+import { EAttributePanels } from '@/views/attribute-panel/types'
+import { EEditableConfigItemInputType } from '@/views/edit-panel/types'
+import preview from '@/library/swipe/components/preview.vue'
 import { ELibraryComponentFormItemLabelPosition } from '@/library/types'
 
 export default defineComponent({

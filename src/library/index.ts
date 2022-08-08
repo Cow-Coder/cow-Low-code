@@ -3,7 +3,6 @@ import type { ILibraryComponent } from '@/library/types'
 const libraryComponents = import.meta.glob<ILibraryComponent>('./*/index.(vue|jsx)', {
   eager: true,
 })
-// console.log(`libraryComponents`, libraryComponents);
 const libraryTree: Record<string, Record<string, ILibraryComponent[]>> = {}
 const libTemp: Record<string, ILibraryComponent[]> = {}
 
