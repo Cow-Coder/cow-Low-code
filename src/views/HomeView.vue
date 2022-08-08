@@ -19,7 +19,7 @@
         </div>
 
         <!-- 右侧参数面板 -->
-        <home-right ref="attitudePanelRef" class="panel" />
+        <home-right ref="attributePanelRef" class="panel" />
 
         <!-- 浮动提示栏 -->
         <float-tips />
@@ -64,12 +64,12 @@ watchThrottled(libraryPanelRect, () => (libraryPanelWidth.value = `${libraryPane
 })
 
 // 矫正属性面板
-const attitudePanelRef = ref<InstanceType<typeof HTMLElement>>()
-const attitudePanelRect = reactive(useElementSize(attitudePanelRef))
-const attitudePanelWidth = ref(`${attitudePanelRect.width}px`)
+const attributePanelRef = ref<InstanceType<typeof HTMLElement>>()
+const attributePanelRect = reactive(useElementSize(attributePanelRef))
+const attributePanelWidth = ref(`${attributePanelRect.width}px`)
 watchThrottled(
-  attitudePanelRect,
-  () => (attitudePanelWidth.value = `${attitudePanelRect.width}px`),
+  attributePanelRect,
+  () => (attributePanelWidth.value = `${attributePanelRect.width}px`),
   { throttle: 10 }
 )
 
@@ -95,7 +95,7 @@ $blank-min-width: 100px;
   --body-width: v-bind(bodyWidth);
   --edit-panel-width: v-bind(editPanelWidth);
   --library-panel-width: v-bind(libraryPanelWidth);
-  --attitude-panel-width: v-bind(attitudePanelWidth);
+  --attitude-panel-width: v-bind(attributePanelWidth);
   --blank-min-width: #{$blank-min-width};
 
   :deep(.el-main) {
