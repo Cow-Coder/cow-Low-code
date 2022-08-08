@@ -7,6 +7,12 @@
   </van-swipe>
 </template>
 
+<script setup lang="ts">
+defineOptions({
+  name: 'Proview',
+})
+</script>
+
 <style lang="scss" scoped>
 .preview {
   color: #fff;

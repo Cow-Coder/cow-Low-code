@@ -3,7 +3,7 @@
 </template>
 
 <script lang="tsx">
-import { ELibraryName, type ILibraryPanel } from '@/views/library-panel/types'
+import { ELibraryName, type LibraryPanel } from '@/views/library-panel/types'
 import LibraryPanelBase from '@/views/library-panel/index.vue'
 import { getLibraryModules } from '@/library'
 
@@ -22,7 +22,7 @@ const vmOptions = {
       title: '容器',
     },
   },
-} as ILibraryPanel
+} as LibraryPanel
 
 /**
  * 这里是自动处理面板物料

@@ -1,15 +1,15 @@
 import type { PropType } from 'vue'
-import type { ILibraryComponentInstanceData } from '@/views/edit-panel/types'
+import type { LibraryComponentInstanceData } from '@/views/edit-panel/types'
 import type { EAttributePanels } from '@/views/attribute-panel/types'
-import type { ILibraryComponent } from '@/library/types'
+import type { LibraryComponent } from '@/library/types'
 
 export function createCustomAttributeTabProps() {
   return {
     componentInstanceData: {
-      type: Object as PropType<ILibraryComponentInstanceData>,
+      type: Object as PropType<LibraryComponentInstanceData>,
     },
     componentSchema: {
-      type: Object as PropType<ILibraryComponent>,
+      type: Object as PropType<LibraryComponent>,
     },
     cursorPanel: {
       type: String as PropType<EAttributePanels>,

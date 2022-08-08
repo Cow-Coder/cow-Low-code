@@ -1,24 +1,24 @@
-export type cloneType = (original: any) => any
-export type moveType = (evt: any) => any
+export type CloneDrag = (original: any) => any
+export type MoveDrag = (evt: any) => any
 
-export type groupType = {
+export type GroupDrag = {
   name?: string
   pull?: string
   put?: boolean
 }
 
-export type IDraggableItem = {
-  group?: groupType
+export type DraggableItem = {
+  group?: GroupDrag
   itemKey?: string
   sort?: boolean
   disabled?: boolean
-  handleClone?: cloneType
-  handleMove?: moveType
+  handleClone?: CloneDrag
+  handleMove?: MoveDrag
   libraryClass?: boolean
 }
 
-export interface IDraggable {
-  draggableProp: IDraggableItem
+export interface Draggable {
+  draggableProp: DraggableItem
   // itemSlot: DefineComponent,
   handleChangeF?: (component: any) => any
 }

@@ -20,7 +20,11 @@
 
 <script lang="ts" setup>
 import libraryPanels from '@/views/library-panel'
-import CodePanel from '@/views/library-panel/components/code-tab/index.vue'
+import CodePanel from '@/views/library-panel/components/code-tab.vue'
+
+defineOptions({
+  name: 'HomeLeft',
+})
 </script>
 
 <style lang="scss" scoped>

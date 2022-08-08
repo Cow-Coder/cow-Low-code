@@ -31,11 +31,15 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import EditPanel from '@/views/edit-panel/index.vue'
-import HomeHeader from '@/views/home/components/home-headers/index.vue'
-import HomeLeft from '@/views/home/components/home-left/index.vue'
-import HomeRight from '@/views/home/components/home-right/index.vue'
-import FloatTips from '@/views/home/components/float-tips/index.vue'
+import HomeHeader from '@/views/home/components/home-header.vue'
+import HomeLeft from '@/views/home/components/home-left.vue'
+import HomeRight from '@/views/home/components/home-right.vue'
+import FloatTips from '@/views/home/components/float-tips.vue'
 import { useCodeStore } from '@/stores/code'
+
+defineOptions({
+  name: 'Home',
+})
 
 // TODO:禁止自己拖入自己，从组件区域拖出去再拖入自己区域时候图标应该是禁止，不应该是默认的
 //-----------页面布局

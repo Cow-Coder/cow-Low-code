@@ -63,6 +63,8 @@
     "unplugin-element-plus": "^0.4.1",
     "unplugin-icons": "^0.14.8",
     "unplugin-vue-components": "^0.21.2",
+    "unplugin-vue-define-options": "^0.7.3",
+    "unplugin-vue-macros": "^0.7.3",
     "vite": "^3.0.1",
     "vite-plugin-inspect": "^0.6.0",
     "vite-plugin-style-import": "^2.0.0",

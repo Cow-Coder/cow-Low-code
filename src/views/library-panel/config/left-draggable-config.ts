@@ -1,12 +1,12 @@
-import type { IDraggable } from '@/components/base-ui/kzy-draggable/types'
-import type { ILibraryComponent } from '@/library/types'
+import type { Draggable } from '@/components/base-ui/kzy-draggable/types'
+import type { LibraryComponent } from '@/library/types'
 import { createLibraryComponentInstance } from '@/utils/library'
 
 /**
  * 当drop事件发生的时候，此函数的返回值会push到目标容器list中
  * @param original
  */
-const onCloneCallback = (original: ILibraryComponent) => {
+const onCloneCallback = (original: LibraryComponent) => {
   const data = createLibraryComponentInstance(original)
   return data
 }
@@ -21,7 +21,7 @@ const log = function (evt: any) {
   console.log('change：', evt)
 }
 
-export const leftDraggableConfig: IDraggable = {
+export const leftDraggableConfig: Draggable = {
   draggableProp: {
     group: { name: 'library', pull: 'clone', put: false },
     sort: false,

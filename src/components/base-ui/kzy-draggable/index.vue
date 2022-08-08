@@ -22,22 +22,22 @@
 
 <script lang="ts" setup>
 import Draggable from 'vuedraggable'
-import type { cloneType, groupType, moveType } from '@/components/base-ui/kzy-draggable/types'
-import type { ILibraryComponent } from '@/library/types'
+import type { CloneDrag, GroupDrag, MoveDrag } from '@/components/base-ui/kzy-draggable/types'
+import type { LibraryComponent } from '@/library/types'
 import { DRAGGABLE_GROUP_NAME } from '@//constant'
 
-interface propsType {
-  dataList: Record<string, ILibraryComponent[]>
-  group?: groupType
+interface DragProps {
+  dataList: Record<string, LibraryComponent[]>
+  group?: GroupDrag
   itemKey?: string
   sort?: boolean
   disabled?: boolean
   libraryClass?: boolean
-  handleClone?: cloneType
-  handleMove?: moveType
+  handleClone?: CloneDrag
+  handleMove?: MoveDrag
 }
 
-const props = withDefaults(defineProps<propsType>(), {
+const props = withDefaults(defineProps<DragProps>(), {
   group: () => ({ name: DRAGGABLE_GROUP_NAME }),
   itemKey: 'id',
   sort: true,

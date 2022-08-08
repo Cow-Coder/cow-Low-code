@@ -22,20 +22,24 @@
 
 <script lang="tsx" setup>
 import type { PropType } from 'vue'
-import type { ILibraryComponent } from '@/library/types'
-import type { ILibraryPanel } from '@/views/library-panel/types'
+import type { LibraryComponent } from '@/library/types'
+import type { LibraryPanel } from '@/views/library-panel/types'
 import PageDraggable from '@/components/page-draggable/index.vue'
 import { leftDraggableConfig } from '@/views/library-panel/config/left-draggable-config'
-import LibraryItem from '@/views/library-panel/components/library-item/index.vue'
+import LibraryItem from '@/views/library-panel/components/library-item.vue'
+
+defineOptions({
+  name: 'LibraryPanel',
+})
 
 const props = defineProps({
   currentModules: {
     required: true,
-    type: Object as PropType<Record<string, ILibraryComponent[]>>,
+    type: Object as PropType<Record<string, LibraryComponent[]>>,
   },
   vmOptions: {
     required: true,
-    type: Object as PropType<ILibraryPanel>,
+    type: Object as PropType<LibraryPanel>,
   },
 })
 

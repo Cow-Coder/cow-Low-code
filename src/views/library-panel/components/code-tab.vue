@@ -5,14 +5,14 @@
 <script lang="ts" setup>
 import { onMounted, ref, shallowRef, watch } from 'vue'
 import * as Monaco from 'monaco-editor'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
 import { throttle } from 'lodash-es'
 import { useCodeStore } from '@/stores/code'
+
+defineOptions({
+  name: 'CodeTab',
+})
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -68,12 +68,6 @@ onMounted(() => {
     { immediate: true, deep: true }
   )
 })
-</script>
-
-<script lang="ts">
-export default {
-  name: 'CodePanel',
-}
 </script>
 
 <style scoped></style>
