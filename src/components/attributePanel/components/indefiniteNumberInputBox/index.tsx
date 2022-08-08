@@ -1,11 +1,10 @@
 import { ElButton, ElInput } from 'element-plus'
 import { Popover } from '@arco-design/web-vue'
-import { toRefs } from '@vueuse/core'
 import { MoreFilled } from '@element-plus/icons-vue'
-import $style from './form.module.scss'
+import $style from './index.module.scss'
 import type { PropType } from 'vue'
 
-export const IndefiniteNumberInputBox = defineComponent({
+export default defineComponent({
   name: 'IndefiniteNumberInputBox',
   props: {
     modelValue: {
