@@ -48,7 +48,7 @@ src
 │   │   └── types.ts
 │   └── libraryPanel
 │       ├── genericsLib
-│       ├── index.ts
+│       ├── types.ts
 │       ├── libraryPanelBase.vue
 │       └── types.ts
 ├── hooks						#
@@ -61,10 +61,10 @@ src
 │   ├── swipe
 │   │   ├── index.vue
 │   │   └── preview.tsx
-│   ├── index.ts				# library入口文件
+│   ├── types.ts				# library入口文件
 │   └── types.ts
 ├── router
-│   └── index.ts
+│   └── types.ts
 ├── stores
 │   ├── plugins
 │   │   └── storeReset.ts		# https://seb-l.github.io/pinia-plugin-persist/
