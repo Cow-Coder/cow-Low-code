@@ -145,7 +145,10 @@ export default defineConfig({
          * webstorm无法识别导入
          * 元素 'color-primary' 仅按名称解析，未使用显式导入
          */
-        additionalData: `@use "element-plus/theme-chalk/src/common/var.scss" as *;`,
+        additionalData: [
+          `@use "element-plus/theme-chalk/src/common/var.scss" as *;`,
+          `@use "@/assets/style/global.scss" as *;`,
+        ].join(''),
       },
     },
   },

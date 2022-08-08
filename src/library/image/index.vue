@@ -5,10 +5,10 @@
 <script lang="tsx">
 import { Image as VanImage } from 'vant'
 import { ElIcon } from 'element-plus'
-import { ELibraryName } from '@/components/libraryPanel/types'
+import { ELibraryName } from '@/views/library-panel/types'
 import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
-import { EAttributePanels } from '@/components/attributePanel/types'
-import { EEditableConfigItemInputType } from '@/components/editPanel/types'
+import { EAttributePanels } from '@/views/attribute-panel/types'
+import { EEditableConfigItemInputType } from '@/views/edit-panel/types'
 
 export default {
   ...defineLibraryComponent({
