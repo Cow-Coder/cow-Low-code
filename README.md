@@ -52,7 +52,7 @@ src
 │       ├── libraryPanelBase.vue
 │       └── types.ts
 ├── hooks						#
-│   └── useVModelByComputed.ts
+│   └── use-v-model-by-computed.ts
 ├── library						# 物料组件库
 │   ├── button					# 物料组件名
 │   │   └── index.vue			# Lib + 物料组件名
