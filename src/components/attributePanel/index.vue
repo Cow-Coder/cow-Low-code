@@ -25,7 +25,7 @@
  */
 import { ref } from 'vue'
 import { ElForm, ElFormItem, ElInput, ElSwitch } from 'element-plus'
-import { IndefiniteNumberInputBox } from './components/formRender/indefiniteNumberInputBox'
+import IndefiniteNumberInputBox from './components/indefiniteNumberInputBox'
 import type { CSSProperties, WritableComputedRef } from 'vue'
 import type {
   IAttributePanelFormItemSchema,
