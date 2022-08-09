@@ -4,7 +4,7 @@ import type { LibraryComponentInstanceProps } from '@/views/edit-panel/types'
 /**
  * 右侧编辑面板的子tab枚举
  */
-export enum EAttributePanels {
+export enum AttributePanelsEnum {
   /**
    * 常规 编辑面板
    */
@@ -30,7 +30,7 @@ export interface AttributePanelTabConfig {
   /**
    * 唯一标识符
    */
-  name: EAttributePanels
+  name: AttributePanelsEnum
   /**
    * 自定义组件
    */
@@ -39,6 +39,6 @@ export interface AttributePanelTabConfig {
 
 export interface formRenderSchema {
   propsData: LibraryComponentInstanceProps | undefined
-  cursorPanel: EAttributePanels
+  cursorPanel: AttributePanelsEnum
   propsSchema: LibraryComponentProps | undefined
 }

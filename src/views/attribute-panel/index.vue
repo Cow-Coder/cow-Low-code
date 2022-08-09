@@ -39,10 +39,10 @@ import type {
   LibraryComponentInstanceData,
   LibraryComponentInstanceProps,
 } from '@/views/edit-panel/types'
-import type { EAttributePanels } from '@/views/attribute-panel/types'
+import type { AttributePanelsEnum } from '@/views/attribute-panel/types'
 import type { LibraryComponent, LibraryComponentProps } from '@/library/types'
-import { EEditableConfigItemInputType } from '@/views/edit-panel/types'
-import { ELibraryComponentFormItemLabelPosition } from '@/library/types'
+import { EditableConfigItemInputTypeEnum } from '@/views/edit-panel/types'
+import { LibraryComponentFormItemLabelPositionEnum } from '@/library/types'
 import { panelList } from '@/views/attribute-panel/config'
 import { useCodeStore } from '@/stores/code'
 
@@ -98,7 +98,7 @@ const componentSchemaProps: WritableComputedRef<LibraryComponentProps | undefine
 
 function getLibraryComponentPropsRecordInAPanel(
   propsSchema: LibraryComponentProps,
-  panel: EAttributePanels
+  panel: AttributePanelsEnum
 ) {
   const propsFilterArr = Object.entries(propsSchema).filter((e) => e[1].belongToPanel === panel)
   return Object.fromEntries(propsFilterArr)
@@ -106,7 +106,7 @@ function getLibraryComponentPropsRecordInAPanel(
 
 function getLibraryComponentPropsArrayInAPanel(
   propsSchema: LibraryComponentProps,
-  panel: EAttributePanels
+  panel: AttributePanelsEnum
 ) {
   return Object.entries(getLibraryComponentPropsRecordInAPanel(propsSchema, panel)).reduce(
     (previousValue, currentValue) => {
@@ -128,7 +128,7 @@ function getLibraryComponentPropsArrayInAPanel(
  */
 function formRender(
   propsData: LibraryComponentInstanceProps,
-  cursorPanel: EAttributePanels,
+  cursorPanel: AttributePanelsEnum,
   propsSchema: LibraryComponentProps | undefined
 ) {
   if (!propsSchema) return undefined
@@ -141,21 +141,23 @@ function formRender(
     formItemSchema: AttributePanelFormItemSchema
   ) => {
     //input
-    if (formItemSchema.formType === EEditableConfigItemInputType.input) {
+    if (formItemSchema.formType === EditableConfigItemInputTypeEnum.input) {
       return <ElInput v-model={propsData[formItemSchema.name]}></ElInput>
     }
     //indefiniteNumberInputBox
-    if (formItemSchema.formType === EEditableConfigItemInputType.indefiniteNumberInputBox) {
+    if (formItemSchema.formType === EditableConfigItemInputTypeEnum.indefiniteNumberInputBox) {
       const list = propsData[formItemSchema.name]
       if (!Array.isArray(list))
-        throw new TypeError('invalid Data at EEditableConfigItemInputType.indefiniteNumberInputBox')
+        throw new TypeError(
+          'invalid Data at EditableConfigItemInputTypeEnum.indefiniteNumberInputBox'
+        )
       return (
         <IndefiniteNumberInputBox
           modelValue={list}
           onUpdate:modelValue={(e: string[]) => {
             if (!Array.isArray(list))
               throw new TypeError(
-                'invalid Data at EEditableConfigItemInputType.indefiniteNumberInputBox'
+                'invalid Data at EditableConfigItemInputTypeEnum.indefiniteNumberInputBox'
               )
             list.splice(0, list.length, ...e)
           }}
@@ -163,7 +165,7 @@ function formRender(
       )
     }
     //switch
-    if (formItemSchema.formType === EEditableConfigItemInputType.switch) {
+    if (formItemSchema.formType === EditableConfigItemInputTypeEnum.switch) {
       return (
         <>
           <ElSwitch v-model={propsData[formItemSchema.name]}></ElSwitch>
@@ -171,7 +173,7 @@ function formRender(
       )
     }
     //select
-    if (formItemSchema.formType === EEditableConfigItemInputType.select) {
+    if (formItemSchema.formType === EditableConfigItemInputTypeEnum.select) {
       return (
         <ElSelect v-model={propsData[formItemSchema.name]}>
           {formItemSchema.selectOptions?.map((item: string) => (
@@ -181,7 +183,7 @@ function formRender(
       )
     }
     //
-    if (formItemSchema.formType === EEditableConfigItemInputType.switchWithSlots) {
+    if (formItemSchema.formType === EditableConfigItemInputTypeEnum.switchWithSlots) {
       return <SwitchWithSlots v-model={propsData[formItemSchema.name]}></SwitchWithSlots>
     }
 
@@ -190,7 +192,7 @@ function formRender(
   //渲染整个props列表
   const formItemList = cursorPropsArray.map((propItem) => {
     const style = {} as CSSProperties
-    if (propItem.labelPosition === ELibraryComponentFormItemLabelPosition.top) {
+    if (propItem.labelPosition === LibraryComponentFormItemLabelPositionEnum.top) {
       style['display'] = 'block'
     }
     return (

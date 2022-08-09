@@ -16,17 +16,17 @@
 <script lang="tsx">
 import { ElIcon } from 'element-plus'
 import { Image as VanImage } from 'vant'
-import { ELibraryName } from '@/views/library-panel/types'
+import { LibraryNameEnum } from '@/views/library-panel/types'
 import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
-import { EAttributePanels } from '@/views/attribute-panel/types'
-import { EEditableConfigItemInputType } from '@/views/edit-panel/types'
+import { AttributePanelsEnum } from '@/views/attribute-panel/types'
+import { EditableConfigItemInputTypeEnum } from '@/views/edit-panel/types'
 import preview from '@/library/swipe/components/preview.vue'
-import { ELibraryComponentFormItemLabelPosition } from '@/library/types'
+import { LibraryComponentFormItemLabelPositionEnum } from '@/library/types'
 
 export default defineComponent({
   ...defineLibraryComponent({
     name: 'LibSwipe',
-    libraryName: ELibraryName.generics,
+    libraryName: LibraryNameEnum.generics,
     tabName: 'form',
     order: 3,
     libraryPanelShowDetail: {
@@ -48,8 +48,8 @@ export default defineComponent({
   props: {
     urlList: createLibraryComponentPropItem({
       title: '图片链接列表',
-      formType: EEditableConfigItemInputType.indefiniteNumberInputBox,
-      belongToPanel: EAttributePanels.generic,
+      formType: EditableConfigItemInputTypeEnum.indefiniteNumberInputBox,
+      belongToPanel: AttributePanelsEnum.generic,
       type: Array,
       default: [
         'https://fastly.jsdelivr.net/npm/@vant/assets/apple-1.jpeg',
@@ -58,61 +58,61 @@ export default defineComponent({
         'https://fastly.jsdelivr.net/npm/@vant/assets/apple-4.jpeg',
         'https://fastly.jsdelivr.net/npm/@vant/assets/apple-5.jpeg',
       ],
-      labelPosition: ELibraryComponentFormItemLabelPosition.top,
+      labelPosition: LibraryComponentFormItemLabelPositionEnum.top,
     }),
     initialSwipe: createLibraryComponentPropItem({
       title: '初始位置索引值',
-      formType: EEditableConfigItemInputType.input,
-      belongToPanel: EAttributePanels.generic,
+      formType: EditableConfigItemInputTypeEnum.input,
+      belongToPanel: AttributePanelsEnum.generic,
       default: '0',
       type: [String, Number],
     }),
     autoplay: createLibraryComponentPropItem({
       title: '自动轮播间隔',
-      formType: EEditableConfigItemInputType.input,
-      belongToPanel: EAttributePanels.generic,
+      formType: EditableConfigItemInputTypeEnum.input,
+      belongToPanel: AttributePanelsEnum.generic,
       default: '3000',
       type: [String, Number],
     }),
     duration: createLibraryComponentPropItem({
       title: '动画时长',
-      formType: EEditableConfigItemInputType.input,
-      belongToPanel: EAttributePanels.generic,
+      formType: EditableConfigItemInputTypeEnum.input,
+      belongToPanel: AttributePanelsEnum.generic,
       default: '500',
       type: [String, Number],
     }),
     loop: createLibraryComponentPropItem({
       title: '循环播放',
-      formType: EEditableConfigItemInputType.switch,
-      belongToPanel: EAttributePanels.generic,
+      formType: EditableConfigItemInputTypeEnum.switch,
+      belongToPanel: AttributePanelsEnum.generic,
       default: true,
       type: Boolean,
     }),
     showIndicators: createLibraryComponentPropItem({
       title: '显示指示器',
-      formType: EEditableConfigItemInputType.switch,
-      belongToPanel: EAttributePanels.generic,
+      formType: EditableConfigItemInputTypeEnum.switch,
+      belongToPanel: AttributePanelsEnum.generic,
       default: true,
       type: Boolean,
     }),
     picWidth: createLibraryComponentPropItem({
       title: '图片宽度',
-      formType: EEditableConfigItemInputType.input,
-      belongToPanel: EAttributePanels.generic,
+      formType: EditableConfigItemInputTypeEnum.input,
+      belongToPanel: AttributePanelsEnum.generic,
       default: '100%',
       type: [String, Number],
     }),
     picHeight: createLibraryComponentPropItem({
       title: '图片高度',
-      formType: EEditableConfigItemInputType.input,
-      belongToPanel: EAttributePanels.generic,
+      formType: EditableConfigItemInputTypeEnum.input,
+      belongToPanel: AttributePanelsEnum.generic,
       default: '240',
       type: [String, Number],
     }),
     lazyRender: createLibraryComponentPropItem({
       title: '延迟渲染未展示的轮播',
-      formType: EEditableConfigItemInputType.switch,
-      belongToPanel: EAttributePanels.generic,
+      formType: EditableConfigItemInputTypeEnum.switch,
+      belongToPanel: AttributePanelsEnum.generic,
       default: false,
       type: Boolean,
     }),
