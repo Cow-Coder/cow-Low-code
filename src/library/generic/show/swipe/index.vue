@@ -22,12 +22,12 @@ import {
   LibraryPanelTabEnum,
 } from '@/types/panel'
 import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
-import preview from '@/library/swipe/components/preview.vue'
+import preview from '@/library/generic/show/swipe/components/preview.vue'
 import { LibraryComponentFormItemLabelPositionEnum } from '@/types/library-component'
 
 export default defineComponent({
   ...defineLibraryComponent({
-    name: 'LibSwipe',
+    name: 'WidgetSwipe',
     libraryName: LibraryPanelTabEnum.generics,
     tabName: 'form',
     order: 3,
