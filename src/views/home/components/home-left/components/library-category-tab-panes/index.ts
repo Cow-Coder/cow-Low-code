@@ -1,6 +1,6 @@
-import type { LibraryPanel } from '@/views/library-panel/types'
+import type { LibraryPanel } from './types'
 
-const libraryPanelsObj = import.meta.glob<LibraryPanel>('./components/*.(vue|jsx)', {
+const libraryPanelsObj = import.meta.glob<LibraryPanel>('./tab-panes/*.(vue|jsx)', {
   eager: true,
 })
 const libraryPanels: Record<string, LibraryPanel> = {}
