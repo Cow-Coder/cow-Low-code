@@ -25,12 +25,20 @@ import type { Draggable } from '@/components/base-ui/kzy-draggable/types'
 import type { LibraryComponentInstanceData } from '@/types/library-component'
 import { libraryRecord } from '@/library'
 import { useCodeStore } from '@/stores/code'
-import { config } from '@/views/edit-panel/config'
 import PageDraggable from '@/components/page-draggable/index.vue'
+import { DRAGGABLE_GROUP_NAME } from '@/constant'
 
 defineOptions({
   name: 'EditPanel',
 })
+
+const config: Draggable = {
+  draggableProp: {
+    group: { name: DRAGGABLE_GROUP_NAME },
+    itemKey: 'id',
+    disabled: false,
+  },
+}
 
 const codeStore = useCodeStore()
 const { jsonCode: editableInstancedLibraryComponentData, focusData } = storeToRefs(codeStore)
