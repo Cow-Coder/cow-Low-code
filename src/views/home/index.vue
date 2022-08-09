@@ -43,9 +43,9 @@ defineOptions({
 
 // TODO:禁止自己拖入自己，从组件区域拖出去再拖入自己区域时候图标应该是禁止，不应该是默认的
 //-----------页面布局
-const styleHeaderHeight = '60px'
+const styleHeaderHeight = ref(`${60}px`)
 
-// 限制属性面板
+// 同步 属性面板 宽度到css变量
 const editPanelRef = ref<InstanceType<typeof HTMLElement>>()
 const editPanelRect = reactive(useElementSize(editPanelRef))
 const editPanelWidth = ref(`${editPanelRect.width}px`)
@@ -59,7 +59,7 @@ watchThrottled(bodyRect, () => (bodyWidth.value = `${bodyRect.width}px`), {
   throttle: 10,
 })
 
-// 矫正编辑器面板
+// 同步 编辑器面板 宽度到css变量
 const libraryPanelRef = ref<InstanceType<typeof HTMLElement>>()
 const libraryPanelRect = reactive(useElementSize(libraryPanelRef))
 const libraryPanelWidth = ref(`${libraryPanelRect.width}px`)
@@ -67,7 +67,7 @@ watchThrottled(libraryPanelRect, () => (libraryPanelWidth.value = `${libraryPane
   throttle: 10,
 })
 
-// 矫正属性面板
+// 同步 属性面板 宽度到css变量
 const attributePanelRef = ref<InstanceType<typeof HTMLElement>>()
 const attributePanelRect = reactive(useElementSize(attributePanelRef))
 const attributePanelWidth = ref(`${attributePanelRect.width}px`)
