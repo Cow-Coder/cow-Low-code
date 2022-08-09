@@ -8,7 +8,7 @@ import $popoverStyle from '@/assets/style/popover.module.scss'
 /**
  * 这个组件可以改成vue实现试一下
  */
-export const IndefiniteNumberInputBox = defineComponent({
+export default defineComponent({
   name: 'IndefiniteNumberInputBox',
   props: {
     modelValue: {

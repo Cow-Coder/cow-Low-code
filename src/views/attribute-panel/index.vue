@@ -31,7 +31,7 @@
  */
 import { ref } from 'vue'
 import { ElForm, ElFormItem, ElInput, ElOption, ElSelect, ElSwitch } from 'element-plus'
-import { IndefiniteNumberInputBox } from './components/components/IndefiniteNumberInputBox'
+import IndefiniteNumberInputBox from './components/components/IndefiniteNumberInputBox'
 import { SwitchWithSlots } from './components/components/SwitchWithSlots'
 import type { CSSProperties, WritableComputedRef } from 'vue'
 import type {
