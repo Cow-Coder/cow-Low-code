@@ -1,11 +1,11 @@
-import type { ILibraryComponent } from '@/library/types'
+import type { LibraryComponent } from '@/types/library-component'
+import type { LibraryPanelTabEnum } from '@/types/panel'
 
-const libraryComponents = import.meta.glob<ILibraryComponent>('./*/index.(vue|jsx)', {
+const libraryComponents = import.meta.glob<LibraryComponent>('./*/index.(vue|jsx)', {
   eager: true,
 })
-// console.log(`libraryComponents`, libraryComponents);
-const libraryTree: Record<string, Record<string, ILibraryComponent[]>> = {}
-const libTemp: Record<string, ILibraryComponent[]> = {}
+const libraryTree: Record<string, Record<string, LibraryComponent[]>> = {}
+const libTemp: Record<string, LibraryComponent[]> = {}
 
 // 添加每一个lib下面的组件
 Object.entries(libraryComponents).forEach(([, module]) => {
@@ -32,7 +32,6 @@ Object.entries(libraryTree).forEach(([, modules]) => {
 export const libraryRecord = libTemp
 export default libraryTree
 
-export function getLibraryModules(libraryName: string) {
+export function getLibraryModules(libraryName: LibraryPanelTabEnum) {
   return libraryTree[libraryName] ?? {}
 }
-// console.log(`libraryRecord`, libraryRecord, `libraryTree`, libraryTree);

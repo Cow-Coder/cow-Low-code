@@ -1,12 +1,13 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["src/**/*", "src/**/*.vue", "*.d.ts"],
+  "include": ["src/**/*", "src/**/*.vue", "*.d.ts", "types/*.d.ts"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "types": ["unplugin-vue-macros/macros-global"]
   },
   "references": [
     {

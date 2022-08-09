@@ -1,14 +1,15 @@
 import type {
-  ILibraryComponentInstanceData,
   ILibraryComponentInstanceFocus,
-} from '@/components/editPanel/types'
-import type { ILibraryComponent } from '@/library/types'
+  LibraryComponent,
+  LibraryComponentInstanceData,
+} from '@/types/library-component'
+
 import { libraryRecord } from '@/library'
 
 export const useCodeStore = defineStore(
   'CodeStore',
   () => {
-    const jsonCode = ref<ILibraryComponentInstanceData[]>([])
+    const jsonCode = ref<LibraryComponentInstanceData[]>([])
     /**
      * 想到三种方案
      * 1. 在原本组件实例数据上根据 focus:true 自动去找是哪个组件被选中了
@@ -47,7 +48,10 @@ export const useCodeStore = defineStore(
      */
     function getLibraryComponentInstanceDataAndSchema(
       focusData: ILibraryComponentInstanceFocus
-    ): [ILibraryComponentInstanceData, ILibraryComponent] {
+    ): [LibraryComponentInstanceData, LibraryComponent] {
+      /**
+       * TODO: 这里应该加缓存，记录已经找到过的组件的uuid，缓存进键值对
+       */
       let focusedLibraryComponentInstanceData = undefined
       for (const jsonCodeElement of jsonCode.value) {
         if (jsonCodeElement.uuid && jsonCodeElement.uuid === focusData.uuid) {
@@ -58,6 +62,7 @@ export const useCodeStore = defineStore(
       }
       if (!focusedLibraryComponentInstanceData)
         throw new Error(`not found focusedLibraryComponentData(uuid): ${focusData.uuid}`)
+
       let focusedLibraryComponentSchema = undefined
       for (const e of libraryRecord[focusedLibraryComponentInstanceData.libraryName]) {
         if (e.name == focusedLibraryComponentInstanceData.componentName) {

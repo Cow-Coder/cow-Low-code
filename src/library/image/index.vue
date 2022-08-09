@@ -5,15 +5,17 @@
 <script lang="tsx">
 import { Image as VanImage } from 'vant'
 import { ElIcon } from 'element-plus'
-import { ELibraryName } from '@/components/libraryPanel/types'
+import {
+  AttributePanelFormItemInputTypeEnum,
+  AttributePanelsEnum,
+  LibraryPanelTabEnum,
+} from '@/types/panel'
 import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
-import { EAttributePanels } from '@/components/attributePanel/types'
-import { EEditableConfigItemInputType } from '@/components/editPanel/types'
 
 export default {
   ...defineLibraryComponent({
     name: 'LibImage',
-    libraryName: ELibraryName.generics,
+    libraryName: LibraryPanelTabEnum.generics,
     tabName: 'show',
     order: 2,
     libraryPanelShowDetail: {
@@ -39,8 +41,8 @@ export default {
   props: {
     url: createLibraryComponentPropItem({
       title: 'url链接',
-      formType: EEditableConfigItemInputType.input,
-      belongToPanel: EAttributePanels.generic,
+      formType: AttributePanelFormItemInputTypeEnum.input,
+      belongToPanel: AttributePanelsEnum.generic,
     }),
   },
 }
