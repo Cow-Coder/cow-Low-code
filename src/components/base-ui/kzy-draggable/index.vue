@@ -1,23 +1,21 @@
 <template>
-  <div class="accept-draggable">
-    <draggable
-      :class="props.libraryClass ? 'library-list' : 'default-drag'"
-      :list="props.dataList"
-      :item-key="props.itemKey"
-      :group="props.group"
-      :sort="props.sort"
-      :disabled="props.disabled"
-      :clone="props.handleClone"
-      :move="props.handleMove"
-      @change="handleChange"
-    >
-      <template #item="{ element }">
-        <div class="library-item">
-          <slot name="item" :element="element" />
-        </div>
-      </template>
-    </draggable>
-  </div>
+  <draggable
+    :class="$.attrs.class ?? 'default-drag'"
+    :list="props.dataList"
+    :item-key="props.itemKey"
+    :group="props.group"
+    :sort="props.sort"
+    :disabled="props.disabled"
+    :clone="props.handleClone"
+    :move="props.handleMove"
+    @change="handleChange"
+  >
+    <template #item="{ element }">
+      <div class="library-item">
+        <slot name="item" :element="element" />
+      </div>
+    </template>
+  </draggable>
 </template>
 
 <script lang="ts" setup>
@@ -50,18 +48,11 @@ const emit = defineEmits<{
 }>()
 
 const handleChange = (evt: any) => {
-  emit('handleChange', evt)
+  emit('handleChange', evt.item)
 }
 </script>
 
 <style lang="scss" scoped>
-.library-list {
-  @apply flex flex-wrap;
-  .library-item {
-    flex: 0 0 50%;
-  }
-}
-
 .default-drag {
   min-height: $screamMinHeight;
 }
