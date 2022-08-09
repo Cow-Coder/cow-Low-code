@@ -1,0 +1,11 @@
+.line{
+  @apply flex w-full;
+  :global{
+    .label{
+      flex: 0 0 200px;
+    }
+    .input{
+      @apply flex-grow;
+    }
+  }
+}

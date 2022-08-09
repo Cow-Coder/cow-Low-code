@@ -22,7 +22,7 @@
                   class="icon-button"
                   theme="outline"
                   size="16"
-                  @click.capture.stop="onAddEvent(eventName, eventObj)"
+                  @click.capture.stop="onAddEventAction(eventName, eventObj)"
                 />
                 <delete
                   class="icon-button"
@@ -76,6 +76,7 @@ import {
   createCustomAttributeTabProps,
 } from '@/views/home/components/home-right/components/attribute-panel/util'
 import { createLibraryComponentInstanceEventAction } from '@/utils/library'
+import { actionConfigDialog } from '@/views/home/components/action-config-dialog'
 
 defineOptions({
   name: 'EventTab',
@@ -119,8 +120,11 @@ function onAddEventTrigger(eventName: string, eventSchema: ValueOf<EventTrigger>
     collapseActiveKey.value.push(eventName)
   }
 }
-function onAddEvent(eventName: string, eventObj: ValueOf<LibraryComponentInstanceEventTriggers>) {
-  // console.log(111)
+function onAddEventAction(
+  eventName: string,
+  eventObj: ValueOf<LibraryComponentInstanceEventTriggers>
+) {
+  actionConfigDialog()
 }
 function onDeleteEventTrigger(
   eventName: string,
