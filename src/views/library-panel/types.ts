@@ -1,4 +1,5 @@
 import type { ComponentOptions } from 'vue'
+import type { LibraryPanelTabEnum } from '@/types/panel'
 
 export interface TabList {
   /**
@@ -12,15 +13,11 @@ export interface TabList {
   }
 }
 
-export enum LibraryNameEnum {
-  generics = 'generics',
-}
-
 export interface LibraryPanel extends ComponentOptions {
   /**
    * 物料面板的唯一标识符
    */
-  libraryName: LibraryNameEnum
+  libraryName: LibraryPanelTabEnum
   /**
    * 物料面板的在左侧选项卡处的名称
    */

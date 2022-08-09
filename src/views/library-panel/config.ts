@@ -1,5 +1,5 @@
 import type { Draggable } from '@/components/base-ui/kzy-draggable/types'
-import type { LibraryComponent } from '@/library/types'
+import type { LibraryComponent } from '@/types/library-component'
 import { createLibraryComponentInstance } from '@/utils/library'
 
 /**
@@ -30,5 +30,5 @@ export const leftDraggableConfig: Draggable = {
     handleClone: onCloneCallback,
     handleMove: onMoveCallback,
   },
-  handleChangeF: log,
+  handleChange: log,
 }

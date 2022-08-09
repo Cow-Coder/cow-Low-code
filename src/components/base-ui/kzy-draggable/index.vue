@@ -23,7 +23,7 @@
 <script lang="ts" setup>
 import Draggable from 'vuedraggable'
 import type { CloneDrag, GroupDrag, MoveDrag } from '@/components/base-ui/kzy-draggable/types'
-import type { LibraryComponent } from '@/library/types'
+import type { LibraryComponent } from '@/types/library-component'
 import { DRAGGABLE_GROUP_NAME } from '@//constant'
 
 interface DragProps {

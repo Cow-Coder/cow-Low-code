@@ -66,8 +66,10 @@
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue'
 import { Delete, Plus } from '@icon-park/vue-next'
-import type { EventTrigger } from '@/library/types'
-import type { LibraryComponentInstanceEventTriggers } from '@/views/edit-panel/types'
+import type {
+  EventTrigger,
+  LibraryComponentInstanceEventTriggers,
+} from '@/types/library-component-event'
 import $popoverStyle from '@/assets/style/popover.module.scss'
 import {
   createCustomAttributeTabEmits,

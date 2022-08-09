@@ -1,16 +1,16 @@
 import { v4 as uuidv4 } from 'uuid'
 import { cloneDeep } from 'lodash-es'
 import type {
-  EventTrigger,
   LibraryComponent,
+  LibraryComponentInstanceData,
+  LibraryComponentInstanceProps,
   LibraryComponentPropItem,
   LibraryComponentProps,
-} from '@/library/types'
+} from '@/types/library-component'
 import type {
-  LibraryComponentInstanceData,
+  EventTrigger,
   LibraryComponentInstanceEventTriggers,
-  LibraryComponentInstanceProps,
-} from '@/views/edit-panel/types'
+} from '@/types/library-component-event'
 
 export const uuid = uuidv4
 

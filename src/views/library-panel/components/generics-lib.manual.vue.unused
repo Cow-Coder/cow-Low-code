@@ -56,7 +56,7 @@
 <script lang="tsx">
 import Draggable from 'vuedraggable'
 import type { LibraryComponent } from '@/library/types'
-import { LibraryNameEnum, type LibraryPanel } from '@/views/library-panel/types'
+import { LibraryPanelTabEnum, type LibraryPanel } from '@/views/library-panel/types'
 import { getLibraryModules } from '@/library'
 import { createLibraryComponentInstance } from '@/utils/library'
 
@@ -65,7 +65,7 @@ import { createLibraryComponentInstance } from '@/utils/library'
  */
 const vmOptions = {
   name: 'genericsLib',
-  libraryName: LibraryNameEnum.generics,
+  libraryName: LibraryPanelTabEnum.generics,
   libraryTitle: '通用组件',
   tabsList: {
     show: {

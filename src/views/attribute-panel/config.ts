@@ -1,5 +1,24 @@
-import { type AttributePanelTabConfig, AttributePanelsEnum } from '@/views/attribute-panel/types'
+import type { DefineComponent } from '@/types/library-component'
+import { AttributePanelsEnum } from '@/types/panel'
 import EventTab from '@/views/attribute-panel/components/event-tab.vue'
+
+/**
+ * 单个子tab配置
+ */
+interface AttributePanelTabConfig {
+  /**
+   * 显示的文字
+   */
+  title: string
+  /**
+   * 唯一标识符
+   */
+  name: AttributePanelsEnum
+  /**
+   * 自定义组件
+   */
+  component?: DefineComponent
+}
 
 export const panelList: AttributePanelTabConfig[] = [
   {

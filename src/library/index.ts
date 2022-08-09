@@ -1,5 +1,5 @@
-import type { LibraryComponent } from '@/library/types'
-import type { LibraryNameEnum } from '@/views/library-panel/types'
+import type { LibraryComponent } from '@/types/library-component'
+import type { LibraryPanelTabEnum } from '@/types/panel'
 
 const libraryComponents = import.meta.glob<LibraryComponent>('./*/index.(vue|jsx)', {
   eager: true,
@@ -32,6 +32,6 @@ Object.entries(libraryTree).forEach(([, modules]) => {
 export const libraryRecord = libTemp
 export default libraryTree
 
-export function getLibraryModules(libraryName: LibraryNameEnum) {
+export function getLibraryModules(libraryName: LibraryPanelTabEnum) {
   return libraryTree[libraryName] ?? {}
 }

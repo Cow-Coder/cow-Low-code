@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { LibraryComponent } from '@/library/types'
+import type { LibraryComponent } from '@/types/library-component'
 
 /**
  * 左侧物料组件的按钮

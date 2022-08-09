@@ -11,15 +11,17 @@ import { ref } from 'vue'
 import { Button, Dialog } from 'vant'
 import 'vant/es/dialog/style'
 import { ElIcon, ElInput } from 'element-plus'
-import { LibraryNameEnum } from '@/views/library-panel/types'
-import { AttributePanelsEnum } from '@/views/attribute-panel/types'
+import {
+  AttributePanelFormItemInputTypeEnum,
+  AttributePanelsEnum,
+  LibraryPanelTabEnum,
+} from '@/types/panel'
 import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
-import { EditableConfigItemInputTypeEnum } from '@/views/edit-panel/types'
 
 export default {
   ...defineLibraryComponent({
     name: 'LibButton',
-    libraryName: LibraryNameEnum.generics,
+    libraryName: LibraryPanelTabEnum.generics,
     tabName: 'show',
     order: 1,
     libraryPanelShowDetail: {
@@ -61,14 +63,14 @@ export default {
     title: createLibraryComponentPropItem({
       title: '按钮名称',
       default: '按钮',
-      formType: EditableConfigItemInputTypeEnum.input,
+      formType: AttributePanelFormItemInputTypeEnum.input,
       belongToPanel: AttributePanelsEnum.generic,
     }),
     buttonType: createLibraryComponentPropItem({
       title: '按钮类型',
       default: 'defalut',
       selectOptions: ['defalut', 'primary', 'success', 'info', 'warning', 'danger'],
-      formType: EditableConfigItemInputTypeEnum.select,
+      formType: AttributePanelFormItemInputTypeEnum.select,
       belongToPanel: AttributePanelsEnum.generic,
       type: String,
     }),
@@ -76,28 +78,28 @@ export default {
       title: '按钮大小',
       default: 'normal',
       selectOptions: ['large', 'normal', 'small', 'mimi'],
-      formType: EditableConfigItemInputTypeEnum.select,
+      formType: AttributePanelFormItemInputTypeEnum.select,
       belongToPanel: AttributePanelsEnum.generic,
       type: String,
     }),
     to: createLibraryComponentPropItem({
       title: '路由导航',
       default: '',
-      formType: EditableConfigItemInputTypeEnum.input,
+      formType: AttributePanelFormItemInputTypeEnum.input,
       belongToPanel: AttributePanelsEnum.generic,
       type: String,
     }),
     url: createLibraryComponentPropItem({
       title: 'url跳转',
       default: '',
-      formType: EditableConfigItemInputTypeEnum.input,
+      formType: AttributePanelFormItemInputTypeEnum.input,
       belongToPanel: AttributePanelsEnum.generic,
       type: String,
     }),
     tips: createLibraryComponentPropItem({
       title: '提示弹框',
       default: '',
-      formType: EditableConfigItemInputTypeEnum.switchWithSlots,
+      formType: AttributePanelFormItemInputTypeEnum.switchWithSlots,
       belongToPanel: AttributePanelsEnum.generic,
       type: String,
     }),

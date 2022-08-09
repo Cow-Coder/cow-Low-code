@@ -40,17 +40,17 @@ src
 │   │   ├── components
 │   │   ├── config.ts
 │   │   ├── index.vue
-│   │   └── types.ts
+│   │   └── library-component.ts
 │   ├── codePanel
 │   │   └── index.vue
 │   ├── editPanel
 │   │   ├── index.vue
-│   │   └── types.ts
+│   │   └── library-component.ts
 │   └── libraryPanel
 │       ├── genericsLib
-│       ├── types.ts
+│       ├── library-component.ts
 │       ├── libraryPanelBase.vue
-│       └── types.ts
+│       └── library-component.ts
 ├── hooks						#
 │   └── use-v-model-by-computed.ts
 ├── library						# 物料组件库
@@ -61,10 +61,10 @@ src
 │   ├── swipe
 │   │   ├── index.vue
 │   │   └── preview.tsx
-│   ├── types.ts				# library入口文件
-│   └── types.ts
+│   ├── library-component.ts				# library入口文件
+│   └── library-component.ts
 ├── router
-│   └── types.ts
+│   └── library-component.ts
 ├── stores
 │   ├── plugins
 │   │   └── store-reset.ts		# https://seb-l.github.io/pinia-plugin-persist/

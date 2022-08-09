@@ -1,8 +1,9 @@
 import type {
   ILibraryComponentInstanceFocus,
+  LibraryComponent,
   LibraryComponentInstanceData,
-} from '@/views/edit-panel/types'
-import type { LibraryComponent } from '@/library/types'
+} from '@/types/library-component'
+
 import { libraryRecord } from '@/library'
 
 export const useCodeStore = defineStore(
