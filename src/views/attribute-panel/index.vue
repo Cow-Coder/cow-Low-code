@@ -31,8 +31,8 @@
  */
 import { ref } from 'vue'
 import { ElForm, ElFormItem, ElInput, ElOption, ElSelect, ElSwitch } from 'element-plus'
-import { IndefiniteNumberInputBox } from './components/form-render/IndefiniteNumberInputBox'
-import { SwitchWithSlots } from './components/form-render/SwitchWithSlots'
+import { IndefiniteNumberInputBox } from './components/components/IndefiniteNumberInputBox'
+import { SwitchWithSlots } from './components/components/SwitchWithSlots'
 import type { CSSProperties, WritableComputedRef } from 'vue'
 import type {
   AttributePanelFormItemSchema,
@@ -43,7 +43,7 @@ import type { EAttributePanels } from '@/views/attribute-panel/types'
 import type { LibraryComponent, LibraryComponentProps } from '@/library/types'
 import { EEditableConfigItemInputType } from '@/views/edit-panel/types'
 import { ELibraryComponentFormItemLabelPosition } from '@/library/types'
-import { panelList } from '@/views/attribute-panel/config/panel-config'
+import { panelList } from '@/views/attribute-panel/config'
 import { useCodeStore } from '@/stores/code'
 
 defineOptions({

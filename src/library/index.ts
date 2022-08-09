@@ -1,4 +1,5 @@
 import type { LibraryComponent } from '@/library/types'
+import type { ELibraryName } from '@/views/library-panel/types'
 
 const libraryComponents = import.meta.glob<LibraryComponent>('./*/index.(vue|jsx)', {
   eager: true,
@@ -31,7 +32,6 @@ Object.entries(libraryTree).forEach(([, modules]) => {
 export const libraryRecord = libTemp
 export default libraryTree
 
-export function getLibraryModules(libraryName: string) {
+export function getLibraryModules(libraryName: ELibraryName) {
   return libraryTree[libraryName] ?? {}
 }
-// console.log(`libraryRecord`, libraryRecord, `libraryTree`, libraryTree);

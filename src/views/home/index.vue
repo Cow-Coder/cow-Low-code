@@ -2,7 +2,7 @@
   <el-container class="app-container">
     <!-- 顶栏 -->
     <el-header :height="styleHeaderHeight" class="shadow bg-white sticky top-0 z-40">
-      <home-header :style-header-height="styleHeaderHeight" @handleResetAll="resetAll" />
+      <home-header :style-header-height="styleHeaderHeight" @handle-reset-all="resetAll" />
     </el-header>
 
     <!--    左中右操作区-->

@@ -20,7 +20,7 @@
 
 <script lang="ts" setup>
 import libraryPanels from '@/views/library-panel'
-import CodePanel from '@/views/library-panel/components/code-tab.vue'
+import CodePanel from '@/views/home/components/code-tab.vue'
 
 defineOptions({
   name: 'HomeLeft',
@@ -28,7 +28,7 @@ defineOptions({
 </script>
 
 <style lang="scss" scoped>
-@use '@/views/home/style/index';
+@use '@/views/home/index.scss';
 .panel-left {
   width: 385px;
   @include index.panelLeftAndRight;

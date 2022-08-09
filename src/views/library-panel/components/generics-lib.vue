@@ -3,12 +3,12 @@
 </template>
 
 <script lang="tsx">
+import LibraryPanelBase from './components/library-panel-base.vue'
 import { ELibraryName, type LibraryPanel } from '@/views/library-panel/types'
-import LibraryPanelBase from '@/views/library-panel/index.vue'
 import { getLibraryModules } from '@/library'
 
 const vmOptions = {
-  name: 'genericsLib',
+  name: 'GenericsLib',
   libraryName: ELibraryName.generics,
   libraryTitle: '通用组件',
   tabsList: {
@@ -27,7 +27,7 @@ const vmOptions = {
 /**
  * 这里是自动处理面板物料
  * 如果要自行完全控制，参考
- * @see manual.vue
+ * @see generics-lib.manual.vue.unused
  */
 export default {
   ...vmOptions,

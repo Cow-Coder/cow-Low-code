@@ -6,7 +6,7 @@
       </div>
       <div class="desc">{{ props.element.libraryPanelShowDetail.title }}</div>
       <div class="ask-icon">
-        <el-tooltip effect="light" placement="right" popper-class="tips-wrapper">
+        <el-tooltip effect="light" placement="right" :popper-class="$style.tipsWrapper">
           <template #default>
             <el-icon size="16">
               <!-- TODO: 换一个icon -->
@@ -33,6 +33,9 @@
 <script lang="ts" setup>
 import type { LibraryComponent } from '@/library/types'
 
+/**
+ * 左侧物料组件的按钮
+ */
 defineOptions({
   name: 'LibraryItem',
 })
@@ -40,27 +43,23 @@ defineOptions({
 const props = defineProps<{
   element: LibraryComponent
 }>()
+
+const $style = useCssModule()
 </script>
+
+<style lang="scss" module>
+//组件使用提示
+.tipsWrapper {
+  @apply shadow;
+  padding: 11px;
+}
+</style>
 
 <style lang="scss" scoped>
 // 组件使用提示
 .tips-panel {
   max-width: 328px;
   min-height: 80px;
-}
-
-// 清除折叠面板边框
-.el-collapse {
-  @apply border-transparent #{!important};
-  :deep(.el-collapse-item__wrap),
-  :deep(.el-collapse-item__header) {
-    @apply border-transparent #{!important};
-  }
-
-  // 缩小折叠面板边距，默认的太宽了
-  :deep(.el-collapse-item__content) {
-    padding-bottom: 0;
-  }
 }
 
 .library-component {

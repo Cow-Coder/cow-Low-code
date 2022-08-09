@@ -30,7 +30,7 @@ function onRightPanelResizeEnd() {
 </script>
 
 <style lang="scss" scoped>
-@use '@/views/home/style/index';
+@use '@/views/home/index.scss';
 
 //右侧面板伸缩条
 :deep(.arco-resizebox-trigger-icon-wrapper) {
@@ -40,7 +40,6 @@ function onRightPanelResizeEnd() {
 
 :deep(.arco-resizebox-trigger) {
   &:hover .arco-resizebox-trigger-icon-wrapper {
-    background-color: #dea9a9;
     @apply opacity-100;
   }
 }

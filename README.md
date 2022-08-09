@@ -25,7 +25,7 @@ cow-Low-code
 ├── tailwind.config.js			# tailwindcss
 ├── tsconfig.config.json
 ├── tsconfig.json
-└── vite.panel-config.ts
+└── vite.config.ts
 ```
 
 `src` 目录
@@ -38,7 +38,7 @@ src
 ├── components
 │   ├── attributePanel
 │   │   ├── components
-│   │   ├── panel-config.ts
+│   │   ├── config.ts
 │   │   ├── index.vue
 │   │   └── types.ts
 │   ├── codePanel
