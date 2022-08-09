@@ -74,7 +74,7 @@ import $popoverStyle from '@/assets/style/popover.module.scss'
 import {
   createCustomAttributeTabEmits,
   createCustomAttributeTabProps,
-} from '@/views/attribute-panel/util'
+} from '@/views/home/components/home-right/components/attribute-panel/util'
 import { createLibraryComponentInstanceEventAction } from '@/utils/library'
 
 defineOptions({

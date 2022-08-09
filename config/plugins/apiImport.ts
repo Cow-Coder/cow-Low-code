@@ -21,11 +21,12 @@ export default function configApiImport() {
     // Auto import for module exports under directories
     // by default it only scan one level of modules under the directory
     dirs: [],
+    dts: './types/auto-imports.d.ts',
     /**
      * @link https://github.com/antfu/unplugin-auto-import#eslint
      */
     eslintrc: {
-      enabled: true,
+      enabled: false,
     },
     vueTemplate: true,
     resolvers: [
