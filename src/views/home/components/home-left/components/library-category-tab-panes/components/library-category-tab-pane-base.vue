@@ -50,6 +50,12 @@ const collapseOpenArr = ref(Object.keys(props.vmOptions.tabsList ?? {}) ?? [])
 </script>
 
 <style lang="scss" scoped>
+.library-list {
+  @apply flex flex-wrap;
+  .library-item {
+    flex: 0 0 50%;
+  }
+}
 // 清除折叠面板边框
 .el-collapse {
   @apply border-transparent #{!important};

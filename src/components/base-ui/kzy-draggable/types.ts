@@ -14,6 +14,7 @@ export type DraggableItem = {
   disabled?: boolean
   handleClone?: CloneDrag
   handleMove?: MoveDrag
+  handleEnd?: MoveDrag
   libraryClass?: boolean
 }
 

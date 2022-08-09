@@ -1,17 +1,16 @@
 <template>
-  <div class="page-draggable">
-    <kzy-draggable
-      v-bind="props.draggableConfig.draggableProp"
-      :data-list="dataList"
-      @handle-change="props.draggableConfig?.handleChange"
-    >
-      <template #item="{ element }">
-        <div class="page-drag-slot">
-          <slot name="item" :element="element" />
-        </div>
-      </template>
-    </kzy-draggable>
-  </div>
+  <kzy-draggable
+    :class="$.attrs.attr"
+    v-bind="props.draggableConfig.draggableProp"
+    :data-list="props.dataList"
+    @handle-change="props.draggableConfig?.handleChange"
+  >
+    <template #item="{ element }">
+      <div class="page-drag-slot">
+        <slot name="item" :element="element" />
+      </div>
+    </template>
+  </kzy-draggable>
 </template>
 
 <script lang="ts" setup>
