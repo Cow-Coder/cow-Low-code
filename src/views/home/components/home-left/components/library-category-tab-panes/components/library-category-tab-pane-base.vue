@@ -21,15 +21,15 @@
 </template>
 
 <script lang="tsx" setup>
+import { leftDraggableConfig } from '../config'
+import LibraryItem from './library-item.vue'
 import type { PropType } from 'vue'
 import type { LibraryComponent } from '@/types/library-component'
-import type { LibraryPanel } from '@/views/library-panel/types'
+import type { LibraryPanel } from '../types'
 import PageDraggable from '@/components/page-draggable/index.vue'
-import { leftDraggableConfig } from '@/views/library-panel/config'
-import LibraryItem from '@/views/library-panel/components/components/library-item.vue'
 
 defineOptions({
-  name: 'LibraryPanelBase',
+  name: 'LibraryCategoryTabPaneBase',
 })
 
 const props = defineProps({
