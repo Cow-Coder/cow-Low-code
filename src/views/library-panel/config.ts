@@ -1,6 +1,7 @@
 import type { Draggable } from '@/components/base-ui/kzy-draggable/types'
 import type { LibraryComponent } from '@/types/library-component'
 import { createLibraryComponentInstance } from '@/utils/library'
+import { DRAGGABLE_GROUP_NAME } from '@/constant'
 
 /**
  * 当drop事件发生的时候，此函数的返回值会push到目标容器list中
@@ -23,7 +24,7 @@ const log = function (evt: any) {
 
 export const leftDraggableConfig: Draggable = {
   draggableProp: {
-    group: { name: 'library', pull: 'clone', put: false },
+    group: { name: DRAGGABLE_GROUP_NAME, pull: 'clone', put: false },
     sort: false,
     itemKey: 'id',
     libraryClass: true,
