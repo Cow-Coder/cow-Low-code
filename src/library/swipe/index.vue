@@ -27,7 +27,7 @@ export default defineComponent({
   ...defineLibraryComponent({
     name: 'LibSwipe',
     libraryName: ELibraryName.generics,
-    tabName: 'show',
+    tabName: 'form',
     order: 3,
     libraryPanelShowDetail: {
       title: '轮播图',

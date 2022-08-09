@@ -23,7 +23,7 @@
 import type { LibraryComponentInstanceData } from '@/views/edit-panel/types'
 import { libraryRecord } from '@/library'
 import { useCodeStore } from '@/stores/code'
-import { editDraggableConfig } from '@/views/edit-panel/config/edit-draggable-config'
+import { config } from '@/views/edit-panel/config'
 import PageDraggable from '@/components/page-draggable/index.vue'
 
 defineOptions({
@@ -62,9 +62,9 @@ function isFocusComponent(data: LibraryComponentInstanceData) {
 }
 
 const editDraggableConfigRef = computed(() => {
-  const draggableProp = editDraggableConfig.draggableProp
+  const draggableProp = config.draggableProp
   draggableProp.disabled = isDownCtrlLeft.value
-  return editDraggableConfig
+  return config
 })
 
 function onTouchEvent(e: TouchEvent) {

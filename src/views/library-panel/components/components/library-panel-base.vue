@@ -26,10 +26,10 @@ import type { LibraryComponent } from '@/library/types'
 import type { LibraryPanel } from '@/views/library-panel/types'
 import PageDraggable from '@/components/page-draggable/index.vue'
 import { leftDraggableConfig } from '@/views/library-panel/config/left-draggable-config'
-import LibraryItem from '@/views/library-panel/components/library-item.vue'
+import LibraryItem from '@/views/library-panel/components/components/library-item.vue'
 
 defineOptions({
-  name: 'LibraryPanel',
+  name: 'LibraryPanelBase',
 })
 
 const props = defineProps({
@@ -43,12 +43,24 @@ const props = defineProps({
   },
 })
 
-// const currenLibName = toRef(props.vmOptions, 'libraryName')
 const tabsList = toRef(props.vmOptions, 'tabsList')
-// console.log(`tabsList`, currentModules);
 
 // 保持折叠面板默认打开
 const collapseOpenArr = ref(Object.keys(props.vmOptions.tabsList ?? {}) ?? [])
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+// 清除折叠面板边框
+.el-collapse {
+  @apply border-transparent #{!important};
+  :deep(.el-collapse-item__wrap),
+  :deep(.el-collapse-item__header) {
+    @apply border-transparent #{!important};
+  }
+
+  // 缩小折叠面板边距，默认的太宽了
+  :deep(.el-collapse-item__content) {
+    padding-bottom: 0;
+  }
+}
+</style>
