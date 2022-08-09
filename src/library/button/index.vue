@@ -1,20 +1,27 @@
 <template>
-  <!--  TODO: van开头的组件不会自动识别 -->
-  <van-button type="primary">{{ title }}</van-button>
+  <div>
+    <!--  TODO: van开头的组件不会自动识别 -->
+    <van-button :type="buttonType" :size="buttonSize" :url="url" @click="showTips(tips)">{{
+      title
+    }}</van-button>
+  </div>
 </template>
-
 <script lang="tsx">
-import { Button } from 'vant'
-import { ElIcon } from 'element-plus'
-import { ELibraryName } from '@/components/libraryPanel/types'
-import { EAttributePanels } from '@/components/attributePanel/types'
+import { ref } from 'vue'
+import { Button, Dialog } from 'vant'
+import 'vant/es/dialog/style'
+import { ElIcon, ElInput } from 'element-plus'
+import {
+  AttributePanelFormItemInputTypeEnum,
+  AttributePanelsEnum,
+  LibraryPanelTabEnum,
+} from '@/types/panel'
 import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
-import { EEditableConfigItemInputType } from '@/components/editPanel/types'
 
 export default {
   ...defineLibraryComponent({
     name: 'LibButton',
-    libraryName: ELibraryName.generics,
+    libraryName: LibraryPanelTabEnum.generics,
     tabName: 'show',
     order: 1,
     libraryPanelShowDetail: {
@@ -40,16 +47,82 @@ export default {
         </>
       ),
     },
+    eventTriggers: {
+      click: {
+        title: '点击',
+      },
+      enter: {
+        title: '鼠标移入',
+      },
+      leave: {
+        title: '鼠标移出',
+      },
+    },
   }),
   props: {
     title: createLibraryComponentPropItem({
       title: '按钮名称',
       default: '按钮',
-      formType: EEditableConfigItemInputType.input,
-      belongToPanel: EAttributePanels.generic,
+      formType: AttributePanelFormItemInputTypeEnum.input,
+      belongToPanel: AttributePanelsEnum.generic,
     }),
+    buttonType: createLibraryComponentPropItem({
+      title: '按钮类型',
+      default: 'defalut',
+      selectOptions: ['defalut', 'primary', 'success', 'info', 'warning', 'danger'],
+      formType: AttributePanelFormItemInputTypeEnum.select,
+      belongToPanel: AttributePanelsEnum.generic,
+      type: String,
+    }),
+    buttonSize: createLibraryComponentPropItem({
+      title: '按钮大小',
+      default: 'normal',
+      selectOptions: ['large', 'normal', 'small', 'mimi'],
+      formType: AttributePanelFormItemInputTypeEnum.select,
+      belongToPanel: AttributePanelsEnum.generic,
+      type: String,
+    }),
+    to: createLibraryComponentPropItem({
+      title: '路由导航',
+      default: '',
+      formType: AttributePanelFormItemInputTypeEnum.input,
+      belongToPanel: AttributePanelsEnum.generic,
+      type: String,
+    }),
+    url: createLibraryComponentPropItem({
+      title: 'url跳转',
+      default: '',
+      formType: AttributePanelFormItemInputTypeEnum.input,
+      belongToPanel: AttributePanelsEnum.generic,
+      type: String,
+    }),
+    tips: createLibraryComponentPropItem({
+      title: '提示弹框',
+      default: '',
+      formType: AttributePanelFormItemInputTypeEnum.switchWithSlots,
+      belongToPanel: AttributePanelsEnum.generic,
+      type: String,
+    }),
+  },
+  setup() {
+    const show = ref(false)
+
+    //提示弹框
+    const showTips = (tips: string) => {
+      if (tips.length) {
+        show.value = true
+        Dialog.confirm({ message: tips })
+          .then((e) => {
+            console.log(e)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
+    }
+    return { showTips, show }
   },
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped />

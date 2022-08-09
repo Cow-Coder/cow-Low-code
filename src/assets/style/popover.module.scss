@@ -1,0 +1,10 @@
+.popoverWithOutTitle{
+  @apply p-0;
+  :global(.arco-popover-content) {
+    @apply mt-0;
+    width: 100px;
+    :global(.el-button + .el-button) {
+      @apply ml-0;
+    }
+  }
+}

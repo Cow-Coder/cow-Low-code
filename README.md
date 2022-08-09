@@ -40,19 +40,19 @@ src
 │   │   ├── components
 │   │   ├── config.ts
 │   │   ├── index.vue
-│   │   └── types.ts
+│   │   └── library-component.ts
 │   ├── codePanel
 │   │   └── index.vue
 │   ├── editPanel
 │   │   ├── index.vue
-│   │   └── types.ts
+│   │   └── library-component.ts
 │   └── libraryPanel
 │       ├── genericsLib
-│       ├── index.ts
+│       ├── library-component.ts
 │       ├── libraryPanelBase.vue
-│       └── types.ts
+│       └── library-component.ts
 ├── hooks						#
-│   └── useVModelByComputed.ts
+│   └── use-v-model-by-computed.ts
 ├── library						# 物料组件库
 │   ├── button					# 物料组件名
 │   │   └── index.vue			# Lib + 物料组件名
@@ -61,13 +61,13 @@ src
 │   ├── swipe
 │   │   ├── index.vue
 │   │   └── preview.tsx
-│   ├── index.ts				# library入口文件
-│   └── types.ts
+│   ├── library-component.ts				# library入口文件
+│   └── library-component.ts
 ├── router
-│   └── index.ts
+│   └── library-component.ts
 ├── stores
 │   ├── plugins
-│   │   └── storeReset.ts		# https://seb-l.github.io/pinia-plugin-persist/
+│   │   └── store-reset.ts		# https://seb-l.github.io/pinia-plugin-persist/
 │   └── code.ts					# store
 ├── utils
 │   └── library.ts				# 工具函数
