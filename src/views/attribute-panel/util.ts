@@ -1,8 +1,10 @@
 import type { PropType } from 'vue'
-import type { LibraryComponentInstanceData } from '@/views/edit-panel/types'
-import type { AttributePanelsEnum } from '@/views/attribute-panel/types'
-import type { LibraryComponent } from '@/library/types'
+import type { AttributePanelsEnum } from '@/types/panel'
+import type { LibraryComponent, LibraryComponentInstanceData } from '@/types/library-component'
 
+/**
+ * 快速生成自定义属性tab的props对象
+ */
 export function createCustomAttributeTabProps() {
   return {
     componentInstanceData: {
@@ -18,6 +20,9 @@ export function createCustomAttributeTabProps() {
   }
 }
 
+/**
+ * 快速生成自定义属性tab的emits
+ */
 export function createCustomAttributeTabEmits() {
   return ['update:componentInstanceData']
 }

@@ -35,14 +35,14 @@ import { IndefiniteNumberInputBox } from './components/components/IndefiniteNumb
 import { SwitchWithSlots } from './components/components/SwitchWithSlots'
 import type { CSSProperties, WritableComputedRef } from 'vue'
 import type {
-  AttributePanelFormItemSchema,
+  LibraryComponent,
   LibraryComponentInstanceData,
   LibraryComponentInstanceProps,
-} from '@/views/edit-panel/types'
-import type { AttributePanelsEnum } from '@/views/attribute-panel/types'
-import type { LibraryComponent, LibraryComponentProps } from '@/library/types'
-import { EditableConfigItemInputTypeEnum } from '@/views/edit-panel/types'
-import { LibraryComponentFormItemLabelPositionEnum } from '@/library/types'
+  LibraryComponentProps,
+} from '@/types/library-component'
+import type { AttributePanelFormItemSchema, AttributePanelsEnum } from '@/types/panel'
+import { AttributePanelFormItemInputTypeEnum } from '@/types/panel'
+import { LibraryComponentFormItemLabelPositionEnum } from '@/types/library-component'
 import { panelList } from '@/views/attribute-panel/config'
 import { useCodeStore } from '@/stores/code'
 
@@ -141,15 +141,15 @@ function formRender(
     formItemSchema: AttributePanelFormItemSchema
   ) => {
     //input
-    if (formItemSchema.formType === EditableConfigItemInputTypeEnum.input) {
+    if (formItemSchema.formType === AttributePanelFormItemInputTypeEnum.input) {
       return <ElInput v-model={propsData[formItemSchema.name]}></ElInput>
     }
     //indefiniteNumberInputBox
-    if (formItemSchema.formType === EditableConfigItemInputTypeEnum.indefiniteNumberInputBox) {
+    if (formItemSchema.formType === AttributePanelFormItemInputTypeEnum.indefiniteNumberInputBox) {
       const list = propsData[formItemSchema.name]
       if (!Array.isArray(list))
         throw new TypeError(
-          'invalid Data at EditableConfigItemInputTypeEnum.indefiniteNumberInputBox'
+          'invalid Data at AttributePanelFormItemInputTypeEnum.indefiniteNumberInputBox'
         )
       return (
         <IndefiniteNumberInputBox
@@ -157,7 +157,7 @@ function formRender(
           onUpdate:modelValue={(e: string[]) => {
             if (!Array.isArray(list))
               throw new TypeError(
-                'invalid Data at EditableConfigItemInputTypeEnum.indefiniteNumberInputBox'
+                'invalid Data at AttributePanelFormItemInputTypeEnum.indefiniteNumberInputBox'
               )
             list.splice(0, list.length, ...e)
           }}
@@ -165,7 +165,7 @@ function formRender(
       )
     }
     //switch
-    if (formItemSchema.formType === EditableConfigItemInputTypeEnum.switch) {
+    if (formItemSchema.formType === AttributePanelFormItemInputTypeEnum.switch) {
       return (
         <>
           <ElSwitch v-model={propsData[formItemSchema.name]}></ElSwitch>
@@ -173,7 +173,7 @@ function formRender(
       )
     }
     //select
-    if (formItemSchema.formType === EditableConfigItemInputTypeEnum.select) {
+    if (formItemSchema.formType === AttributePanelFormItemInputTypeEnum.select) {
       return (
         <ElSelect v-model={propsData[formItemSchema.name]}>
           {formItemSchema.selectOptions?.map((item: string) => (
@@ -183,7 +183,7 @@ function formRender(
       )
     }
     //
-    if (formItemSchema.formType === EditableConfigItemInputTypeEnum.switchWithSlots) {
+    if (formItemSchema.formType === AttributePanelFormItemInputTypeEnum.switchWithSlots) {
       return <SwitchWithSlots v-model={propsData[formItemSchema.name]}></SwitchWithSlots>
     }
 

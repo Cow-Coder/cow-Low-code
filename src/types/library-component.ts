@@ -1,7 +1,15 @@
 import type { Component, ComponentOptions, Prop } from 'vue'
-import type { LibraryNameEnum } from '@/views/library-panel/types'
-import type { AttributePanelsEnum } from '@/views/attribute-panel/types'
-import type { EditableConfigItemInputTypeEnum } from '@/views/edit-panel/types'
+import type {
+  AttributePanelFormItemInputTypeEnum,
+  AttributePanelsEnum,
+  LibraryPanelTabEnum,
+} from '@/types/panel'
+import type {
+  EventTrigger,
+  LibraryComponentInstanceEventTriggers,
+} from '@/types/library-component-event'
+
+export type LibraryComponentInstanceProps = Data
 
 /**
  * 该项表单label显示位置
@@ -18,7 +26,7 @@ export type LibraryComponentPropItem = {
   /**
    * 表单类型
    */
-  formType: EditableConfigItemInputTypeEnum
+  formType: AttributePanelFormItemInputTypeEnum
   /**
    * 描述标题
    */
@@ -55,19 +63,6 @@ export type LibraryComponentProps = Record<string, LibraryComponentPropItem>
  */
 export type DefineComponent = (() => JSX.Element) | Component
 
-export type EventTrigger = {
-  /**
-   * 事件标识符
-   * @name name
-   */
-  [name: string]: {
-    /**
-     * 事件名称
-     */
-    title: string
-  }
-}
-
 /**
  * 物料组件
  */
@@ -79,7 +74,7 @@ export interface LibraryComponent extends ComponentOptions {
   /**
    * 所在library选项卡的name
    */
-  libraryName: LibraryNameEnum
+  libraryName: LibraryPanelTabEnum
   /**
    *  所在lib->tab面板中的name
    */
@@ -126,4 +121,43 @@ export interface LibraryComponent extends ComponentOptions {
    * 定义触发事件的情况
    */
   eventTriggers?: EventTrigger
+}
+
+/**
+ * 物料组件实例的数据
+ */
+export interface LibraryComponentInstanceData {
+  /**
+   * 全局唯一ID
+   */
+  uuid: string
+  /**
+   * 是否选中当前物料组件实例
+   * @deprecated
+   */
+  focus: boolean
+  /**
+   * 物料库标识符
+   */
+  libraryName: LibraryPanelTabEnum
+  /**
+   * 在vue中组件名
+   */
+  componentName: string
+  /**
+   *右侧属性面板可编辑参数
+   */
+  props?: LibraryComponentInstanceProps
+  /**
+   * 事件触发器
+   */
+  eventTriggers?: LibraryComponentInstanceEventTriggers
+}
+
+/**
+ * 编辑区被选中物料组件的定位数据
+ */
+export interface ILibraryComponentInstanceFocus {
+  path?: string | undefined
+  uuid: string | undefined
 }

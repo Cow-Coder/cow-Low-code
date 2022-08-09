@@ -20,5 +20,5 @@ export type DraggableItem = {
 export interface Draggable {
   draggableProp: DraggableItem
   // itemSlot: DefineComponent,
-  handleChangeF?: (component: any) => any
+  handleChange?: (component: any) => any
 }

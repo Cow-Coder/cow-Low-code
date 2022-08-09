@@ -22,10 +22,10 @@
 
 <script lang="tsx" setup>
 import type { PropType } from 'vue'
-import type { LibraryComponent } from '@/library/types'
+import type { LibraryComponent } from '@/types/library-component'
 import type { LibraryPanel } from '@/views/library-panel/types'
 import PageDraggable from '@/components/page-draggable/index.vue'
-import { leftDraggableConfig } from '@/views/library-panel/config/left-draggable-config'
+import { leftDraggableConfig } from '@/views/library-panel/config'
 import LibraryItem from '@/views/library-panel/components/components/library-item.vue'
 
 defineOptions({

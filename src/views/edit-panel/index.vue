@@ -20,7 +20,9 @@
 </template>
 
 <script lang="tsx" setup>
-import type { LibraryComponentInstanceData } from '@/views/edit-panel/types'
+import type { ComputedRef } from 'vue'
+import type { Draggable } from '@/components/base-ui/kzy-draggable/types'
+import type { LibraryComponentInstanceData } from '@/types/library-component'
 import { libraryRecord } from '@/library'
 import { useCodeStore } from '@/stores/code'
 import { config } from '@/views/edit-panel/config'
@@ -35,7 +37,6 @@ const { jsonCode: editableInstancedLibraryComponentData, focusData } = storeToRe
 
 // 根据名称解析物料组件库内的组件，这里没有注册全局组件是避免污染全局组件名称
 function parseLibraryComponent(data: LibraryComponentInstanceData) {
-  // console.log(`parseLibraryComponent`, data)
   /**
    * TODO: 可以不用每次都遍历，把libraryRecord用Object.fromEntries转成键值对
    */
@@ -61,7 +62,7 @@ function isFocusComponent(data: LibraryComponentInstanceData) {
   return data.uuid == focusData.value?.uuid && !isDownCtrlLeft.value
 }
 
-const editDraggableConfigRef = computed(() => {
+const editDraggableConfigRef: ComputedRef<Draggable> = computed(() => {
   const draggableProp = config.draggableProp
   draggableProp.disabled = isDownCtrlLeft.value
   return config
