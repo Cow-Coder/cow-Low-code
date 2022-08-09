@@ -13,6 +13,7 @@ export default function configComponentsImport() {
      * @link relative paths to the directory to search for components.
      */
     dirs: [],
+    dts: './types/components.d.ts',
     resolvers: [
       ElementPlusResolver({
         importStyle: 'sass',
