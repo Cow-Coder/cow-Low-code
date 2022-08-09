@@ -3,8 +3,8 @@
 </template>
 
 <script lang="tsx">
-import LibraryPanelBase from './components/library-panel-base.vue'
-import type { LibraryPanel } from '@/views/library-panel/types'
+import LibraryPanelBase from '../components/library-category-tab-pane-base.vue'
+import type { LibraryPanel } from '../types'
 import { getLibraryModules } from '@/library'
 import { LibraryPanelTabEnum } from '@/types/panel'
 

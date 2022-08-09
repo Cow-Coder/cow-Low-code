@@ -19,8 +19,8 @@
 </template>
 
 <script lang="ts" setup>
-import libraryPanels from '@/views/library-panel'
-import CodePanel from '@/views/home/components/code-tab.vue'
+import libraryPanels from './components/library-category-tab-panes'
+import CodePanel from '@/views/home/components/home-left/components/code-tab-pane.vue'
 
 defineOptions({
   name: 'HomeLeft',

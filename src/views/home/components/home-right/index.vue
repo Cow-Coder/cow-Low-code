@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import AttributePanel from '@/views/attribute-panel/index.vue'
+import AttributePanel from '@/views/home/components/home-right/components/attribute-panel/index.vue'
 
 defineOptions({
   name: 'HomeRight',
