@@ -20,7 +20,7 @@ import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/
 
 export default {
   ...defineLibraryComponent({
-    name: 'LibButton',
+    name: 'WidgetButton',
     libraryName: LibraryPanelTabEnum.generics,
     tabName: 'show',
     order: 1,

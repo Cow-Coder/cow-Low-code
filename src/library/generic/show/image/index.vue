@@ -14,7 +14,7 @@ import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/
 
 export default {
   ...defineLibraryComponent({
-    name: 'LibImage',
+    name: 'WidgetImage',
     libraryName: LibraryPanelTabEnum.generics,
     tabName: 'show',
     order: 2,
