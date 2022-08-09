@@ -12,7 +12,7 @@ export interface TabList {
   }
 }
 
-export enum ELibraryName {
+export enum LibraryNameEnum {
   generics = 'generics',
 }
 
@@ -20,7 +20,7 @@ export interface LibraryPanel extends ComponentOptions {
   /**
    * 物料面板的唯一标识符
    */
-  libraryName: ELibraryName
+  libraryName: LibraryNameEnum
   /**
    * 物料面板的在左侧选项卡处的名称
    */

@@ -1,4 +1,4 @@
-import type { ELibraryName } from '@/views/library-panel/types'
+import type { LibraryNameEnum } from '@/views/library-panel/types'
 import type { LibraryComponentPropItem } from '@/library/types'
 
 export type LibraryComponentInstanceProps = Data
@@ -6,7 +6,7 @@ export type LibraryComponentInstanceProps = Data
 /**
  * 事件触发时需要执行的动作类型
  */
-export enum EActionType {
+export enum ActionTypeEnum {
   reload = 'reload',
   request = 'request',
 }
@@ -27,7 +27,7 @@ export interface LibraryComponentInstanceData {
   /**
    * 物料库标识符
    */
-  libraryName: ELibraryName
+  libraryName: LibraryNameEnum
   /**
    * 在vue中组件名
    */
@@ -50,7 +50,7 @@ export type LibraryComponentInstanceEventTriggers = {
    */
   [name: string]: {
     actions: Array<{
-      actionType: EActionType
+      actionType: ActionTypeEnum
     }>
   }
 }
@@ -59,7 +59,7 @@ export type LibraryComponentInstanceEventTriggers = {
  * 编辑面板每个config的表单类型
  * TODO:这里需要拓展其他类型
  */
-export enum EEditableConfigItemInputType {
+export enum EditableConfigItemInputTypeEnum {
   /**
    * 输入框
    */

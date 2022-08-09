@@ -1,6 +1,6 @@
 import type { PropType } from 'vue'
 import type { LibraryComponentInstanceData } from '@/views/edit-panel/types'
-import type { EAttributePanels } from '@/views/attribute-panel/types'
+import type { AttributePanelsEnum } from '@/views/attribute-panel/types'
 import type { LibraryComponent } from '@/library/types'
 
 export function createCustomAttributeTabProps() {
@@ -12,7 +12,7 @@ export function createCustomAttributeTabProps() {
       type: Object as PropType<LibraryComponent>,
     },
     cursorPanel: {
-      type: String as PropType<EAttributePanels>,
+      type: String as PropType<AttributePanelsEnum>,
       required: true,
     },
   }

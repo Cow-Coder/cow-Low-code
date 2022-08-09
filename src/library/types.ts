@@ -1,12 +1,12 @@
 import type { Component, ComponentOptions, Prop } from 'vue'
-import type { ELibraryName } from '@/views/library-panel/types'
-import type { EAttributePanels } from '@/views/attribute-panel/types'
-import type { EEditableConfigItemInputType } from '@/views/edit-panel/types'
+import type { LibraryNameEnum } from '@/views/library-panel/types'
+import type { AttributePanelsEnum } from '@/views/attribute-panel/types'
+import type { EditableConfigItemInputTypeEnum } from '@/views/edit-panel/types'
 
 /**
  * 该项表单label显示位置
  */
-export enum ELibraryComponentFormItemLabelPosition {
+export enum LibraryComponentFormItemLabelPositionEnum {
   aside = 'aside',
   top = 'top',
 }
@@ -18,7 +18,7 @@ export type LibraryComponentPropItem = {
   /**
    * 表单类型
    */
-  formType: EEditableConfigItemInputType
+  formType: EditableConfigItemInputTypeEnum
   /**
    * 描述标题
    */
@@ -34,11 +34,11 @@ export type LibraryComponentPropItem = {
   /**
    * 该项表单label显示位置
    */
-  labelPosition?: ELibraryComponentFormItemLabelPosition
+  labelPosition?: LibraryComponentFormItemLabelPositionEnum
   /**
    * 当前属性应该显示在哪个面板
    */
-  belongToPanel: EAttributePanels
+  belongToPanel: AttributePanelsEnum
   /**
    * select选项
    */
@@ -79,7 +79,7 @@ export interface LibraryComponent extends ComponentOptions {
   /**
    * 所在library选项卡的name
    */
-  libraryName: ELibraryName
+  libraryName: LibraryNameEnum
   /**
    *  所在lib->tab面板中的name
    */

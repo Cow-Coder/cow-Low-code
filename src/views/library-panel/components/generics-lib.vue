@@ -4,12 +4,12 @@
 
 <script lang="tsx">
 import LibraryPanelBase from './components/library-panel-base.vue'
-import { ELibraryName, type LibraryPanel } from '@/views/library-panel/types'
+import { LibraryNameEnum, type LibraryPanel } from '@/views/library-panel/types'
 import { getLibraryModules } from '@/library'
 
 const vmOptions = {
   name: 'GenericsLib',
-  libraryName: ELibraryName.generics,
+  libraryName: LibraryNameEnum.generics,
   libraryTitle: '通用组件',
   tabsList: {
     show: {
