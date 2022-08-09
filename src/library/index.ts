@@ -1,7 +1,7 @@
 import type { LibraryComponent } from '@/types/library-component'
 import type { LibraryPanelTabEnum } from '@/types/panel'
 
-const libraryComponents = import.meta.glob<LibraryComponent>('./*/index.(vue|jsx)', {
+const libraryComponents = import.meta.glob<LibraryComponent>('./**/index.(vue|jsx)', {
   eager: true,
 })
 const libraryTree: Record<string, Record<string, LibraryComponent[]>> = {}
