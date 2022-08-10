@@ -43,6 +43,10 @@ export enum AttributePanelFormItemInputTypeEnum {
    * 带插槽的开关
    */
   switchWithSlots = 'switchWithSlots',
+  /**
+   * 滑块
+   */
+  slider = 'slider',
 }
 
 /**
