@@ -24,6 +24,10 @@ import type { CloneDrag, GroupDrag, MoveDrag } from '@/components/base-ui/kzy-dr
 import type { LibraryComponent } from '@/types/library-component'
 import { DRAGGABLE_GROUP_NAME } from '@//constant'
 
+defineOptions({
+  name: 'KZYDraggable',
+})
+
 interface DragProps {
   dataList: Record<string, LibraryComponent[]>
   group?: GroupDrag

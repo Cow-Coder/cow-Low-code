@@ -22,7 +22,7 @@
             <template #icon>
               <IconBulb />
             </template>
-            按住<kbd>ctrl</kbd>可以临时禁止拖动
+            <div>按住<kbd>ctrl</kbd>可以临时预览页面</div>
           </a-menu-item>
         </a-menu>
       </template>
@@ -44,6 +44,7 @@ const isShowTrigger = ref(false)
 .float-tips {
   // 悬浮菜单
   --button-trigger-bottom: 40px;
+
   :deep(.button-trigger-wrapper) {
     @apply fixed;
     bottom: calc(40px + var(--button-trigger-bottom));
