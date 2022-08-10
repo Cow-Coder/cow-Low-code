@@ -4,6 +4,7 @@ import IndefiniteNumberInputBox from './components/IndefiniteNumberInputBox'
 import type {
   LibraryComponentInstanceProps,
   LibraryComponentProps,
+  SelectOption,
 } from '@/types/library-component'
 import type { AttributePanelFormItemSchema, AttributePanelsEnum } from '@/types/panel'
 import type { CSSProperties } from 'vue'
@@ -89,11 +90,13 @@ export default function formRender(
     //select
     if (formItemSchema.formType === AttributePanelFormItemInputTypeEnum.select) {
       return (
-        <ElSelect v-model={propsData[formItemSchema.name]}>
-          {formItemSchema.selectOptions?.map((item: string) => (
-            <ElOption label={item} value={item}></ElOption>
-          ))}
-        </ElSelect>
+        <>
+          <ElSelect v-model={propsData[formItemSchema.name]}>
+            {formItemSchema.selectOptions?.map((item: SelectOption) => (
+              <ElOption label={item.title} value={item.value} />
+            ))}
+          </ElSelect>
+        </>
       )
     }
     //
