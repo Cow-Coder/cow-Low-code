@@ -15,14 +15,6 @@ export type EventTrigger = {
 }
 
 /**
- * 事件触发时需要执行的动作类型
- */
-export enum ActionTypeEnum {
-  reload = 'reload',
-  request = 'request',
-}
-
-/**
  * 物料组件实例的事件触发器
  */
 export type LibraryComponentInstanceEventTriggers = {
@@ -32,12 +24,22 @@ export type LibraryComponentInstanceEventTriggers = {
    * @see IEventTrigger
    */
   [name: string]: {
-    actions: Array<{
-      actionType: ActionTypeEnum
-    }>
+    actions: LibraryComponentInstanceActionItem[]
   }
 }
 
+export type LibraryComponentInstanceActionItem = {
+  /**
+   * ActionHandler的唯一标识符
+   * 与ActionHandler的name字段一致
+   */
+  actionName: string
+  config?: Record<string, any>
+}
+
+/**
+ * Action处理器的结构
+ */
 export type ActionHandlerSchema = {
   /**
    * action唯一标识符
@@ -58,6 +60,14 @@ export type ActionHandlerSchema = {
   /**
    * 配置界面
    */
-  configPanel?: () => JSX.Element
+  configPanel?: (() => JSX.Element) | DefineComponent
   children?: ActionHandlerSchema[]
+}
+
+/**
+ * 动作配置dialog返回结果
+ */
+export type ActionConfigResult = {
+  actionName: string
+  config: Record<string, any> | undefined
 }

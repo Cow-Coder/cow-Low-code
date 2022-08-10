@@ -1,6 +1,5 @@
 import type { ActionHandlerSchema } from '@/types/library-component-event'
 
-console.log(`copy`)
 export default {
   name: 'Copy',
   label: '复制内容',
