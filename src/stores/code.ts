@@ -54,12 +54,13 @@ export const useCodeStore = defineStore(
        */
       let focusedLibraryComponentInstanceData = undefined
       for (const jsonCodeElement of jsonCode.value) {
-        if (jsonCodeElement.uuid && jsonCodeElement.uuid === focusData.uuid) {
+        if (jsonCodeElement?.uuid === focusData.uuid) {
           // console.log(`jsonCodeElement`, jsonCodeElement, jsonCode);
           focusedLibraryComponentInstanceData = jsonCodeElement
           break
         }
       }
+
       if (!focusedLibraryComponentInstanceData)
         throw new Error(`not found focusedLibraryComponentData(uuid): ${focusData.uuid}`)
 
@@ -70,6 +71,7 @@ export const useCodeStore = defineStore(
           break
         }
       }
+
       if (!focusedLibraryComponentSchema)
         throw new Error(
           `not found focusedLibraryComponentSchema(name): ${focusedLibraryComponentInstanceData.componentName}`
