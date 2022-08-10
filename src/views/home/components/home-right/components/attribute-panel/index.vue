@@ -1,6 +1,7 @@
 <template>
   <el-tabs class="attitude-tab-pane" type="border-card">
     <el-tab-pane v-for="panelItem in panelList" :key="panelItem.name" :label="panelItem.title">
+      {{ panelItem.component }}
       <keep-alive>
         <component
           :is="panelItem.component"
@@ -63,6 +64,7 @@ watch(focusData, () => {
   setTimeout(() => {
     const [focusedLibraryComponentInstanceData, focusedLibraryComponentSchema] =
       codeStore.getLibraryComponentInstanceDataAndSchema(focus)
+
     componentData.value = focusedLibraryComponentInstanceData
     componentSchema.value = focusedLibraryComponentSchema
   }, 0)
@@ -72,7 +74,7 @@ const componentDataProps: WritableComputedRef<LibraryComponentInstanceProps | un
   {
     get() {
       if (!componentData.value) return undefined
-      return componentData.value.props
+      return componentData.value?.props
     },
     set(val) {
       if (!componentData.value) return undefined
@@ -83,7 +85,7 @@ const componentDataProps: WritableComputedRef<LibraryComponentInstanceProps | un
 const componentSchemaProps: WritableComputedRef<LibraryComponentProps | undefined> = computed({
   get() {
     if (!componentSchema.value) return undefined
-    return componentSchema.value.props
+    return componentSchema.value?.props
   },
   set(val) {
     if (!componentSchema.value) return undefined
