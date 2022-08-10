@@ -20,7 +20,7 @@
 </template>
 
 <script lang="tsx" setup>
-import type { ComputedRef } from 'vue'
+import { ref } from 'vue'
 import type { Draggable } from '@/components/base-ui/kzy-draggable/types'
 import type { LibraryComponentInstanceData } from '@/types/library-component'
 import { libraryRecord } from '@/library'
@@ -32,13 +32,13 @@ defineOptions({
   name: 'EditPanel',
 })
 
-const config: Draggable = {
+const editDraggableConfigRef = ref<Draggable>({
   draggableProp: {
     group: { name: DRAGGABLE_GROUP_NAME },
     itemKey: 'id',
     disabled: false,
   },
-}
+})
 
 const codeStore = useCodeStore()
 const { jsonCode: editableInstancedLibraryComponentData, focusData } = storeToRefs(codeStore)
@@ -60,30 +60,29 @@ function parseLibraryComponent(data: LibraryComponentInstanceData) {
   throw new Error(`not found library component: ${data.libraryName}`)
 }
 
+const isDownCtrlLeft = ref(false)
 function onChoose(data: LibraryComponentInstanceData) {
-  // console.log('onChoose', data)
-  codeStore.dispatchFocus(data.uuid)
+  isDownCtrlLeft.value || codeStore.dispatchFocus(data.uuid)
 }
 
-const isDownCtrlLeft = ref(false)
+watch(isDownCtrlLeft, (val) => {
+  editDraggableConfigRef.value.draggableProp.disabled = val
+})
+
 function isFocusComponent(data: LibraryComponentInstanceData) {
   return data.uuid == focusData.value?.uuid && !isDownCtrlLeft.value
 }
 
-const editDraggableConfigRef: ComputedRef<Draggable> = computed(() => {
-  const draggableProp = config.draggableProp
-  draggableProp.disabled = isDownCtrlLeft.value
-  return config
-})
-
 function onTouchEvent(e: TouchEvent) {
-  if (!e.ctrlKey) e.stopPropagation()
+  if (!isDownCtrlLeft.value) e.stopPropagation()
 }
 
 useEventListener(window, 'keydown', (e) => {
   e.code === 'ControlLeft' ? (isDownCtrlLeft.value = true) : undefined
 })
-useEventListener(window, 'keyup', () => (isDownCtrlLeft.value = false))
+useEventListener(window, 'keyup', (e) => {
+  e.code === 'ControlLeft' ? (isDownCtrlLeft.value = false) : undefined
+})
 
 // TODO: 拖拽到编辑器时候显示真实的组件，而不是显示物料面板的按钮
 </script>
