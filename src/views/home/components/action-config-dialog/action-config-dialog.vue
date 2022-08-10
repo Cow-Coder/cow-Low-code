@@ -47,7 +47,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { commonActions } from './config'
+import { commonActions } from './action'
 import type { ActionConfigResult, ActionHandlerSchema } from '@/types/library-component-event'
 import type { ComputedRef } from 'vue'
 defineOptions({

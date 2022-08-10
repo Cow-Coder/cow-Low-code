@@ -1,7 +1,6 @@
 <template>
   <el-tabs class="attitude-tab-pane" type="border-card">
     <el-tab-pane v-for="panelItem in panelList" :key="panelItem.name" :label="panelItem.title">
-      {{ panelItem.component }}
       <keep-alive>
         <component
           :is="panelItem.component"
