@@ -75,9 +75,16 @@ export default {
     }),
     fit: createLibraryComponentPropItem({
       title: '图片填充模式:',
-      selectOptions: ['contain', 'cover', 'fill', 'none', 'scale-down'],
+      selectOptions: [
+        { title: 'contain', value: 'contain' },
+        { title: 'cover', value: 'cover' },
+        { title: 'fill', value: 'fill' },
+        { title: 'none', value: 'none' },
+        { title: 'scale-down', value: 'scale-down' },
+      ],
       formType: AttributePanelFormItemInputTypeEnum.select,
       belongToPanel: AttributePanelsEnum.generic,
+      default: 'contain',
     }),
   },
 }
