@@ -19,6 +19,11 @@ export enum LibraryComponentFormItemLabelPositionEnum {
   top = 'top',
 }
 
+export interface SelectOption {
+  title: string
+  value: any
+}
+
 /**
  * 组件单个prop
  */
@@ -50,7 +55,7 @@ export type LibraryComponentPropItem = {
   /**
    * select选项
    */
-  selectOptions?: any[]
+  selectOptions?: SelectOption[]
 } & Prop<any>
 
 /**

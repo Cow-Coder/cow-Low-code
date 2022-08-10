@@ -18,6 +18,10 @@ import type { Draggable } from '@/components/base-ui/kzy-draggable/types'
 import type { LibraryComponent } from '@/types/library-component'
 import KzyDraggable from '@/components/base-ui/kzy-draggable/index.vue'
 
+defineOptions({
+  name: 'PageDraggable',
+})
+
 const props = defineProps<{
   draggableConfig: Draggable
   dataList: Record<string, LibraryComponent[]>
