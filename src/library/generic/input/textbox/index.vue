@@ -1,7 +1,7 @@
 <template>
   <div class="textbox">
     <van-cell-group inset>
-      <van-field v-model="defaultValue" :label="title" :type="type" :placeholder="placehoder" />
+      <van-field v-model="defaultValue" :label="title" :type="type" :placeholder="placeholder" />
     </van-cell-group>
   </div>
 </template>
@@ -82,14 +82,14 @@ export default defineComponent({
       type: String,
       default: 'text',
     }),
-    defaultValue: createLibraryComponentPropItem({
+    value: createLibraryComponentPropItem({
       title: '默认值',
       belongToPanel: AttributePanelsEnum.generic,
       formType: AttributePanelFormItemInputTypeEnum.input,
       type: String,
       default: '',
     }),
-    placehoder: createLibraryComponentPropItem({
+    placeholder: createLibraryComponentPropItem({
       title: '占位符',
       belongToPanel: AttributePanelsEnum.generic,
       formType: AttributePanelFormItemInputTypeEnum.input,
@@ -97,8 +97,9 @@ export default defineComponent({
       default: 'Please input content!',
     }),
   },
-  setup(props) {
-    return {}
+  setup(props, { emit }) {
+    const defaultValue = useVModel(props, 'value', emit)
+    return { defaultValue }
   },
 })
 </script>
