@@ -1,5 +1,5 @@
 <template>
-  <van-image height="100" :src="url" width="100" />
+  <van-image :height="height" :width="width" :src="url" :fit="fit" :radius="radius" />
 </template>
 
 <script lang="tsx">
@@ -37,12 +37,54 @@ export default {
         </>
       ),
     },
+    eventTriggers: {
+      click: {
+        title: '点击',
+      },
+      enter: {
+        title: '鼠标移入',
+      },
+      leave: {
+        title: '鼠标移出',
+      },
+    },
   }),
   props: {
     url: createLibraryComponentPropItem({
-      title: 'url链接',
+      title: 'url链接:',
       formType: AttributePanelFormItemInputTypeEnum.input,
       belongToPanel: AttributePanelsEnum.generic,
+    }),
+    height: createLibraryComponentPropItem({
+      title: '高度(px):',
+      default: '100',
+      formType: AttributePanelFormItemInputTypeEnum.input,
+      belongToPanel: AttributePanelsEnum.generic,
+    }),
+    width: createLibraryComponentPropItem({
+      title: '宽度(px):',
+      default: '100',
+      formType: AttributePanelFormItemInputTypeEnum.input,
+      belongToPanel: AttributePanelsEnum.generic,
+    }),
+    radius: createLibraryComponentPropItem({
+      title: '圆角大小(px):',
+      default: 0,
+      formType: AttributePanelFormItemInputTypeEnum.slider,
+      belongToPanel: AttributePanelsEnum.generic,
+    }),
+    fit: createLibraryComponentPropItem({
+      title: '图片填充模式:',
+      selectOptions: [
+        { title: 'contain', value: 'contain' },
+        { title: 'cover', value: 'cover' },
+        { title: 'fill', value: 'fill' },
+        { title: 'none', value: 'none' },
+        { title: 'scale-down', value: 'scale-down' },
+      ],
+      formType: AttributePanelFormItemInputTypeEnum.select,
+      belongToPanel: AttributePanelsEnum.generic,
+      default: 'contain',
     }),
   },
 }

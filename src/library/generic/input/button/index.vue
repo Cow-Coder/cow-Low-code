@@ -10,7 +10,7 @@
 import { ref } from 'vue'
 import { Button, Dialog } from 'vant'
 import 'vant/es/dialog/style'
-import { ElIcon, ElInput } from 'element-plus'
+import { ElIcon } from 'element-plus'
 import {
   AttributePanelFormItemInputTypeEnum,
   AttributePanelsEnum,
@@ -68,8 +68,15 @@ export default {
     }),
     buttonType: createLibraryComponentPropItem({
       title: '按钮类型',
-      default: 'defalut',
-      selectOptions: ['defalut', 'primary', 'success', 'info', 'warning', 'danger'],
+      default: 'default',
+      selectOptions: [
+        { title: 'default', value: 'default' },
+        { title: 'primary', value: 'primary' },
+        { title: 'success', value: 'success' },
+        { title: 'info', value: 'info' },
+        { title: 'warning', value: 'warning' },
+        { title: 'danger', value: 'danger' },
+      ],
       formType: AttributePanelFormItemInputTypeEnum.select,
       belongToPanel: AttributePanelsEnum.generic,
       type: String,
@@ -77,7 +84,12 @@ export default {
     buttonSize: createLibraryComponentPropItem({
       title: '按钮大小',
       default: 'normal',
-      selectOptions: ['large', 'normal', 'small', 'mimi'],
+      selectOptions: [
+        { title: 'large', value: 'large' },
+        { title: 'normal', value: 'normal' },
+        { title: 'small', value: 'small' },
+        { title: 'mimi', value: 'mimi' },
+      ],
       formType: AttributePanelFormItemInputTypeEnum.select,
       belongToPanel: AttributePanelsEnum.generic,
       type: String,
