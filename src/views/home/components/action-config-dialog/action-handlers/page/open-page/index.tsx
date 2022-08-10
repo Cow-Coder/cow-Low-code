@@ -1,4 +1,4 @@
-import { defineComponent, ref } from 'vue'
+import { defineComponent, markRaw, ref } from 'vue'
 import {
   ElForm,
   ElFormItem,
@@ -9,7 +9,7 @@ import {
   type FormItemRule,
   type FormRules,
 } from 'element-plus'
-import type { ActionHandlerSchema } from '@/types/library-component-event'
+import { defineActionHandler } from '@/utils/library'
 
 enum ModeEnum {
   jumpLink = 'jumpLink',
@@ -25,12 +25,37 @@ type OpenPageConfig = {
   path: string
 }
 
+/**
+ * 需要存储到物料组件实例身上的数据结构
+ *
+ * @example
+ *     "eventTriggers": {
+ *       "click": {
+ *         "actions": [
+ *           {
+ *             "actionName": "OpenPage",
+ *             "config": {
+ *               "openMode": "jumpLink",
+ *               // 下面的就是Config的结构
+ *               "config": {
+ *                 "url": "http://127.0.0.1:5173/",
+ *                 "blank": true
+ *               }
+ *             }
+ *           }
+ *         ]
+ *       }
+ *     }
+ */
 type Config = {
   openMode: ModeEnum
   config: JumpLinkConfig | OpenPageConfig
 }
 
-export default {
+/**
+ * 这里的泛型是为了提示handle和parseTip的参数
+ */
+export default defineActionHandler<Config>({
   name: 'OpenPage',
   label: '打开页面',
   description: '打开/跳转至指定页面',
@@ -114,7 +139,7 @@ export default {
       },
     })
   ),
-  handler: (config: Config) => {
+  handler(config) {
     function handle(config: JumpLinkConfig): void
     function handle(config: OpenPageConfig): void
     function handle(config: OpenPageConfig | JumpLinkConfig) {
@@ -124,4 +149,23 @@ export default {
     if (config.openMode === ModeEnum.openPage) handle(config.config as OpenPageConfig)
     if (config.openMode === ModeEnum.jumpLink) handle(config.config as JumpLinkConfig)
   },
-} as ActionHandlerSchema
+  parseTip(config) {
+    let link = '',
+      tip = ''
+    if (config.openMode === ModeEnum.openPage) {
+      const openPageConfig = config.config as OpenPageConfig
+      tip = '打开'
+      link = openPageConfig.path
+    } else {
+      const jumpConfig = config.config as JumpLinkConfig
+      tip = '跳转至'
+      link = jumpConfig.url
+    }
+    return () => (
+      <>
+        {tip}
+        <span style={{ marginLeft: '.25rem', color: '#2468f2' }}>{link}</span>
+      </>
+    )
+  },
+})

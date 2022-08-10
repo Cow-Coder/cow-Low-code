@@ -48,7 +48,7 @@ const isShowTrigger = ref(false)
   :deep(.button-trigger-wrapper) {
     @apply fixed;
     bottom: calc(40px + var(--button-trigger-bottom));
-    right: calc(var(--attitude-panel-width) + 40px - 4px);
+    right: calc(var(--attribute-panel-width) + 40px - 4px);
     left: unset !important;
     top: unset !important;
   }
@@ -58,7 +58,7 @@ const isShowTrigger = ref(false)
     width: 40px;
     height: 40px;
     background-color: var(--color-neutral-5);
-    right: calc(var(--attitude-panel-width) + 40px);
+    right: calc(var(--attribute-panel-width) + 40px);
     bottom: var(--button-trigger-bottom);
 
     &.button-trigger-active {
