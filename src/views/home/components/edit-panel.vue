@@ -20,7 +20,7 @@
 </template>
 
 <script lang="tsx" setup>
-import type { ComputedRef } from 'vue'
+import { ref } from 'vue'
 import type { Draggable } from '@/components/base-ui/kzy-draggable/types'
 import type { LibraryComponentInstanceData } from '@/types/library-component'
 import { libraryRecord } from '@/library'
@@ -32,13 +32,13 @@ defineOptions({
   name: 'EditPanel',
 })
 
-const config: Draggable = {
+const editDraggableConfigRef = ref<Draggable>({
   draggableProp: {
     group: { name: DRAGGABLE_GROUP_NAME },
     itemKey: 'id',
     disabled: false,
   },
-}
+})
 
 const codeStore = useCodeStore()
 const { jsonCode: editableInstancedLibraryComponentData, focusData } = storeToRefs(codeStore)
@@ -66,15 +66,14 @@ function onChoose(data: LibraryComponentInstanceData) {
 }
 
 const isDownCtrlLeft = ref(false)
+const isDownSpace = ref(false)
+watch(isDownCtrlLeft, (val) => {
+  editDraggableConfigRef.value.draggableProp.disabled = val
+})
+
 function isFocusComponent(data: LibraryComponentInstanceData) {
   return data.uuid == focusData.value?.uuid && !isDownCtrlLeft.value
 }
-
-const editDraggableConfigRef: ComputedRef<Draggable> = computed(() => {
-  const draggableProp = config.draggableProp
-  draggableProp.disabled = isDownCtrlLeft.value
-  return config
-})
 
 function onTouchEvent(e: TouchEvent) {
   if (!e.ctrlKey) e.stopPropagation()
@@ -82,8 +81,16 @@ function onTouchEvent(e: TouchEvent) {
 
 useEventListener(window, 'keydown', (e) => {
   e.code === 'ControlLeft' ? (isDownCtrlLeft.value = true) : undefined
+  if (e.code === 'Space') {
+    isDownSpace.value = true
+  }
 })
-useEventListener(window, 'keyup', () => (isDownCtrlLeft.value = false))
+useEventListener(window, 'keyup', (e) => {
+  e.code === 'ControlLeft' ? (isDownCtrlLeft.value = false) : undefined
+  if (e.code === 'Space') {
+    isDownSpace.value = false
+  }
+})
 
 // TODO: 拖拽到编辑器时候显示真实的组件，而不是显示物料面板的按钮
 </script>
