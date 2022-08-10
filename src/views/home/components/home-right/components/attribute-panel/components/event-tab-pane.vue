@@ -68,6 +68,7 @@ import { ref, toRefs } from 'vue'
 import { Delete, Plus } from '@icon-park/vue-next'
 import type {
   EventTrigger,
+  LibraryComponentInstanceActionItem,
   LibraryComponentInstanceEventTriggers,
 } from '@/types/library-component-event'
 import $popoverStyle from '@/assets/style/popover.module.scss'
@@ -109,6 +110,11 @@ watch(componentSchema!, () => {
   })
 })
 
+/**
+ * 添加事件触发器
+ * @param eventName
+ * @param eventSchema
+ */
 function onAddEventTrigger(eventName: string, eventSchema: ValueOf<EventTrigger>) {
   isPopoverShow.value = false
   if (!componentInstanceEventTriggers.value)
@@ -120,15 +126,33 @@ function onAddEventTrigger(eventName: string, eventSchema: ValueOf<EventTrigger>
     collapseActiveKey.value.push(eventName)
   }
 }
-function onAddEventAction(
+
+/**
+ * 给事件触发器添加动作
+ * @param eventName
+ * @param eventData
+ */
+async function onAddEventAction(
   eventName: string,
-  eventObj: ValueOf<LibraryComponentInstanceEventTriggers>
+  eventData: ValueOf<LibraryComponentInstanceEventTriggers>
 ) {
-  actionConfigDialog()
+  const actionConfigResult = await actionConfigDialog()
+  if (!actionConfigResult) return undefined
+  const actionItem = {
+    actionName: actionConfigResult.actionName,
+  } as LibraryComponentInstanceActionItem
+  if (actionConfigResult.config) actionItem.config = actionConfigResult.config
+  eventData.actions.push(actionConfigResult)
 }
+
+/**
+ * 删除事件触发器
+ * @param eventName
+ * @param eventData
+ */
 function onDeleteEventTrigger(
   eventName: string,
-  eventObj: ValueOf<LibraryComponentInstanceEventTriggers>
+  eventData: ValueOf<LibraryComponentInstanceEventTriggers>
 ) {
   delete componentInstanceEventTriggers.value![eventName]
 }
