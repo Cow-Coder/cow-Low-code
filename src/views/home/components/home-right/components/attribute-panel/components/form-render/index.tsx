@@ -1,4 +1,4 @@
-import { ElForm, ElFormItem, ElInput, ElOption, ElSelect, ElSwitch } from 'element-plus'
+import { ElForm, ElFormItem, ElInput, ElOption, ElSelect, ElSlider, ElSwitch } from 'element-plus'
 import { SwitchWithSlots } from './components/SwitchWithSlots'
 import IndefiniteNumberInputBox from './components/IndefiniteNumberInputBox'
 import type {
@@ -99,11 +99,14 @@ export default function formRender(
         </>
       )
     }
-    //
+    //switchWithSlots
     if (formItemSchema.formType === AttributePanelFormItemInputTypeEnum.switchWithSlots) {
       return <SwitchWithSlots v-model={propsData[formItemSchema.name]}></SwitchWithSlots>
     }
-
+    //slider
+    if (formItemSchema.formType === AttributePanelFormItemInputTypeEnum.slider) {
+      return <ElSlider v-model={propsData[formItemSchema.name]}></ElSlider>
+    }
     return undefined
   }
   //渲染整个props列表
