@@ -4,10 +4,8 @@
 name: github page
 
 on:
-  push:
-    branches: [ "preview" ]
   pull_request:
-    branches: [ "preview" ]
+    branches: [ "main" ]
 
 permissions:
   contents: write
@@ -26,7 +24,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          ref: preview
+          ref: main
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
