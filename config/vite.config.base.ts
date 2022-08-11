@@ -14,6 +14,7 @@ import configManualChunksPlugin from './plugins/manualChunks'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: './',
   plugins: [
     configManualChunksPlugin(),
     vue(),
