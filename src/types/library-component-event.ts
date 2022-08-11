@@ -1,6 +1,6 @@
-import type { ComponentPublicInstance, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
+import type { ComponentPublicInstance, DefineComponent, PropType } from 'vue'
 import type { ComponentOptionsBase, ComponentPropsOptions } from '@vue/runtime-core'
-import type { ComponentPublicInstanceConstructor } from '../../types/vue'
 
 /**
  * 事件触发器
@@ -42,6 +42,16 @@ export type LibraryComponentInstanceActionItem = {
   config?: Record<string, any>
 }
 
+function actionHandlerConfigPanelDefineComponent<T>() {
+  return defineComponent({
+    props: {
+      actionConfig: {
+        type: Object as PropType<T>,
+      },
+    },
+  })
+}
+
 /**
  * Action处理器的结构
  */
@@ -67,9 +77,8 @@ export type ActionHandlerSchema<T = any> = {
    * 配置界面
    */
   configPanel?:
-    | (() => JSX.Element)
-    | (ComponentPublicInstanceConstructor &
-        ComponentOptionsBase<any, any, any, any, any, any, any, any>)
+    | ((...args: any) => JSX.Element)
+    | ReturnType<typeof actionHandlerConfigPanelDefineComponent<T>>
   /**
    * 在event-tab-pane中显示action的提示信息
    * @param args

@@ -13,6 +13,7 @@
     <div class="layout">
       <div class="actions">
         <el-tree
+          ref="treeRef"
           :data="actionList"
           node-key="name"
           :highlight-current="true"
@@ -29,7 +30,11 @@
         <div class="config-item">
           <div class="config-title">基础设置</div>
           <div class="config-main">
-            <component :is="chooseAction.configPanel" ref="configPanelRef" />
+            <component
+              :is="chooseAction.configPanel"
+              ref="configPanelRef"
+              :action-config="actionConfig"
+            />
           </div>
         </div>
       </div>
@@ -47,21 +52,42 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { cloneDeep } from 'lodash-es'
+import { ElTree } from 'element-plus'
 import { commonActions } from './action'
 import type { ActionConfigResult, ActionHandlerSchema } from '@/types/library-component-event'
-import type { ComputedRef } from 'vue'
+import type { ComponentPublicInstance, ComputedRef } from 'vue'
 defineOptions({
   name: 'ActionConfigDialog',
 })
 
+const props = defineProps({
+  actionName: {
+    type: String,
+  },
+  actionConfig: {
+    type: [String, Object],
+  },
+})
 const emit = defineEmits(['close'])
+const treeRef = ref<InstanceType<typeof ElTree>>()
+onMounted(() => {
+  nextTick(() => {
+    if (!props.actionName) return undefined
+    treeRef.value!.setCurrentKey(props.actionName)
+    onCurrentChange(treeRef.value!.getCurrentNode() as ActionHandlerSchema)
+  })
+})
 
 const actionDialogVisible = ref(true)
 const actionList: ComputedRef<ActionHandlerSchema[]> = computed(() => {
   return commonActions
 })
 
-const configPanelRef = shallowRef<DefineComponent>()
+const configPanelRef = shallowRef<
+  ComponentPublicInstance<{
+    exportConfig: () => (Record<string, any> | boolean) | Promise<Record<string, any> | boolean>
+  }>
+>()
 
 const fullscreen = ref(false)
 
