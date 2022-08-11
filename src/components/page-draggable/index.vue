@@ -6,9 +6,7 @@
     @handle-change="props.draggableConfig?.handleChange"
   >
     <template #item="{ element }">
-      <div class="page-drag-slot">
-        <slot name="item" :element="element" />
-      </div>
+      <slot name="item" :element="element" />
     </template>
   </kzy-draggable>
 </template>
