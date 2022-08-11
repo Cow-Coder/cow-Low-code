@@ -11,9 +11,7 @@
     @change="handleChange"
   >
     <template #item="{ element }">
-      <div class="library-item">
-        <slot name="item" :element="element" />
-      </div>
+      <slot name="item" :element="element" />
     </template>
   </draggable>
 </template>

@@ -97,7 +97,7 @@ $blank-min-width: 100px;
   --body-width: v-bind(bodyWidth);
   --edit-panel-width: v-bind(editPanelWidth);
   --library-panel-width: v-bind(libraryPanelWidth);
-  --attitude-panel-width: v-bind(attributePanelWidth);
+  --attribute-panel-width: calc(v-bind(attributePanelWidth) - 6px);
   --blank-min-width: #{$blank-min-width};
 
   :deep(.el-main) {
