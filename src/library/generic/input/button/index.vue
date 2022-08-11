@@ -1,7 +1,6 @@
 <template>
   <div>
-    <!--  TODO: van开头的组件不会自动识别 -->
-    <van-button :type="buttonType" :size="buttonSize" :url="url" @click="showTips(tips)">{{
+    <van-button :type="buttonType" :size="buttonSize" :url="url" @click="onClick">{{
       title
     }}</van-button>
   </div>
@@ -11,14 +10,21 @@ import { ref } from 'vue'
 import { Button, Dialog } from 'vant'
 import 'vant/es/dialog/style'
 import { ElIcon } from 'element-plus'
+import { debounce } from 'lodash-es'
 import {
   AttributePanelFormItemInputTypeEnum,
   AttributePanelsEnum,
   LibraryPanelTabEnum,
 } from '@/types/panel'
 import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
+import { useMultiClick } from '@/hooks/use-multi-click'
 
-export default {
+enum EventTriggersEnum {
+  click = 'click',
+  doubleClick = 'doubleClick',
+}
+
+export default defineComponent({
   ...defineLibraryComponent({
     name: 'WidgetButton',
     libraryName: LibraryPanelTabEnum.generics,
@@ -48,14 +54,11 @@ export default {
       ),
     },
     eventTriggers: {
-      click: {
+      [EventTriggersEnum.click]: {
         title: '点击',
       },
-      enter: {
-        title: '鼠标移入',
-      },
-      leave: {
-        title: '鼠标移出',
+      [EventTriggersEnum.doubleClick]: {
+        title: '双击',
       },
     },
   }),
@@ -116,7 +119,11 @@ export default {
       type: String,
     }),
   },
-  setup() {
+  /**
+   * 所有物料组件触发事件都用dispatchEvent
+   */
+  emits: ['dispatchEvent'],
+  setup(props, { emit }) {
     const show = ref(false)
 
     //提示弹框
@@ -132,9 +139,22 @@ export default {
           })
       }
     }
-    return { showTips, show }
+
+    function onClick() {
+      showTips(props.tips)
+      emit('dispatchEvent', EventTriggersEnum.click)
+    }
+    function onDoubleClick() {
+      emit('dispatchEvent', EventTriggersEnum.doubleClick)
+    }
+    function dispatchClick(count: number) {
+      if (count === 1) onClick()
+      else if (count === 2) onDoubleClick()
+    }
+    const onMultiClick = useMultiClick(dispatchClick, 200)
+    return { showTips, show, onClick: onMultiClick }
   },
-}
+})
 </script>
 
 <style lang="scss" scoped />

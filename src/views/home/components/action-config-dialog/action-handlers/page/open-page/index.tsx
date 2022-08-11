@@ -164,7 +164,7 @@ export default defineActionHandler<Config>({
     function handle(config: JumpLinkConfig): void
     function handle(config: OpenPageConfig): void
     function handle(config: OpenPageConfig | JumpLinkConfig) {
-      alert(config)
+      console.log(`OpenPage handler trigger success`, config)
     }
 
     if (config.openMode === ModeEnum.openPage) handle(config.config as OpenPageConfig)
