@@ -52,7 +52,7 @@ const collapseOpenArr = ref(Object.keys(props.vmOptions.tabsList ?? {}) ?? [])
 <style lang="scss" scoped>
 .library-list {
   @apply flex flex-wrap;
-  .library-item {
+  :deep(.library-item) {
     flex: 0 0 50%;
   }
 }
