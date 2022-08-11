@@ -13,7 +13,7 @@
         class="library-list"
       >
         <template #item="{ element }">
-          <library-item class="library-item" :element="element" />
+          <library-item :element="element" />
         </template>
       </page-draggable>
     </el-collapse-item>
