@@ -160,15 +160,19 @@ export default defineActionHandler<Config>({
       },
     })
   ),
-  handler(config) {
+  handler(props) {
     function handle(config: JumpLinkConfig): void
     function handle(config: OpenPageConfig): void
     function handle(config: OpenPageConfig | JumpLinkConfig) {
-      console.log(`OpenPage handler trigger success`, config)
+      if ('url' in config) {
+        config.blank ? window.open(config.url) : window.location.assign(config.url)
+      } else {
+        ElMessage.error('还没有开发嘞')
+      }
     }
 
-    if (config.openMode === ModeEnum.openPage) handle(config.config as OpenPageConfig)
-    if (config.openMode === ModeEnum.jumpLink) handle(config.config as JumpLinkConfig)
+    if (props.openMode === ModeEnum.openPage) handle(props.config as OpenPageConfig)
+    if (props.openMode === ModeEnum.jumpLink) handle(props.config as JumpLinkConfig)
   },
   parseTip(config) {
     let link = '',
