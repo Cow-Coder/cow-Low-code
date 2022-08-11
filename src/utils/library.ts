@@ -8,9 +8,12 @@ import type {
   LibraryComponentProps,
 } from '@/types/library-component'
 import type {
+  ActionHandlerSchema,
   EventTrigger,
+  LibraryComponentInstanceActionItem,
   LibraryComponentInstanceEventTriggers,
 } from '@/types/library-component-event'
+import { dispatchActionHandle } from '@/views/home/components/action-config-dialog/action'
 
 export const uuid = uuidv4
 
@@ -74,10 +77,10 @@ export function createLibraryComponentInstanceEventAction(
 
 /**
  * 快速定义物料组件
- * @param com
+ * @param libraryComponent
  */
-export function defineLibraryComponent(com: LibraryComponent) {
-  return com
+export function defineLibraryComponent(libraryComponent: LibraryComponent) {
+  return libraryComponent
 }
 
 /**
@@ -86,4 +89,35 @@ export function defineLibraryComponent(com: LibraryComponent) {
  */
 export function createLibraryComponentPropItem(data: LibraryComponentPropItem) {
   return data
+}
+
+/**
+ * 定义一个动作处理器
+ * @param action
+ */
+export function defineActionHandler<T>(action: ActionHandlerSchema<T>) {
+  return action
+}
+
+/**
+ * 批量分发某个事件下的所有action
+ * @param libraryData
+ * @param eventTriggerName
+ * @param isSync
+ */
+export async function dispatchEventBatch(
+  libraryData: LibraryComponentInstanceData,
+  eventTriggerName: string,
+  isSync = true
+) {
+  if (!libraryData.eventTriggers) return undefined
+  let actions: LibraryComponentInstanceActionItem[] = []
+  for (const eventTriggersKey in libraryData.eventTriggers) {
+    if (eventTriggersKey === eventTriggerName)
+      actions = libraryData.eventTriggers[eventTriggerName].actions
+  }
+  for (const action of actions) {
+    if (isSync) await dispatchActionHandle(action.actionName, action.config)
+    else dispatchActionHandle(action.actionName, action.config)
+  }
 }

@@ -27,6 +27,7 @@ import { libraryRecord } from '@/library'
 import { useCodeStore } from '@/stores/code'
 import PageDraggable from '@/components/page-draggable/index.vue'
 import { DRAGGABLE_GROUP_NAME } from '@/constant'
+import { dispatchEventBatch } from '@/utils/library'
 
 defineOptions({
   name: 'EditPanel',
@@ -55,7 +56,12 @@ function parseLibraryComponent(data: LibraryComponentInstanceData) {
      *       "title": "按钮"
      *     }
      */
-    return <libMapElementElement {...data.props}></libMapElementElement>
+    return (
+      <libMapElementElement
+        onDispatchEvent={(eventTriggerName: string) => dispatchEventBatch(data, eventTriggerName)}
+        {...data.props}
+      ></libMapElementElement>
+    )
   }
   throw new Error(`not found library component: ${data.libraryName}`)
 }
