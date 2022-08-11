@@ -1,7 +1,13 @@
 <template>
   <div class="textbox">
     <van-cell-group inset>
-      <van-field v-model="defaultValue" :label="title" :type="type" :placeholder="placeholder" />
+      <van-field
+        v-model="defaultValue"
+        :name="name"
+        :label="title"
+        :type="type"
+        :placeholder="placeholder"
+      />
     </van-cell-group>
   </div>
 </template>
@@ -14,7 +20,6 @@ import {
   AttributePanelsEnum,
   LibraryPanelTabEnum,
 } from '@/types/panel'
-import { LibraryComponentFormItemLabelPositionEnum } from '@/types/library-component'
 
 export default defineComponent({
   ...defineLibraryComponent({
@@ -69,7 +74,7 @@ export default defineComponent({
       default: '文本',
     }),
     type: createLibraryComponentPropItem({
-      title: '默认值',
+      title: '类型',
       belongToPanel: AttributePanelsEnum.generic,
       formType: AttributePanelFormItemInputTypeEnum.select,
       selectOptions: [
