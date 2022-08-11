@@ -2,7 +2,7 @@
 
 <div align="center">
   
-![license](https://img.shields.io/github/license/Cow-Coder/cow-Low-code)
+![license](https://img.shields.io/github/license/Cow-Coder/cow-Low-code?v=1)
 ![language](https://img.shields.io/github/languages/top/Cow-Coder/cow-Low-code)
 ![last](https://img.shields.io/github/last-commit/Cow-Coder/cow-Low-code)
   
