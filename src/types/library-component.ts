@@ -69,6 +69,10 @@ export type LibraryComponentProps = Record<string, LibraryComponentPropItem>
 export type DefineComponent = (() => JSX.Element) | Component
 
 /**
+ * 所在lib->tab面板中的name
+ */
+type TabName = 'form' | 'show'
+/**
  * 物料组件
  */
 export interface LibraryComponent extends ComponentOptions {
@@ -83,7 +87,7 @@ export interface LibraryComponent extends ComponentOptions {
   /**
    *  所在lib->tab面板中的name
    */
-  tabName: string
+  tabName: TabName
   /**
    * 所在tab面板中的顺序
    */
