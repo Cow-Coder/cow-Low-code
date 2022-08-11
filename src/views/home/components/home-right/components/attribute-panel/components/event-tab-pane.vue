@@ -58,14 +58,13 @@
                       class="action-item__action-icon"
                       theme="outline"
                       size="18"
-                      fill="#333"
                       :stroke-width="2"
+                      @click="onEditEventAction(eventTriggerName, eventTriggerData, action)"
                     />
                     <icon-delete
                       class="action-item__action-icon"
                       theme="outline"
                       size="18"
-                      fill="#333"
                       :stroke-width="2"
                       @click="onDeleteEventAction(eventTriggerName, eventTriggerData, action)"
                     />
@@ -208,6 +207,16 @@ function onDeleteEventAction(
   }
 }
 
+async function onEditEventAction(
+  eventName: string,
+  eventData: ValueOf<LibraryComponentInstanceEventTriggers>,
+  action: LibraryComponentInstanceActionItem
+) {
+  const actionConfigResult = await actionConfigDialog(action.actionName, action?.config)
+  if (!actionConfigResult) return undefined
+  if (actionConfigResult.config) action.config = actionConfigResult.config
+}
+
 /**
  * 删除事件触发器
  * @param eventName
@@ -252,7 +261,7 @@ function parseActionLabelAndTip(action: LibraryComponentInstanceActionItem) {
   @apply cursor-pointer;
   color: #333;
   &:hover {
-    color: $color-primary;
+    color: var(--el-color-primary);
   }
 }
 
@@ -296,6 +305,10 @@ function parseActionLabelAndTip(action: LibraryComponentInstanceActionItem) {
   }
   &__action-icon {
     @apply ml-2 cursor-pointer;
+    color: #333;
+    &:hover {
+      color: var(--el-color-primary);
+    }
   }
   &__drag-handle {
     @apply cursor-grab;

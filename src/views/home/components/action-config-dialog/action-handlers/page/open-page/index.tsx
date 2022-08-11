@@ -9,6 +9,7 @@ import {
   type FormItemRule,
   type FormRules,
 } from 'element-plus'
+import type { PropType } from 'vue'
 import { defineActionHandler } from '@/utils/library'
 
 enum ModeEnum {
@@ -65,6 +66,11 @@ export default defineActionHandler<Config>({
    */
   configPanel: markRaw(
     defineComponent({
+      props: {
+        actionConfig: {
+          type: Object as PropType<Config>,
+        },
+      },
       setup(props, { expose }) {
         const chooseModeValue = ref<ModeEnum>()
         const chooseModeRef = ref<InstanceType<typeof ElForm>>()
@@ -85,6 +91,17 @@ export default defineActionHandler<Config>({
           } as OpenPageConfig,
         })
 
+        /**
+         * 如果是编辑的话
+         */
+        if (props.actionConfig?.openMode) {
+          const actionConfig = toRaw(props.actionConfig)
+          chooseModeValue.value = actionConfig.openMode
+          if (actionConfig.openMode === ModeEnum.openPage)
+            config.value[actionConfig.openMode] = actionConfig.config as OpenPageConfig
+          else config.value[actionConfig.openMode] = actionConfig.config as JumpLinkConfig
+        }
+
         async function exportConfig(): Promise<Config | boolean> {
           try {
             await chooseModeRef.value?.validate()
@@ -100,6 +117,10 @@ export default defineActionHandler<Config>({
           return false
         }
 
+        /**
+         * 如果此action有配置属性则必须要导出名为 `exportConfig` 的函数
+         * dialog会调用此函数来获取config的值
+         */
         expose({
           exportConfig,
         })
