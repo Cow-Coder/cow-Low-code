@@ -110,7 +110,6 @@ export async function dispatchEventBatch(
   eventTriggerName: string,
   isSync = true
 ) {
-  console.log(`dispatchEventBatch`, libraryData, eventTriggerName)
   if (!libraryData.eventTriggers) return undefined
   let actions: LibraryComponentInstanceActionItem[] = []
   for (const eventTriggersKey in libraryData.eventTriggers) {
