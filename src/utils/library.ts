@@ -8,7 +8,6 @@ import type {
   LibraryComponentProps,
 } from '@/types/library-component'
 import type {
-  ActionHandlerSchema,
   EventTrigger,
   LibraryComponentInstanceActionItem,
   LibraryComponentInstanceEventTriggers,
@@ -89,14 +88,6 @@ export function defineLibraryComponent(libraryComponent: LibraryComponent) {
  */
 export function createLibraryComponentPropItem(data: LibraryComponentPropItem) {
   return data
-}
-
-/**
- * 定义一个动作处理器
- * @param action
- */
-export function defineActionHandler<T>(action: ActionHandlerSchema<T>) {
-  return action
 }
 
 /**
