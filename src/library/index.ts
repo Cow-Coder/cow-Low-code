@@ -13,7 +13,7 @@ Object.entries(libraryComponents).forEach(([, module]) => {
   module = module?.default || module
   if (!libraryRecord[module.libraryName]) libraryRecord[module.libraryName] = []
   libraryRecord[module.libraryName].push(module)
-  libraryMap[module.libraryName] = module
+  libraryMap[module.name] = module
 })
 
 // 再分类每个lib下面的组件到lib->tab
