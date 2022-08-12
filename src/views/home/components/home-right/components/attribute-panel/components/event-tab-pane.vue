@@ -127,6 +127,8 @@ import {
 import { createLibraryComponentInstanceEventAction, uuid } from '@/utils/library'
 import { actionConfigDialog } from '@/views/home/components/action-config-dialog'
 import { getActionHandle } from '@/views/home/components/action-config-dialog/action'
+import { useCodeStore } from '@/stores/code'
+import { libraryMap } from '@/library'
 
 defineOptions({
   name: 'EventTab',
@@ -234,6 +236,7 @@ function onDeleteEventTrigger(
   delete componentInstanceEventTriggers.value![eventName]
 }
 
+const codeStore = useCodeStore()
 function parseActionLabelAndTip(action: LibraryComponentInstanceActionItem) {
   const actionHandle = getActionHandle(action.actionName)
   if (!actionHandle) {
@@ -244,7 +247,7 @@ function parseActionLabelAndTip(action: LibraryComponentInstanceActionItem) {
     console.error(`actionHandle '${action.actionName}' method 'parseTip' not found`)
     throw new TypeError(`actionHandle '${action.actionName}' method 'parseTip' not found`)
   }
-  let tip = actionHandle.parseTip(action.config)
+  let tip = actionHandle.parseTip(action.config, codeStore.jsonCode, libraryMap)
   if (tip instanceof String) {
     tip = () => <>{tip}</>
   }

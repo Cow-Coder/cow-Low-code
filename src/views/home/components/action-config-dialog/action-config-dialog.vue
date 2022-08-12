@@ -99,8 +99,10 @@ const codeStore = useCodeStore()
 
 const chooseAction = shallowRef<ActionHandlerSchema>()
 const configPanelProps = {
-  focusedLibraryComponentInstanceData: codeStore.getLibraryComponentInstanceDataAndSchema()[0],
-  libraryComponentInstanceTree: codeStore.jsonCode,
+  focusedLibraryComponentInstanceData: toRaw(
+    codeStore.getLibraryComponentInstanceDataAndSchema()[0]
+  ),
+  libraryComponentInstanceTree: toRaw(codeStore.jsonCode),
   libraryComponentSchemaMap: libraryMap,
 } as Record<keyof ReturnType<typeof getActionHandleDefaultProps>, any>
 if (props.actionConfig) configPanelProps.actionConfig = toRaw(props.actionConfig)

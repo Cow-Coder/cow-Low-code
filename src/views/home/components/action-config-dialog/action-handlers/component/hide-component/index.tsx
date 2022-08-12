@@ -1,20 +1,13 @@
 import { type CascaderProps, ElCascader, ElForm, ElFormItem } from 'element-plus'
 import type { ComponentPublicInstance, Ref } from 'vue'
-import type { LibraryComponent, LibraryComponentInstanceData } from '@/types/library-component'
 import {
   defineActionHandler,
   getActionHandleDefaultProps,
+  mixLibraryComponentInstanceDataWidthLibraryComponentSchemaLabel,
 } from '@/views/home/components/action-config-dialog/util'
 
 type Props = {
-  chooseComponent: Ref<ComponentPublicInstance>
-}
-
-type ProxyLibraryComponentInstanceData = LibraryComponentInstanceData & {
-  /**
-   * 组件中文名，对应LibraryComponent.libraryPanelShowDetail.title
-   */
-  label: string
+  componentUUID: string
 }
 
 export default defineActionHandler<Props>({
@@ -22,10 +15,19 @@ export default defineActionHandler<Props>({
   order: 10,
   label: '隐藏组件',
   description: '隐藏所选组件',
-  parseTip(config) {
-    return `隐藏xxx组件`
+  parseTip(config, libraryComponentInstanceTree, libraryComponentSchemaMap) {
+    const componentName = libraryComponentInstanceTree.find(
+      (e) => e.uuid === config.componentUUID
+    )!.componentName
+    const name = libraryComponentSchemaMap[componentName].libraryPanelShowDetail.title
+    return () => (
+      <>
+        隐藏&nbsp;<span style={{ color: '#2468f2' }}>{name}</span>&nbsp;组件
+      </>
+    )
   },
   handler(config) {
+    // TODO: 待开发
     console.log(11)
   },
   configPanel: markRaw(
@@ -35,28 +37,22 @@ export default defineActionHandler<Props>({
         ...getActionHandleDefaultProps<Props>(),
       },
       setup(props, { expose }) {
-        const formResult = ref({
-          componentUUID: '',
-        })
-        console.log(`props.libraryComponentSchemaRecord`, props.libraryComponentSchemaMap)
-        function proxyGet(target: Record<any, any>, property: any): any {
-          if (target[property]) return new Proxy(target[property], { get: proxyGet })
-          else if (target[property] !== 'object') return target[property]
-          else if (property === 'label')
-            return props.libraryComponentSchemaMap![
-              (target as LibraryComponent).libraryPanelShowDetail.title
-            ]
-          else return undefined
+        let initValue = ''
+        if (props.actionConfig) initValue = toRaw(props.actionConfig.componentUUID)
+        const formResult = {
+          componentUUID: initValue,
         }
-        const options = new Proxy(props.libraryComponentInstanceTree!, {
-          get: proxyGet,
-        }) as ProxyLibraryComponentInstanceData[]
+        const options = mixLibraryComponentInstanceDataWidthLibraryComponentSchemaLabel(
+          props.libraryComponentSchemaMap!,
+          props.libraryComponentInstanceTree!
+        )
+        const cascaderValue = ref<string[]>([initValue])
         const render = () => (
           <>
             <ElForm model={formResult}>
               <ElFormItem label="选择组件">
                 <ElCascader
-                  v-model={formResult.value.componentUUID}
+                  v-model={cascaderValue.value}
                   options={options as any}
                   clearable={true}
                   props={
@@ -71,8 +67,13 @@ export default defineActionHandler<Props>({
         )
 
         function exportConfig() {
-          return ''
+          formResult.componentUUID = cascaderValue.value[0]
+          return formResult
         }
+        /**
+         * 如果此action有配置属性则必须要导出名为 `exportConfig` 的函数
+         * dialog会调用此函数来获取config的值
+         */
         expose({
           exportConfig,
         })

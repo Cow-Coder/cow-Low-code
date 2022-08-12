@@ -1,4 +1,5 @@
 import { defineComponent } from 'vue'
+import type { LibraryComponent, LibraryComponentInstanceData } from '@/types/library-component'
 import { getActionHandleDefaultProps } from '@/views/home/components/action-config-dialog/util'
 
 function actionHandlerConfigPanelDefineComponent<T>() {
@@ -31,18 +32,24 @@ export type ActionHandlerSchema<T = any> = {
    * 指定处理的函数
    * @param args
    */
-  handler?: (config: T) => any
+  handler?: (
+    config: T,
+    libraryComponentInstanceTree: LibraryComponentInstanceData[],
+    libraryComponentSchemaMap: Record<string, LibraryComponent>
+  ) => any
   /**
    * 配置界面
    */
-  configPanel?:
-    | ((...args: any) => JSX.Element)
-    | ReturnType<typeof actionHandlerConfigPanelDefineComponent<T>>
+  configPanel?: ReturnType<typeof actionHandlerConfigPanelDefineComponent<T>>
   /**
    * 在event-tab-pane中显示action的提示信息
    * @param args
    */
-  parseTip?: (config: T) => string | (() => JSX.Element)
+  parseTip?: (
+    config: T,
+    libraryComponentInstanceTree: LibraryComponentInstanceData[],
+    libraryComponentSchemaMap: Record<string, LibraryComponent>
+  ) => string | (() => JSX.Element)
   /**
    * 如果有children字段说明是可展开的节点
    * 可展开节点不会作为ActionHandler处理
