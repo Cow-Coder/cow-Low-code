@@ -13,6 +13,8 @@ import type {
   LibraryComponentInstanceEventTriggers,
 } from '@/types/library-component-event'
 import { dispatchActionHandle } from '@/views/home/components/action-config-dialog/action'
+import { useCodeStore } from '@/stores/code'
+import { libraryMap } from '@/library'
 
 export const uuid = uuidv4
 
@@ -91,7 +93,7 @@ export function createLibraryComponentPropItem(data: LibraryComponentPropItem) {
 }
 
 /**
- * 批量分发某个事件下的所有action
+ * 批量分发某物料组件实例 的 某个事件 的 所有action
  * @param libraryData
  * @param eventTriggerName
  * @param isSync
@@ -107,8 +109,10 @@ export async function dispatchEventBatch(
     if (eventTriggersKey === eventTriggerName)
       actions = libraryData.eventTriggers[eventTriggerName].actions
   }
+  const codeStore = useCodeStore()
   for (const action of actions) {
-    if (isSync) await dispatchActionHandle(action.actionName, action.config)
-    else dispatchActionHandle(action.actionName, action.config)
+    if (isSync)
+      await dispatchActionHandle(action.actionName, codeStore.jsonCode, libraryMap, action.config)
+    else dispatchActionHandle(action.actionName, codeStore.jsonCode, libraryMap, action.config)
   }
 }
