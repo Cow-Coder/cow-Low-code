@@ -2,23 +2,21 @@
   <el-dialog
     v-model="actionDialogVisible"
     :close-on-click-modal="false"
+    :custom-class="$style.actionConfigDialog"
+    :fullscreen="fullscreen"
     draggable
     title="动作配置"
-    destroy-on-close
-    :custom-class="$style.actionConfigDialog"
     width="800px"
-    :fullscreen="fullscreen"
-    @closed="onDialogClosed"
   >
     <div class="layout">
       <div class="actions">
         <el-tree
           ref="treeRef"
           :data="actionList"
-          node-key="name"
-          :highlight-current="true"
           :default-expand-all="true"
           :expand-on-click-node="false"
+          :highlight-current="true"
+          node-key="name"
           @current-change="onCurrentChange"
         />
       </div>
@@ -33,7 +31,7 @@
             <component
               :is="chooseAction.configPanel"
               ref="configPanelRef"
-              :action-config="actionConfig"
+              v-bind="configPanelProps"
             />
           </div>
         </div>
@@ -54,15 +52,22 @@ import { ref } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { ElTree } from 'element-plus'
 import { commonActions } from './action'
-import type { ActionConfigResult, ActionHandlerSchema } from '@/types/library-component-event'
 import type { ComponentPublicInstance, ComputedRef } from 'vue'
+import type {
+  ActionConfigResult,
+  ActionHandlerSchema,
+} from '@/views/home/components/action-config-dialog/types'
+import type { getActionHandleDefaultProps } from '@/views/home/components/action-config-dialog/util'
+import { useCodeStore } from '@/stores/code'
+import { libraryMap } from '@/library'
+
 defineOptions({
   name: 'ActionConfigDialog',
 })
 
 const props = defineProps({
   actionName: {
-    type: String,
+    type: [String],
   },
   actionConfig: {
     type: [String, Object],
@@ -90,13 +95,23 @@ const configPanelRef = shallowRef<
 >()
 
 const fullscreen = ref(false)
+const codeStore = useCodeStore()
 
 const chooseAction = shallowRef<ActionHandlerSchema>()
+const configPanelProps = {
+  focusedLibraryComponentInstanceData: toRaw(
+    codeStore.getLibraryComponentInstanceDataAndSchema()[0]
+  ),
+  libraryComponentInstanceTree: toRaw(codeStore.jsonCode),
+  libraryComponentSchemaMap: libraryMap,
+} as Record<keyof ReturnType<typeof getActionHandleDefaultProps>, any>
+if (props.actionConfig) configPanelProps.actionConfig = toRaw(props.actionConfig)
 function onCurrentChange(data: ActionHandlerSchema) {
   chooseAction.value = data
 }
 
 const configResult = shallowRef<Record<string, any> | undefined>()
+
 async function submitAction() {
   if (!(chooseAction.value && !chooseAction.value?.children)) return undefined
   if (configPanelRef.value?.exportConfig) {
@@ -118,20 +133,11 @@ async function submitAction() {
   } as ActionConfigResult)
   actionDialogVisible.value = false
 }
+
 function cancelAction() {
   emit('close', false)
   actionDialogVisible.value = false
 }
-function onDialogClosed() {
-  chooseAction.value = undefined
-}
-
-const close = () => (actionDialogVisible.value = false)
-const open = () => (actionDialogVisible.value = true)
-defineExpose({
-  close,
-  open,
-})
 </script>
 
 <style lang="scss" scoped>
@@ -139,16 +145,20 @@ defineExpose({
   @apply flex border border-solid border-gray-200;
   height: 400px;
   color: var(--el-text-color-primary);
+
   .actions {
     flex: 0 0 25%;
     padding: 10px 0;
   }
+
   .config {
     @apply flex-grow border-l border-solid border-gray-200;
     padding: 10px;
+
     .config-description {
       color: var(--el-text-color-secondary);
     }
+
     .config-item {
       .config-main {
         margin: 15px 15px 15px 2rem;
