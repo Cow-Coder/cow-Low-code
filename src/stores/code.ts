@@ -44,17 +44,20 @@ export const useCodeStore = defineStore(
 
     /**
      * 获取当前选中组件的数据和定义
-     * @param focusData
+     * @param focus
      */
     function getLibraryComponentInstanceDataAndSchema(
-      focusData: ILibraryComponentInstanceFocus
+      focus?: ILibraryComponentInstanceFocus
     ): [LibraryComponentInstanceData, LibraryComponent] {
+      let focusData_ = focus
+      if (!focus) focusData_ = focusData.value
+      if (!focusData_) throw new TypeError('focusData_和focus不能同时为undefined')
       /**
        * TODO: 这里应该加缓存，记录已经找到过的组件的uuid，缓存进键值对
        */
       let focusedLibraryComponentInstanceData = undefined
       for (const jsonCodeElement of jsonCode.value) {
-        if (jsonCodeElement?.uuid === focusData.uuid) {
+        if (jsonCodeElement?.uuid === focusData_.uuid) {
           // console.log(`jsonCodeElement`, jsonCodeElement, jsonCode);
           focusedLibraryComponentInstanceData = jsonCodeElement
           break
@@ -62,7 +65,7 @@ export const useCodeStore = defineStore(
       }
 
       if (!focusedLibraryComponentInstanceData)
-        throw new Error(`not found focusedLibraryComponentData(uuid): ${focusData.uuid}`)
+        throw new Error(`not found focusedLibraryComponentData(uuid): ${focusData_.uuid}`)
 
       let focusedLibraryComponentSchema = undefined
       for (const e of libraryRecord[focusedLibraryComponentInstanceData.libraryName]) {
