@@ -4,11 +4,8 @@
 name: github page
 
 on:
-  pull_request:
+  push:
     branches: [ "main" ]
-
-permissions:
-  contents: write
 
 jobs:
   build:
@@ -17,10 +14,15 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [ 16 ]
+        node-version: [ 16.x ]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+      - name: Cancel Previous Workflow Runs
+        uses: n1hility/cancel-previous-runs@v2.0
+        with:
+          token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -38,10 +40,10 @@ jobs:
       - name: Build
         run: npm run build-only
 
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4.4.0
         with:
+          token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           folder: dist
-          commit-message: Update ghPages
           git-config-name: github-actions[bot]
           git-config-email: github-actions[bot]@users.noreply.github.com
