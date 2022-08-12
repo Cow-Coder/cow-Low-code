@@ -47,6 +47,10 @@ export enum AttributePanelFormItemInputTypeEnum {
    * 滑块
    */
   slider = 'slider',
+  /**
+   *  不定个数复选框
+   */
+  indefiniteNumberCheckBoxes = 'indefiniteNumberCheckBoxes',
 }
 
 /**

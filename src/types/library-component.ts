@@ -24,6 +24,10 @@ export interface SelectOption {
   value: any
 }
 
+export interface CheckedOptions {
+  name: string | number
+  checked: boolean
+}
 /**
  * 组件单个prop
  */

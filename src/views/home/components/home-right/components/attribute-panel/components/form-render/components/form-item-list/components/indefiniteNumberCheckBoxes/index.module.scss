@@ -1,0 +1,43 @@
+.indefiniteNumberCheckBoxes {
+  &__popover {
+    @apply p-0;
+    :global(.arco-popover-content) {
+      @apply mt-0;
+      width: 100px;
+      :global(.el-button + .el-button) {
+        @apply ml-0;
+      }
+    }
+  }
+  &__handle {
+    cursor: move;
+    cursor: -webkit-grabbing;
+    width: 30px;
+
+    margin-right: 12px;
+    @apply flex;
+  }
+  &__checkBoxes {
+    :global(.el-checkbox) {
+      margin-right: 10px;
+    }
+  }
+  &__inputGroup {
+    @apply flex content-around w-full;
+    &__input {
+      margin-right: 12px;
+    }
+  }
+
+  &__buttonGroup {
+    @apply flex content-around w-full;
+  }
+
+  &__gap {
+    margin-top: 10px;
+
+    &:first-child {
+      @apply mt-0;
+    }
+  }
+}
