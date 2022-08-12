@@ -16,14 +16,28 @@
 
 </div>
 
+| 主页 :house: | 演示 :beers: |
+| --- | --- |
+| [website](https://github.com/Cow-Coder/cow-Low-code) | [demo](https://cow-coder.github.io/cow-Low-code/) |
+
 # :sparkles: 特性
-- :package: 开箱即用的高质量生态元素，包括 物料体系、设置器、插件 等
 
+- :package: 开箱即用的高质量生态元素，包括 物料体系、事件触发器、动作处理器 等
 - :electric_plug: 可视化拖放，可视化编辑配置
-
 - :rainbow: 利用JSON配置生成页面
-
 - :zap: 快速生成移动端UI界面
-
 - :rocket: 减少开发成本。
 - :technologist: 使用 TypeScript 开发，提供完整的类型定义文件
+
+# :dart: 兼容环境
+
+- 现代浏览器（Chrome >= 64, Edge >= 79, Firefox >= 78, Safari >= 12）
+
+# :computer: 本地调试
+
+```bash
+$ git clone https://github.com/Cow-Coder/cow-Low-code.git
+$ cd cow-Low-code
+$ npm i
+$ npm run dev
+```
