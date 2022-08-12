@@ -37,6 +37,7 @@
             v-model="eventTriggerData.actions"
             handle=".action-item__drag-handle"
             item-key="actionName"
+            group="dragHandle"
           >
             <template #item="{ element: action }">
               <div class="action-item">
