@@ -176,6 +176,7 @@ function onAddEventTrigger(eventName: string, eventSchema: ValueOf<EventTrigger>
   }
 }
 
+const vmCurrentInstance = getCurrentInstance()
 /**
  * 给事件触发器添加动作
  * @param eventName
@@ -185,7 +186,7 @@ async function onAddEventAction(
   eventName: string,
   eventData: ValueOf<LibraryComponentInstanceEventTriggers>
 ) {
-  const actionConfigResult = await actionConfigDialog()
+  const actionConfigResult = await actionConfigDialog(vmCurrentInstance!.appContext)
   if (!actionConfigResult) return undefined
   const actionItem = {
     actionName: actionConfigResult.actionName,
@@ -212,7 +213,11 @@ async function onEditEventAction(
   eventData: ValueOf<LibraryComponentInstanceEventTriggers>,
   action: LibraryComponentInstanceActionItem
 ) {
-  const actionConfigResult = await actionConfigDialog(action.actionName, action?.config)
+  const actionConfigResult = await actionConfigDialog(
+    vmCurrentInstance!.appContext,
+    action.actionName,
+    action?.config
+  )
   if (!actionConfigResult) return undefined
   if (actionConfigResult.config) action.config = actionConfigResult.config
 }
