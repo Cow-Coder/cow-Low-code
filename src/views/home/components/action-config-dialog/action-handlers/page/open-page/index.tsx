@@ -10,7 +10,10 @@ import {
   type FormRules,
 } from 'element-plus'
 import type { PropType } from 'vue'
-import { defineActionHandler } from '@/utils/library'
+import {
+  defineActionHandler,
+  getActionHandleDefaultProps,
+} from '@/views/home/components/action-config-dialog/util'
 
 enum ModeEnum {
   jumpLink = 'jumpLink',
@@ -66,10 +69,9 @@ export default defineActionHandler<Config>({
    */
   configPanel: markRaw(
     defineComponent({
+      name: 'OpenPageConfigPanel',
       props: {
-        actionConfig: {
-          type: Object as PropType<Config>,
-        },
+        ...getActionHandleDefaultProps<Config>(),
       },
       setup(props, { expose }) {
         const chooseModeValue = ref<ModeEnum>()
@@ -102,29 +104,7 @@ export default defineActionHandler<Config>({
           else config.value[actionConfig.openMode] = actionConfig.config as JumpLinkConfig
         }
 
-        async function exportConfig(): Promise<Config | boolean> {
-          try {
-            await chooseModeRef.value?.validate()
-            if (!chooseModeValue.value || !formRef.value) return false
-            let isValid = false
-            await formRef.value?.validate((ok) => (isValid = ok))
-            if (!isValid) return false
-            return {
-              openMode: chooseModeValue.value,
-              config: config.value[chooseModeValue.value],
-            }
-          } catch {}
-          return false
-        }
-
-        /**
-         * 如果此action有配置属性则必须要导出名为 `exportConfig` 的函数
-         * dialog会调用此函数来获取config的值
-         */
-        expose({
-          exportConfig,
-        })
-        return () => (
+        const render = () => (
           <>
             <ElForm model={{ value: chooseModeValue.value }} ref={chooseModeRef}>
               <ElFormItem
@@ -157,6 +137,30 @@ export default defineActionHandler<Config>({
             ) : undefined}
           </>
         )
+
+        async function exportConfig(): Promise<Config | boolean> {
+          try {
+            await chooseModeRef.value?.validate()
+            if (!chooseModeValue.value || !formRef.value) return false
+            let isValid = false
+            await formRef.value?.validate((ok) => (isValid = ok))
+            if (!isValid) return false
+            return {
+              openMode: chooseModeValue.value,
+              config: config.value[chooseModeValue.value],
+            }
+          } catch {}
+          return false
+        }
+
+        /**
+         * 如果此action有配置属性则必须要导出名为 `exportConfig` 的函数
+         * dialog会调用此函数来获取config的值
+         */
+        expose({
+          exportConfig,
+        })
+        return render
       },
     })
   ),

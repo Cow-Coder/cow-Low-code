@@ -37,6 +37,8 @@
             v-model="eventTriggerData.actions"
             handle=".action-item__drag-handle"
             item-key="actionName"
+            group="dragHandle"
+            :animation="200"
           >
             <template #item="{ element: action }">
               <div class="action-item">
@@ -127,6 +129,8 @@ import {
 import { createLibraryComponentInstanceEventAction, uuid } from '@/utils/library'
 import { actionConfigDialog } from '@/views/home/components/action-config-dialog'
 import { getActionHandle } from '@/views/home/components/action-config-dialog/action'
+import { useCodeStore } from '@/stores/code'
+import { libraryMap } from '@/library'
 
 defineOptions({
   name: 'EventTab',
@@ -176,6 +180,7 @@ function onAddEventTrigger(eventName: string, eventSchema: ValueOf<EventTrigger>
   }
 }
 
+const vmCurrentInstance = getCurrentInstance()
 /**
  * 给事件触发器添加动作
  * @param eventName
@@ -185,7 +190,7 @@ async function onAddEventAction(
   eventName: string,
   eventData: ValueOf<LibraryComponentInstanceEventTriggers>
 ) {
-  const actionConfigResult = await actionConfigDialog()
+  const actionConfigResult = await actionConfigDialog(vmCurrentInstance!.appContext)
   if (!actionConfigResult) return undefined
   const actionItem = {
     actionName: actionConfigResult.actionName,
@@ -212,7 +217,11 @@ async function onEditEventAction(
   eventData: ValueOf<LibraryComponentInstanceEventTriggers>,
   action: LibraryComponentInstanceActionItem
 ) {
-  const actionConfigResult = await actionConfigDialog(action.actionName, action?.config)
+  const actionConfigResult = await actionConfigDialog(
+    vmCurrentInstance!.appContext,
+    action.actionName,
+    action?.config
+  )
   if (!actionConfigResult) return undefined
   if (actionConfigResult.config) action.config = actionConfigResult.config
 }
@@ -229,6 +238,7 @@ function onDeleteEventTrigger(
   delete componentInstanceEventTriggers.value![eventName]
 }
 
+const codeStore = useCodeStore()
 function parseActionLabelAndTip(action: LibraryComponentInstanceActionItem) {
   const actionHandle = getActionHandle(action.actionName)
   if (!actionHandle) {
@@ -239,7 +249,7 @@ function parseActionLabelAndTip(action: LibraryComponentInstanceActionItem) {
     console.error(`actionHandle '${action.actionName}' method 'parseTip' not found`)
     throw new TypeError(`actionHandle '${action.actionName}' method 'parseTip' not found`)
   }
-  let tip = actionHandle.parseTip(action.config)
+  let tip = actionHandle.parseTip(action.config, codeStore.jsonCode, libraryMap)
   if (tip instanceof String) {
     tip = () => <>{tip}</>
   }
@@ -284,6 +294,11 @@ function parseActionLabelAndTip(action: LibraryComponentInstanceActionItem) {
   @apply rounded flex flex-col p-3 mx-3 mt-2;
   width: calc(var(--attribute-panel-width) - 0.75rem - 0.75rem);
   background-color: #f7f7f9;
+
+  &.sortable-ghost {
+    @apply bg-blue-300;
+  }
+
   &:first-of-type {
     @apply mt-0;
   }
