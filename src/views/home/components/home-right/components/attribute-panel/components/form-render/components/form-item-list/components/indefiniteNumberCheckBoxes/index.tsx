@@ -18,12 +18,17 @@ export default defineComponent({
     const checkList = useVModel(props, 'modelValue', emit)
     const deleteItem = (index: number) => checkList.value.splice(index, 1)
     const addItem = () => checkList.value.push({ value: '', checked: false })
-    const changeCallback = (index: number) =>
-      (checkList.value[index].checked = !checkList.value[index].checked)
+    const changeCallback = (index: number) => {
+      checkList.value[index].checked = !checkList.value[index].checked
+      console.log('change')
+    }
 
+    const test = () => {
+      console.log(checkList.value)
+    }
     return () => (
       <>
-        <Draggable list={checkList.value} itemKey={''} handle=".handle">
+        <Draggable list={checkList.value} itemKey={''} handle=".handle" onEnd={test}>
           {{
             item: ({ element, index }: any) => (
               <div
@@ -37,7 +42,7 @@ export default defineComponent({
                   <Rank />
                 </span>
                 <ElCheckbox
-                  checked={element.checked}
+                  modelValue={element.checked}
                   onChange={() => {
                     changeCallback(index)
                   }}
