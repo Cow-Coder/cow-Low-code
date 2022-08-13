@@ -16,6 +16,7 @@ export type DraggableItem = {
   handleMove?: MoveDrag
   handleEnd?: MoveDrag
   libraryClass?: boolean
+  [key: string]: any
 }
 
 export interface Draggable {

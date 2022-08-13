@@ -38,6 +38,7 @@ const editDraggableConfigRef = ref<Draggable>({
     group: { name: DRAGGABLE_GROUP_NAME },
     itemKey: 'id',
     disabled: false,
+    animation: 200,
   },
 })
 
