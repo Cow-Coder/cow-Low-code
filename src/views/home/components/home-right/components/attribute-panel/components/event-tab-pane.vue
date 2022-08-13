@@ -38,6 +38,7 @@
             handle=".action-item__drag-handle"
             item-key="actionName"
             group="dragHandle"
+            :animation="200"
           >
             <template #item="{ element: action }">
               <div class="action-item">
@@ -293,6 +294,11 @@ function parseActionLabelAndTip(action: LibraryComponentInstanceActionItem) {
   @apply rounded flex flex-col p-3 mx-3 mt-2;
   width: calc(var(--attribute-panel-width) - 0.75rem - 0.75rem);
   background-color: #f7f7f9;
+
+  &.sortable-ghost {
+    @apply bg-blue-300;
+  }
+
   &:first-of-type {
     @apply mt-0;
   }
