@@ -66,7 +66,7 @@ const formItemChildRender = (
   }
   //colorPicker
   if (formItemSchema.formType === AttributePanelFormItemInputTypeEnum.colorPicker) {
-    return <color-picker class="flex-1" v-model:hex={propsData[formItemSchema.name]}></color-picker>
+    return <ColorPicker class="flex-1" v-model:hex={propsData[formItemSchema.name]}></ColorPicker>
   }
   return undefined
 }
