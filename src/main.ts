@@ -1,11 +1,10 @@
-import ColorPicker from 'colorpicker-v3'
-import 'colorpicker-v3/style.css'
 import App from './App.vue'
 import router from './router'
 import pinia from '@/plugins/pinia'
 import '@/assets/style/tailwind.css'
 import '@vant/touch-emulator'
 import directive from '@/directive'
+import ColorPicker from '@/plugins/color-picker'
 
 const app = createApp(App)
 
