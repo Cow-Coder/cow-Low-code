@@ -23,7 +23,7 @@
     }
   }
   &__inputGroup {
-    @apply flex content-around w-full;
+    @apply flex content-between w-full;
     &__input {
       margin-right: 12px;
     }
@@ -39,5 +39,8 @@
     &:first-child {
       @apply mt-0;
     }
+  }
+  &__dragableDiv {
+    width: 100%;
   }
 }

@@ -28,7 +28,13 @@ export default defineComponent({
     }
     return () => (
       <>
-        <Draggable list={checkList.value} itemKey={''} handle=".handle" onEnd={test}>
+        <Draggable
+          list={checkList.value}
+          itemKey={''}
+          handle=".handle"
+          onEnd={test}
+          class={$style.indefiniteNumberCheckBoxes__dragableDiv}
+        >
           {{
             item: ({ element, index }: any) => (
               <div
