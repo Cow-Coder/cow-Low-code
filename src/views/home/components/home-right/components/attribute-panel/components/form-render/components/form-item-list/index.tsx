@@ -64,6 +64,10 @@ const formItemChildRender = (
   if (formItemSchema.formType === AttributePanelFormItemInputTypeEnum.slider) {
     return <ElSlider v-model={propsData[formItemSchema.name]}></ElSlider>
   }
+  //colorPicker
+  if (formItemSchema.formType === AttributePanelFormItemInputTypeEnum.colorPicker) {
+    return <color-picker class="flex-1" v-model:hex={propsData[formItemSchema.name]}></color-picker>
+  }
   return undefined
 }
 
