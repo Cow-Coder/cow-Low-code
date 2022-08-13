@@ -1,7 +1,11 @@
 <template>
   <div class="home-header">
     <el-row :style="{ height: props.styleHeaderHeight, 'line-height': props.styleHeaderHeight }">
-      <el-col :span="4"> LowCodeDemo</el-col>
+      <el-col :span="4">
+        <div class="logo-wrapper">
+          <div class="logo" />
+        </div>
+      </el-col>
       <el-col :span="16" />
       <el-col :span="4" class="justify-end flex items-center">
         <el-button type="danger" @click="handleResetAll">重置</el-button>
@@ -33,4 +37,15 @@ const handleResetAll = () => {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.logo-wrapper {
+  @apply flex items-center;
+  height: var(--style-header-height);
+  line-height: var(--style-header-height);
+  .logo {
+    @apply w-full;
+    height: 50px;
+    background: url('/src/assets/images/logo.svg') no-repeat;
+  }
+}
+</style>
