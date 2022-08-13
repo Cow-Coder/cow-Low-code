@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/ban-types */
+
+import '@vue/runtime-core'
+
 declare module 'colorpicker-v3' {
   declare const _default: {
     install: (app: App) => void
   }
   export default _default
 
-  declare const ColorPick: import('vue').DefineComponent<
+  declare const ColorPicker: import('vue').DefineComponent<
     {
       hex: {
         type: StringConstructor[]
@@ -117,5 +120,21 @@ declare module 'colorpicker-v3' {
       themeColor: unknown[]
     }
   >
-  export { ColorPick }
+  export { ColorPicker }
+}
+
+declare module '@vue/runtime-core' {
+  import type { ColorPicker } from 'colorpicker-v3'
+  export interface GlobalComponents {
+    ColorPicker: ColorPicker
+  }
+
+  interface ComponentCustomProperties {
+    ColorPicker: ColorPicker
+  }
+}
+
+declare global {
+  import { ColorPicker as pick } from 'colorpicker-v3'
+  const ColorPicker = pick
 }
