@@ -17,12 +17,16 @@
       </div>
     </template>
   </page-draggable>
+  <template v-if="store.draggedElement">
+    <preview-dragged :element="store.draggedElement" />
+  </template>
 </template>
 
 <script lang="tsx" setup>
 import { ref } from 'vue'
 import type { Draggable } from '@/components/base-ui/kzy-draggable/types'
 import type { LibraryComponentInstanceData } from '@/types/library-component'
+import PreviewDragged from '@/utils/previewDragged.tsx'
 import { libraryRecord } from '@/library'
 import { useCodeStore } from '@/stores/code'
 import PageDraggable from '@/components/page-draggable/index.vue'
@@ -91,6 +95,8 @@ useEventListener(window, 'keyup', (e) => {
 })
 
 // TODO: 拖拽到编辑器时候显示真实的组件，而不是显示物料面板的按钮
+const store = useCodeStore()
+const { draggedElement } = storeToRefs(store)
 </script>
 
 <style lang="scss" scoped>

@@ -4,6 +4,7 @@
     v-bind="props.draggableConfig.draggableProp"
     :data-list="props.dataList"
     @handle-change="props.draggableConfig?.handleChange"
+    @handle-end="props.draggableConfig?.handleEnd"
   >
     <template #item="{ element }">
       <div>

@@ -8,6 +8,7 @@
     :disabled="props.disabled"
     :clone="props.handleClone"
     :move="props.handleMove"
+    @end="handleEnd"
     @change="handleChange"
   >
     <template #item="{ element }">
@@ -49,10 +50,15 @@ const props = withDefaults(defineProps<DragProps>(), {
 
 const emit = defineEmits<{
   (e: 'handleChange', evt: any): any
+  (e: 'handleEnd'): any
 }>()
 
 const handleChange = (evt: any) => {
   emit('handleChange', evt.item)
+}
+
+const handleEnd = () => {
+  emit('handleEnd')
 }
 </script>
 
