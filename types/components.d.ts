@@ -33,6 +33,7 @@ declare module '@vue/runtime-core' {
     IEpCopyDocument: typeof import('~icons/ep/copy-document')['default']
     IEpDocument: typeof import('~icons/ep/document')['default']
     IEpFold: typeof import('~icons/ep/fold')['default']
+    IEpMinus: typeof import('~icons/ep/minus')['default']
     IEpQuestionFilled: typeof import('~icons/ep/question-filled')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -42,6 +43,7 @@ declare module '@vue/runtime-core' {
     VanCollapseItem: typeof import('vant/es')['CollapseItem']
     VanField: typeof import('vant/es')['Field']
     VanImage: typeof import('vant/es')['Image']
+    VanNoticeBar: typeof import('vant/es')['NoticeBar']
     VanSwipe: typeof import('vant/es')['Swipe']
     VanSwipeItem: typeof import('vant/es')['SwipeItem']
   }
