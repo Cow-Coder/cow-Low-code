@@ -1,9 +1,9 @@
 <template>
-  <div ref="codeContainerRef" class="code-container h-full w-full" />
+  <div ref="codeContainerRef" class="h-full w-full" />
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, shallowRef } from 'vue'
+import { onMounted, ref, shallowRef, watch } from 'vue'
 /**
  * Using Vite
  * @link https://github.com/microsoft/monaco-editor/blob/main/docs/integrate-esm.md#using-vite
@@ -48,19 +48,33 @@ const props = defineProps({
     type: Object as PropType<Monaco.editor.IStandaloneEditorConstructionOptions>,
     default: () => ({}),
   },
+  modelValue: {
+    type: String,
+    default: '',
+  },
 })
+const modelValue = useVModel(props, 'modelValue')
 
 const codeContainerRef = ref<InstanceType<typeof HTMLElement>>()
 const editorInstanceRef = shallowRef<Monaco.editor.IStandaloneCodeEditor>()
-let editorTextModel: Monaco.editor.ITextModel | null = null
+const editorTextModel = ref<Monaco.editor.ITextModel>()
 function formatCode() {
   requestAnimationFrame(() => {
     editorInstanceRef.value?.getAction('editor.action.formatDocument').run()
   })
 }
+
+watch(
+  modelValue,
+  (value) => {
+    editorTextModel.value?.setValue(value)
+  },
+  { deep: true }
+)
+
 onMounted(() => {
   editorInstanceRef.value = Monaco.editor.create(codeContainerRef.value!, {
-    value: `function hello() {\n\talert('Hello world!');\n}`,
+    value: modelValue.value,
     language: 'javascript',
     automaticLayout: true, //开启自适应大小
     minimap: {
@@ -79,14 +93,13 @@ onMounted(() => {
       formatCode()
     })
   }
-  editorTextModel = editorInstanceRef.value.getModel()
+  editorTextModel.value = editorInstanceRef.value.getModel()!
 })
 
 defineExpose({
   editorTextModel,
   editorInstanceRef,
   codeContainerRef,
+  formatCode,
 })
 </script>
-
-<style scoped></style>
