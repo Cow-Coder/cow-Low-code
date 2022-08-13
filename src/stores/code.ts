@@ -79,13 +79,26 @@ export const useCodeStore = defineStore(
       return [focusedLibraryComponentInstanceData, focusedLibraryComponentSchema]
     }
 
+    const draggedElement = ref<LibraryComponent>()
+
+    const updateDraggedElement = (element: LibraryComponent) => {
+      draggedElement.value = element
+    }
+
+    const removeDraggedElement = () => {
+      draggedElement.value = undefined
+    }
+
     return {
       jsonCode,
       focusData,
+      draggedElement,
       dispatchFocus,
       getLibraryComponentInstanceDataAndSchema,
       clear,
       freeFocus,
+      updateDraggedElement,
+      removeDraggedElement,
     }
   },
   {
