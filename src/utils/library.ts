@@ -8,7 +8,7 @@ import type {
   LibraryComponentProps,
 } from '@/types/library-component'
 import type {
-  EventTrigger,
+  EventTriggerSchema,
   LibraryComponentInstanceActionItem,
   LibraryComponentInstanceEventTriggers,
 } from '@/types/library-component-event'
@@ -30,9 +30,9 @@ export function createLibraryComponentInstance(
     componentName: com.name,
     libraryName: com.libraryName,
     focus: false,
+    eventTriggers: {},
   } as LibraryComponentInstanceData
   if (com.props) data.props = createLibraryComponentInstanceProps(com.props)
-  if (com.eventTriggers) data.eventTriggers = {}
   return data
 }
 
@@ -56,7 +56,7 @@ export function createLibraryComponentInstanceProps(
  * @param triggersSchema
  */
 export function createLibraryComponentInstanceEventTriggers(
-  triggersSchema: EventTrigger
+  triggersSchema: EventTriggerSchema
 ): LibraryComponentInstanceEventTriggers {
   const _triggersSchema = cloneDeep(triggersSchema)
   const result = {} as LibraryComponentInstanceEventTriggers
@@ -66,14 +66,6 @@ export function createLibraryComponentInstanceEventTriggers(
     }
   })
   return result
-}
-
-export function createLibraryComponentInstanceEventAction(
-  actionName: string
-): ValueOf<LibraryComponentInstanceEventTriggers> {
-  return {
-    actions: [],
-  }
 }
 
 /**

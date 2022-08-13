@@ -1,0 +1,92 @@
+<template>
+  <div ref="codeContainerRef" class="code-container h-full w-full" />
+</template>
+
+<script lang="ts" setup>
+import { onMounted, ref, shallowRef } from 'vue'
+/**
+ * Using Vite
+ * @link https://github.com/microsoft/monaco-editor/blob/main/docs/integrate-esm.md#using-vite
+ */
+import * as Monaco from 'monaco-editor'
+import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
+import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
+import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
+import TSWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
+import type { PropType } from 'vue'
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+self.MonacoEnvironment = {
+  getWorker(_: string, label: string) {
+    if (label === 'json') {
+      return new JsonWorker()
+    }
+    if (label === 'css' || label === 'scss' || label === 'less') {
+      return new CssWorker()
+    }
+    if (label === 'html' || label === 'handlebars' || label === 'razor') {
+      return new HtmlWorker()
+    }
+    if (label === 'typescript' || label === 'javascript') {
+      return new TSWorker()
+    }
+    return new EditorWorker()
+  },
+}
+
+defineOptions({
+  name: 'MonacoEditor',
+})
+const props = defineProps({
+  autoFormat: {
+    type: Boolean,
+    default: false,
+  },
+  monacoOptions: {
+    type: Object as PropType<Monaco.editor.IStandaloneEditorConstructionOptions>,
+    default: () => ({}),
+  },
+})
+
+const codeContainerRef = ref<InstanceType<typeof HTMLElement>>()
+const editorInstanceRef = shallowRef<Monaco.editor.IStandaloneCodeEditor>()
+let editorTextModel: Monaco.editor.ITextModel | null = null
+function formatCode() {
+  requestAnimationFrame(() => {
+    editorInstanceRef.value?.getAction('editor.action.formatDocument').run()
+  })
+}
+onMounted(() => {
+  editorInstanceRef.value = Monaco.editor.create(codeContainerRef.value!, {
+    value: `function hello() {\n\talert('Hello world!');\n}`,
+    language: 'javascript',
+    automaticLayout: true, //开启自适应大小
+    minimap: {
+      enabled: false, // 不需要小的缩略图
+    },
+    formatOnPaste: true,
+    formatOnType: true,
+    tabSize: 2,
+    ...props.monacoOptions,
+  })
+  if (props.autoFormat) {
+    /**
+     * An event emitted when the content of the current model has changed.
+     */
+    editorInstanceRef.value.onDidChangeModelContent(() => {
+      formatCode()
+    })
+  }
+  editorTextModel = editorInstanceRef.value.getModel()
+})
+
+defineExpose({
+  editorTextModel,
+  editorInstanceRef,
+  codeContainerRef,
+})
+</script>
+
+<style scoped></style>
