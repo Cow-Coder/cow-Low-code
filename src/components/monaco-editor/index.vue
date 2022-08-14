@@ -1,5 +1,6 @@
 <template>
   <div ref="codeContainerRef" :class="customClass" />
+  <div ref="codeContainerRef" class="h-full w-full" />
 </template>
 
 <script lang="ts" setup>
@@ -58,11 +59,20 @@ const props = defineProps({
     default: 'h-full w-full',
   },
 })
+})
+
 const emit = defineEmits(['update:modelValue'])
 const modelValue = useVModel(props, 'modelValue', emit, { passive: true })
 
 const codeContainerRef = ref<InstanceType<typeof HTMLElement>>()
 const editorInstanceRef = shallowRef<Monaco.editor.IStandaloneCodeEditor>()
+
+const modelValue = useVModel(props, 'modelValue')
+
+const codeContainerRef = ref<InstanceType<typeof HTMLElement>>()
+const editorInstanceRef = shallowRef<Monaco.editor.IStandaloneCodeEditor>()
+const editorTextModel = ref<Monaco.editor.ITextModel>()
+
 function formatCode() {
   requestAnimationFrame(() => {
     editorInstanceRef.value?.getAction('editor.action.formatDocument').run()
@@ -75,6 +85,10 @@ watch(
     const content = editorInstanceRef.value?.getValue()
     if (modelValue.value !== content) editorInstanceRef.value?.setValue(modelValue.value)
   })
+  (value) => {
+    editorTextModel.value?.setValue(value)
+  },
+  { deep: true }
 )
 
 onMounted(() => {
@@ -106,6 +120,11 @@ onMounted(() => {
 })
 
 defineExpose({
+  editorTextModel.value = editorInstanceRef.value.getModel()!
+})
+
+defineExpose({
+  editorTextModel,
   editorInstanceRef,
   codeContainerRef,
   formatCode,

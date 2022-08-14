@@ -46,6 +46,14 @@
                   size="16"
                   @click.capture.stop="editCustomEventTrigger(eventTriggerName, eventTriggerData)"
                 />
+        <a-collapse-item
+          v-for="(eventTriggerData, eventTriggerName) in componentInstanceEventTriggers"
+          :key="eventTriggerName"
+          :header="eventTriggersSchema[eventTriggerName].title"
+        >
+          <template #extra>
+            <div class="flex">
+              <a-space>
                 <icon-plus
                   class="icon-button"
                   theme="outline"
@@ -110,7 +118,6 @@
         </a-collapse-item>
       </a-collapse>
       <el-empty v-else description="快去创建事件，让你的产品动起来吧" />
-
       <!--      底部添加事件按钮-->
       <div class="add-trigger-button">
         <a-popover
@@ -135,7 +142,6 @@
       </div>
     </div>
   </div>
-
   <!--  自定义事件添加dialog-->
   <div v-element-dialog-resize="{ draggable: true }" class="el-dialog">
     <el-dialog
@@ -162,6 +168,12 @@
       <template #footer>
         <el-button class="mr-2.5" @click="dialogIsShowCustomEventTrigger = false">取消</el-button>
         <el-button type="primary" @click="onSubmitCustomEventTrigger">确认</el-button>
+      <monaco-editor />
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button class="mr-2.5" @click="dialogIsShowCustomEventTrigger = false">取消</el-button>
+          <el-button type="primary" @click="onSubmitCustomEventTriggerCode">确认</el-button>
+        </div>
       </template>
     </el-dialog>
   </div>
@@ -178,6 +190,9 @@ import {
 } from '@icon-park/vue-next'
 import { ElDialog } from 'element-plus'
 import { isCustomEventTriggerName } from './util'
+  Plus as IconPlus,
+} from '@icon-park/vue-next'
+import { ElDialog } from 'element-plus'
 import useEventAction from './use-event-action'
 import useEventTabPane from './use-event-tab-pane'
 import useEventTrigger from './use-event-trigger'
@@ -201,6 +216,7 @@ const {
   componentInstanceEventTriggers,
   collapseActiveKey,
   parseCollapseHeaderLabel,
+  componentSchema,
   parseActionLabelAndTip,
 } = useEventTabPane()
 const { onAddEventAction, onDeleteEventAction, onEditEventAction } = useEventAction()
@@ -213,6 +229,7 @@ const {
   onDeleteEventTrigger,
   editCustomEventTrigger,
   onSubmitCustomEventTrigger,
+  onSubmitCustomEventTriggerCode,
 } = useEventTrigger(componentInstanceEventTriggers)
 </script>
 

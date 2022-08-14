@@ -2,6 +2,16 @@
  * 普通事件触发器数据
  */
 export type CommonEventTriggerSchemaData = {
+import { defineComponent } from 'vue'
+import type { ComponentPublicInstance, DefineComponent, PropType } from 'vue'
+import type { ComponentOptionsBase, ComponentPropsOptions } from '@vue/runtime-core'
+import type { LibraryComponentInstanceData } from '@/types/library-component'
+import type { CUSTOM_EVENT_TRIGGER_NAME } from '@/constant'
+
+/**
+ * 普通事件触发器数据
+ */
+export type CommonEventTriggerData = {
   /**
    * 事件名称
    */
@@ -17,6 +27,7 @@ export type EventTriggerSchema = {
    * @name name
    */
   [name: string | symbol]: CommonEventTriggerSchemaData
+  [name: string | symbol]: CommonEventTriggerData
 }
 
 /**
@@ -31,6 +42,19 @@ export type LibraryComponentInstanceEventTriggers = {
   [name: string]:
     | LibraryComponentInstanceCommonEventTriggerData
     | LibraryComponentInstanceCustomEventTriggerData
+}
+
+/**
+ * 物料组件实例的普通事件触发器数据
+ */
+export type LibraryComponentInstanceCommonEventTriggerData = {
+  /**
+   * 事件触发之后要执行的动作列表
+   */
+  actions: LibraryComponentInstanceActionItem[]
+}
+
+/**
 }
 
 /**
