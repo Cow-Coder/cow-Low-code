@@ -20,18 +20,6 @@ defineOptions({
 
 const codeStore = useCodeStore()
 const { jsonCode } = storeToRefs(codeStore)
-const modelValue = computed({
-  get: () => stringify(jsonCode.value, { maxLength: 50 }),
-  set: (val) => {
-    try {
-      const json = JSON.parse(val)
-      jsonCode.value = val !== '' ? json : []
-    } catch (e) {
-      console.error('JSON解析错误', e)
-      ElMessage.error('JSON解析错误')
-    }
-  },
-})
 const modelValue = computed(() => stringify(jsonCode.value, { maxLength: 50 }))
 const codeContainerRef = ref<InstanceType<typeof MonacoEditor>>()
 const monacoOptions = {
