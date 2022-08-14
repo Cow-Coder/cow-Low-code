@@ -58,6 +58,6 @@ const handleChange = (evt: any) => {
 
 <style lang="scss" scoped>
 .default-drag {
-  min-height: $screamMinHeight;
+  min-height: $editorMinHeight;
 }
 </style>
