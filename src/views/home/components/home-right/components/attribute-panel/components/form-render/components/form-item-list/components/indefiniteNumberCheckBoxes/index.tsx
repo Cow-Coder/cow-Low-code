@@ -14,6 +14,7 @@ export default defineComponent({
     },
   },
   emits: ['update:modelValue'],
+
   setup(props, { emit }) {
     const checkList = useVModel(props, 'modelValue', emit)
     const deleteItem = (index: number) => checkList.value.splice(index, 1)
@@ -25,16 +26,12 @@ export default defineComponent({
     const editChangeCallback = (el: any) => {
       el.isEdit = !el.isEdit
     }
-    const test = () => {
-      console.log(checkList.value)
-    }
     return () => (
       <>
         <Draggable
           list={checkList.value}
           itemKey={''}
           handle=".handle"
-          onEnd={test}
           class={$style.indefiniteNumberCheckBoxes__dragableDiv}
         >
           {{
@@ -103,32 +100,31 @@ export default defineComponent({
                     }}
                   </Popover>
                 </div>
-                <div
-                  class={[$style.indefiniteNumberCheckBoxes__editBox, 'rounded-md']}
-                  v-show={element.isEdit}
-                >
-                  <div>
-                    <ElForm labelPosition="right" label-width="80px">
-                      <ElFormItem label="字段值：">
-                        <ElInput v-model={element.name}></ElInput>
-                      </ElFormItem>
-                      <ElFormItem label="值：">
-                        <ElInput v-model={element.value}></ElInput>
-                      </ElFormItem>
-                    </ElForm>
+                {element.isEdit && (
+                  <div class={[$style.indefiniteNumberCheckBoxes__editBox, 'rounded-md']}>
+                    <div>
+                      <ElForm labelPosition="right" label-width="80px">
+                        <ElFormItem label="字段值：">
+                          <ElInput v-model={element.name} v-focus></ElInput>
+                        </ElFormItem>
+                        <ElFormItem label="值：">
+                          <ElInput v-model={element.value}></ElInput>
+                        </ElFormItem>
+                      </ElForm>
+                    </div>
+                    <div>
+                      <ElButton
+                        plain
+                        size="small"
+                        icon={CloseBold}
+                        circle
+                        onClick={() => {
+                          editChangeCallback(element)
+                        }}
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <ElButton
-                      plain
-                      size="small"
-                      icon={CloseBold}
-                      circle
-                      onClick={() => {
-                        editChangeCallback(element)
-                      }}
-                    />
-                  </div>
-                </div>
+                )}
               </div>
             ),
           }}

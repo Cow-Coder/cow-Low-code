@@ -114,8 +114,8 @@ export default {
       formType: AttributePanelFormItemInputTypeEnum.indefiniteNumberCheckBoxes,
       belongToPanel: AttributePanelsEnum.generic,
       default: [
-        { name: '水果', value: 'car', checked: false, isEdit: false },
-        { name: '汽车', value: 'fruit', checked: true, isEdit: false },
+        { name: '水果', value: 'fruit', checked: false, isEdit: false },
+        { name: '汽车', value: 'car', checked: true, isEdit: false },
       ],
       labelPosition: LibraryComponentFormItemLabelPositionEnum.top,
       type: Array,
