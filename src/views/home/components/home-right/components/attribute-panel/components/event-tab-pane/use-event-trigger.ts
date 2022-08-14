@@ -16,7 +16,6 @@ export default function useEventTrigger(
   const isPopoverShow = ref(false)
   const dialogIsShowCustomEventTrigger = ref(false)
   const dialogCustomEventTriggerRef = ref<InstanceType<typeof ElDialog>>()
-
   /**
    * 让dialog中的Monaco自适应大小
    */
@@ -24,13 +23,11 @@ export default function useEventTrigger(
     () => dialogCustomEventTriggerRef.value?.dialogContentRef,
     (val) => {
       const dialogRootEl: HTMLElement = (val.$ as ComponentInternalInstance).vnode.el as any
-
       const dialogHeaderEl = dialogRootEl.querySelector('header.el-dialog__header')!
       dialogRootEl.style.setProperty(
         '--el-dialog-header-height',
         `${dialogHeaderEl.getBoundingClientRect().height}px`
       )
-
       const dialogFooterEl = dialogRootEl.querySelector('footer.el-dialog__footer')!
       dialogRootEl.style.setProperty(
         '--el-dialog-footer-height',
@@ -40,6 +37,9 @@ export default function useEventTrigger(
       const dialogBodyEl: HTMLDivElement = dialogRootEl.querySelector('div.el-dialog__body')!
       dialogBodyEl.style.height =
         'calc(var(--el-dialog-height) - var(--el-dialog-header-height) - var(--el-dialog-footer-height) - var(--el-dialog-padding-primary) * 2)'
+      const dialogBodyEl: HTMLDivElement = dialogRootEl.querySelector('div.el-dialog__body')!
+      dialogBodyEl.style.height =
+        'calc(var(--el-dialog-height) - var(--el-dialog-header-height) - var(--el-dialog-padding-primary) * 2)'
       unwatchDialogCustomEventTriggerRef()
     }
   )

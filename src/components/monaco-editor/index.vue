@@ -54,11 +54,19 @@ const props = defineProps({
     default: '',
   },
 })
+
 const emit = defineEmits(['update:modelValue'])
 const modelValue = useVModel(props, 'modelValue', emit, { passive: true })
 
 const codeContainerRef = ref<InstanceType<typeof HTMLElement>>()
 const editorInstanceRef = shallowRef<Monaco.editor.IStandaloneCodeEditor>()
+
+const modelValue = useVModel(props, 'modelValue')
+
+const codeContainerRef = ref<InstanceType<typeof HTMLElement>>()
+const editorInstanceRef = shallowRef<Monaco.editor.IStandaloneCodeEditor>()
+const editorTextModel = ref<Monaco.editor.ITextModel>()
+
 function formatCode() {
   requestAnimationFrame(() => {
     editorInstanceRef.value?.getAction('editor.action.formatDocument').run()
@@ -71,6 +79,10 @@ watch(
     const content = editorInstanceRef.value?.getValue()
     if (modelValue.value !== content) editorInstanceRef.value?.setValue(modelValue.value)
   })
+  (value) => {
+    editorTextModel.value?.setValue(value)
+  },
+  { deep: true }
 )
 
 onMounted(() => {
@@ -94,6 +106,7 @@ onMounted(() => {
       formatCode()
     })
   }
+
   editorInstanceRef.value?.onDidChangeModelContent(
     throttle(() => {
       modelValue.value = editorInstanceRef.value!.getValue()!
@@ -102,6 +115,11 @@ onMounted(() => {
 })
 
 defineExpose({
+  editorTextModel.value = editorInstanceRef.value.getModel()!
+})
+
+defineExpose({
+  editorTextModel,
   editorInstanceRef,
   codeContainerRef,
   formatCode,

@@ -8,6 +8,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
 import stringify from 'json-stringify-pretty-compact'
 import type * as Monaco from 'monaco-editor'
 import MonacoEditor from '@/components/monaco-editor/index.vue'
@@ -31,6 +32,7 @@ const modelValue = computed({
     }
   },
 })
+const modelValue = computed(() => stringify(jsonCode.value, { maxLength: 50 }))
 const codeContainerRef = ref<InstanceType<typeof MonacoEditor>>()
 const monacoOptions = {
   language: 'json',
