@@ -9,6 +9,11 @@ import type {
 } from '@/types/library-component-event'
 import { CUSTOM_EVENT_TRIGGER_NAME } from '@/constant'
 import { generateCustomEventTriggerName } from '@/views/home/components/home-right/components/attribute-panel/components/event-tab-pane/util'
+  CommonEventTriggerData,
+  LibraryComponentInstanceCommonEventTriggerData,
+  LibraryComponentInstanceEventTriggers,
+} from '@/types/library-component-event'
+import { CUSTOM_EVENT_TRIGGER_NAME } from '@/constant'
 
 export default function useEventTrigger(
   componentInstanceEventTriggers: WritableComputedRef<
@@ -38,6 +43,9 @@ export default function useEventTrigger(
       }
   })
 
+  const isPopoverShow = ref(false)
+  const dialogIsShowCustomEventTrigger = ref(false)
+  const dialogCustomEventTriggerRef = ref<InstanceType<typeof ElDialog>>()
   /**
    * 让dialog中的Monaco自适应大小
    */
@@ -45,7 +53,6 @@ export default function useEventTrigger(
     () => dialogCustomEventTriggerRef.value?.dialogContentRef,
     (val) => {
       const dialogRootEl: HTMLElement = (val.$ as ComponentInternalInstance).vnode.el as any
-
       const dialogHeaderEl = dialogRootEl.querySelector('header.el-dialog__header')!
       dialogRootEl.style.setProperty(
         '--el-dialog-header-height',
@@ -63,10 +70,12 @@ export default function useEventTrigger(
         'calc(var(--el-dialog-height) - var(--el-dialog-header-height) - var(--el-dialog-footer-height) - var(--el-dialog-padding-primary) * 2)'
       dialogBodyEl.style.display = 'flex'
       dialogBodyEl.style.flexDirection = 'column'
+      const dialogBodyEl: HTMLDivElement = dialogRootEl.querySelector('div.el-dialog__body')!
+      dialogBodyEl.style.height =
+        'calc(var(--el-dialog-height) - var(--el-dialog-header-height) - var(--el-dialog-padding-primary) * 2)'
       unwatchDialogCustomEventTriggerRef()
     }
   )
-
   /**
    * dialog提交，添加自定义时间触发器
    */
@@ -92,6 +101,8 @@ export default function useEventTrigger(
     customEventTriggerData.value.title = triggerData.title
     customEventTriggerData.value.execCode = triggerData.execCode
     dialogIsShowCustomEventTrigger.value = true
+  function onSubmitCustomEventTriggerCode() {
+    console.log(`submitCustomEventTriggerCode`, dialogIsShowCustomEventTrigger)
   }
 
   /**
@@ -100,6 +111,7 @@ export default function useEventTrigger(
    * @param eventSchema
    */
   function onAddEventTrigger(eventName: string, eventSchema: CommonEventTriggerSchemaData) {
+  function onAddEventTrigger(eventName: string, eventSchema: CommonEventTriggerData) {
     isPopoverShow.value = false
     if (!componentInstanceEventTriggers.value)
       throw new TypeError(`componentInstanceEventTriggers 不能是 undefined`)
@@ -133,5 +145,6 @@ export default function useEventTrigger(
     onDeleteEventTrigger,
     editCustomEventTrigger,
     onSubmitCustomEventTrigger,
+    onSubmitCustomEventTriggerCode,
   }
 }

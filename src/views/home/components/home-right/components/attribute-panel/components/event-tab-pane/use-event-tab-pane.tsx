@@ -104,11 +104,13 @@ export default function useEventTabPane() {
 
   return {
     componentSchema,
+  return {
     eventTriggersSchema,
     componentInstanceData,
     componentInstanceEventTriggers,
     collapseActiveKey,
     parseCollapseHeaderLabel,
+    componentSchema,
     parseActionLabelAndTip,
   }
 }
