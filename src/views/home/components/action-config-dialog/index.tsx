@@ -2,7 +2,7 @@ import { getCurrentInstance, render } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import ActionConfigDialog from './action-config-dialog.vue'
 import type { AppContext, ComponentInternalInstance, VNode } from 'vue'
-import type { ActionConfigResult } from '@/views/home/components/action-config-dialog/types'
+import type { ActionConfigResult } from '@/types/library-component-event'
 import type { LibraryComponent, LibraryComponentInstanceData } from '@/types/library-component'
 
 type context = {
