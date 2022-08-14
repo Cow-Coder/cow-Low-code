@@ -67,28 +67,28 @@ function parseLibraryComponent(data: LibraryComponentInstanceData) {
   throw new Error(`not found library component: ${data.libraryName}`)
 }
 
-const isDownSpace = ref(false)
+const isDownCtrlLeft = ref(false)
 function onChoose(data: LibraryComponentInstanceData) {
-  isDownSpace.value || codeStore.dispatchFocus(data.uuid)
+  isDownCtrlLeft.value || codeStore.dispatchFocus(data.uuid)
 }
 
-watch(isDownSpace, (val) => {
+watch(isDownCtrlLeft, (val) => {
   editDraggableConfigRef.value.draggableProp.disabled = val
 })
 
 function isFocusComponent(data: LibraryComponentInstanceData) {
-  return data.uuid == focusData.value?.uuid && !isDownSpace.value
+  return data.uuid == focusData.value?.uuid && !isDownCtrlLeft.value
 }
 
 function onTouchEvent(e: TouchEvent) {
-  if (!isDownSpace.value) e.stopPropagation()
+  if (!isDownCtrlLeft.value) e.stopPropagation()
 }
 
 useEventListener(window, 'keydown', (e) => {
-  e.code === 'Space' ? (isDownSpace.value = true) : undefined
+  e.code === 'ControlLeft' ? (isDownCtrlLeft.value = true) : undefined
 })
 useEventListener(window, 'keyup', (e) => {
-  e.code === 'Space' ? (isDownSpace.value = false) : undefined
+  e.code === 'ControlLeft' ? (isDownCtrlLeft.value = false) : undefined
 })
 
 // TODO: 拖拽到编辑器时候显示真实的组件，而不是显示物料面板的按钮

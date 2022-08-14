@@ -8,7 +8,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
 import stringify from 'json-stringify-pretty-compact'
 import type * as Monaco from 'monaco-editor'
 import MonacoEditor from '@/components/monaco-editor/index.vue'
@@ -20,7 +19,18 @@ defineOptions({
 
 const codeStore = useCodeStore()
 const { jsonCode } = storeToRefs(codeStore)
-const modelValue = computed(() => stringify(jsonCode.value, { maxLength: 50 }))
+const modelValue = computed({
+  get: () => stringify(jsonCode.value, { maxLength: 50 }),
+  set: (val) => {
+    try {
+      const json = JSON.parse(val)
+      jsonCode.value = val !== '' ? json : []
+    } catch (e) {
+      console.error('JSON解析错误', e)
+      ElMessage.error('JSON解析错误')
+    }
+  },
+})
 const codeContainerRef = ref<InstanceType<typeof MonacoEditor>>()
 const monacoOptions = {
   language: 'json',

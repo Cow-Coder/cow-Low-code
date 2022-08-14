@@ -1,4 +1,4 @@
-import type { ActionHandlerSchema } from '@/views/home/components/action-config-dialog/types'
+import type { ActionHandlerSchema } from '../../types'
 import { parseActionChildren } from '@/views/home/components/action-config-dialog/action'
 
 const modules = import.meta.glob<ActionHandlerSchema>(`./*/index.(tsx|ts)`, {
