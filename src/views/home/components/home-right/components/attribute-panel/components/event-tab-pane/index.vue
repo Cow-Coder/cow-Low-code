@@ -144,6 +144,7 @@
       append-to-body
       :custom-class="$style.dialogCustomEventTrigger"
       title="自定义事件触发器-代码编辑"
+      :lock-scroll="false"
     >
       <el-form :model="customEventTriggerData">
         <el-form-item label="事件名称">
