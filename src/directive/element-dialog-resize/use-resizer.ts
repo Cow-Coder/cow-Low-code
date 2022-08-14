@@ -1,6 +1,7 @@
 import { watchEffect } from 'vue'
 import type { ComputedRef, Ref } from 'vue'
 import useParseTranslate from '@/directive/element-dialog-resize/use-parse-translate'
+import { addUnit } from '@/directive/element-dialog-resize/use-draggable'
 
 export default function useResizer(
   dialogRef: Ref<HTMLElement | undefined> | HTMLElement,
@@ -8,6 +9,11 @@ export default function useResizer(
   beforeMountedFun: Array<(...args: any) => any>
 ) {
   const dialogEl = unref(dialogRef)!
+  dialogEl.style.setProperty('--el-dialog-width', addUnit(dialogEl.getBoundingClientRect().width)!)
+  dialogEl.style.setProperty(
+    '--el-dialog-height',
+    addUnit(dialogEl.getBoundingClientRect().height)!
+  )
 
   const resizerEl = document.createElement('div')
   resizerEl.className = 'el-dialog-resizer'
@@ -33,6 +39,7 @@ export default function useResizer(
       const newWidth = `${dialogDefaultRect!.width + deltaWidth}px`
       const newHeight = `${dialogDefaultRect!.height + deltaHeight}px`
       dialogEl.style.setProperty('--el-dialog-width', newWidth)
+      dialogEl.style.setProperty('--el-dialog-height', newHeight)
       dialogEl.style.width = newWidth
       dialogEl.style.height = newHeight
       dialogEl.style.transform = `translate(${translateX + deltaWidth / 2}px,${translateY}px)`
