@@ -1,4 +1,4 @@
-import type { ActionHandlerSchema } from '../../../types'
+import type { ActionHandlerSchema } from '@/views/home/components/action-config-dialog/types'
 
 export default {
   name: 'JavaScript',
