@@ -3,7 +3,7 @@ import type { ComputedRef, Ref } from 'vue'
 import { isNumber, isObject, isString } from '@/utils/type'
 import useParseTranslate from '@/directive/element-dialog-resize/use-parse-translate'
 
-function addUnit(value?: string | number, defaultUnit = 'px') {
+export function addUnit(value?: string | number, defaultUnit = 'px') {
   if (!value) return ''
   if (isString(value)) {
     return value

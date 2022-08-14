@@ -11,7 +11,7 @@
         </keep-alive>
       </el-tab-pane>
       <!--            代码面板-->
-      <el-tab-pane label="代码" lazy>
+      <el-tab-pane label="代码">
         <code-panel />
       </el-tab-pane>
     </el-tabs>

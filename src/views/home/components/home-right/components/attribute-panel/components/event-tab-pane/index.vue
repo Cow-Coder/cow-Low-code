@@ -105,10 +105,20 @@
       </div>
     </div>
   </div>
+  <div v-element-dialog-resize="{ draggable: true }" class="el-dialog">
+    <el-dialog
+      ref="dialogCustomEventTriggerRef"
+      v-model="dialogIsShowCustomEventTrigger"
+      append-to-body
+      :custom-class="$style.dialogCustomEventTrigger"
+      title="自定义事件触发器-代码编辑"
+    >
+      <monaco-editor />
+    </el-dialog>
+  </div>
 </template>
 
 <script lang="tsx" setup>
-import { ref, toRefs } from 'vue'
 import Draggable from 'vuedraggable'
 import {
   Delete as IconDelete,
@@ -116,21 +126,16 @@ import {
   Edit as IconEdit,
   Plus as IconPlus,
 } from '@icon-park/vue-next'
-import type {
-  EventTrigger,
-  LibraryComponentInstanceActionItem,
-  LibraryComponentInstanceEventTriggers,
-} from '@/types/library-component-event'
+import { ElDialog } from 'element-plus'
+import useEventAction from './use-event-action'
+import useEventTabPane from './use-event-tab-pane'
+import useEventTrigger from './use-event-trigger'
+import MonacoEditor from '@/components/monaco-editor/index.vue'
 import $popoverStyle from '@/assets/style/popover.module.scss'
 import {
   createCustomAttributeTabEmits,
   createCustomAttributeTabProps,
 } from '@/views/home/components/home-right/components/attribute-panel/util'
-import { createLibraryComponentInstanceEventAction, uuid } from '@/utils/library'
-import { actionConfigDialog } from '@/views/home/components/action-config-dialog'
-import { getActionHandle } from '@/views/home/components/action-config-dialog/action'
-import { useCodeStore } from '@/stores/code'
-import { libraryMap } from '@/library'
 
 defineOptions({
   name: 'EventTab',
@@ -138,126 +143,22 @@ defineOptions({
 
 const props = defineProps(createCustomAttributeTabProps())
 const emit = defineEmits(createCustomAttributeTabEmits())
-const { componentSchema, cursorPanel } = toRefs(props)
-const componentInstanceData = useVModel(props, 'componentInstanceData', emit)
-const componentInstanceEventTriggers = computed({
-  get: () => componentInstanceData!.value?.eventTriggers,
-  set: (val) => {
-    if (!componentInstanceData!.value?.eventTriggers) return undefined
-    componentInstanceData.value.eventTriggers = val
-  },
-})
-const eventTriggersSchema = computed(() => componentSchema!.value?.eventTriggers)
-
-const isPopoverShow = ref(false)
-const collapseActiveKey = ref<string[]>([])
-watch(componentSchema!, () => {
-  nextTick(() => {
-    if (!componentInstanceEventTriggers.value) {
-      collapseActiveKey.value = []
-      return undefined
-    }
-    collapseActiveKey.value = Object.entries(componentInstanceEventTriggers.value).map(
-      ([val]) => val
-    )
-  })
-})
-
-/**
- * 添加事件触发器
- * @param eventName
- * @param eventSchema
- */
-function onAddEventTrigger(eventName: string, eventSchema: ValueOf<EventTrigger>) {
-  isPopoverShow.value = false
-  if (!componentInstanceEventTriggers.value)
-    throw new TypeError(`componentInstanceEventTriggers 不能是 undefined`)
-  componentInstanceEventTriggers.value[eventName] =
-    createLibraryComponentInstanceEventAction(eventName)
-  // 默认展开新添加的Trigger
-  if (!collapseActiveKey.value.includes(eventName)) {
-    collapseActiveKey.value.push(eventName)
-  }
-}
-
-const vmCurrentInstance = getCurrentInstance()
-/**
- * 给事件触发器添加动作
- * @param eventName
- * @param eventData
- */
-async function onAddEventAction(
-  eventName: string,
-  eventData: ValueOf<LibraryComponentInstanceEventTriggers>
-) {
-  const actionConfigResult = await actionConfigDialog(vmCurrentInstance!.appContext)
-  if (!actionConfigResult) return undefined
-  const actionItem = {
-    actionName: actionConfigResult.actionName,
-    uuid: uuid(),
-  } as LibraryComponentInstanceActionItem
-  if (actionConfigResult.config) actionItem.config = actionConfigResult.config
-  eventData.actions.push(actionItem)
-}
-
-function onDeleteEventAction(
-  eventName: string,
-  eventData: ValueOf<LibraryComponentInstanceEventTriggers>,
-  action: LibraryComponentInstanceActionItem
-) {
-  for (const index in eventData.actions) {
-    if (action.uuid !== eventData.actions[index].uuid) continue
-    eventData.actions.splice(Number(index), 1)
-    break
-  }
-}
-
-async function onEditEventAction(
-  eventName: string,
-  eventData: ValueOf<LibraryComponentInstanceEventTriggers>,
-  action: LibraryComponentInstanceActionItem
-) {
-  const actionConfigResult = await actionConfigDialog(
-    vmCurrentInstance!.appContext,
-    action.actionName,
-    action?.config
-  )
-  if (!actionConfigResult) return undefined
-  if (actionConfigResult.config) action.config = actionConfigResult.config
-}
-
-/**
- * 删除事件触发器
- * @param eventName
- * @param eventData
- */
-function onDeleteEventTrigger(
-  eventName: string,
-  eventData: ValueOf<LibraryComponentInstanceEventTriggers>
-) {
-  delete componentInstanceEventTriggers.value![eventName]
-}
-
-const codeStore = useCodeStore()
-function parseActionLabelAndTip(action: LibraryComponentInstanceActionItem) {
-  const actionHandle = getActionHandle(action.actionName)
-  if (!actionHandle) {
-    console.error(`${action.actionName} actionHandle not found`)
-    throw new TypeError(`${action.actionName} actionHandle not found`)
-  }
-  if (!actionHandle.parseTip) {
-    console.error(`actionHandle '${action.actionName}' method 'parseTip' not found`)
-    throw new TypeError(`actionHandle '${action.actionName}' method 'parseTip' not found`)
-  }
-  let tip = actionHandle.parseTip(action.config, codeStore.jsonCode, libraryMap)
-  if (tip instanceof String) {
-    tip = () => <>{tip}</>
-  }
-  return {
-    tip,
-    label: actionHandle.label,
-  } as { tip: () => JSX.Element; label: string }
-}
+const {
+  eventTriggersSchema,
+  componentInstanceData,
+  componentInstanceEventTriggers,
+  collapseActiveKey,
+  componentSchema,
+  parseActionLabelAndTip,
+} = useEventTabPane()
+const { onAddEventAction, onDeleteEventAction, onEditEventAction } = useEventAction()
+const {
+  dialogIsShowCustomEventTrigger,
+  dialogCustomEventTriggerRef,
+  isPopoverShow,
+  onAddEventTrigger,
+  onDeleteEventTrigger,
+} = useEventTrigger(componentInstanceEventTriggers)
 </script>
 
 <style lang="scss" scoped>
@@ -327,6 +228,18 @@ function parseActionLabelAndTip(action: LibraryComponentInstanceActionItem) {
   }
   &__drag-handle {
     @apply cursor-grab;
+  }
+}
+</style>
+<style lang="scss" module>
+// dialog-custom-event-trigger
+.dialogCustomEventTrigger {
+  height: 70vh;
+  :global {
+    .el-dialog__body {
+      @apply p-0;
+      margin: var(--el-dialog-padding-primary);
+    }
   }
 }
 </style>
