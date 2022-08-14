@@ -24,6 +24,7 @@
   }
   &__inputGroup {
     @apply flex content-between w-full;
+    margin: 12px 0;
     &__input {
       margin-right: 12px;
     }
@@ -42,5 +43,14 @@
   }
   &__dragableDiv {
     width: 100%;
+  }
+  &__editBox {
+    @apply flex justify-between flex-nowrap;
+    @apply bg-gray-200;
+    padding: 5px;
+    margin: 10px 5px;
+    :global(.el-form-item) {
+      margin: 10px 0px;
+    }
   }
 }
