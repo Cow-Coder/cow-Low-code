@@ -1,5 +1,5 @@
 <template>
-  <div ref="codeContainerRef" class="h-full w-full" />
+  <div ref="codeContainerRef" :class="customClass" />
 </template>
 
 <script lang="ts" setup>
@@ -14,6 +14,7 @@ import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
 import TSWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
+import { throttle } from 'lodash-es'
 import type { PropType } from 'vue'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -52,12 +53,16 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  customClass: {
+    type: [String, Array, Object],
+    default: 'h-full w-full',
+  },
 })
-const modelValue = useVModel(props, 'modelValue')
+const emit = defineEmits(['update:modelValue'])
+const modelValue = useVModel(props, 'modelValue', emit, { passive: true })
 
 const codeContainerRef = ref<InstanceType<typeof HTMLElement>>()
 const editorInstanceRef = shallowRef<Monaco.editor.IStandaloneCodeEditor>()
-const editorTextModel = ref<Monaco.editor.ITextModel>()
 function formatCode() {
   requestAnimationFrame(() => {
     editorInstanceRef.value?.getAction('editor.action.formatDocument').run()
@@ -66,10 +71,10 @@ function formatCode() {
 
 watch(
   modelValue,
-  (value) => {
-    editorTextModel.value?.setValue(value)
-  },
-  { deep: true }
+  throttle(() => {
+    const content = editorInstanceRef.value?.getValue()
+    if (modelValue.value !== content) editorInstanceRef.value?.setValue(modelValue.value)
+  })
 )
 
 onMounted(() => {
@@ -93,11 +98,14 @@ onMounted(() => {
       formatCode()
     })
   }
-  editorTextModel.value = editorInstanceRef.value.getModel()!
+  editorInstanceRef.value?.onDidChangeModelContent(
+    throttle(() => {
+      modelValue.value = editorInstanceRef.value!.getValue()!
+    })
+  )
 })
 
 defineExpose({
-  editorTextModel,
   editorInstanceRef,
   codeContainerRef,
   formatCode,
