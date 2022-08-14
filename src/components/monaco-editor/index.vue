@@ -1,5 +1,4 @@
 <template>
-  <div ref="codeContainerRef" :class="customClass" />
   <div ref="codeContainerRef" class="h-full w-full" />
 </template>
 
@@ -54,11 +53,6 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  customClass: {
-    type: [String, Array, Object],
-    default: 'h-full w-full',
-  },
-})
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -112,6 +106,7 @@ onMounted(() => {
       formatCode()
     })
   }
+
   editorInstanceRef.value?.onDidChangeModelContent(
     throttle(() => {
       modelValue.value = editorInstanceRef.value!.getValue()!

@@ -1,4 +1,4 @@
-import type { ActionHandlerSchema } from './types'
+import type { ActionHandlerSchema } from '@/views/home/components/action-config-dialog/types'
 import type { LibraryComponent, LibraryComponentInstanceData } from '@/types/library-component'
 
 const allModules = import.meta.glob<ActionHandlerSchema>(`./action-handlers/*/index.(tsx|ts)`, {
