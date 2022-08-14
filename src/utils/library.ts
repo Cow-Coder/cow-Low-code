@@ -6,6 +6,7 @@ import type {
   LibraryComponentInstanceProps,
   LibraryComponentPropItem,
   LibraryComponentProps,
+  OutlineData,
 } from '@/types/library-component'
 import type {
   ActionHandlerSchema,
@@ -24,8 +25,9 @@ export const uuid = uuidv4
 export function createLibraryComponentInstance(
   com: LibraryComponent
 ): LibraryComponentInstanceData {
+  const compId = uuid()
   const data = {
-    uuid: uuid(),
+    uuid: compId,
     componentName: com.name,
     libraryName: com.libraryName,
     focus: false,

@@ -1,7 +1,8 @@
 import type {
-  ILibraryComponentInstanceFocus,
   LibraryComponent,
   LibraryComponentInstanceData,
+  LibraryComponentInstanceFocus,
+  OutlineData,
 } from '@/types/library-component'
 
 import { libraryRecord } from '@/library'
@@ -19,7 +20,17 @@ export const useCodeStore = defineStore(
      * 3. 使用 focusData 记录被选中组件在JSON中的路径，根据路径就可以直达被选中组件
      *    问题是拖动组件换顺序之后要全部重新计算
      */
-    const focusData = ref<ILibraryComponentInstanceFocus>()
+    const focusData = ref<LibraryComponentInstanceFocus>()
+
+    /**
+     * 被拖拽的组件
+     */
+    const draggedElement = ref<LibraryComponent>()
+
+    /**
+     * 大纲数据
+     */
+    const outlineData = ref<OutlineData[]>([])
 
     /**
      * store恢复初始状态
@@ -29,6 +40,7 @@ export const useCodeStore = defineStore(
     function clear() {
       jsonCode.value = []
       focusData.value = undefined
+      outlineData.value = []
     }
 
     function dispatchFocus(uuid: string, path?: string) {
@@ -44,17 +56,20 @@ export const useCodeStore = defineStore(
 
     /**
      * 获取当前选中组件的数据和定义
-     * @param focusData
+     * @param focus
      */
     function getLibraryComponentInstanceDataAndSchema(
-      focusData: ILibraryComponentInstanceFocus
+      focus?: LibraryComponentInstanceFocus
     ): [LibraryComponentInstanceData, LibraryComponent] {
+      let focusData_ = focus
+      if (!focus) focusData_ = focusData.value
+      if (!focusData_) throw new TypeError('focusData_和focus不能同时为undefined')
       /**
        * TODO: 这里应该加缓存，记录已经找到过的组件的uuid，缓存进键值对
        */
       let focusedLibraryComponentInstanceData = undefined
       for (const jsonCodeElement of jsonCode.value) {
-        if (jsonCodeElement?.uuid === focusData.uuid) {
+        if (jsonCodeElement?.uuid === focusData_.uuid) {
           // console.log(`jsonCodeElement`, jsonCodeElement, jsonCode);
           focusedLibraryComponentInstanceData = jsonCodeElement
           break
@@ -62,7 +77,7 @@ export const useCodeStore = defineStore(
       }
 
       if (!focusedLibraryComponentInstanceData)
-        throw new Error(`not found focusedLibraryComponentData(uuid): ${focusData.uuid}`)
+        throw new Error(`not found focusedLibraryComponentData(uuid): ${focusData_.uuid}`)
 
       let focusedLibraryComponentSchema = undefined
       for (const e of libraryRecord[focusedLibraryComponentInstanceData.libraryName]) {
@@ -79,26 +94,42 @@ export const useCodeStore = defineStore(
       return [focusedLibraryComponentInstanceData, focusedLibraryComponentSchema]
     }
 
-    const draggedElement = ref<LibraryComponent>()
-
+    // 添加被拖拽的数据
     const updateDraggedElement = (element: LibraryComponent) => {
       draggedElement.value = element
     }
 
+    // 清空被拖拽的数据
     const removeDraggedElement = () => {
       draggedElement.value = undefined
+    }
+
+    watch(
+      jsonCode,
+      (newValue) => {
+        console.log(outlineData.value)
+        console.log(newValue)
+      },
+      { deep: true }
+    )
+
+    // 添加大纲数据
+    const addOutlineData = (data: OutlineData) => {
+      outlineData.value.push(data)
     }
 
     return {
       jsonCode,
       focusData,
       draggedElement,
+      outlineData,
       dispatchFocus,
       getLibraryComponentInstanceDataAndSchema,
       clear,
       freeFocus,
       updateDraggedElement,
       removeDraggedElement,
+      addOutlineData,
     }
   },
   {
@@ -107,7 +138,7 @@ export const useCodeStore = defineStore(
       strategies: [
         {
           storage: sessionStorage,
-          paths: ['jsonCode'],
+          paths: ['jsonCode', 'outlineData'],
         },
       ],
     },
