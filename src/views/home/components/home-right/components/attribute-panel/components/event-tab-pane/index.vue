@@ -114,6 +114,12 @@
       title="自定义事件触发器-代码编辑"
     >
       <monaco-editor />
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button class="mr-2.5" @click="dialogIsShowCustomEventTrigger = false">取消</el-button>
+          <el-button type="primary" @click="onSubmitCustomEventTriggerCode">确认</el-button>
+        </div>
+      </template>
     </el-dialog>
   </div>
 </template>
@@ -158,6 +164,7 @@ const {
   isPopoverShow,
   onAddEventTrigger,
   onDeleteEventTrigger,
+  onSubmitCustomEventTriggerCode,
 } = useEventTrigger(componentInstanceEventTriggers)
 </script>
 
