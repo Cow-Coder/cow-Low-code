@@ -10,14 +10,42 @@
         :bordered="false"
         expand-icon-position="right"
       >
+        <!--        一个事件触发器item-->
         <a-collapse-item
           v-for="(eventTriggerData, eventTriggerName) in componentInstanceEventTriggers"
           :key="eventTriggerName"
-          :header="eventTriggersSchema[eventTriggerName].title"
         >
+          <!--          事件触发器title-->
+          <template #header>
+            <a-space>
+              {{
+                parseCollapseHeaderLabel(
+                  eventTriggerName,
+                  eventTriggerData,
+                  eventTriggersSchema[eventTriggerName]
+                )
+              }}
+              <el-tooltip
+                v-if="
+                  isCustomEventTriggerName(eventTriggerName) && eventTriggerData.description !== ''
+                "
+                :content="eventTriggerData.description"
+              >
+                <icon-info theme="outline" size="14" fill="#333" :stroke-width="4" />
+              </el-tooltip>
+            </a-space>
+          </template>
+          <!--          事件触发器右侧图标-->
           <template #extra>
             <div class="flex">
               <a-space>
+                <icon-edit
+                  v-if="isCustomEventTriggerName(eventTriggerName)"
+                  class="icon-button"
+                  theme="outline"
+                  size="16"
+                  @click.capture.stop="editCustomEventTrigger(eventTriggerName, eventTriggerData)"
+                />
                 <icon-plus
                   class="icon-button"
                   theme="outline"
@@ -33,6 +61,7 @@
               </a-space>
             </div>
           </template>
+          <!--          事件动作列表-->
           <draggable
             v-model="eventTriggerData.actions"
             handle=".action-item__drag-handle"
@@ -82,6 +111,7 @@
       </a-collapse>
       <el-empty v-else description="快去创建事件，让你的产品动起来吧" />
 
+      <!--      底部添加事件按钮-->
       <div class="add-trigger-button">
         <a-popover
           v-model:popup-visible="isPopoverShow"
@@ -105,6 +135,8 @@
       </div>
     </div>
   </div>
+
+  <!--  自定义事件添加dialog-->
   <div v-element-dialog-resize="{ draggable: true }" class="el-dialog">
     <el-dialog
       ref="dialogCustomEventTriggerRef"
@@ -113,7 +145,24 @@
       :custom-class="$style.dialogCustomEventTrigger"
       title="自定义事件触发器-代码编辑"
     >
-      <monaco-editor />
+      <el-form :model="customEventTriggerData">
+        <el-form-item label="事件名称">
+          <el-input v-model="customEventTriggerData.title" placeholder="自定义事件" />
+        </el-form-item>
+        <el-form-item label="事件描述">
+          <el-input v-model="customEventTriggerData.description" />
+        </el-form-item>
+      </el-form>
+      <monaco-editor
+        v-model="customEventTriggerData.execCode"
+        custom-class=""
+        :class="['w-full', 'flex-grow']"
+        style="height: calc(100% - 100px)"
+      />
+      <template #footer>
+        <el-button class="mr-2.5" @click="dialogIsShowCustomEventTrigger = false">取消</el-button>
+        <el-button type="primary" @click="onSubmitCustomEventTrigger">确认</el-button>
+      </template>
     </el-dialog>
   </div>
 </template>
@@ -124,9 +173,11 @@ import {
   Delete as IconDelete,
   Drag as IconDrag,
   Edit as IconEdit,
+  Info as IconInfo,
   Plus as IconPlus,
 } from '@icon-park/vue-next'
 import { ElDialog } from 'element-plus'
+import { isCustomEventTriggerName } from './util'
 import useEventAction from './use-event-action'
 import useEventTabPane from './use-event-tab-pane'
 import useEventTrigger from './use-event-trigger'
@@ -144,20 +195,24 @@ defineOptions({
 const props = defineProps(createCustomAttributeTabProps())
 const emit = defineEmits(createCustomAttributeTabEmits())
 const {
+  componentSchema,
   eventTriggersSchema,
   componentInstanceData,
   componentInstanceEventTriggers,
   collapseActiveKey,
-  componentSchema,
+  parseCollapseHeaderLabel,
   parseActionLabelAndTip,
 } = useEventTabPane()
 const { onAddEventAction, onDeleteEventAction, onEditEventAction } = useEventAction()
 const {
+  customEventTriggerData,
   dialogIsShowCustomEventTrigger,
   dialogCustomEventTriggerRef,
   isPopoverShow,
   onAddEventTrigger,
   onDeleteEventTrigger,
+  editCustomEventTrigger,
+  onSubmitCustomEventTrigger,
 } = useEventTrigger(componentInstanceEventTriggers)
 </script>
 

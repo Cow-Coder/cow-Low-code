@@ -2,6 +2,8 @@ import { computed, ref, toRefs } from 'vue'
 import type {
   EventTriggerSchema,
   LibraryComponentInstanceActionItem,
+  LibraryComponentInstanceCustomEventTriggerData,
+  LibraryComponentInstanceEventTriggers,
 } from '@/types/library-component-event'
 import type { ComputedRef, SetupContext } from 'vue'
 import type {
@@ -13,6 +15,10 @@ import { useCodeStore } from '@/stores/code'
 import { getActionHandle } from '@/views/home/components/action-config-dialog/action'
 import { libraryMap } from '@/library'
 import { CUSTOM_EVENT_TRIGGER_NAME } from '@/constant'
+import {
+  generateCustomEventTriggerName,
+  isCustomEventTriggerName,
+} from '@/views/home/components/home-right/components/attribute-panel/components/event-tab-pane/util'
 
 export default function useEventTabPane() {
   const instance = getCurrentInstance()!
@@ -87,12 +93,22 @@ export default function useEventTabPane() {
     })
   )
 
+  function parseCollapseHeaderLabel(
+    triggerName: string,
+    triggerData: ValueOf<LibraryComponentInstanceEventTriggers>,
+    triggerSchema: ValueOf<EventTriggerSchema>
+  ) {
+    if (!isCustomEventTriggerName(triggerName)) return triggerSchema.title
+    else return (triggerData as LibraryComponentInstanceCustomEventTriggerData).title
+  }
+
   return {
+    componentSchema,
     eventTriggersSchema,
     componentInstanceData,
     componentInstanceEventTriggers,
     collapseActiveKey,
-    componentSchema,
+    parseCollapseHeaderLabel,
     parseActionLabelAndTip,
   }
 }
