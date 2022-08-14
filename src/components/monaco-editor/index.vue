@@ -1,5 +1,5 @@
 <template>
-  <div ref="codeContainerRef" class="h-full w-full" />
+  <div ref="codeContainerRef" :class="customClass" />
 </template>
 
 <script lang="ts" setup>
@@ -52,6 +52,10 @@ const props = defineProps({
   modelValue: {
     type: String,
     default: '',
+  },
+  customClass: {
+    type: [String, Array, Object],
+    default: 'h-full w-full',
   },
 })
 const emit = defineEmits(['update:modelValue'])

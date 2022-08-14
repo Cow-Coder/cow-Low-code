@@ -1,6 +1,6 @@
 import type { PropType } from 'vue'
 import type { LibraryComponent, LibraryComponentInstanceData } from '@/types/library-component'
-import type { ActionHandlerSchema } from '@/views/home/components/action-config-dialog/types'
+import type { ActionHandlerSchema } from './types'
 
 export function getActionHandleDefaultProps<T>() {
   return {

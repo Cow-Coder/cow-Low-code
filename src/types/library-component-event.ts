@@ -1,13 +1,7 @@
-import { defineComponent } from 'vue'
-import type { ComponentPublicInstance, DefineComponent, PropType } from 'vue'
-import type { ComponentOptionsBase, ComponentPropsOptions } from '@vue/runtime-core'
-import type { LibraryComponentInstanceData } from '@/types/library-component'
-import type { CUSTOM_EVENT_TRIGGER_NAME } from '@/constant'
-
 /**
  * 普通事件触发器数据
  */
-export type CommonEventTriggerData = {
+export type CommonEventTriggerSchemaData = {
   /**
    * 事件名称
    */
@@ -22,7 +16,7 @@ export type EventTriggerSchema = {
    * 事件标识符
    * @name name
    */
-  [name: string | symbol]: CommonEventTriggerData
+  [name: string | symbol]: CommonEventTriggerSchemaData
 }
 
 /**
@@ -57,6 +51,15 @@ export type LibraryComponentInstanceCustomEventTriggerData = {
    * 自定义事件执行代码
    */
   execCode: string
+  /**
+   * 事件名称
+   * 便于用户区分不同自定义事件
+   */
+  title: string
+  /**
+   * 事件描述
+   */
+  description: string
 } & LibraryComponentInstanceCommonEventTriggerData
 
 /**

@@ -53,10 +53,7 @@ import { cloneDeep } from 'lodash-es'
 import { ElTree } from 'element-plus'
 import { commonActions } from './action'
 import type { ComponentPublicInstance, ComputedRef } from 'vue'
-import type {
-  ActionConfigResult,
-  ActionHandlerSchema,
-} from '@/views/home/components/action-config-dialog/types'
+import type { ActionConfigResult, ActionHandlerSchema } from './types'
 import type { getActionHandleDefaultProps } from '@/views/home/components/action-config-dialog/util'
 import { useCodeStore } from '@/stores/code'
 import { libraryMap } from '@/library'
