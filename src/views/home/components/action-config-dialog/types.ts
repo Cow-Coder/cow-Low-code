@@ -2,15 +2,14 @@ import { defineComponent } from 'vue'
 import type { LibraryComponent, LibraryComponentInstanceData } from '@/types/library-component'
 import { getActionHandleDefaultProps } from '@/views/home/components/action-config-dialog/util'
 
+/**
+ * Action处理器的结构
+ */
 function actionHandlerConfigPanelDefineComponent<T>() {
   return defineComponent({
     props: getActionHandleDefaultProps<T>(),
   })
 }
-
-/**
- * Action处理器的结构
- */
 export type ActionHandlerSchema<T = any> = {
   /**
    * action唯一标识符
@@ -40,7 +39,9 @@ export type ActionHandlerSchema<T = any> = {
   /**
    * 配置界面
    */
-  configPanel?: ReturnType<typeof actionHandlerConfigPanelDefineComponent<T>>
+  configPanel?:
+    | ReturnType<typeof actionHandlerConfigPanelDefineComponent<T>>
+    | ((config: T) => JSX.Element)
   /**
    * 在event-tab-pane中显示action的提示信息
    * @param args

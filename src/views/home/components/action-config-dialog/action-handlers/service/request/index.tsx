@@ -1,4 +1,4 @@
-import type { ActionHandlerSchema } from '@/views/home/components/action-config-dialog/types'
+import type { ActionHandlerSchema } from '../../../types'
 
 export default {
   name: 'Request',
