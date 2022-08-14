@@ -17,8 +17,8 @@
       </div>
     </template>
   </page-draggable>
-  <template v-if="store.draggedElement">
-    <preview-dragged :element="store.draggedElement" />
+  <template v-if="draggedElement">
+    <preview-dragged :element="toRaw(draggedElement)" />
   </template>
 </template>
 
