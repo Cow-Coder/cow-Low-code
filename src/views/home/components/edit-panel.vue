@@ -42,6 +42,7 @@ const editDraggableConfigRef = ref<Draggable>({
     group: { name: DRAGGABLE_GROUP_NAME },
     itemKey: 'id',
     disabled: false,
+    animation: 200,
   },
 })
 
@@ -70,28 +71,28 @@ function parseLibraryComponent(data: LibraryComponentInstanceData) {
   throw new Error(`not found library component: ${data.libraryName}`)
 }
 
-const isDownCtrlLeft = ref(false)
+const isDownSpace = ref(false)
 function onChoose(data: LibraryComponentInstanceData) {
-  isDownCtrlLeft.value || codeStore.dispatchFocus(data.uuid)
+  isDownSpace.value || codeStore.dispatchFocus(data.uuid)
 }
 
-watch(isDownCtrlLeft, (val) => {
+watch(isDownSpace, (val) => {
   editDraggableConfigRef.value.draggableProp.disabled = val
 })
 
 function isFocusComponent(data: LibraryComponentInstanceData) {
-  return data.uuid == focusData.value?.uuid && !isDownCtrlLeft.value
+  return data.uuid == focusData.value?.uuid && !isDownSpace.value
 }
 
 function onTouchEvent(e: TouchEvent) {
-  if (!isDownCtrlLeft.value) e.stopPropagation()
+  if (!isDownSpace.value) e.stopPropagation()
 }
 
 useEventListener(window, 'keydown', (e) => {
-  e.code === 'ControlLeft' ? (isDownCtrlLeft.value = true) : undefined
+  e.code === 'Space' ? (isDownSpace.value = true) : undefined
 })
 useEventListener(window, 'keyup', (e) => {
-  e.code === 'ControlLeft' ? (isDownCtrlLeft.value = false) : undefined
+  e.code === 'Space' ? (isDownSpace.value = false) : undefined
 })
 
 // TODO: 拖拽到编辑器时候显示真实的组件，而不是显示物料面板的按钮

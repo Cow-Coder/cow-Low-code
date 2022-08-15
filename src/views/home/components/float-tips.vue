@@ -22,7 +22,7 @@
             <template #icon>
               <IconBulb />
             </template>
-            <div>按住<kbd>ctrl</kbd>可以临时预览页面</div>
+            <div>按住<kbd>space</kbd>可以临时预览页面</div>
           </a-menu-item>
         </a-menu>
       </template>

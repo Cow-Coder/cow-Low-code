@@ -1,14 +1,24 @@
-import type { ActionHandlerSchema } from '@/types/library-component-event'
+import type { ActionHandlerSchema } from './types'
+import type { LibraryComponent, LibraryComponentInstanceData } from '@/types/library-component'
 
-const modules = import.meta.glob<ActionHandlerSchema>(`./action-handlers/*/index.(tsx|ts)`, {
+const allModules = import.meta.glob<ActionHandlerSchema>(`./action-handlers/*/index.(tsx|ts)`, {
   import: 'default',
   eager: true,
 })
 
+export function parseActionChildren(modules: Record<string, ActionHandlerSchema>) {
+  return Object.entries(modules)
+    .map(([, module]) => module)
+    .sort((a, b) => {
+      if (!a?.order || !b?.order) return 0
+      return a?.order - b?.order
+    })
+}
+
 /**
  * 所有物料组件通用action
  */
-export const commonActions = Object.entries(modules).map(([, module]) => module)
+export const commonActions = parseActionChildren(allModules)
 
 /**
  * 获取一个action的处理器
@@ -35,11 +45,20 @@ export function getActionHandle(actionName: string) {
 /**
  * 执行一个action
  * @param actionName
+ * @param libraryComponentInstanceTree
+ * @param libraryComponentSchemaMap
  * @param actionConfig
  */
-export function dispatchActionHandle(actionName: string, actionConfig?: any) {
+export function dispatchActionHandle(
+  actionName: string,
+  libraryComponentInstanceTree: LibraryComponentInstanceData[],
+  libraryComponentSchemaMap: Record<string, LibraryComponent>,
+  actionConfig?: any
+) {
   const actionHandle = getActionHandle(actionName)
   if (!actionHandle || !actionHandle.handler)
     throw new TypeError(`actionHandle: ${actionName} not found`)
-  return Promise.resolve(actionHandle.handler(actionConfig))
+  return Promise.resolve(
+    actionHandle.handler(actionConfig, libraryComponentInstanceTree, libraryComponentSchemaMap)
+  )
 }

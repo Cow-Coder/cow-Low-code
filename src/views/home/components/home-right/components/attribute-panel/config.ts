@@ -1,6 +1,6 @@
 import type { DefineComponent } from '@/types/library-component'
 import { AttributePanelsEnum } from '@/types/panel'
-import EventTab from '@/views/home/components/home-right/components/attribute-panel/components/event-tab-pane.vue'
+import EventTab from '@/views/home/components/home-right/components/attribute-panel/components/event-tab-pane/index.vue'
 
 /**
  * 单个子tab配置

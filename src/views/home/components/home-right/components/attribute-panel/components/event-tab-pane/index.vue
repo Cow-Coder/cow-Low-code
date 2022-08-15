@@ -10,14 +10,42 @@
         :bordered="false"
         expand-icon-position="right"
       >
+        <!--        一个事件触发器item-->
         <a-collapse-item
           v-for="(eventTriggerData, eventTriggerName) in componentInstanceEventTriggers"
           :key="eventTriggerName"
-          :header="eventTriggersSchema[eventTriggerName].title"
         >
+          <!--          事件触发器title-->
+          <template #header>
+            <a-space>
+              {{
+                parseCollapseHeaderLabel(
+                  eventTriggerName,
+                  eventTriggerData,
+                  eventTriggersSchema[eventTriggerName]
+                )
+              }}
+              <el-tooltip
+                v-if="
+                  isCustomEventTriggerName(eventTriggerName) && eventTriggerData.description !== ''
+                "
+                :content="eventTriggerData.description"
+              >
+                <icon-info theme="outline" size="14" fill="#333" :stroke-width="4" />
+              </el-tooltip>
+            </a-space>
+          </template>
+          <!--          事件触发器右侧图标-->
           <template #extra>
             <div class="flex">
               <a-space>
+                <icon-edit
+                  v-if="isCustomEventTriggerName(eventTriggerName)"
+                  class="icon-button"
+                  theme="outline"
+                  size="16"
+                  @click.capture.stop="editCustomEventTrigger(eventTriggerName, eventTriggerData)"
+                />
                 <icon-plus
                   class="icon-button"
                   theme="outline"
@@ -33,10 +61,13 @@
               </a-space>
             </div>
           </template>
+          <!--          事件动作列表-->
           <draggable
             v-model="eventTriggerData.actions"
             handle=".action-item__drag-handle"
             item-key="actionName"
+            group="dragHandle"
+            :animation="200"
           >
             <template #item="{ element: action }">
               <div class="action-item">
@@ -80,6 +111,7 @@
       </a-collapse>
       <el-empty v-else description="快去创建事件，让你的产品动起来吧" />
 
+      <!--      底部添加事件按钮-->
       <div class="add-trigger-button">
         <a-popover
           v-model:popup-visible="isPopoverShow"
@@ -103,30 +135,60 @@
       </div>
     </div>
   </div>
+
+  <!--  自定义事件添加dialog-->
+  <div v-element-dialog-resize="{ draggable: true }" class="el-dialog">
+    <el-dialog
+      ref="dialogCustomEventTriggerRef"
+      v-model="dialogIsShowCustomEventTrigger"
+      append-to-body
+      :custom-class="$style.dialogCustomEventTrigger"
+      title="自定义事件触发器-代码编辑"
+      :lock-scroll="false"
+      :close-on-click-modal="false"
+    >
+      <el-form :model="customEventTriggerData">
+        <el-form-item label="事件名称">
+          <el-input v-model="customEventTriggerData.title" placeholder="自定义事件" />
+        </el-form-item>
+        <el-form-item label="事件描述">
+          <el-input v-model="customEventTriggerData.description" />
+        </el-form-item>
+      </el-form>
+      <monaco-editor
+        v-model="customEventTriggerData.execCode"
+        custom-class=""
+        :class="['w-full', 'flex-grow']"
+        style="height: calc(100% - 100px)"
+      />
+      <template #footer>
+        <el-button class="mr-2.5" @click="dialogIsShowCustomEventTrigger = false">取消</el-button>
+        <el-button type="primary" @click="onSubmitCustomEventTrigger">确认</el-button>
+      </template>
+    </el-dialog>
+  </div>
 </template>
 
 <script lang="tsx" setup>
-import { ref, toRefs } from 'vue'
 import Draggable from 'vuedraggable'
 import {
   Delete as IconDelete,
   Drag as IconDrag,
   Edit as IconEdit,
+  Info as IconInfo,
   Plus as IconPlus,
 } from '@icon-park/vue-next'
-import type {
-  EventTrigger,
-  LibraryComponentInstanceActionItem,
-  LibraryComponentInstanceEventTriggers,
-} from '@/types/library-component-event'
+import { ElDialog } from 'element-plus'
+import { isCustomEventTriggerName } from './util'
+import useEventAction from './use-event-action'
+import useEventTabPane from './use-event-tab-pane'
+import useEventTrigger from './use-event-trigger'
+import MonacoEditor from '@/components/monaco-editor/index.vue'
 import $popoverStyle from '@/assets/style/popover.module.scss'
 import {
   createCustomAttributeTabEmits,
   createCustomAttributeTabProps,
 } from '@/views/home/components/home-right/components/attribute-panel/util'
-import { createLibraryComponentInstanceEventAction, uuid } from '@/utils/library'
-import { actionConfigDialog } from '@/views/home/components/action-config-dialog'
-import { getActionHandle } from '@/views/home/components/action-config-dialog/action'
 
 defineOptions({
   name: 'EventTab',
@@ -134,120 +196,26 @@ defineOptions({
 
 const props = defineProps(createCustomAttributeTabProps())
 const emit = defineEmits(createCustomAttributeTabEmits())
-const { componentSchema, cursorPanel } = toRefs(props)
-const componentInstanceData = useVModel(props, 'componentInstanceData', emit)
-const componentInstanceEventTriggers = computed({
-  get: () => componentInstanceData!.value?.eventTriggers,
-  set: (val) => {
-    if (!componentInstanceData!.value?.eventTriggers) return undefined
-    componentInstanceData.value.eventTriggers = val
-  },
-})
-const eventTriggersSchema = computed(() => componentSchema!.value?.eventTriggers)
-
-const isPopoverShow = ref(false)
-const collapseActiveKey = ref<string[]>([])
-watch(componentSchema!, () => {
-  nextTick(() => {
-    if (!componentInstanceEventTriggers.value) {
-      collapseActiveKey.value = []
-      return undefined
-    }
-    collapseActiveKey.value = Object.entries(componentInstanceEventTriggers.value).map(
-      ([val]) => val
-    )
-  })
-})
-
-/**
- * 添加事件触发器
- * @param eventName
- * @param eventSchema
- */
-function onAddEventTrigger(eventName: string, eventSchema: ValueOf<EventTrigger>) {
-  isPopoverShow.value = false
-  if (!componentInstanceEventTriggers.value)
-    throw new TypeError(`componentInstanceEventTriggers 不能是 undefined`)
-  componentInstanceEventTriggers.value[eventName] =
-    createLibraryComponentInstanceEventAction(eventName)
-  // 默认展开新添加的Trigger
-  if (!collapseActiveKey.value.includes(eventName)) {
-    collapseActiveKey.value.push(eventName)
-  }
-}
-
-/**
- * 给事件触发器添加动作
- * @param eventName
- * @param eventData
- */
-async function onAddEventAction(
-  eventName: string,
-  eventData: ValueOf<LibraryComponentInstanceEventTriggers>
-) {
-  const actionConfigResult = await actionConfigDialog()
-  if (!actionConfigResult) return undefined
-  const actionItem = {
-    actionName: actionConfigResult.actionName,
-    uuid: uuid(),
-  } as LibraryComponentInstanceActionItem
-  if (actionConfigResult.config) actionItem.config = actionConfigResult.config
-  eventData.actions.push(actionItem)
-}
-
-function onDeleteEventAction(
-  eventName: string,
-  eventData: ValueOf<LibraryComponentInstanceEventTriggers>,
-  action: LibraryComponentInstanceActionItem
-) {
-  for (const index in eventData.actions) {
-    if (action.uuid !== eventData.actions[index].uuid) continue
-    eventData.actions.splice(Number(index), 1)
-    break
-  }
-}
-
-async function onEditEventAction(
-  eventName: string,
-  eventData: ValueOf<LibraryComponentInstanceEventTriggers>,
-  action: LibraryComponentInstanceActionItem
-) {
-  const actionConfigResult = await actionConfigDialog(action.actionName, action?.config)
-  if (!actionConfigResult) return undefined
-  if (actionConfigResult.config) action.config = actionConfigResult.config
-}
-
-/**
- * 删除事件触发器
- * @param eventName
- * @param eventData
- */
-function onDeleteEventTrigger(
-  eventName: string,
-  eventData: ValueOf<LibraryComponentInstanceEventTriggers>
-) {
-  delete componentInstanceEventTriggers.value![eventName]
-}
-
-function parseActionLabelAndTip(action: LibraryComponentInstanceActionItem) {
-  const actionHandle = getActionHandle(action.actionName)
-  if (!actionHandle) {
-    console.error(`${action.actionName} actionHandle not found`)
-    throw new TypeError(`${action.actionName} actionHandle not found`)
-  }
-  if (!actionHandle.parseTip) {
-    console.error(`actionHandle '${action.actionName}' method 'parseTip' not found`)
-    throw new TypeError(`actionHandle '${action.actionName}' method 'parseTip' not found`)
-  }
-  let tip = actionHandle.parseTip(action.config)
-  if (tip instanceof String) {
-    tip = () => <>{tip}</>
-  }
-  return {
-    tip,
-    label: actionHandle.label,
-  } as { tip: () => JSX.Element; label: string }
-}
+const {
+  componentSchema,
+  eventTriggersSchema,
+  componentInstanceData,
+  componentInstanceEventTriggers,
+  collapseActiveKey,
+  parseCollapseHeaderLabel,
+  parseActionLabelAndTip,
+} = useEventTabPane()
+const { onAddEventAction, onDeleteEventAction, onEditEventAction } = useEventAction()
+const {
+  customEventTriggerData,
+  dialogIsShowCustomEventTrigger,
+  dialogCustomEventTriggerRef,
+  isPopoverShow,
+  onAddEventTrigger,
+  onDeleteEventTrigger,
+  editCustomEventTrigger,
+  onSubmitCustomEventTrigger,
+} = useEventTrigger(componentInstanceEventTriggers)
 </script>
 
 <style lang="scss" scoped>
@@ -284,6 +252,11 @@ function parseActionLabelAndTip(action: LibraryComponentInstanceActionItem) {
   @apply rounded flex flex-col p-3 mx-3 mt-2;
   width: calc(var(--attribute-panel-width) - 0.75rem - 0.75rem);
   background-color: #f7f7f9;
+
+  &.sortable-ghost {
+    @apply bg-blue-300;
+  }
+
   &:first-of-type {
     @apply mt-0;
   }
@@ -312,6 +285,18 @@ function parseActionLabelAndTip(action: LibraryComponentInstanceActionItem) {
   }
   &__drag-handle {
     @apply cursor-grab;
+  }
+}
+</style>
+<style lang="scss" module>
+// dialog-custom-event-trigger
+.dialogCustomEventTrigger {
+  height: 70vh;
+  :global {
+    .el-dialog__body {
+      @apply p-0;
+      margin: var(--el-dialog-padding-primary);
+    }
   }
 }
 </style>
