@@ -5,7 +5,7 @@
     "dev": "vite --config ./config/vite.config.dev.ts",
     "build": "vue-tsc --noEmit && vite build --config ./config/vite.config.prod.ts",
     "build-only": "vite build --config ./config/vite.config.prod.ts",
-    "preview": "pnpm run build-only && vite preview --port 4173",
+    "preview": "npm run build-only && vite preview --port 4173",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json --max-warnings 0 && pretty-quick --check",
     "lint:fix": "eslint --fix . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json && pretty-quick",
     "prepare": "husky install",
@@ -35,6 +35,8 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
+    "@cow-low-code/vite-plugin-monaco-editor-nls": "^2.0.1",
+    "@cow-low-code/vscode-language-pack-zh-hans": "^1.70.0",
     "@element-plus/eslint-config": "^0.0.20220803",
     "@iconify-json/ep": "^1.1.6",
     "@types/node": "^16.11.47",
@@ -68,7 +70,6 @@
     "unplugin-vue-macros": "^0.7.3",
     "vite": "^3.0.1",
     "vite-plugin-inspect": "^0.6.0",
-    "vite-plugin-monaco-editor-nls": "^2.0.1",
     "vite-plugin-style-import": "^2.0.0",
     "vite-plugin-webpackchunkname": "^0.1.1",
     "vue-tsc": "^0.38.8"
