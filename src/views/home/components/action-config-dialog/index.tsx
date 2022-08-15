@@ -1,9 +1,8 @@
-import { getCurrentInstance, render } from 'vue'
+import { render } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import ActionConfigDialog from './action-config-dialog.vue'
 import type { AppContext, ComponentInternalInstance, VNode } from 'vue'
-import type { ActionConfigResult } from '@/types/library-component-event'
-import type { LibraryComponent, LibraryComponentInstanceData } from '@/types/library-component'
+import type { ActionConfigResult } from './types'
 
 type context = {
   vnode: VNode
@@ -28,12 +27,8 @@ export function actionConfigDialog(
     const props = {} as Record<string, any>
     if (actionName) props.actionName = actionName
     if (actionConfig_) props.actionConfig = actionConfig_
-    const vnode = h(ActionConfigDialog, {
-      ...props,
-      onClose,
-    })
+    const vnode = <ActionConfigDialog {...props} onClose={onClose} />
     vnode.appContext = context
-    // <ActionConfigDialog {...props} onClose={onClose} />
     render(vnode, container)
     document.body.appendChild(container)
     const vm = vnode.component!

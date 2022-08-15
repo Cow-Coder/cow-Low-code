@@ -7,6 +7,7 @@
     draggable
     title="动作配置"
     width="800px"
+    :lock-scroll="false"
   >
     <div class="layout">
       <div class="actions">
