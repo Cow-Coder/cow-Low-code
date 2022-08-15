@@ -6,6 +6,7 @@ import type {
 } from '@/types/library-component'
 
 import { libraryRecord } from '@/library'
+import { uuid } from '@/utils/library'
 
 export const useCodeStore = defineStore(
   'CodeStore',
@@ -31,6 +32,11 @@ export const useCodeStore = defineStore(
      * 大纲数据
      */
     const outlineData = ref<OutlineData[]>([])
+
+    /**
+     * 组件Id
+     */
+    const compId = ref<string>('')
 
     /**
      * store恢复初始状态
@@ -100,15 +106,21 @@ export const useCodeStore = defineStore(
     }
 
     // 清空被拖拽的数据
-    const removeDraggedElement = () => {
+    const removeDraggedElementAndCompId = () => {
       draggedElement.value = undefined
+      compId.value = ''
     }
 
+    // 监听 jsonSchemes 的变化。给大纲数据赋值
     watch(
       jsonCode,
-      (newValue) => {
-        console.log(outlineData.value)
-        console.log(newValue)
+      (val) => {
+        const tempOutline: OutlineData[] = []
+        val.forEach((vItem) => {
+          const temp = outlineData.value.find((oItem) => vItem.uuid === oItem.uuid)
+          tempOutline.push(temp!)
+        })
+        outlineData.value = tempOutline
       },
       { deep: true }
     )
@@ -123,12 +135,13 @@ export const useCodeStore = defineStore(
       focusData,
       draggedElement,
       outlineData,
+      compId,
       dispatchFocus,
       getLibraryComponentInstanceDataAndSchema,
       clear,
       freeFocus,
       updateDraggedElement,
-      removeDraggedElement,
+      removeDraggedElement: removeDraggedElementAndCompId,
       addOutlineData,
     }
   },

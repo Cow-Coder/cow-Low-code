@@ -175,6 +175,7 @@ export interface LibraryComponentInstanceFocus {
  * 大纲数据类型
  */
 export interface OutlineData {
+  uuid?: string
   name: string
   title: string
   tabName: TabName

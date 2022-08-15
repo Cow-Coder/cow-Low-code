@@ -7,7 +7,7 @@ export type GroupDrag = {
   put?: boolean
 }
 
-export type DraggableItem = {
+export type DraggableProps = {
   group?: GroupDrag
   itemKey?: string
   sort?: boolean
@@ -19,7 +19,7 @@ export type DraggableItem = {
 }
 
 export interface Draggable {
-  draggableProp: DraggableItem
+  draggableProp: DraggableProps
   // itemSlot: DefineComponent,
   handleChange?: (component: any) => any
   handleEnd?: () => unknown

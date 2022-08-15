@@ -15,6 +15,7 @@ import type {
   LibraryComponentInstanceEventTriggers,
 } from '@/types/library-component-event'
 import { dispatchActionHandle } from '@/views/home/components/action-config-dialog/action'
+import { useCodeStore } from '@/stores/code'
 
 export const uuid = uuidv4
 
@@ -34,6 +35,13 @@ export function createLibraryComponentInstance(
   } as LibraryComponentInstanceData
   if (com.props) data.props = createLibraryComponentInstanceProps(com.props)
   if (com.eventTriggers) data.eventTriggers = {}
+
+  // 给组件Id赋值
+  const store = useCodeStore()
+  store.$patch((state) => {
+    state.compId = compId
+  })
+
   return data
 }
 
