@@ -44,9 +44,6 @@ export default defineConfig({
       },
     },
   },
-  worker: {
-    plugins: [configVisualizer('stats-worker.html')],
-  },
   optimizeDeps: {
     esbuildOptions: {
       plugins: [monaco.esbuildPlugin()],
