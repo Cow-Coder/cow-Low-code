@@ -1,7 +1,7 @@
 <template>
   <el-container class="app-container">
     <!-- 顶栏 -->
-    <el-header :height="styleHeaderHeight" class="shadow bg-white sticky top-0 z-40">
+    <el-header :height="styleHeaderHeight" class="shadow bg-white fixed top-0 z-40 w-full">
       <home-header :style-header-height="styleHeaderHeight" @handle-reset-all="resetAll" />
     </el-header>
 
@@ -12,7 +12,7 @@
         <home-left ref="libraryPanelRef" class="panel" />
 
         <!--  中间手机模型【画布区】 -->
-        <div class="panel panel-main h-full" @mousedown="freeFocus">
+        <div class="panel panel-main h-full w-full" @mousedown="freeFocus">
           <div ref="editPanelRef" class="edit-wrapper">
             <edit-panel />
           </div>
@@ -49,32 +49,28 @@ const styleHeaderHeight = ref(`${60}px`)
 const editPanelRef = ref<InstanceType<typeof HTMLElement>>()
 const editPanelRect = reactive(useElementSize(editPanelRef))
 const editPanelWidth = ref(`${editPanelRect.width}px`)
-watchThrottled(editPanelRect, () => (editPanelWidth.value = `${editPanelRect.width}px`), {
-  throttle: 10,
-})
+watch(editPanelRect, () =>
+  requestAnimationFrame(() => (editPanelWidth.value = `${editPanelRect.width}px`))
+)
 
 const bodyRect = reactive(useElementSize(document.body))
 const bodyWidth = ref(`${bodyRect.width}px`)
-watchThrottled(bodyRect, () => (bodyWidth.value = `${bodyRect.width}px`), {
-  throttle: 10,
-})
+watch(bodyRect, () => requestAnimationFrame(() => (bodyWidth.value = `${bodyRect.width}px`)))
 
 // 同步 编辑器面板 宽度到css变量
 const libraryPanelRef = ref<InstanceType<typeof HTMLElement>>()
 const libraryPanelRect = reactive(useElementSize(libraryPanelRef))
 const libraryPanelWidth = ref(`${libraryPanelRect.width}px`)
-watchThrottled(libraryPanelRect, () => (libraryPanelWidth.value = `${libraryPanelRect.width}px`), {
-  throttle: 10,
-})
+watch(libraryPanelRect, () =>
+  requestAnimationFrame(() => (libraryPanelWidth.value = `${libraryPanelRect.width}px`))
+)
 
 // 同步 属性面板 宽度到css变量
 const attributePanelRef = ref<InstanceType<typeof HTMLElement>>()
 const attributePanelRect = reactive(useElementSize(attributePanelRef))
 const attributePanelWidth = ref(`${attributePanelRect.width}px`)
-watchThrottled(
-  attributePanelRect,
-  () => (attributePanelWidth.value = `${attributePanelRect.width}px`),
-  { throttle: 10 }
+watch(attributePanelRect, () =>
+  requestAnimationFrame(() => (attributePanelWidth.value = `${attributePanelRect.width}px`))
 )
 
 const codeStore = useCodeStore()
@@ -93,11 +89,12 @@ $blank-min-width: 100px;
 
 .app-container {
   @apply min-h-screen flex-col;
+  --resizer-bar-width: 6px;
   --style-header-height: v-bind(styleHeaderHeight);
   --body-width: v-bind(bodyWidth);
   --edit-panel-width: v-bind(editPanelWidth);
-  --library-panel-width: v-bind(libraryPanelWidth);
-  --attribute-panel-width: calc(v-bind(attributePanelWidth) - 6px);
+  --library-panel-width: calc(v-bind(libraryPanelWidth) - var(--resizer-bar-width));
+  --attribute-panel-width: calc(v-bind(attributePanelWidth) - var(--resizer-bar-width));
   --blank-min-width: #{$blank-min-width};
 
   :deep(.el-main) {
@@ -119,14 +116,15 @@ $blank-min-width: 100px;
     @apply flex-grow relative;
 
     .edit-wrapper {
+      @apply flex-col flex mx-auto;
+      margin-top: var(--style-header-height);
       flex-basis: 375px;
-      min-height: $screamMinHeight;
+      min-height: $editorMinHeight;
       max-width: 375px;
-      --tw-translate-x: calc(
-        (var(--body-width) - var(--edit-panel-width)) / 2 - var(--library-panel-width)
-      );
+      //--tw-translate-x: calc(
+      //  (var(--body-width) - var(--edit-panel-width)) / 2 - var(--library-panel-width)
+      //);
 
-      @apply flex-col flex transform-gpu;
       .edit {
         box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
         @apply h-full w-full flex-1;
