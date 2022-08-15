@@ -5,7 +5,7 @@ import type {
   LibraryPanelTabEnum,
 } from '@/types/panel'
 import type {
-  EventTrigger,
+  EventTriggerSchema,
   LibraryComponentInstanceEventTriggers,
 } from '@/types/library-component-event'
 
@@ -129,7 +129,7 @@ export interface LibraryComponent extends ComponentOptions {
   /**
    * 定义触发事件的情况
    */
-  eventTriggers?: EventTrigger
+  eventTriggers?: EventTriggerSchema
 }
 
 /**
@@ -159,8 +159,9 @@ export interface LibraryComponentInstanceData {
   props?: LibraryComponentInstanceProps
   /**
    * 事件触发器
+   * 由于有自定义事件触发器，所以所有物料组件实例的事件触发器必然存在
    */
-  eventTriggers?: LibraryComponentInstanceEventTriggers
+  eventTriggers: LibraryComponentInstanceEventTriggers
 }
 
 /**

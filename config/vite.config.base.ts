@@ -1,4 +1,5 @@
 import { URL, fileURLToPath } from 'node:url'
+import fs from 'node:fs'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -41,6 +42,9 @@ export default defineConfig({
       },
     },
   },
+  worker: {
+    plugins: [configVisualizer('stats-worker.html')],
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('../src', import.meta.url)),
@@ -49,9 +53,19 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          editor: ['monaco-editor'],
-          vue: ['vue', 'vue-router', 'pinia', '@vueuse/core'],
+        manualChunks: (e) => {
+          fs.appendFile('./manual-chunks.txt', `${e}\n`, () => undefined)
+          if (e.includes('/node_modules/monaco-editor/')) return 'monaco'
+          else if (
+            e.includes('/node_modules/vue/') ||
+            e.includes('/node_modules/vue-router/') ||
+            e.includes('/node_modules/pinia/') ||
+            e.includes('/node_modules/pinia-plugin-persist/') ||
+            e.includes('/node_modules/element-plus/') ||
+            e.includes('/node_modules/lodash-es/') ||
+            e.includes('/node_modules/@arco-design/web-vue/')
+          )
+            return 'vendor'
         },
       },
     },

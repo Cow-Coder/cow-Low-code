@@ -1,4 +1,5 @@
-import type { ActionHandlerSchema } from '@/types/library-component-event'
+import type { ActionHandlerSchema } from '../../types'
+import { parseActionChildren } from '@/views/home/components/action-config-dialog/action'
 
 const modules = import.meta.glob<ActionHandlerSchema>(`./*/index.(tsx|ts)`, {
   import: 'default',
@@ -8,5 +9,6 @@ const modules = import.meta.glob<ActionHandlerSchema>(`./*/index.(tsx|ts)`, {
 export default {
   name: 'Page',
   label: '页面',
-  children: Object.entries(modules).map(([, module]) => module),
+  order: 1,
+  children: parseActionChildren(modules),
 } as ActionHandlerSchema

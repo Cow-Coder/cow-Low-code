@@ -1,5 +1,5 @@
 <template>
-  <el-tabs class="attitude-tab-pane" type="border-card">
+  <el-tabs class="attribute-tab-pane" type="border-card">
     <el-tab-pane v-for="panelItem in panelList" :key="panelItem.name" :label="panelItem.title">
       <keep-alive>
         <component
@@ -94,7 +94,7 @@ const componentSchemaProps: WritableComputedRef<LibraryComponentProps | undefine
 </script>
 
 <style lang="scss" scoped>
-.attitude-tab-pane {
+.attribute-tab-pane {
   @apply flex;
   :deep(.el-tabs__content) {
     @apply p-0 flex flex-grow;

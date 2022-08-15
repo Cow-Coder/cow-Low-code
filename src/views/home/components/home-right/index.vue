@@ -2,9 +2,9 @@
   <div class="home-right panel-right">
     <a-resize-box
       :directions="['left']"
-      class="panel-right-wrapper"
-      @moving-start="onRightPanelResizeStart"
-      @moving-end="onRightPanelResizeEnd"
+      class="panel-wrapper"
+      @moving-start="rightPanelResizeBarOpacity = 1"
+      @moving-end="rightPanelResizeBarOpacity = 0"
     >
       <attribute-panel />
     </a-resize-box>
@@ -19,14 +19,6 @@ defineOptions({
 })
 
 const rightPanelResizeBarOpacity = ref(0)
-
-function onRightPanelResizeStart() {
-  rightPanelResizeBarOpacity.value = 1
-}
-
-function onRightPanelResizeEnd() {
-  rightPanelResizeBarOpacity.value = 0
-}
 </script>
 
 <style lang="scss" scoped>
@@ -46,13 +38,7 @@ function onRightPanelResizeEnd() {
 
 .panel-right {
   @include index.panelLeftAndRight;
-  .panel-right-wrapper {
-    @apply flex;
-    width: 385px;
-    min-width: 20vw;
-    max-width: calc(var(--body-width) / 2 - var(--edit-panel-width) / 2 - var(--blank-min-width));
-  }
-
+  @apply right-0;
   .el-tabs {
     @apply flex-grow flex-col;
   }

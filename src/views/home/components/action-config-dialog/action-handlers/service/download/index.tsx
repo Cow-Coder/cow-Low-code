@@ -1,4 +1,4 @@
-import type { ActionHandlerSchema } from '@/types/library-component-event'
+import type { ActionHandlerSchema } from '../../../types'
 
 export default {
   name: 'Download',
