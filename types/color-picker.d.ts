@@ -1,13 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 export {}
 
-declare module 'colorpicker-v3' {
-  declare const _default: {
-    install: (app: App) => void
-  }
-  export default _default
-}
-
 declare global {
   const colorPicker: import('vue').DefineComponent<
     {
