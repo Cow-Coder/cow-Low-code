@@ -15,7 +15,7 @@ const onCloneCallback = (original: LibraryComponent) => {
 // 触发Move函数【移到画布】
 const onMoveCallback = (evt: any) => {
   const store = useCodeStore()
-  const { draggedElement } = storeToRefs(store)
+  const { draggedElement, compId } = storeToRefs(store)
 
   // 没有被拖拽的值才加载【使其只赋值一次】
   if (draggedElement.value) return
@@ -25,6 +25,7 @@ const onMoveCallback = (evt: any) => {
   store.updateDraggedElement(element)
   // 给组件大纲赋值
   store.addOutlineData({
+    uuid: compId.value,
     name: element.name,
     title: element.libraryPanelShowDetail.title,
     tabName: element.tabName,
