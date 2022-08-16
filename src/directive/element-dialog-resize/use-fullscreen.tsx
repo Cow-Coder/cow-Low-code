@@ -39,6 +39,7 @@ export default function useFullscreen(dialogEl: HTMLElement, dialogVnode: any) {
   // 加入覆盖样式
   const style = document.createElement('style')
   style.type = 'text/css'
-  style.innerHTML = '.el-dialog.is-fullscreen {--el-dialog-width: 100%!important;}'
+  style.innerHTML =
+    '.el-dialog.is-fullscreen {--el-dialog-width: 100%!important;width:100%!important;height:100%!important;}'
   document.querySelector('head')!.appendChild(style)
 }

@@ -147,7 +147,7 @@ defineExpose({
 
 <style lang="scss" module>
 .monacoWrapper {
-  @apply relative;
+  @apply relative z-50;
   :global {
     .monaco-fullscreen {
       @apply absolute z-50;

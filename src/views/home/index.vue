@@ -1,7 +1,7 @@
 <template>
   <el-container class="app-container">
     <!-- 顶栏 -->
-    <el-header :height="styleHeaderHeight" class="shadow bg-white fixed top-0 z-40 w-full">
+    <el-header :height="styleHeaderHeight" class="shadow bg-white fixed top-0 z-20 w-full">
       <home-header :style-header-height="styleHeaderHeight" @handle-reset-all="resetAll" />
     </el-header>
 
