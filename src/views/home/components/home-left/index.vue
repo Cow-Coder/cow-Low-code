@@ -31,23 +31,29 @@ import { computed, ref } from 'vue'
 import { ElTabPane } from 'element-plus'
 import libraryPanels from './components/library-category-tab-panes'
 import CodePanel from '@/views/home/components/home-left/components/code-tab-pane.vue'
+import { useTabResizeStore } from '@/stores/tab-resize'
 
 defineOptions({
   name: 'HomeLeft',
 })
 
 const currentTab = ref('0')
+
+// 伸缩杆显示与隐藏
 const panelResizeBarOpacity = ref(0)
 const panelResizeBarDisplay = computed(() => {
   return currentTab.value === 'code-tab-pane' ? 'flex' : 'none'
 })
-const tabWidthMemoryRecord = reactive<Record<string, number>>({})
+
+// 面板缩放记忆功能
+const tabResizeStore = useTabResizeStore()
+const { tabWidthRecord } = storeToRefs(tabResizeStore)
 const panelWidth = computed({
   get: () => {
-    return tabWidthMemoryRecord[currentTab.value]
+    return tabWidthRecord.value[currentTab.value]
   },
   set: (val) => {
-    tabWidthMemoryRecord[currentTab.value] = val
+    tabWidthRecord.value[currentTab.value] = val
   },
 })
 </script>
