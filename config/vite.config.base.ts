@@ -6,12 +6,13 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import Inspect from 'vite-plugin-inspect'
 import VueMarcos from 'unplugin-vue-macros/vite'
-import configApiImport from './plugins/apiImport'
-import configComponentsImport from './plugins/componentsImport'
-import configElementStyleAndIcon from './plugins/elementStyleAndIcon'
+import configApiImport from './plugins/api-import'
+import configComponentsImport from './plugins/components-import'
+import configElementStyleAndIcon from './plugins/element-style-and-icon'
 import configVisualizer from './plugins/visualizer'
-import configArcoStyleImportPlugin from './plugins/arcoStyleImport'
-import configManualChunksPlugin from './plugins/manualChunks'
+import configArcoStyleImportPlugin from './plugins/arco-style-import'
+import configManualChunksPlugin from './plugins/manual-chunks'
+import monaco from './plugins/monaco'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -25,6 +26,7 @@ export default defineConfig({
     configComponentsImport(),
     configElementStyleAndIcon(),
     configArcoStyleImportPlugin(),
+    monaco.vitePlugin(),
     Inspect(),
     configVisualizer(),
   ],
@@ -42,8 +44,10 @@ export default defineConfig({
       },
     },
   },
-  worker: {
-    plugins: [configVisualizer('stats-worker.html')],
+  optimizeDeps: {
+    esbuildOptions: {
+      plugins: [monaco.esbuildPlugin()],
+    },
   },
   resolve: {
     alias: {

@@ -35,6 +35,8 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
+    "@cow-low-code/vite-plugin-monaco-editor-nls": "^2.0.1",
+    "@cow-low-code/vscode-language-pack-zh-hans": "^1.70.0",
     "@element-plus/eslint-config": "^0.0.20220803",
     "@iconify-json/ep": "^1.1.6",
     "@types/node": "^16.11.47",
