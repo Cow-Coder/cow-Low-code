@@ -54,6 +54,7 @@ export default {
       title: 'url链接:',
       formType: AttributePanelFormItemInputTypeEnum.input,
       belongToPanel: AttributePanelsEnum.generic,
+      default: 'https://github.com/Cow-Coder/cow-Low-code/raw/main/src/assets/images/logo.svg',
     }),
     height: createLibraryComponentPropItem({
       title: '高度(px):',
