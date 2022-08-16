@@ -7,6 +7,7 @@ import type {
 
 import { libraryRecord } from '@/library'
 import { uuid } from '@/utils/library'
+import { arrResort } from '@/utils/map-schemes-2-outline'
 
 export const useCodeStore = defineStore(
   'CodeStore',
@@ -37,6 +38,11 @@ export const useCodeStore = defineStore(
      * 组件Id
      */
     const compId = ref<string>('')
+
+    /**
+     * 组件的顺序【Id标识】
+     */
+    const compOrder = ref<string[]>([])
 
     /**
      * store恢复初始状态
@@ -111,23 +117,38 @@ export const useCodeStore = defineStore(
       compId.value = ''
     }
 
-    // 监听 jsonSchemes 的变化。给大纲数据赋值
+    // 监听 jsonSchemes 的变化。给组件顺序赋值
     watch(
       jsonCode,
-      (val) => {
-        const tempOutline: OutlineData[] = []
-        val.forEach((vItem) => {
-          const temp = outlineData.value.find((oItem) => vItem.uuid === oItem.uuid)
-          tempOutline.push(temp!)
+      (valueNew) => {
+        const tempCompOrder: string[] = []
+        valueNew.forEach((vItem) => {
+          tempCompOrder.push(vItem.uuid)
         })
-        outlineData.value = tempOutline
+        compOrder.value = tempCompOrder
       },
       { deep: true }
     )
 
+    // 监听组件顺序，给大纲数据赋值
+    watch(compOrder, (valueNew) => {
+      const tempOutline: OutlineData[] = []
+      valueNew.forEach((vItem) => {
+        tempOutline.push(outlineData.value.find((oItem) => oItem.uuid === vItem)!)
+      })
+      outlineData.value = tempOutline
+    })
+
     // 添加大纲数据
     const addOutlineData = (data: OutlineData) => {
       outlineData.value.push(data)
+    }
+
+    // 拖拽大纲顺序时，修改 jsonCode
+    const updateJsonCodeAtDragged = (draggingNodeId: string, dropNodeId: string) => {
+      const oldIndex = jsonCode.value.findIndex((item) => item.uuid === draggingNodeId)
+      const newIndex = jsonCode.value.findIndex((item) => item.uuid === dropNodeId)
+      arrResort(jsonCode.value, oldIndex, newIndex)
     }
 
     return {
@@ -136,6 +157,7 @@ export const useCodeStore = defineStore(
       draggedElement,
       outlineData,
       compId,
+      compOrder,
       dispatchFocus,
       getLibraryComponentInstanceDataAndSchema,
       clear,
@@ -143,6 +165,7 @@ export const useCodeStore = defineStore(
       updateDraggedElement,
       removeDraggedElement: removeDraggedElementAndCompId,
       addOutlineData,
+      updateJsonCodeAtDragged,
     }
   },
   {
