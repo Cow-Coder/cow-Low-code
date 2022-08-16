@@ -85,7 +85,15 @@ function onTouchEvent(e: TouchEvent) {
 }
 
 useEventListener(window, 'keydown', (e) => {
-  e.code === 'Space' ? (isDownSpace.value = true) : undefined
+  if (
+    (e.target as HTMLElement).nodeName === 'INPUT' ||
+    (e.target as HTMLElement).nodeName === 'TEXTAREA'
+  )
+    return undefined
+  if (e.code === 'Space') {
+    isDownSpace.value = true
+    e.preventDefault()
+  }
 })
 useEventListener(window, 'keyup', (e) => {
   e.code === 'Space' ? (isDownSpace.value = false) : undefined
