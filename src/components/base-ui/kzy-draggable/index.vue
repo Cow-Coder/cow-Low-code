@@ -16,6 +16,11 @@
         <slot name="item" :element="element" />
       </div>
     </template>
+    <template #footer>
+      <div class="footer">
+        <slot name="footer" />
+      </div>
+    </template>
   </draggable>
 </template>
 
