@@ -15,13 +15,25 @@ export default function useEventTrigger(
     LibraryComponentInstanceEventTriggers | undefined
   >
 ) {
+  const initExecCode = `
+// 这里的代码会在对应组件setup中的一个匿名函数里执行
+// 本函数有四个参数，分别是
+// 1. context 一般对应setup的返回值
+// 2. getCurrentInstance 对应setup中的getCurrentInstance函数实例
+// 3. CUSTOM_EVENT_EMIT_NAME vue中emit的事件名。常量，目前是\`dispatchEvent\`，vue中emit的事件名
+// 4. THIS_EMIT_NAME 当前事件触发器的唯一标识符
+
+
+const instance = getCurrentInstance()
+const props = instance.props
+const emit = instance.emit`
   const customEventTriggerData = ref<
     Omit<
       LibraryComponentInstanceCustomEventTriggerData,
       keyof LibraryComponentInstanceCommonEventTriggerData
     >
   >({
-    execCode: '',
+    execCode: initExecCode,
     title: '',
     description: '',
   })
@@ -33,7 +45,7 @@ export default function useEventTrigger(
   watch(dialogIsShowCustomEventTrigger, (isShow) => {
     if (!isShow)
       customEventTriggerData.value = {
-        execCode: '',
+        execCode: initExecCode,
         title: '',
         description: '',
       }
@@ -82,6 +94,40 @@ export default function useEventTrigger(
         : [],
     } as LibraryComponentInstanceCustomEventTriggerData
     dialogIsShowCustomEventTrigger.value = false
+  }
+
+  function onLoadDemoCustomEventTrigger() {
+    customEventTriggerData.value.title = `三四击事件`
+    customEventTriggerData.value.description = `连续快速三次点击触发双击事件，四击触发本事件`
+    customEventTriggerData.value.execCode = `
+// 这里的代码会在对应组件setup中的一个匿名函数里执行
+// 本函数有四个参数，分别是
+// 1. context 一般对应setup的返回值
+// 2. getCurrentInstance 对应setup中的getCurrentInstance函数实例
+// 3. CUSTOM_EVENT_EMIT_NAME vue中emit的事件名。常量，目前是\`dispatchEvent\`，vue中emit的事件名
+// 4. THIS_EMIT_NAME 当前事件触发器的唯一标识符
+
+
+const instance = getCurrentInstance()
+const props = instance.props
+const emit = instance.emit
+
+function injectDispatchClick(count) {
+  console.log(count)
+  context.dispatchClick(count)
+  if (count === 3) {
+    // 激活其他事件触发器
+    emit(CUSTOM_EVENT_EMIT_NAME, \`doubleClick\`)
+  }
+  else if (count === 4) {
+    // 激活自身事件触发器
+    emit(CUSTOM_EVENT_EMIT_NAME, THIS_EMIT_NAME)
+  }
+}
+const multiClick = context.useMultiClick(injectDispatchClick, 200)
+context.onClick = () => {
+  multiClick()
+}`
   }
 
   /**
@@ -139,5 +185,6 @@ export default function useEventTrigger(
     onDeleteEventTrigger,
     editCustomEventTrigger,
     onSubmitCustomEventTrigger,
+    onLoadDemoCustomEventTrigger,
   }
 }

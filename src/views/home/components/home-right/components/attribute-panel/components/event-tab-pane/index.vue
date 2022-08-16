@@ -147,10 +147,33 @@
       v-model="dialogIsShowCustomEventTrigger"
       append-to-body
       :custom-class="$style.dialogCustomEventTrigger"
-      title="自定义事件触发器-代码编辑"
       :lock-scroll="false"
       :close-on-click-modal="false"
     >
+      <template #header>
+        <div class="flex items-center">
+          <span role="heading" class="el-dialog__title">自定义事件触发器-代码编辑</span>
+          <el-tooltip>
+            <template #content>
+              <div style="font-size: 14px">
+                <p>可能需要您在了解本程序源码之后，才能自如地编写自定义事件触发器</p>
+                <p>
+                  这里您可以先看一个示例
+                  <el-link
+                    :underline="false"
+                    type="warning"
+                    style="vertical-align: baseline"
+                    @click="onLoadDemoCustomEventTrigger"
+                  >
+                    按钮三击、四击事件
+                  </el-link>
+                </p>
+              </div>
+            </template>
+            <icon-info theme="outline" size="16" fill="#333" :stroke-width="4" class="ml-3" />
+          </el-tooltip>
+        </div>
+      </template>
       <el-form :model="customEventTriggerData">
         <el-form-item label="事件名称">
           <el-input v-model="customEventTriggerData.title" placeholder="自定义事件" />
@@ -219,6 +242,7 @@ const {
   onDeleteEventTrigger,
   editCustomEventTrigger,
   onSubmitCustomEventTrigger,
+  onLoadDemoCustomEventTrigger,
 } = useEventTrigger(componentInstanceEventTriggers)
 </script>
 
