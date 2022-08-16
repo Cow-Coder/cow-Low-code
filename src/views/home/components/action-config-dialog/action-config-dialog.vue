@@ -2,6 +2,7 @@
   <el-dialog
     v-model="actionDialogVisible"
     :close-on-click-modal="false"
+    :close-on-press-escape="false"
     :custom-class="$style.actionConfigDialog"
     :fullscreen="fullscreen"
     draggable

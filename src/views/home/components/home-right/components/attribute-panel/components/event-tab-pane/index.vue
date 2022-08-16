@@ -141,7 +141,7 @@
   </div>
 
   <!--  自定义事件添加dialog-->
-  <div v-element-dialog-resize="{ draggable: true }" class="el-dialog">
+  <div v-element-dialog-resize="{ draggable: true, fullscreen: true }" class="el-dialog">
     <el-dialog
       ref="dialogCustomEventTriggerRef"
       v-model="dialogIsShowCustomEventTrigger"
@@ -149,6 +149,7 @@
       :custom-class="$style.dialogCustomEventTrigger"
       :lock-scroll="false"
       :close-on-click-modal="false"
+      :close-on-press-escape="false"
     >
       <template #header>
         <div class="flex items-center">
