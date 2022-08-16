@@ -13,6 +13,7 @@
         default-expand-all
         node-key="id"
         :filter-node-method="filterNode"
+        @node-drop="handleDrop"
       />
     </div>
   </div>
@@ -45,9 +46,15 @@ watch(filterText, (val) => {
   treeRef.value!.filter(val)
 })
 
+// 过滤器
 const filterNode = (value: string, data: TreeData) => {
   if (!value) return true
   return data.label.includes(value)
+}
+
+// 变换位置时，将其组件顺序修改
+const handleDrop = (draggingNode: Node, dropNode: Node) => {
+  store.updateJsonCodeAtDragged(draggingNode.data.uuid, dropNode.data.uuid)
 }
 </script>
 
