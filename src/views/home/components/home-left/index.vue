@@ -17,7 +17,11 @@
             <component :is="panel" />
           </keep-alive>
         </el-tab-pane>
-        <!--            代码面板-->
+        <!-- 大纲结构面板 -->
+        <el-tab-pane label="大纲" lazy>
+          <outline-panel />
+        </el-tab-pane>
+        <!-- 代码面板 -->
         <el-tab-pane label="代码" name="code-tab-pane" lazy>
           <code-panel />
         </el-tab-pane>
@@ -31,6 +35,7 @@ import { computed, ref } from 'vue'
 import { ElTabPane } from 'element-plus'
 import libraryPanels from './components/library-category-tab-panes'
 import CodePanel from '@/views/home/components/home-left/components/code-tab-pane.vue'
+import OutlinePanel from '@/views/home/components/home-left/components/outline-panel.vue'
 
 defineOptions({
   name: 'HomeLeft',

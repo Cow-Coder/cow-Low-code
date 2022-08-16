@@ -6,6 +6,7 @@ import type {
   LibraryComponentInstanceProps,
   LibraryComponentPropItem,
   LibraryComponentProps,
+  OutlineData,
 } from '@/types/library-component'
 import type {
   EventTriggerSchema,
@@ -25,14 +26,23 @@ export const uuid = uuidv4
 export function createLibraryComponentInstance(
   com: LibraryComponent
 ): LibraryComponentInstanceData {
+  const compId = uuid()
   const data = {
-    uuid: uuid(),
+    uuid: compId,
     componentName: com.name,
     libraryName: com.libraryName,
     focus: false,
     eventTriggers: {},
   } as LibraryComponentInstanceData
   if (com.props) data.props = createLibraryComponentInstanceProps(com.props)
+  if (com.eventTriggers) data.eventTriggers = {}
+
+  // 给组件Id赋值
+  const store = useCodeStore()
+  store.$patch((state) => {
+    state.compId = compId
+  })
+
   return data
 }
 

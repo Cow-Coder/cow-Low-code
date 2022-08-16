@@ -71,7 +71,7 @@ export type DefineComponent = (() => JSX.Element) | Component
 /**
  * 所在lib->tab面板中的name
  */
-type TabName = 'form' | 'show'
+export type TabName = 'form' | 'show'
 /**
  * 物料组件
  */
@@ -167,7 +167,17 @@ export interface LibraryComponentInstanceData {
 /**
  * 编辑区被选中物料组件的定位数据
  */
-export interface ILibraryComponentInstanceFocus {
+export interface LibraryComponentInstanceFocus {
   path?: string | undefined
   uuid: string | undefined
+}
+
+/**
+ * 大纲数据类型
+ */
+export interface OutlineData {
+  uuid?: string
+  name: string
+  title: string
+  tabName: TabName
 }

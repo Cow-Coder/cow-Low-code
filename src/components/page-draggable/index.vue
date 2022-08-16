@@ -4,10 +4,16 @@
     v-bind="props.draggableConfig.draggableProp"
     :data-list="props.dataList"
     @handle-change="props.draggableConfig?.handleChange"
+    @handle-end="props.draggableConfig?.handleEnd"
   >
     <template #item="{ element }">
       <div>
         <slot name="item" :element="element" />
+      </div>
+    </template>
+    <template #footer>
+      <div>
+        <slot name="footer" />
       </div>
     </template>
   </kzy-draggable>

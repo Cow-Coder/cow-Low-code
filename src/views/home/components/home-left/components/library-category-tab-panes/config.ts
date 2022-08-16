@@ -2,19 +2,40 @@ import type { Draggable } from '@/components/base-ui/kzy-draggable/types'
 import type { LibraryComponent } from '@/types/library-component'
 import { createLibraryComponentInstance } from '@/utils/library'
 import { DRAGGABLE_GROUP_NAME } from '@/constant'
+import { useCodeStore } from '@/stores/code'
 
 /**
  * 当drop事件发生的时候，此函数的返回值会push到目标容器list中
  * @param original
  */
 const onCloneCallback = (original: LibraryComponent) => {
-  const data = createLibraryComponentInstance(original)
-  return data
+  return createLibraryComponentInstance(original)
 }
 
-// 触发Move函数
+// 触发Move函数【移到画布】
 const onMoveCallback = (evt: any) => {
-  console.log(evt)
+  const store = useCodeStore()
+  const { draggedElement, compId } = storeToRefs(store)
+
+  // 没有被拖拽的值才加载【使其只赋值一次】
+  if (draggedElement.value) return
+
+  const element = evt.draggedContext.element
+  // 给被拖拽的组件赋值
+  store.updateDraggedElement({ ...element, uuid: compId.value })
+  // 给组件大纲赋值
+  store.addOutlineData({
+    uuid: compId.value,
+    name: element.name,
+    title: element.libraryPanelShowDetail.title,
+    tabName: element.tabName,
+  })
+}
+
+// 触发End函数【拖拽结束】
+const onEndCallback = () => {
+  const store = useCodeStore()
+  store.removeDraggedElement()
 }
 
 const log = function (evt: any) {
@@ -32,4 +53,5 @@ export const leftDraggableConfig: Draggable = {
     handleMove: onMoveCallback,
   },
   handleChange: log,
+  handleEnd: onEndCallback,
 }
