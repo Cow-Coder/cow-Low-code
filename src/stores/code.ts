@@ -5,6 +5,7 @@ import type {
   OutlineData,
 } from '@/types/library-component'
 
+import type { ComputedRef } from 'vue'
 import { libraryMap, libraryRecord } from '@/library'
 import { arrResort } from '@/utils/map-schemes-2-outline'
 
@@ -105,7 +106,7 @@ export const useCodeStore = defineStore(
     }
 
     // 监听 jsonSchemes 的变化。给大纲数据赋值
-    const outlineData = computed(() => {
+    const outlineData: ComputedRef<OutlineData[]> = computed(() => {
       return jsonCode.value.map((item) => {
         const tempEle = libraryMap[item.componentName]
         return {
