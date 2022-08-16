@@ -11,6 +11,11 @@
         <slot name="item" :element="element" />
       </div>
     </template>
+    <template #footer>
+      <div>
+        <slot name="footer" />
+      </div>
+    </template>
   </kzy-draggable>
 </template>
 

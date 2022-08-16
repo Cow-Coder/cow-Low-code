@@ -22,7 +22,7 @@ const onMoveCallback = (evt: any) => {
 
   const element = evt.draggedContext.element
   // 给被拖拽的组件赋值
-  store.updateDraggedElement(element)
+  store.updateDraggedElement({ ...element, uuid: compId.value })
   // 给组件大纲赋值
   store.addOutlineData({
     uuid: compId.value,

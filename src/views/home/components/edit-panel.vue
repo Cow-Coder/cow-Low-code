@@ -1,25 +1,26 @@
 <template>
-  <page-draggable
-    class="edit"
-    :draggable-config="editDraggableConfigRef"
-    :data-list="editableInstancedLibraryComponentData"
-  >
-    <template #item="{ element }">
-      <div
-        :class="{ 'focus-component': isFocusComponent(element) }"
-        class="edit-component-item"
-        @mousedown.capture.stop="onChoose(element)"
-        @touchstart.capture="onTouchEvent"
-        @touchmove.capture="onTouchEvent"
-        @touchend.capture="onTouchEvent"
-      >
-        <component :is="parseLibraryComponent(element)" />
-      </div>
-    </template>
-  </page-draggable>
-  <template v-if="draggedElement">
-    <preview-dragged :element="toRaw(draggedElement)" />
-  </template>
+  <div class="edit">
+    <page-draggable
+      :draggable-config="editDraggableConfigRef"
+      :data-list="editableInstancedLibraryComponentData"
+    >
+      <template #item="{ element }">
+        <div
+          :class="{ 'focus-component': isFocusComponent(element) }"
+          class="edit-component-item"
+          @mousedown.capture.stop="onChoose(element)"
+          @touchstart.capture="onTouchEvent"
+          @touchmove.capture="onTouchEvent"
+          @touchend.capture="onTouchEvent"
+        >
+          <component :is="parseLibraryComponent(element)" />
+        </div>
+      </template>
+      <template v-if="draggedElement" #footer>
+        <preview-dragged :element="toRaw(draggedElement)" />
+      </template>
+    </page-draggable>
+  </div>
 </template>
 
 <script lang="tsx" setup>
