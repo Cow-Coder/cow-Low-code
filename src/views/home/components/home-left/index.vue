@@ -35,7 +35,7 @@ import { computed, ref } from 'vue'
 import { ElTabPane } from 'element-plus'
 import libraryPanels from './components/library-category-tab-panes'
 import CodePanel from '@/views/home/components/home-left/components/code-tab-pane.vue'
-import OutlinePanel from '@/views/home/components/home-left/components/outline-panel/index.vue'
+import OutlinePanel from '@/views/home/components/home-left/components/outline-panel.vue'
 
 defineOptions({
   name: 'HomeLeft',
