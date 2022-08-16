@@ -62,6 +62,7 @@ const panelWidth = computed({
 @use '@/views/home/index.scss';
 .panel-left {
   @include index.panelLeftAndRight;
+  z-index: 51;
   .el-tabs {
     @apply flex-grow;
     :deep(.el-tabs__content) {
