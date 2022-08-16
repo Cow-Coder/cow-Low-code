@@ -10,7 +10,6 @@ import { ref } from 'vue'
 import { Button, Dialog } from 'vant'
 import 'vant/es/dialog/style'
 import { ElIcon } from 'element-plus'
-import { debounce } from 'lodash-es'
 import {
   AttributePanelFormItemInputTypeEnum,
   AttributePanelsEnum,
@@ -18,6 +17,8 @@ import {
 } from '@/types/panel'
 import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
 import { useMultiClick } from '@/hooks/use-multi-click'
+import { CUSTOM_EVENT_EMIT_NAME, CUSTOM_EVENT_TRIGGER_NAME } from '@/constant'
+import useLibraryComponentCustomTrigger from '@/hooks/use-library-component-custom-trigger'
 
 enum EventTriggersEnum {
   click = 'click',
@@ -118,11 +119,15 @@ export default defineComponent({
       belongToPanel: AttributePanelsEnum.generic,
       type: String,
     }),
+    /**
+     * 声明该组件支持自定义事件
+     */
+    ...useLibraryComponentCustomTrigger.createCustomEventTriggerProp(),
   },
   /**
    * 所有物料组件触发事件都用dispatchEvent
    */
-  emits: ['dispatchEvent'],
+  emits: [CUSTOM_EVENT_EMIT_NAME],
   setup(props, { emit }) {
     const show = ref(false)
 
@@ -142,17 +147,26 @@ export default defineComponent({
 
     function onClick() {
       showTips(props.tips)
-      emit('dispatchEvent', EventTriggersEnum.click)
+      emit(CUSTOM_EVENT_EMIT_NAME, EventTriggersEnum.click)
     }
     function onDoubleClick() {
-      emit('dispatchEvent', EventTriggersEnum.doubleClick)
+      emit(CUSTOM_EVENT_EMIT_NAME, EventTriggersEnum.doubleClick)
     }
     function dispatchClick(count: number) {
       if (count === 1) onClick()
       else if (count === 2) onDoubleClick()
     }
-    const onMultiClick = useMultiClick(dispatchClick, 200)
-    return { showTips, show, onClick: onMultiClick }
+    const onMultiClick = ref(useMultiClick(dispatchClick, 200))
+    const returnContext = {
+      showTips,
+      show,
+      onClick: onMultiClick.value,
+      dispatchClick,
+      useMultiClick,
+    }
+
+    useLibraryComponentCustomTrigger.applyCustomEventTriggers(returnContext)
+    return returnContext
   },
 })
 </script>

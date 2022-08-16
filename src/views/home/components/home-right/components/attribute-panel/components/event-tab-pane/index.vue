@@ -18,13 +18,7 @@
           <!--          事件触发器title-->
           <template #header>
             <a-space>
-              {{
-                parseCollapseHeaderLabel(
-                  eventTriggerName,
-                  eventTriggerData,
-                  eventTriggersSchema[eventTriggerName]
-                )
-              }}
+              {{ parseCollapseHeaderLabel(eventTriggerName, eventTriggerData) }}
               <el-tooltip
                 v-if="
                   isCustomEventTriggerName(eventTriggerName) && eventTriggerData.description !== ''
@@ -113,25 +107,35 @@
 
       <!--      底部添加事件按钮-->
       <div class="add-trigger-button">
-        <a-popover
-          v-model:popup-visible="isPopoverShow"
-          trigger="click"
-          :content-class="$popoverStyle.popoverWithOutTitle"
-        >
-          <el-button plain>添加事件</el-button>
-          <template #content>
-            <div class="flex flex-col">
-              <el-button
-                v-for="(e, eventName) in eventTriggersSchema"
-                :key="eventName"
-                text
-                @click="onAddEventTrigger(eventName, e)"
-              >
-                {{ e.title }}
-              </el-button>
+        <div v-show="eventTriggersSchema" class="flex flex-col flex-grow">
+          <a-popover
+            v-model:popup-visible="isPopoverShow"
+            trigger="click"
+            :content-class="$popoverStyle.popoverWithOutTitle"
+          >
+            <el-button plain>添加事件</el-button>
+            <template #content>
+              <div class="flex flex-col">
+                <el-button
+                  v-for="(e, eventName) in eventTriggersSchema"
+                  :key="eventName"
+                  text
+                  @click="onAddEventTrigger(eventName, e)"
+                >
+                  {{ e.title }}
+                </el-button>
+              </div>
+            </template>
+          </a-popover>
+        </div>
+
+        <div v-show="!eventTriggersSchema" class="flex flex-col flex-grow">
+          <el-tooltip content="该组件暂无任何事件触发器" placement="top">
+            <div class="flex flex-col flex-grow">
+              <el-button plain disabled>添加事件</el-button>
             </div>
-          </template>
-        </a-popover>
+          </el-tooltip>
+        </div>
       </div>
     </div>
   </div>
@@ -179,10 +183,10 @@ import {
   Plus as IconPlus,
 } from '@icon-park/vue-next'
 import { ElDialog } from 'element-plus'
-import { isCustomEventTriggerName } from './util'
 import useEventAction from './use-event-action'
 import useEventTabPane from './use-event-tab-pane'
 import useEventTrigger from './use-event-trigger'
+import { isCustomEventTriggerName } from '@/utils/library'
 import MonacoEditor from '@/components/monaco-editor/index.vue'
 import $popoverStyle from '@/assets/style/popover.module.scss'
 import {
@@ -250,7 +254,7 @@ const {
 
 .action-item {
   @apply rounded flex flex-col p-3 mx-3 mt-2;
-  width: calc(var(--attribute-panel-width) - 0.75rem - 0.75rem);
+  //width: calc(var(--attribute-panel-width) - 0.75rem - 0.75rem);
   background-color: #f7f7f9;
 
   &.sortable-ghost {

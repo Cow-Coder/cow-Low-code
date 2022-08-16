@@ -8,7 +8,7 @@ import type {
   LibraryComponentInstanceEventTriggers,
 } from '@/types/library-component-event'
 import { CUSTOM_EVENT_TRIGGER_NAME } from '@/constant'
-import { generateCustomEventTriggerName } from '@/views/home/components/home-right/components/attribute-panel/components/event-tab-pane/util'
+import { generateCustomEventTriggerName } from '@/utils/library'
 
 export default function useEventTrigger(
   componentInstanceEventTriggers: WritableComputedRef<
@@ -25,6 +25,7 @@ export default function useEventTrigger(
     title: '',
     description: '',
   })
+  const currentEditEventTriggerName = ref<string>()
   const isPopoverShow = ref(false)
   const dialogIsShowCustomEventTrigger = ref(false)
   const dialogCustomEventTriggerRef = ref<InstanceType<typeof ElDialog>>()
@@ -72,9 +73,13 @@ export default function useEventTrigger(
    */
   function onSubmitCustomEventTrigger() {
     if (customEventTriggerData.value.title === '') customEventTriggerData.value.title = '自定义事件'
-    componentInstanceEventTriggers.value![generateCustomEventTriggerName()] = {
+    componentInstanceEventTriggers.value![
+      currentEditEventTriggerName.value ?? generateCustomEventTriggerName()
+    ] = {
       ...customEventTriggerData.value,
-      actions: [],
+      actions: currentEditEventTriggerName.value
+        ? componentInstanceEventTriggers.value![currentEditEventTriggerName.value].actions
+        : [],
     } as LibraryComponentInstanceCustomEventTriggerData
     dialogIsShowCustomEventTrigger.value = false
   }
@@ -88,6 +93,7 @@ export default function useEventTrigger(
     triggerName: string,
     triggerData: LibraryComponentInstanceCustomEventTriggerData
   ) {
+    currentEditEventTriggerName.value = triggerName
     customEventTriggerData.value.description = triggerData.description
     customEventTriggerData.value.title = triggerData.title
     customEventTriggerData.value.execCode = triggerData.execCode
