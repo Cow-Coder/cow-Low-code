@@ -26,9 +26,8 @@ export const uuid = uuidv4
 export function createLibraryComponentInstance(
   com: LibraryComponent
 ): LibraryComponentInstanceData {
-  const compId = uuid()
   const data = {
-    uuid: compId,
+    uuid: uuid(),
     componentName: com.name,
     libraryName: com.libraryName,
     focus: false,
@@ -36,12 +35,6 @@ export function createLibraryComponentInstance(
   } as LibraryComponentInstanceData
   if (com.props) data.props = createLibraryComponentInstanceProps(com.props)
   if (com.eventTriggers) data.eventTriggers = {}
-
-  // 给组件Id赋值
-  const store = useCodeStore()
-  store.$patch((state) => {
-    state.compId = compId
-  })
 
   return data
 }
