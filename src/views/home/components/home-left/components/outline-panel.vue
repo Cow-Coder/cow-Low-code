@@ -1,7 +1,7 @@
 <template>
   <div class="outline-panel">
     <div class="outline-filter">
-      <el-input v-model="filterText" placeholder="Filter keyword" />
+      <el-input v-model="filterText" placeholder="搜索" />
     </div>
     <div class="outline-tree">
       <el-tree
