@@ -21,13 +21,15 @@
 
 <script lang="tsx" setup>
 import { ref } from 'vue'
+import { cloneDeep, isEqual } from 'lodash-es'
 import type { Draggable } from '@/components/base-ui/kzy-draggable/types'
 import type { LibraryComponentInstanceData } from '@/types/library-component'
-import { libraryRecord } from '@/library'
+import type { LibraryComponentInstanceEventTriggers } from '@/types/library-component-event'
+import { libraryMap } from '@/library'
 import { useCodeStore } from '@/stores/code'
 import PageDraggable from '@/components/page-draggable/index.vue'
-import { DRAGGABLE_GROUP_NAME } from '@/constant'
-import { dispatchEventBatch } from '@/utils/library'
+import { CUSTOM_EVENT_TRIGGER_NAME, DRAGGABLE_GROUP_NAME } from '@/constant'
+import { dispatchEventBatch, isCustomEventTriggerName, uuid } from '@/utils/library'
 
 defineOptions({
   name: 'EditPanel',
@@ -36,7 +38,7 @@ defineOptions({
 const editDraggableConfigRef = ref<Draggable>({
   draggableProp: {
     group: { name: DRAGGABLE_GROUP_NAME },
-    itemKey: 'id',
+    itemKey: 'indexId',
     disabled: false,
     animation: 200,
   },
@@ -46,25 +48,46 @@ const codeStore = useCodeStore()
 const { jsonCode: editableInstancedLibraryComponentData, focusData } = storeToRefs(codeStore)
 
 // 根据名称解析物料组件库内的组件，这里没有注册全局组件是避免污染全局组件名称
+const libraryComponentPropTriggersCacheMap = new Map<
+  // uuid
+  string,
+  LibraryComponentInstanceEventTriggers
+>()
 function parseLibraryComponent(data: LibraryComponentInstanceData) {
-  /**
-   * TODO: 可以不用每次都遍历，把libraryRecord用Object.fromEntries转成键值对
+  const component = libraryMap[data.componentName]
+  if (!component) throw new Error(`library component: ${data.libraryName} not found`)
+  /*
+   * "props": {
+   *       "title": "按钮"
+   *     }
    */
-  for (const libMapElementElement of libraryRecord[data.libraryName]) {
-    if (libMapElementElement.name !== data.componentName) continue
-    /*
-     * "props": {
-     *       "title": "按钮"
-     *     }
-     */
-    return (
-      <libMapElementElement
-        onDispatchEvent={(eventTriggerName: string) => dispatchEventBatch(data, eventTriggerName)}
-        {...data.props}
-      ></libMapElementElement>
+  const props = cloneDeep(data.props)
+  if (
+    props &&
+    component.props &&
+    CUSTOM_EVENT_TRIGGER_NAME in component.props &&
+    data.eventTriggers
+  ) {
+    const customTriggers = Object.fromEntries(
+      Object.entries(data.eventTriggers).filter(([triggerName]) =>
+        isCustomEventTriggerName(triggerName)
+      )
     )
+    props[CUSTOM_EVENT_TRIGGER_NAME] = customTriggers
+    if (!libraryComponentPropTriggersCacheMap.has(data.indexId))
+      libraryComponentPropTriggersCacheMap.set(data.indexId, customTriggers)
+    else {
+      if (!isEqual(libraryComponentPropTriggersCacheMap.get(data.indexId), customTriggers))
+        // 修改v-for的键值 强制重新渲染组件 重新执行setup
+        data.indexId = uuid()
+    }
   }
-  throw new Error(`not found library component: ${data.libraryName}`)
+  return (
+    <component
+      onDispatchEvent={(eventTriggerName: string) => dispatchEventBatch(data, eventTriggerName)}
+      {...props}
+    ></component>
+  )
 }
 
 const isDownSpace = ref(false)
@@ -105,14 +128,14 @@ useEventListener(window, 'keyup', (e) => {
 <style lang="scss" scoped>
 .focus-component {
   @apply outline-2 outline #{!important};
-  outline-color: $color-primary;
+  outline-color: var(--el-color-primary);
 }
 
 .edit-component-item {
   margin: 2px 0;
   &:hover {
     @apply outline-1 outline-dashed;
-    outline-color: $color-primary;
+    outline-color: var(--el-color-primary);
   }
 }
 </style>

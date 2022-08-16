@@ -12,9 +12,12 @@ import type {
   LibraryComponentInstanceActionItem,
   LibraryComponentInstanceEventTriggers,
 } from '@/types/library-component-event'
+import type { ComponentPropsOptions } from '@vue/runtime-core'
+import type { PropType } from 'vue'
 import { dispatchActionHandle } from '@/views/home/components/action-config-dialog/action'
 import { useCodeStore } from '@/stores/code'
 import { libraryMap } from '@/library'
+import { CUSTOM_EVENT_TRIGGER_NAME } from '@/constant'
 
 export const uuid = uuidv4
 
@@ -26,6 +29,7 @@ export function createLibraryComponentInstance(
   com: LibraryComponent
 ): LibraryComponentInstanceData {
   const data = {
+    indexId: uuid(),
     uuid: uuid(),
     componentName: com.name,
     libraryName: com.libraryName,
@@ -107,4 +111,28 @@ export async function dispatchEventBatch(
       await dispatchActionHandle(action.actionName, codeStore.jsonCode, libraryMap, action.config)
     else dispatchActionHandle(action.actionName, codeStore.jsonCode, libraryMap, action.config)
   }
+}
+
+/**
+ * 判断name是否为自定义事件
+ * @example
+ * 自定义事件格式 customEventTrigger__uuid
+ * .e.g customEventTrigger__e582f8db-b5ce-44df-9330-049e97cd40cf
+ * @param name
+ */
+export function isCustomEventTriggerName(name: string) {
+  const uuidReg = new RegExp(
+    `^${CUSTOM_EVENT_TRIGGER_NAME}__[a-f\\d]{4}(?:[a-f\\d]{4}-){4}[a-f\\d]{12}$`
+  )
+  return uuidReg.test(name)
+}
+
+/**
+ * 生成一个自定义事件触发器的name
+ * @example
+ * 自定义事件格式 customEventTrigger__uuid
+ * .e.g customEventTrigger__e582f8db-b5ce-44df-9330-049e97cd40cf
+ */
+export function generateCustomEventTriggerName() {
+  return `${CUSTOM_EVENT_TRIGGER_NAME}__${uuid()}`
 }

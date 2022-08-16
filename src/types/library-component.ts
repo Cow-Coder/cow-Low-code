@@ -137,6 +137,11 @@ export interface LibraryComponent extends ComponentOptions {
  */
 export interface LibraryComponentInstanceData {
   /**
+   * 在渲染中用于v-for的id
+   * 可能会变化，例如要强制重新渲染组件的话，就需要修改indexId
+   */
+  indexId: string
+  /**
    * 全局唯一ID
    */
   uuid: string
@@ -159,9 +164,8 @@ export interface LibraryComponentInstanceData {
   props?: LibraryComponentInstanceProps
   /**
    * 事件触发器
-   * 由于有自定义事件触发器，所以所有物料组件实例的事件触发器必然存在
    */
-  eventTriggers: LibraryComponentInstanceEventTriggers
+  eventTriggers?: LibraryComponentInstanceEventTriggers
 }
 
 /**
