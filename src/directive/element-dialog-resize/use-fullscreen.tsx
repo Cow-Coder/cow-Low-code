@@ -3,8 +3,16 @@ import IconFullScreen from '~icons/ep/full-screen'
 import IconClose from '~icons/ep/close'
 
 export default function useFullscreen(dialogEl: HTMLElement, dialogVnode: any) {
+  let allowDraggable = false
   function onToggleFullScreen() {
+    if (dialogEl.className.includes('is-draggable')) allowDraggable = true
     dialogVnode.props.fullscreen = !dialogVnode.props.fullscreen
+    if (!dialogVnode.props.fullscreen && allowDraggable) {
+      // 从全屏变回窗口，要加上 is-draggable
+      nextTick(() => {
+        dialogEl.className = `${dialogEl.className} is-draggable`
+      })
+    }
   }
   function onCloseDialog() {
     dialogVnode.props.modelValue = false
