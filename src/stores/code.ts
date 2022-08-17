@@ -5,8 +5,8 @@ import type {
   OutlineData,
 } from '@/types/library-component'
 
-import { libraryRecord } from '@/library'
-import { uuid } from '@/utils/library'
+import type { ComputedRef } from 'vue'
+import { libraryMap, libraryRecord } from '@/library'
 import { arrResort } from '@/utils/map-schemes-2-outline'
 
 export const useCodeStore = defineStore(
@@ -32,17 +32,7 @@ export const useCodeStore = defineStore(
     /**
      * 大纲数据
      */
-    const outlineData = ref<OutlineData[]>([])
-
-    /**
-     * 组件Id
-     */
-    const compId = ref<string>('')
-
-    /**
-     * 组件的顺序【Id标识】
-     */
-    const compOrder = ref<string[]>([])
+    //const outlineData = ref<OutlineData[]>([])
 
     /**
      * store恢复初始状态
@@ -52,7 +42,6 @@ export const useCodeStore = defineStore(
     function clear() {
       jsonCode.value = []
       focusData.value = undefined
-      outlineData.value = []
     }
 
     function dispatchFocus(uuid: string, path?: string) {
@@ -114,35 +103,18 @@ export const useCodeStore = defineStore(
     // 清空被拖拽的数据
     const removeDraggedElementAndCompId = () => {
       draggedElement.value = undefined
-      compId.value = ''
     }
 
-    // 监听 jsonSchemes 的变化。给组件顺序赋值
-    watch(
-      jsonCode,
-      (valueNew) => {
-        const tempCompOrder: string[] = []
-        valueNew.forEach((vItem) => {
-          tempCompOrder.push(vItem.uuid)
-        })
-        compOrder.value = tempCompOrder
-      },
-      { deep: true }
-    )
-
-    // 监听组件顺序，给大纲数据赋值
-    watch(compOrder, (valueNew) => {
-      const tempOutline: OutlineData[] = []
-      valueNew.forEach((vItem) => {
-        tempOutline.push(outlineData.value.find((oItem) => oItem.uuid === vItem)!)
+    // 监听 jsonSchemes 的变化。给大纲数据赋值
+    const outlineData: ComputedRef<OutlineData[]> = computed(() => {
+      return jsonCode.value.map((item) => {
+        const tempEle = libraryMap[item.componentName]
+        return {
+          uuid: item.uuid,
+          title: tempEle.libraryPanelShowDetail.title,
+        }
       })
-      outlineData.value = tempOutline
     })
-
-    // 添加大纲数据
-    const addOutlineData = (data: OutlineData) => {
-      outlineData.value.push(data)
-    }
 
     // 拖拽大纲顺序时，修改 jsonCode
     const updateJsonCodeAtDragged = (draggingNodeId: string, dropNodeId: string) => {
@@ -156,15 +128,12 @@ export const useCodeStore = defineStore(
       focusData,
       draggedElement,
       outlineData,
-      compId,
-      compOrder,
       dispatchFocus,
       getLibraryComponentInstanceDataAndSchema,
       clear,
       freeFocus,
       updateDraggedElement,
       removeDraggedElement: removeDraggedElementAndCompId,
-      addOutlineData,
       updateJsonCodeAtDragged,
     }
   },
