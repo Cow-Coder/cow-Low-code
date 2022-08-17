@@ -137,6 +137,12 @@ const { draggedElement } = storeToRefs(store)
   @apply outline-2 outline #{!important};
   outline-color: var(--el-color-primary);
 }
+.edit {
+  @apply flex flex-col;
+  :deep(.default-drag) {
+    @apply flex-grow;
+  }
+}
 
 .edit-component-item {
   margin: 2px 0;
