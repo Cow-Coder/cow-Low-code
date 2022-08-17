@@ -6,6 +6,7 @@ import type {
   LibraryComponentInstanceProps,
   LibraryComponentPropItem,
   LibraryComponentProps,
+  OutlineData,
 } from '@/types/library-component'
 import type {
   EventTriggerSchema,
@@ -37,6 +38,8 @@ export function createLibraryComponentInstance(
     eventTriggers: {},
   } as LibraryComponentInstanceData
   if (com.props) data.props = createLibraryComponentInstanceProps(com.props)
+  if (com.eventTriggers) data.eventTriggers = {}
+
   return data
 }
 

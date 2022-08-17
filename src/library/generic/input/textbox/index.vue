@@ -63,7 +63,6 @@ export default defineComponent({
       belongToPanel: AttributePanelsEnum.generic,
       formType: AttributePanelFormItemInputTypeEnum.input,
       type: String,
-      required: true,
       default: 'text',
     }),
     title: createLibraryComponentPropItem({

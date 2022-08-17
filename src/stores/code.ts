@@ -1,10 +1,13 @@
 import type {
-  ILibraryComponentInstanceFocus,
   LibraryComponent,
   LibraryComponentInstanceData,
+  LibraryComponentInstanceFocus,
+  OutlineData,
 } from '@/types/library-component'
 
-import { libraryRecord } from '@/library'
+import type { ComputedRef } from 'vue'
+import { libraryMap, libraryRecord } from '@/library'
+import { arrResort } from '@/utils/map-schemes-2-outline'
 
 export const useCodeStore = defineStore(
   'CodeStore',
@@ -19,7 +22,17 @@ export const useCodeStore = defineStore(
      * 3. 使用 focusData 记录被选中组件在JSON中的路径，根据路径就可以直达被选中组件
      *    问题是拖动组件换顺序之后要全部重新计算
      */
-    const focusData = ref<ILibraryComponentInstanceFocus>()
+    const focusData = ref<LibraryComponentInstanceFocus>()
+
+    /**
+     * 被拖拽的组件
+     */
+    const draggedElement = ref<LibraryComponent>()
+
+    /**
+     * 大纲数据
+     */
+    //const outlineData = ref<OutlineData[]>([])
 
     /**
      * store恢复初始状态
@@ -47,7 +60,7 @@ export const useCodeStore = defineStore(
      * @param focus
      */
     function getLibraryComponentInstanceDataAndSchema(
-      focus?: ILibraryComponentInstanceFocus
+      focus?: LibraryComponentInstanceFocus
     ): [LibraryComponentInstanceData, LibraryComponent] {
       let focusData_ = focus
       if (!focus) focusData_ = focusData.value
@@ -82,13 +95,46 @@ export const useCodeStore = defineStore(
       return [focusedLibraryComponentInstanceData, focusedLibraryComponentSchema]
     }
 
+    // 添加被拖拽的数据
+    const updateDraggedElement = (element: LibraryComponent) => {
+      draggedElement.value = element
+    }
+
+    // 清空被拖拽的数据
+    const removeDraggedElementAndCompId = () => {
+      draggedElement.value = undefined
+    }
+
+    // 监听 jsonSchemes 的变化。给大纲数据赋值
+    const outlineData: ComputedRef<OutlineData[]> = computed(() => {
+      return jsonCode.value.map((item) => {
+        const tempEle = libraryMap[item.componentName]
+        return {
+          uuid: item.uuid,
+          title: tempEle.libraryPanelShowDetail.title,
+        }
+      })
+    })
+
+    // 拖拽大纲顺序时，修改 jsonCode
+    const updateJsonCodeAtDragged = (draggingNodeId: string, dropNodeId: string) => {
+      const oldIndex = jsonCode.value.findIndex((item) => item.uuid === draggingNodeId)
+      const newIndex = jsonCode.value.findIndex((item) => item.uuid === dropNodeId)
+      arrResort(jsonCode.value, oldIndex, newIndex)
+    }
+
     return {
       jsonCode,
       focusData,
+      draggedElement,
+      outlineData,
       dispatchFocus,
       getLibraryComponentInstanceDataAndSchema,
       clear,
       freeFocus,
+      updateDraggedElement,
+      removeDraggedElement: removeDraggedElementAndCompId,
+      updateJsonCodeAtDragged,
     }
   },
   {
@@ -97,7 +143,7 @@ export const useCodeStore = defineStore(
       strategies: [
         {
           storage: sessionStorage,
-          paths: ['jsonCode'],
+          paths: ['jsonCode', 'outlineData'],
         },
       ],
     },
