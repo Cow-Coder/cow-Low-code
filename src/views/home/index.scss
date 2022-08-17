@@ -1,8 +1,8 @@
-@use "src/assets/style/global.scss" as *;
+@use 'src/assets/style/global.scss' as *;
 
 @mixin panelLeftAndRight {
   // 防止未悬浮情况下元素塌陷
-  @apply fixed z-50;
+  @apply fixed z-10;
   height: calc(100vh - var(--style-header-height));
   top: var(--style-header-height);
 }

@@ -99,7 +99,7 @@ const componentSchemaProps: WritableComputedRef<LibraryComponentProps | undefine
   :deep(.el-tabs__content) {
     @apply p-0 flex flex-grow;
     .el-tab-pane {
-      @apply flex-grow;
+      @apply flex-grow w-full;
     }
 
     .el-form-item__content {

@@ -1,6 +1,7 @@
 import useDraggable from './use-draggable'
-import type { DirectiveBinding, VNode } from 'vue'
-import useResizer from '@/directive/element-dialog-resize/use-resizer'
+import useResizer from './use-resizer'
+import useFullscreen from './use-fullscreen'
+import type { DirectiveBinding } from 'vue'
 import { isArray } from '@/utils/type'
 
 const beforeMountedFun: Array<(...args: any) => any> = []
@@ -17,7 +18,11 @@ function handle(el: HTMLElement, binding: DirectiveBinding, vnode: any) {
     return undefined
   nextTick(() => {
     if (rootEl) return undefined
+    const dialogVnode = vnode.children[0].component
     rootEl = vnode.children[0].component.subTree.children[0].el as HTMLElement
+    const dialogOverlay: HTMLElement = rootEl.querySelector('.el-overlay-dialog')!
+    // 隐藏element这个奇怪设计导致拉伸太大而出现滚动条
+    dialogOverlay.style.overflow = 'hidden'
     const dialogEl: HTMLElement = rootEl.querySelector('div.el-dialog')!
     dialogEl.style.display = 'flex'
     dialogEl.style.flexDirection = 'column'
@@ -29,6 +34,7 @@ function handle(el: HTMLElement, binding: DirectiveBinding, vnode: any) {
     const isDraggable = computed(() => binding.value?.draggable ?? false)
     useResizer(dialogEl, isEnableResizer, beforeMountedFun)
     useDraggable(dialogEl, dialogHeaderEl, isDraggable, beforeMountedFun)
+    if (binding.value?.fullscreen) useFullscreen(dialogEl, dialogVnode)
   })
 }
 
