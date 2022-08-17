@@ -11,11 +11,10 @@
         highlight-current
         draggable
         default-expand-all
-        node-key="id"
+        node-key="uuid"
         :filter-node-method="filterNode"
         @node-drop="handleDrop"
         @current-change="handleCurrentChange"
-        @node-drag-start="handleDragStart"
       />
     </div>
   </div>
@@ -54,19 +53,19 @@ const filterNode = (value: string, data: TreeData) => {
   return data.label.includes(value)
 }
 
-// 变换位置时，将其组件顺序修改
+// 拖拽成功放入时，将其组件顺序修改
 const handleDrop = (draggingNode: Node, dropNode: Node) => {
+  // 拖拽后给选中项赋值
+  setTimeout(() => {
+    treeRef.value?.setCurrentKey(draggingNode.data.uuid)
+  }, 0)
+  handleCurrentChange(draggingNode.data as TreeData)
   store.updateJsonCodeAtDragged(draggingNode.data.uuid, dropNode.data.uuid)
 }
 
 // 选中时，给聚焦组件的属性栏赋值
 const handleCurrentChange = (data: TreeData) => {
   store.dispatchFocus(data.uuid!)
-}
-
-// 拖拽开始
-const handleDragStart = (draggedNode: Node) => {
-  handleCurrentChange(draggedNode.data as TreeData)
 }
 </script>
 
