@@ -1,6 +1,6 @@
 <template>
   <div ref="monacoWrapperRef" :class="[customClass, $style.monacoWrapper]">
-    <div v-show="allowFullscreen" class="monaco-fullscreen">
+    <div v-show="allowFullscreen" class="monaco-fullscreen" :class="{ 'is-minimap': fullscreen }">
       <expand-text-input
         v-show="!fullscreen"
         class="icon"
@@ -87,6 +87,8 @@ function onToggleFullscreen() {
     codeContainerRef.value.style.width = ''
     codeContainerRef.value.style.height = ''
     codeContainerRef.value.style.inset = ''
+
+    editorInstanceRef.value?.updateOptions({ minimap: { enabled: false } })
   } else {
     // 放大
     monacoWrapperRef.value.style.position = 'fixed'
@@ -98,6 +100,8 @@ function onToggleFullscreen() {
     codeContainerRef.value.style.width = 'auto'
     codeContainerRef.value.style.height = 'auto'
     codeContainerRef.value.style.inset = '0'
+
+    editorInstanceRef.value?.updateOptions({ minimap: { enabled: true } })
   }
   fullscreen.value = !fullscreen.value
 }
@@ -158,7 +162,7 @@ defineExpose({
       }
     }
     .monaco-fullscreen.is-minimap {
-      right: 30px;
+      right: 160px;
     }
   }
 }
