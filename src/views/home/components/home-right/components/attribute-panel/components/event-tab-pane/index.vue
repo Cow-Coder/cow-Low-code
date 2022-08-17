@@ -18,13 +18,7 @@
           <!--          事件触发器title-->
           <template #header>
             <a-space>
-              {{
-                parseCollapseHeaderLabel(
-                  eventTriggerName,
-                  eventTriggerData,
-                  eventTriggersSchema[eventTriggerName]
-                )
-              }}
+              {{ parseCollapseHeaderLabel(eventTriggerName, eventTriggerData) }}
               <el-tooltip
                 v-if="
                   isCustomEventTriggerName(eventTriggerName) && eventTriggerData.description !== ''
@@ -113,40 +107,74 @@
 
       <!--      底部添加事件按钮-->
       <div class="add-trigger-button">
-        <a-popover
-          v-model:popup-visible="isPopoverShow"
-          trigger="click"
-          :content-class="$popoverStyle.popoverWithOutTitle"
-        >
-          <el-button plain>添加事件</el-button>
-          <template #content>
-            <div class="flex flex-col">
-              <el-button
-                v-for="(e, eventName) in eventTriggersSchema"
-                :key="eventName"
-                text
-                @click="onAddEventTrigger(eventName, e)"
-              >
-                {{ e.title }}
-              </el-button>
+        <div v-show="eventTriggersSchema" class="flex flex-col flex-grow">
+          <a-popover
+            v-model:popup-visible="isPopoverShow"
+            trigger="click"
+            :content-class="$popoverStyle.popoverWithOutTitle"
+          >
+            <el-button plain>添加事件</el-button>
+            <template #content>
+              <div class="flex flex-col">
+                <el-button
+                  v-for="(e, eventName) in eventTriggersSchema"
+                  :key="eventName"
+                  text
+                  @click="onAddEventTrigger(eventName, e)"
+                >
+                  {{ e.title }}
+                </el-button>
+              </div>
+            </template>
+          </a-popover>
+        </div>
+
+        <div v-show="!eventTriggersSchema" class="flex flex-col flex-grow">
+          <el-tooltip content="该组件暂无任何事件触发器" placement="top">
+            <div class="flex flex-col flex-grow">
+              <el-button plain disabled>添加事件</el-button>
             </div>
-          </template>
-        </a-popover>
+          </el-tooltip>
+        </div>
       </div>
     </div>
   </div>
 
   <!--  自定义事件添加dialog-->
-  <div v-element-dialog-resize="{ draggable: true }" class="el-dialog">
+  <div v-element-dialog-resize="{ draggable: true, fullscreen: true }" class="el-dialog">
     <el-dialog
       ref="dialogCustomEventTriggerRef"
       v-model="dialogIsShowCustomEventTrigger"
       append-to-body
       :custom-class="$style.dialogCustomEventTrigger"
-      title="自定义事件触发器-代码编辑"
       :lock-scroll="false"
       :close-on-click-modal="false"
+      :close-on-press-escape="false"
     >
+      <template #header>
+        <div class="flex items-center">
+          <span role="heading" class="el-dialog__title">自定义事件触发器-代码编辑</span>
+          <el-tooltip>
+            <template #content>
+              <div style="font-size: 14px">
+                <p>可能需要您在了解本程序源码之后，才能自如地编写自定义事件触发器</p>
+                <p>
+                  这里您可以先看一个示例
+                  <el-link
+                    :underline="false"
+                    type="warning"
+                    style="vertical-align: baseline"
+                    @click="onLoadDemoCustomEventTrigger"
+                  >
+                    按钮三击、四击事件
+                  </el-link>
+                </p>
+              </div>
+            </template>
+            <icon-info theme="outline" size="16" fill="#333" :stroke-width="4" class="ml-3" />
+          </el-tooltip>
+        </div>
+      </template>
       <el-form :model="customEventTriggerData">
         <el-form-item label="事件名称">
           <el-input v-model="customEventTriggerData.title" placeholder="自定义事件" />
@@ -179,10 +207,10 @@ import {
   Plus as IconPlus,
 } from '@icon-park/vue-next'
 import { ElDialog } from 'element-plus'
-import { isCustomEventTriggerName } from './util'
 import useEventAction from './use-event-action'
 import useEventTabPane from './use-event-tab-pane'
 import useEventTrigger from './use-event-trigger'
+import { isCustomEventTriggerName } from '@/utils/library'
 import MonacoEditor from '@/components/monaco-editor/index.vue'
 import $popoverStyle from '@/assets/style/popover.module.scss'
 import {
@@ -215,6 +243,7 @@ const {
   onDeleteEventTrigger,
   editCustomEventTrigger,
   onSubmitCustomEventTrigger,
+  onLoadDemoCustomEventTrigger,
 } = useEventTrigger(componentInstanceEventTriggers)
 </script>
 
@@ -250,7 +279,7 @@ const {
 
 .action-item {
   @apply rounded flex flex-col p-3 mx-3 mt-2;
-  width: calc(var(--attribute-panel-width) - 0.75rem - 0.75rem);
+  //width: calc(var(--attribute-panel-width) - 0.75rem - 0.75rem);
   background-color: #f7f7f9;
 
   &.sortable-ghost {

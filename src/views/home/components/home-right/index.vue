@@ -40,7 +40,7 @@ const rightPanelResizeBarOpacity = ref(0)
   @include index.panelLeftAndRight;
   @apply right-0;
   .el-tabs {
-    @apply flex-grow flex-col;
+    @apply flex-grow flex-col w-full;
   }
 }
 </style>
