@@ -11,14 +11,11 @@ import type {
   createCustomAttributeTabProps,
 } from '@/views/home/components/home-right/components/attribute-panel/util'
 import type { ExtractPropTypes } from '@vue/runtime-core'
+import { isCustomEventTriggerName } from '@/utils/library'
 import { useCodeStore } from '@/stores/code'
 import { getActionHandle } from '@/views/home/components/action-config-dialog/action'
 import { libraryMap } from '@/library'
 import { CUSTOM_EVENT_TRIGGER_NAME } from '@/constant'
-import {
-  generateCustomEventTriggerName,
-  isCustomEventTriggerName,
-} from '@/views/home/components/home-right/components/attribute-panel/components/event-tab-pane/util'
 
 export default function useEventTabPane() {
   const instance = getCurrentInstance()!
@@ -34,8 +31,8 @@ export default function useEventTabPane() {
   const componentInstanceEventTriggers = computed({
     get: () => componentInstanceData.value?.eventTriggers,
     set: (val) => {
-      if (!val) return undefined
-      componentInstanceData.value!.eventTriggers = val
+      if (!val || !componentInstanceData.value?.eventTriggers) return undefined
+      componentInstanceData.value.eventTriggers = val
     },
   })
 
@@ -87,18 +84,24 @@ export default function useEventTabPane() {
     } as { tip: () => JSX.Element; label: string }
   }
 
-  const eventTriggersSchema: ComputedRef<EventTriggerSchema> = computed(() =>
-    Object.assign(componentSchema!.value!.eventTriggers ?? {}, {
-      [CUSTOM_EVENT_TRIGGER_NAME]: { title: '自定义事件' },
-    })
-  )
+  const eventTriggersSchema: ComputedRef<EventTriggerSchema | undefined> = computed(() => {
+    const triggers = Object.assign(
+      componentSchema!.value!.eventTriggers ?? {},
+      CUSTOM_EVENT_TRIGGER_NAME in (componentSchema!.value!.props ?? {})
+        ? {
+            [CUSTOM_EVENT_TRIGGER_NAME]: { title: '自定义事件' },
+          }
+        : {}
+    )
+    if (Object.entries(triggers).length === 0) return undefined
+    return triggers
+  })
 
   function parseCollapseHeaderLabel(
     triggerName: string,
-    triggerData: ValueOf<LibraryComponentInstanceEventTriggers>,
-    triggerSchema: ValueOf<EventTriggerSchema>
+    triggerData: ValueOf<LibraryComponentInstanceEventTriggers>
   ) {
-    if (!isCustomEventTriggerName(triggerName)) return triggerSchema.title
+    if (!isCustomEventTriggerName(triggerName)) return eventTriggersSchema.value![triggerName].title
     else return (triggerData as LibraryComponentInstanceCustomEventTriggerData).title
   }
 

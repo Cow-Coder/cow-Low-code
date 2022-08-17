@@ -66,9 +66,3 @@ const handleEnd = () => {
   emit('handleEnd')
 }
 </script>
-
-<style lang="scss" scoped>
-.default-drag {
-  min-height: $editorMinHeight;
-}
-</style>
