@@ -128,6 +128,8 @@ useEventListener(window, 'keyup', (e) => {
 })
 
 // TODO: 拖拽到编辑器时候显示真实的组件，而不是显示物料面板的按钮
+const store = useCodeStore()
+const { draggedElement } = storeToRefs(store)
 </script>
 
 <style lang="scss" scoped>
