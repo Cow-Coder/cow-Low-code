@@ -177,7 +177,5 @@ export interface LibraryComponentInstanceFocus {
  */
 export interface OutlineData {
   uuid?: string
-  name: string
   title: string
-  tabName: TabName
 }
