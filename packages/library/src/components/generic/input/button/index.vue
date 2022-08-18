@@ -20,7 +20,7 @@ import {
   defineLibraryComponent,
 } from '@cow-code-low-code/library/src/utils/library'
 import { useMultiClick } from '@cow-code-low-code/library/src/hooks/use-multi-click'
-import { CUSTOM_EVENT_EMIT_NAME } from '@cow-code-low-code/library/src/constant'
+import { CUSTOM_EVENT_EMIT_NAME } from '@cow-code-low-code/constant'
 import useLibraryComponentCustomTrigger from '@cow-code-low-code/library/src/hooks/use-library-component-custom-trigger'
 
 enum EventTriggersEnum {
