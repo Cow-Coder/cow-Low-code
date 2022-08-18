@@ -11,10 +11,11 @@
         highlight-current
         :draggable="true"
         default-expand-all
-        node-key="id"
+        node-key="uuid"
         :filter-node-method="filterNode"
         empty-text="暂无内容"
         @node-drop="handleDrop"
+        @current-change="handleCurrentChange"
       />
     </div>
   </div>
@@ -44,7 +45,7 @@ const filterText = ref('')
 const treeRef = ref<InstanceType<typeof ElTree>>()
 
 watch(filterText, (val) => {
-  treeRef.value!.filter(val)
+  treeRef.value?.filter(val)
 })
 
 // 过滤器
@@ -53,9 +54,19 @@ const filterNode = (value: string, data: TreeData) => {
   return data.label.includes(value)
 }
 
-// 变换位置时，将其组件顺序修改
+// 拖拽成功放入时，将其组件顺序修改
 const handleDrop = (draggingNode: Node, dropNode: Node) => {
+  // 拖拽后给选中项赋值
+  setTimeout(() => {
+    treeRef.value?.setCurrentKey(draggingNode.data.uuid)
+  }, 0)
+  handleCurrentChange(draggingNode.data as TreeData)
   store.updateJsonCodeAtDragged(draggingNode.data.uuid, dropNode.data.uuid)
+}
+
+// 选中时，给聚焦组件的属性栏赋值
+const handleCurrentChange = (data: TreeData) => {
+  store.dispatchFocus(data.uuid!)
 }
 </script>
 
