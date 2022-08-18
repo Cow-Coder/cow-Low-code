@@ -26,7 +26,7 @@
 <script lang="tsx" setup>
 import { ref } from 'vue'
 import { cloneDeep, isEqual } from 'lodash-es'
-import { dispatchEventBatch } from '@cow-code-low-code/utils'
+import { dispatchEventBatch } from '@cow-low-code/utils'
 import PreviewDragged from './components/preview-dragged'
 import type { Draggable } from '@/components/base-ui/kzy-draggable/types'
 import type { LibraryComponentInstanceData } from '@/types/library-component'

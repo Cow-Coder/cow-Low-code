@@ -1,12 +1,12 @@
-import { dispatchActionHandle } from '@cow-code-low-code/event-action'
-import { libraryMap } from '@cow-code-low-code/library'
-import { CUSTOM_EVENT_TRIGGER_NAME } from '@cow-code-low-code/constant'
+import { dispatchActionHandle } from '@cow-low-code/event-action'
+import { libraryMap } from '@cow-low-code/library'
+import { CUSTOM_EVENT_TRIGGER_NAME } from '@cow-low-code/constant'
 import { v4 as uuid } from 'uuid'
 import type {
   LibraryComponentInstanceActionItem,
   LibraryComponentInstanceData,
   LibraryComponentsInstanceTree,
-} from '@cow-code-low-code/types'
+} from '@cow-low-code/types'
 
 /**
  * 批量分发某物料组件实例 的 某个事件 的 所有action

@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { isCustomEventTriggerName as isCustomEventTriggerNameFun } from '@cow-code-low-code/utils'
+import { isCustomEventTriggerName as isCustomEventTriggerNameFun } from '@cow-low-code/utils'
 
 export const uuid = uuidv4
 

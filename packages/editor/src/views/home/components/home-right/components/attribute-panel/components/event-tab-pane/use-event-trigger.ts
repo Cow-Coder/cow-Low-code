@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { generateCustomEventTriggerName } from '@cow-code-low-code/utils'
+import { generateCustomEventTriggerName } from '@cow-low-code/utils'
 import type { ElDialog } from 'element-plus'
 import type { ComponentInternalInstance, WritableComputedRef } from 'vue'
 import type {

@@ -4,7 +4,7 @@ import type {
   LibraryComponentInstanceFocus,
   LibraryComponentsInstanceTree,
   OutlineData,
-} from '@cow-code-low-code/types'
+} from '@cow-low-code/types'
 import type { ComputedRef } from 'vue'
 import { libraryMap, libraryRecord } from '@/library'
 import { arrResort } from '@/utils/map-schemes-2-outline'

@@ -6,6 +6,7 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import Inspect from 'vite-plugin-inspect'
 import VueMarcos from 'unplugin-vue-macros/vite'
+import { editorOutput } from '@cow-low-code/build-utils'
 import configApiImport from './plugins/api-import'
 import configComponentsImport from './plugins/components-import'
 import configElementStyleAndIcon from './plugins/element-style-and-icon'
@@ -55,10 +56,11 @@ export default defineConfig({
     },
   },
   build: {
+    outDir: editorOutput,
     rollupOptions: {
       output: {
         manualChunks: (e) => {
-          fs.appendFile('./manual-chunks.txt', `${e}\n`, () => undefined)
+          // fs.appendFile('./manual-chunks.txt', `${e}\n`, () => undefined)
           if (e.includes('/node_modules/monaco-editor/')) return 'monaco'
           else if (
             e.includes('/node_modules/vue/') ||

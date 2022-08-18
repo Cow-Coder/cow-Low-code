@@ -1,1 +1,1 @@
-export * from '@cow-code-low-code/types/src/panel'
+export * from '@cow-low-code/types/src/panel'

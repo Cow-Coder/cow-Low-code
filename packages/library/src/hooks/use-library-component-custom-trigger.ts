@@ -1,10 +1,10 @@
 import { getCurrentInstance } from 'vue'
-import { CUSTOM_EVENT_EMIT_NAME, CUSTOM_EVENT_TRIGGER_NAME } from '@cow-code-low-code/constant'
+import { CUSTOM_EVENT_EMIT_NAME, CUSTOM_EVENT_TRIGGER_NAME } from '@cow-low-code/constant'
 import type { PropType } from 'vue'
 import type {
   LibraryComponentInstanceCustomEventTriggerData,
   LibraryComponentInstanceEventTriggers,
-} from '@cow-code-low-code/types'
+} from '@cow-low-code/types'
 import type { ExtractPropTypes } from '@vue/runtime-core'
 
 /**

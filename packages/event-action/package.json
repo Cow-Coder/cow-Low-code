@@ -1,5 +1,5 @@
 {
-  "name": "@cow-code-low-code/event-action",
+  "name": "@cow-low-code/event-action",
   "main": "index.ts",
   "peerDependencies": {
     "vite": "^3.0.1"

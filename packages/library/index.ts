@@ -1,4 +1,4 @@
-import type { LibraryComponent, LibraryPanelTabEnum } from '@cow-code-low-code/types'
+import type { LibraryComponent, LibraryPanelTabEnum } from '@cow-low-code/types'
 
 const libraryComponents = import.meta.glob<LibraryComponent>(
   './src/components/**/index.(vue|jsx)',

@@ -4,7 +4,7 @@ import {
   defineActionHandler,
   getActionHandleDefaultProps,
   mixLibraryComponentInstanceDataWidthLibraryComponentSchemaLabel,
-} from '@cow-code-low-code/event-action/src/utils/util'
+} from '@cow-low-code/event-action/src/utils/util'
 
 type Props = {
   componentUUID: string

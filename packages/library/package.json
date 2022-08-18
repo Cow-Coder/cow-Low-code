@@ -1,5 +1,5 @@
 {
-  "name": "@cow-code-low-code/library",
+  "name": "@cow-low-code/library",
   "version": "0.1.0",
   "main": "index.ts",
   "peerDependencies": {

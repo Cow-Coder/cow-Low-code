@@ -1,1 +1,1 @@
-export * from '@cow-code-low-code/library'
+export * from '@cow-low-code/library'
