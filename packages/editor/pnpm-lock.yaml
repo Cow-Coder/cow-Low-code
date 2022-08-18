@@ -1,130 +1,126 @@
 lockfileVersion: 5.4
 
-importers:
-  .:
-    specifiers:
-      '@commitlint/cli': ^17.0.3
-      '@commitlint/config-conventional': ^17.0.3
-      '@element-plus/eslint-config': ^0.0.20220803
-      cz-git: ^1.3.10
-      czg: ^1.3.10
-      eslint: ^8.21.0
-      eslint-plugin-markdown: ^3.0.0
-      husky: ^8.0.0
-      lint-staged: ^13.0.3
-      prettier: ^2.7.1
-      pretty-quick: ^3.1.3
-    devDependencies:
-      '@commitlint/cli': 17.0.3
-      '@commitlint/config-conventional': 17.0.3
-      '@element-plus/eslint-config': 0.0.20220803_eslint@8.22.0
-      cz-git: 1.3.10
-      czg: 1.3.10
-      eslint: 8.22.0
-      eslint-plugin-markdown: 3.0.0_eslint@8.22.0
-      husky: 8.0.1
-      lint-staged: 13.0.3
-      prettier: 2.7.1
-      pretty-quick: 3.1.3_prettier@2.7.1
+specifiers:
+  '@arco-design/web-vue': ^2.34.0
+  '@commitlint/cli': ^17.0.3
+  '@commitlint/config-conventional': ^17.0.3
+  '@cow-low-code/vite-plugin-monaco-editor-nls': ^2.0.1
+  '@cow-low-code/vscode-language-pack-zh-hans': ^1.70.0
+  '@element-plus/eslint-config': ^0.0.20220803
+  '@icon-park/vue-next': ^1.4.2
+  '@iconify-json/ep': ^1.1.6
+  '@types/node': ^16.11.47
+  '@types/sass': ^1.43.1
+  '@types/sortablejs': ^1.13.0
+  '@types/uuid': ^8.3.4
+  '@vant/touch-emulator': ^1.3.2
+  '@vitejs/plugin-vue': ^3.0.1
+  '@vitejs/plugin-vue-jsx': ^2.0.0
+  '@vue/tsconfig': ^0.1.3
+  '@vueuse/core': ^9.0.2
+  '@vueuse/integrations': ^9.0.2
+  autoprefixer: ^10.4.8
+  colorpicker-v3: ^2.10.2
+  consola: ^2.15.3
+  cz-git: ^1.3.10
+  czg: ^1.3.10
+  element-plus: ^2.2.12
+  eslint: ^8.21.0
+  eslint-plugin-markdown: ^3.0.0
+  husky: ^8.0.0
+  json-stringify-pretty-compact: ^4.0.0
+  lint-staged: ^13.0.3
+  lodash: ^4.17.21
+  lodash-es: ^4.17.21
+  monaco-editor: ^0.33.0
+  npm-run-all: ^4.1.5
+  pinia: ^2.0.16
+  pinia-plugin-persist: ^1.0.0
+  postcss: ^8.4.14
+  prettier: ^2.7.1
+  pretty-quick: ^3.1.3
+  rollup-plugin-visualizer: ^5.7.1
+  sass: ^1.54.0
+  tailwindcss: ^3.1.7
+  typescript: ~4.7.4
+  unplugin-auto-import: ^0.10.3
+  unplugin-element-plus: ^0.4.1
+  unplugin-icons: ^0.14.8
+  unplugin-vue-components: ^0.21.2
+  unplugin-vue-define-options: ^0.7.3
+  unplugin-vue-macros: ^0.7.3
+  uuid: ^8.3.2
+  vant: ^3.5.3
+  vite: ^3.0.1
+  vite-plugin-inspect: ^0.6.0
+  vite-plugin-style-import: ^2.0.0
+  vite-plugin-webpackchunkname: ^0.1.1
+  vue: ^3.2.37
+  vue-router: ^4.1.2
+  vue-tsc: ^0.38.8
+  vuedraggable: ^4.1.0
 
-  packages/editor:
-    specifiers:
-      '@arco-design/web-vue': ^2.34.0
-      '@cow-low-code/vite-plugin-monaco-editor-nls': ^2.0.1
-      '@cow-low-code/vscode-language-pack-zh-hans': ^1.70.0
-      '@icon-park/vue-next': ^1.4.2
-      '@iconify-json/ep': ^1.1.6
-      '@types/node': ^16.11.47
-      '@types/sass': ^1.43.1
-      '@types/sortablejs': ^1.13.0
-      '@types/uuid': ^8.3.4
-      '@vant/touch-emulator': ^1.3.2
-      '@vitejs/plugin-vue': ^3.0.1
-      '@vitejs/plugin-vue-jsx': ^2.0.0
-      '@vue/tsconfig': ^0.1.3
-      '@vueuse/core': ^9.0.2
-      '@vueuse/integrations': ^9.0.2
-      autoprefixer: ^10.4.8
-      colorpicker-v3: ^2.10.2
-      consola: ^2.15.3
-      element-plus: ^2.2.12
-      json-stringify-pretty-compact: ^4.0.0
-      lodash: ^4.17.21
-      lodash-es: ^4.17.21
-      monaco-editor: ^0.33.0
-      npm-run-all: ^4.1.5
-      pinia: ^2.0.16
-      pinia-plugin-persist: ^1.0.0
-      postcss: ^8.4.14
-      rollup-plugin-visualizer: ^5.7.1
-      sass: ^1.54.0
-      tailwindcss: ^3.1.7
-      typescript: ~4.7.4
-      unplugin-auto-import: ^0.10.3
-      unplugin-element-plus: ^0.4.1
-      unplugin-icons: ^0.14.8
-      unplugin-vue-components: ^0.21.2
-      unplugin-vue-define-options: ^0.7.3
-      unplugin-vue-macros: ^0.7.3
-      uuid: ^8.3.2
-      vant: ^3.5.3
-      vite: ^3.0.1
-      vite-plugin-inspect: ^0.6.0
-      vite-plugin-style-import: ^2.0.0
-      vite-plugin-webpackchunkname: ^0.1.1
-      vue: ^3.2.37
-      vue-router: ^4.1.2
-      vue-tsc: ^0.38.8
-      vuedraggable: ^4.1.0
-    dependencies:
-      '@arco-design/web-vue': 2.35.0_vue@3.2.37
-      '@icon-park/vue-next': 1.4.2_vue@3.2.37
-      '@vant/touch-emulator': 1.4.0
-      '@vueuse/core': 9.1.0_vue@3.2.37
-      '@vueuse/integrations': 9.1.0_vue@3.2.37
-      colorpicker-v3: 2.10.2
-      element-plus: 2.2.13_vue@3.2.37
-      json-stringify-pretty-compact: 4.0.0
-      lodash: 4.17.21
-      lodash-es: 4.17.21
-      monaco-editor: 0.33.0
-      pinia: 2.0.18_j6bzmzd4ujpabbp5objtwxyjp4
-      pinia-plugin-persist: 1.0.0_pinia@2.0.18+vue@3.2.37
-      uuid: 8.3.2
-      vant: 3.5.4_vue@3.2.37
-      vue: 3.2.37
-      vue-router: 4.1.3_vue@3.2.37
-      vuedraggable: 4.1.0_vue@3.2.37
-    devDependencies:
-      '@cow-low-code/vite-plugin-monaco-editor-nls': 2.0.1_vite@3.0.8
-      '@cow-low-code/vscode-language-pack-zh-hans': 1.70.1
-      '@iconify-json/ep': 1.1.7
-      '@types/node': 16.11.49
-      '@types/sass': 1.43.1
-      '@types/sortablejs': 1.13.0
-      '@types/uuid': 8.3.4
-      '@vitejs/plugin-vue': 3.0.3_vite@3.0.8+vue@3.2.37
-      '@vitejs/plugin-vue-jsx': 2.0.0_vite@3.0.8+vue@3.2.37
-      '@vue/tsconfig': 0.1.3_@types+node@16.11.49
-      autoprefixer: 10.4.8_postcss@8.4.16
-      consola: 2.15.3
-      npm-run-all: 4.1.5
-      postcss: 8.4.16
-      rollup-plugin-visualizer: 5.7.1
-      sass: 1.54.4
-      tailwindcss: 3.1.8
-      typescript: 4.7.4
-      unplugin-auto-import: 0.10.3_obmlko6hceoahr6itoucrugfeu
-      unplugin-element-plus: 0.4.1_vite@3.0.8
-      unplugin-icons: 0.14.8_vite@3.0.8
-      unplugin-vue-components: 0.21.2_vite@3.0.8+vue@3.2.37
-      unplugin-vue-define-options: 0.7.3_vite@3.0.8+vue@3.2.37
-      unplugin-vue-macros: 0.7.3_vite@3.0.8+vue@3.2.37
-      vite: 3.0.8_sass@1.54.4
-      vite-plugin-inspect: 0.6.0_vite@3.0.8
-      vite-plugin-style-import: 2.0.0_vite@3.0.8
-      vite-plugin-webpackchunkname: 0.1.1_vite@3.0.8
-      vue-tsc: 0.38.9_typescript@4.7.4
+dependencies:
+  '@arco-design/web-vue': 2.35.0_vue@3.2.37
+  '@icon-park/vue-next': 1.4.2_vue@3.2.37
+  '@vant/touch-emulator': 1.4.0
+  '@vueuse/core': 9.1.0_vue@3.2.37
+  '@vueuse/integrations': 9.1.0_vue@3.2.37
+  colorpicker-v3: 2.10.2
+  element-plus: 2.2.13_vue@3.2.37
+  json-stringify-pretty-compact: 4.0.0
+  lodash: 4.17.21
+  lodash-es: 4.17.21
+  monaco-editor: 0.33.0
+  pinia: 2.0.18_j6bzmzd4ujpabbp5objtwxyjp4
+  pinia-plugin-persist: 1.0.0_pinia@2.0.18+vue@3.2.37
+  uuid: 8.3.2
+  vant: 3.5.4_vue@3.2.37
+  vue: 3.2.37
+  vue-router: 4.1.3_vue@3.2.37
+  vuedraggable: 4.1.0_vue@3.2.37
+
+devDependencies:
+  '@commitlint/cli': 17.0.3
+  '@commitlint/config-conventional': 17.0.3
+  '@cow-low-code/vite-plugin-monaco-editor-nls': 2.0.1_vite@3.0.8
+  '@cow-low-code/vscode-language-pack-zh-hans': 1.70.1
+  '@element-plus/eslint-config': 0.0.20220803_eslint@8.22.0
+  '@iconify-json/ep': 1.1.7
+  '@types/node': 16.11.49
+  '@types/sass': 1.43.1
+  '@types/sortablejs': 1.13.0
+  '@types/uuid': 8.3.4
+  '@vitejs/plugin-vue': 3.0.3_vite@3.0.8+vue@3.2.37
+  '@vitejs/plugin-vue-jsx': 2.0.0_vite@3.0.8+vue@3.2.37
+  '@vue/tsconfig': 0.1.3_@types+node@16.11.49
+  autoprefixer: 10.4.8_postcss@8.4.16
+  consola: 2.15.3
+  cz-git: 1.3.10
+  czg: 1.3.10
+  eslint: 8.22.0
+  eslint-plugin-markdown: 3.0.0_eslint@8.22.0
+  husky: 8.0.1
+  lint-staged: 13.0.3
+  npm-run-all: 4.1.5
+  postcss: 8.4.16
+  prettier: 2.7.1
+  pretty-quick: 3.1.3_prettier@2.7.1
+  rollup-plugin-visualizer: 5.7.1
+  sass: 1.54.4
+  tailwindcss: 3.1.8
+  typescript: 4.7.4
+  unplugin-auto-import: 0.10.3_obmlko6hceoahr6itoucrugfeu
+  unplugin-element-plus: 0.4.1_vite@3.0.8
+  unplugin-icons: 0.14.8_vite@3.0.8
+  unplugin-vue-components: 0.21.2_vite@3.0.8+vue@3.2.37
+  unplugin-vue-define-options: 0.7.3_vite@3.0.8+vue@3.2.37
+  unplugin-vue-macros: 0.7.3_vite@3.0.8+vue@3.2.37
+  vite: 3.0.8_sass@1.54.4
+  vite-plugin-inspect: 0.6.0_vite@3.0.8
+  vite-plugin-style-import: 2.0.0_vite@3.0.8
+  vite-plugin-webpackchunkname: 0.1.1_vite@3.0.8
+  vue-tsc: 0.38.9_typescript@4.7.4
 
 packages:
   /@ampproject/remapping/2.2.0:
@@ -1092,9 +1088,6 @@ packages:
     engines: { node: '>=8.0.0' }
     peerDependencies:
       rollup: ^1.20.0||^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       slash: 3.0.0
     dev: true
@@ -6228,9 +6221,6 @@ packages:
     hasBin: true
     peerDependencies:
       rollup: ^2.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       nanoid: 3.3.4
       open: 8.4.0
@@ -7415,9 +7405,6 @@ packages:
     peerDependencies:
       rollup: ^2.67.2
       vite: '*'
-    peerDependenciesMeta:
-      rollup:
-        optional: true
     dependencies:
       '@rollup/plugin-alias': 3.1.9
       '@rollup/pluginutils': 4.2.1
