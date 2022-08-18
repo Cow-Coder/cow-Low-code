@@ -1,11 +1,13 @@
 {
   "name": "cow-code-low-code",
   "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@7.3.0",
   "scripts": {
     "dev": "vite --config ./config/vite.config.dev.ts",
     "build": "vue-tsc --noEmit && vite build --config ./config/vite.config.prod.ts",
     "build-only": "vite build --config ./config/vite.config.prod.ts",
-    "preview": "npm run build-only && vite preview --port 4173",
+    "preview": "pnpm run build-only && vite preview --port 4173",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json --max-warnings 0 && pretty-quick --check",
     "lint:fix": "eslint --fix . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json && pretty-quick",
     "prepare": "husky install",
@@ -74,9 +76,20 @@
     "vite-plugin-webpackchunkname": "^0.1.1",
     "vue-tsc": "^0.38.8"
   },
+  "engines": {
+    "node": ">= 16",
+    "pnpm": ">=7"
+  },
   "config": {
     "commitizen": {
       "path": "node_modules/cz-git"
+    }
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "rollup"
+      ]
     }
   },
   "lint-staged": {
