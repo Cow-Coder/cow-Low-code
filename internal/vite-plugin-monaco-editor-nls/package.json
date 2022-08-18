@@ -1,0 +1,19 @@
+{
+  "name": "@cow-low-code/vite-plugin-monaco-editor-nls",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "rimraf dist && tsc -p . && pnpm exec copy src/locale/* dist/locale"
+  },
+  "devDependencies": {
+    "@types/node": "^15.3.0",
+    "copy": "^0.3.2",
+    "esbuild": "^0.14.53",
+    "magic-string": "^0.25.7",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.2.3",
+    "vite": "3.0.4"
+  }
+}

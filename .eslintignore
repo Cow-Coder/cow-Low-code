@@ -5,3 +5,4 @@ package-lock.json
 auto-imports.d.ts
 components.d.ts
 stats.html
+vite-plugin-monaco-editor-nls

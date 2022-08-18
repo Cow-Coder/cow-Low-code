@@ -9,14 +9,19 @@
 </template>
 
 <script lang="tsx">
+import { defineComponent, ref, watch } from 'vue'
 import { ElIcon } from 'element-plus'
-import Preview from './components/preview.vue'
-import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
+import { useVModel } from '@vueuse/core'
 import {
   AttributePanelFormItemInputTypeEnum,
   AttributePanelsEnum,
   LibraryPanelTabEnum,
-} from '@/types/panel'
+} from '@cow-code-low-code/types'
+import {
+  createLibraryComponentPropItem,
+  defineLibraryComponent,
+} from '@cow-code-low-code/library/src/utils/library'
+import Preview from './components/preview.vue'
 
 export default defineComponent({
   ...defineLibraryComponent({

@@ -6,7 +6,8 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["unplugin-vue-macros/macros-global", "unplugin-icons/types/vue"]
+    "types": ["unplugin-vue-macros/macros-global", "unplugin-icons/types/vue"],
+    "skipLibCheck": true
   },
   "references": [
     {

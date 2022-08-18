@@ -18,8 +18,11 @@ import {
   AttributePanelFormItemInputTypeEnum,
   AttributePanelsEnum,
   LibraryPanelTabEnum,
-} from '@/types/panel'
-import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
+} from '@cow-code-low-code/types'
+import {
+  createLibraryComponentPropItem,
+  defineLibraryComponent,
+} from '@cow-code-low-code/library/src/utils/library'
 
 export default {
   ...defineLibraryComponent({

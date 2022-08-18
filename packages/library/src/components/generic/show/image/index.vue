@@ -6,11 +6,14 @@
 import { Image as VanImage } from 'vant'
 import { ElIcon } from 'element-plus'
 import {
+  createLibraryComponentPropItem,
+  defineLibraryComponent,
+} from '@cow-code-low-code/library/src/utils/library'
+import {
   AttributePanelFormItemInputTypeEnum,
   AttributePanelsEnum,
   LibraryPanelTabEnum,
-} from '@/types/panel'
-import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
+} from '@cow-code-low-code/types'
 
 export default {
   ...defineLibraryComponent({

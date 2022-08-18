@@ -1,8 +1,8 @@
+import { isArray } from 'lodash-es'
 import useDraggable from './use-draggable'
 import useResizer from './use-resizer'
 import useFullscreen from './use-fullscreen'
 import type { DirectiveBinding } from 'vue'
-import { isArray } from '@/utils/type'
 
 const beforeMountedFun: Array<(...args: any) => any> = []
 

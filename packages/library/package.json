@@ -1,30 +1,8 @@
 {
   "name": "@cow-code-low-code/library",
   "version": "0.1.0",
-  "main": "src/index.ts",
-  "module": "src/index.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "main": "index.ts",
   "dependencies": {
-    "@icon-park/vue-next": "^1.4.2",
-    "@vueuse/core": "^9.0.2",
-    "lodash-es": "^4.17.21",
-    "vant": "^3.5.3",
-    "vue": "^3.2.37"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^3.0.1",
-    "@vitejs/plugin-vue-jsx": "^2.0.0",
-    "autoprefixer": "^10.4.8",
-    "postcss": "^8.4.16",
-    "sass": "^1.54.0",
-    "tailwindcss": "^3.1.8",
-    "typescript": "^4.6.4",
-    "unplugin-auto-import": "^0.10.3",
-    "unplugin-vue-components": "^0.21.2",
-    "unplugin-vue-define-options": "^0.7.3",
-    "unplugin-vue-macros": "^0.7.3",
-    "vite": "^3.0.1"
+    "vant": "^3.5.3"
   }
 }

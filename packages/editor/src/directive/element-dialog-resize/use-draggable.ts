@@ -1,6 +1,6 @@
-import { onBeforeUnmount, onMounted, watchEffect } from 'vue'
+import { watchEffect } from 'vue'
+import { isNumber, isString } from 'lodash-es'
 import type { ComputedRef, Ref } from 'vue'
-import { isNumber, isObject, isString } from '@/utils/type'
 import useParseTranslate from '@/directive/element-dialog-resize/use-parse-translate'
 
 export function addUnit(value?: string | number, defaultUnit = 'px') {

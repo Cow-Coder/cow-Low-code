@@ -6,7 +6,7 @@
   </div>
 </template>
 <script lang="tsx">
-import { ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { Button, Dialog } from 'vant'
 import 'vant/es/dialog/style'
 import { ElIcon } from 'element-plus'
@@ -14,11 +14,14 @@ import {
   AttributePanelFormItemInputTypeEnum,
   AttributePanelsEnum,
   LibraryPanelTabEnum,
-} from '@/types/panel'
-import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
-import { useMultiClick } from '@/hooks/use-multi-click'
-import { CUSTOM_EVENT_EMIT_NAME, CUSTOM_EVENT_TRIGGER_NAME } from '@/constant'
-import useLibraryComponentCustomTrigger from '@/hooks/use-library-component-custom-trigger'
+} from '@cow-code-low-code/types'
+import {
+  createLibraryComponentPropItem,
+  defineLibraryComponent,
+} from '@cow-code-low-code/library/src/utils/library'
+import { useMultiClick } from '@cow-code-low-code/library/src/hooks/use-multi-click'
+import { CUSTOM_EVENT_EMIT_NAME } from '@cow-code-low-code/library/src/constant'
+import useLibraryComponentCustomTrigger from '@cow-code-low-code/library/src/hooks/use-library-component-custom-trigger'
 
 enum EventTriggersEnum {
   click = 'click',

@@ -1,10 +1,11 @@
 import { computed, ref, toRefs } from 'vue'
+import { getActionHandle } from '@cow-code-low-code/event-action'
 import type {
   EventTriggerSchema,
   LibraryComponentInstanceActionItem,
   LibraryComponentInstanceCustomEventTriggerData,
   LibraryComponentInstanceEventTriggers,
-} from '@/types/library-component-event'
+} from '@/types/event-trigger'
 import type { ComputedRef, SetupContext } from 'vue'
 import type {
   createCustomAttributeTabEmits,
@@ -13,7 +14,6 @@ import type {
 import type { ExtractPropTypes } from '@vue/runtime-core'
 import { isCustomEventTriggerName } from '@/utils/library'
 import { useCodeStore } from '@/stores/code'
-import { getActionHandle } from '@/views/home/components/action-config-dialog/action'
 import { libraryMap } from '@/library'
 import { CUSTOM_EVENT_TRIGGER_NAME } from '@/constant'
 

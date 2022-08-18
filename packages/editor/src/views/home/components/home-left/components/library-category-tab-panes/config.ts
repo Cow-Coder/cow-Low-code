@@ -1,8 +1,48 @@
+import { cloneDeep } from 'lodash-es'
 import type { Draggable } from '@/components/base-ui/kzy-draggable/types'
-import type { LibraryComponent } from '@/types/library-component'
-import { createLibraryComponentInstance } from '@/utils/library'
+import type {
+  LibraryComponent,
+  LibraryComponentInstanceData,
+  LibraryComponentInstanceProps,
+  LibraryComponentProps,
+} from '@/types/library-component'
+import { uuid } from '@/utils/library'
 import { DRAGGABLE_GROUP_NAME } from '@/constant'
 import { useCodeStore } from '@/stores/code'
+
+/**
+ * 生成组件实例props
+ * @param props
+ */
+function createLibraryComponentInstanceProps(
+  props: LibraryComponentProps
+): LibraryComponentInstanceProps {
+  const _props = cloneDeep(props)
+  const result = {} as LibraryComponentInstanceProps
+  Object.entries(_props).forEach(([propKey, propSchema]) => {
+    if (propSchema.default) result[propKey] = propSchema.default
+  })
+  return result
+}
+
+/**
+ * 从物料组件克隆一个组件实例
+ * @param com
+ */
+function createLibraryComponentInstance(com: LibraryComponent): LibraryComponentInstanceData {
+  const data = {
+    indexId: uuid(),
+    uuid: uuid(),
+    componentName: com.name,
+    libraryName: com.libraryName,
+    focus: false,
+    eventTriggers: {},
+  } as LibraryComponentInstanceData
+  if (com.props) data.props = createLibraryComponentInstanceProps(com.props)
+  if (com.eventTriggers) data.eventTriggers = {}
+
+  return data
+}
 
 /**
  * 当drop事件发生的时候，此函数的返回值会push到目标容器list中

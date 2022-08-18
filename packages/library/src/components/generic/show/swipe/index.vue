@@ -14,16 +14,20 @@
 </template>
 
 <script lang="tsx">
+import { defineComponent } from 'vue'
 import { ElIcon } from 'element-plus'
 import { Image as VanImage } from 'vant'
-import preview from './components/preview.vue'
 import {
   AttributePanelFormItemInputTypeEnum,
   AttributePanelsEnum,
+  LibraryComponentFormItemLabelPositionEnum,
   LibraryPanelTabEnum,
-} from '@/types/panel'
-import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
-import { LibraryComponentFormItemLabelPositionEnum } from '@/types/library-component'
+} from '@cow-code-low-code/types'
+import {
+  createLibraryComponentPropItem,
+  defineLibraryComponent,
+} from '@cow-code-low-code/library/src/utils/library'
+import preview from './components/preview.vue'
 
 export default defineComponent({
   ...defineLibraryComponent({

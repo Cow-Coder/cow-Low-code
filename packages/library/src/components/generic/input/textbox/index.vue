@@ -13,13 +13,18 @@
 </template>
 
 <script lang="tsx">
+import { defineComponent } from 'vue'
 import { ElIcon, ElInput } from 'element-plus'
-import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
+import { useVModel } from '@vueuse/core'
+import {
+  createLibraryComponentPropItem,
+  defineLibraryComponent,
+} from '@cow-code-low-code/library/src/utils/library'
 import {
   AttributePanelFormItemInputTypeEnum,
   AttributePanelsEnum,
   LibraryPanelTabEnum,
-} from '@/types/panel'
+} from '@cow-code-low-code/types'
 
 export default defineComponent({
   ...defineLibraryComponent({
