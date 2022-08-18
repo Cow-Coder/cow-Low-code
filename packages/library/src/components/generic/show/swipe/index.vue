@@ -16,13 +16,13 @@
 <script lang="tsx">
 import { ElIcon } from 'element-plus'
 import { Image as VanImage } from 'vant'
+import preview from './components/preview.vue'
 import {
   AttributePanelFormItemInputTypeEnum,
   AttributePanelsEnum,
   LibraryPanelTabEnum,
 } from '@/types/panel'
 import { createLibraryComponentPropItem, defineLibraryComponent } from '@/utils/library'
-import preview from '@/library/generic/show/swipe/components/preview.vue'
 import { LibraryComponentFormItemLabelPositionEnum } from '@/types/library-component'
 
 export default defineComponent({
