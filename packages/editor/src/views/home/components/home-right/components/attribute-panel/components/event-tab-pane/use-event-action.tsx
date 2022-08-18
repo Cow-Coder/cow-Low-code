@@ -1,8 +1,8 @@
 import type {
   LibraryComponentInstanceActionItem,
   LibraryComponentInstanceEventTriggers,
-} from '@/types/library-component-event'
-import { actionConfigDialog } from '@/views/home/components/action-config-dialog'
+} from '@/types/event-trigger'
+import { actionConfigDialog } from '@/views/home/components/home-right/components/attribute-panel/components/event-tab-pane/components/action-config-dialog'
 import { uuid } from '@/utils/library'
 
 export default function useEventAction() {

@@ -2,9 +2,9 @@ import type {
   LibraryComponent,
   LibraryComponentInstanceData,
   LibraryComponentInstanceFocus,
+  LibraryComponentsInstanceTree,
   OutlineData,
-} from '@/types/library-component'
-
+} from '@cow-code-low-code/types'
 import type { ComputedRef } from 'vue'
 import { libraryMap, libraryRecord } from '@/library'
 import { arrResort } from '@/utils/map-schemes-2-outline'
@@ -12,7 +12,7 @@ import { arrResort } from '@/utils/map-schemes-2-outline'
 export const useCodeStore = defineStore(
   'CodeStore',
   () => {
-    const jsonCode = ref<LibraryComponentInstanceData[]>([])
+    const jsonCode = ref<LibraryComponentsInstanceTree>([])
     /**
      * 想到三种方案
      * 1. 在原本组件实例数据上根据 focus:true 自动去找是哪个组件被选中了
@@ -68,10 +68,9 @@ export const useCodeStore = defineStore(
       /**
        * TODO: 这里应该加缓存，记录已经找到过的组件的uuid，缓存进键值对
        */
-      let focusedLibraryComponentInstanceData = undefined
+      let focusedLibraryComponentInstanceData: LibraryComponentInstanceData | undefined = undefined
       for (const jsonCodeElement of jsonCode.value) {
         if (jsonCodeElement?.uuid === focusData_.uuid) {
-          // console.log(`jsonCodeElement`, jsonCodeElement, jsonCode);
           focusedLibraryComponentInstanceData = jsonCodeElement
           break
         }

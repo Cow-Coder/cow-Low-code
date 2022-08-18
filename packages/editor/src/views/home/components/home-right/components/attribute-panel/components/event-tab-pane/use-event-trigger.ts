@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import { generateCustomEventTriggerName } from '@cow-code-low-code/utils'
 import type { ElDialog } from 'element-plus'
 import type { ComponentInternalInstance, WritableComputedRef } from 'vue'
 import type {
@@ -6,9 +7,8 @@ import type {
   LibraryComponentInstanceCommonEventTriggerData,
   LibraryComponentInstanceCustomEventTriggerData,
   LibraryComponentInstanceEventTriggers,
-} from '@/types/library-component-event'
+} from '@/types/event-trigger'
 import { CUSTOM_EVENT_TRIGGER_NAME } from '@/constant'
-import { generateCustomEventTriggerName } from '@/utils/library'
 
 export default function useEventTrigger(
   componentInstanceEventTriggers: WritableComputedRef<

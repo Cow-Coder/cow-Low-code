@@ -1,12 +1,10 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["src/**/*", "src/**/*.vue", "*.d.ts", "types/*.d.ts", "playground/**/*"],
+  "include": ["src/**/*", "src/**/*.vue", "*.ts", "types/*.d.ts", "playground/**/*"],
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    },
-    "types": ["unplugin-vue-macros/macros-global"]
+    "types": ["unplugin-vue-macros/macros-global"],
+    "skipLibCheck": true
   },
   "references": [
     {

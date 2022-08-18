@@ -2,14 +2,9 @@ import type { Component, ComponentOptions, Prop } from 'vue'
 import type {
   AttributePanelFormItemInputTypeEnum,
   AttributePanelsEnum,
-  LibraryPanelTabEnum,
-} from '@/types/panel'
-import type {
   EventTriggerSchema,
-  LibraryComponentInstanceEventTriggers,
-} from '@/types/library-component-event'
-
-export type LibraryComponentInstanceProps = Data
+  LibraryPanelTabEnum,
+} from '@cow-code-low-code/types'
 
 /**
  * 该项表单label显示位置
@@ -130,56 +125,4 @@ export interface LibraryComponent extends ComponentOptions {
    * 定义触发事件的情况
    */
   eventTriggers?: EventTriggerSchema
-}
-
-/**
- * 物料组件实例的数据
- */
-export interface LibraryComponentInstanceData {
-  /**
-   * 在渲染中用于v-for的id
-   * 可能会变化，例如要强制重新渲染组件的话，就需要修改indexId
-   */
-  indexId: string
-  /**
-   * 全局唯一ID
-   */
-  uuid: string
-  /**
-   * 是否选中当前物料组件实例
-   * @deprecated
-   */
-  focus: boolean
-  /**
-   * 物料库标识符
-   */
-  libraryName: LibraryPanelTabEnum
-  /**
-   * 在vue中组件名
-   */
-  componentName: string
-  /**
-   *右侧属性面板可编辑参数
-   */
-  props?: LibraryComponentInstanceProps
-  /**
-   * 事件触发器
-   */
-  eventTriggers?: LibraryComponentInstanceEventTriggers
-}
-
-/**
- * 编辑区被选中物料组件的定位数据
- */
-export interface LibraryComponentInstanceFocus {
-  path?: string | undefined
-  uuid: string | undefined
-}
-
-/**
- * 大纲数据类型
- */
-export interface OutlineData {
-  uuid?: string
-  title: string
 }

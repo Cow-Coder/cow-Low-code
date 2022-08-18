@@ -1,4 +1,4 @@
-import type { LibraryComponentPropItem } from '@/types/library-component'
+import type { LibraryComponentPropItem } from '@cow-code-low-code/types'
 
 /**
  * 右侧编辑面板的子tab枚举

@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import EditPanel from '@/views/home/components/edit-panel.vue'
+import EditPanel from '@/views/home/components/edit-panel/index.vue'
 import HomeHeader from '@/views/home/components/home-header/index.vue'
 import HomeLeft from '@/views/home/components/home-left/index.vue'
 import HomeRight from '@/views/home/components/home-right/index.vue'
