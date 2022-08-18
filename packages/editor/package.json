@@ -18,6 +18,7 @@
   "devDependencies": {
     "@cow-low-code/vite-plugin-monaco-editor-nls": "workspace:*",
     "@cow-low-code/vscode-language-pack-zh-hans": "workspace:*",
-    "@iconify-json/ep": "^1.1.6"
+    "@iconify-json/ep": "^1.1.6",
+    "vite": "^3.0.1"
   }
 }
