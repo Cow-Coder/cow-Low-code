@@ -12,7 +12,8 @@
     "lint:fix": "eslint --fix . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json && pretty-quick",
     "prepare": "husky install",
     "cz": "czg",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "preinstall": "npx --no only-allow pnpm"
   },
   "dependencies": {
     "@arco-design/web-vue": "^2.34.0",
