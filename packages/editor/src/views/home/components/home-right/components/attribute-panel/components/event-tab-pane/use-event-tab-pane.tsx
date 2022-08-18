@@ -1,5 +1,5 @@
 import { computed, ref, toRefs } from 'vue'
-import { getActionHandle } from '@cow-code-low-code/event-action'
+import { getActionHandle } from '@cow-low-code/event-action'
 import type {
   EventTriggerSchema,
   LibraryComponentInstanceActionItem,

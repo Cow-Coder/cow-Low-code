@@ -1,4 +1,4 @@
-import type { LibraryComponent, LibraryComponentInstanceData } from '@cow-code-low-code/types'
+import type { LibraryComponent, LibraryComponentInstanceData } from '@cow-low-code/types'
 import type { PropType } from 'vue'
 
 export function getActionHandleDefaultProps<T>() {

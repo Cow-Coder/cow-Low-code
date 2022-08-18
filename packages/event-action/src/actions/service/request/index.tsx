@@ -1,4 +1,4 @@
-import type { ActionHandlerSchema } from '@cow-code-low-code/types'
+import type { ActionHandlerSchema } from '@cow-low-code/types'
 
 export default {
   name: 'Request',

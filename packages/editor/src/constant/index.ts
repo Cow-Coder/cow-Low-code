@@ -1,1 +1,1 @@
-export * from '@cow-code-low-code/constant'
+export * from '@cow-low-code/constant'

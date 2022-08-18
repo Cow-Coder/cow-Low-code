@@ -14,14 +14,14 @@ import {
   AttributePanelFormItemInputTypeEnum,
   AttributePanelsEnum,
   LibraryPanelTabEnum,
-} from '@cow-code-low-code/types'
+} from '@cow-low-code/types'
 import {
   createLibraryComponentPropItem,
   defineLibraryComponent,
-} from '@cow-code-low-code/library/src/utils/library'
-import { useMultiClick } from '@cow-code-low-code/library/src/hooks/use-multi-click'
-import { CUSTOM_EVENT_EMIT_NAME } from '@cow-code-low-code/constant'
-import useLibraryComponentCustomTrigger from '@cow-code-low-code/library/src/hooks/use-library-component-custom-trigger'
+} from '@cow-low-code/library/src/utils/library'
+import { useMultiClick } from '@cow-low-code/library/src/hooks/use-multi-click'
+import { CUSTOM_EVENT_EMIT_NAME } from '@cow-low-code/constant'
+import useLibraryComponentCustomTrigger from '@cow-low-code/library/src/hooks/use-library-component-custom-trigger'
 
 enum EventTriggersEnum {
   click = 'click',

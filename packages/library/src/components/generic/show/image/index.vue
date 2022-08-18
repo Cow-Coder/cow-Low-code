@@ -8,12 +8,12 @@ import { ElIcon } from 'element-plus'
 import {
   createLibraryComponentPropItem,
   defineLibraryComponent,
-} from '@cow-code-low-code/library/src/utils/library'
+} from '@cow-low-code/library/src/utils/library'
 import {
   AttributePanelFormItemInputTypeEnum,
   AttributePanelsEnum,
   LibraryPanelTabEnum,
-} from '@cow-code-low-code/types'
+} from '@cow-low-code/types'
 
 export default {
   ...defineLibraryComponent({

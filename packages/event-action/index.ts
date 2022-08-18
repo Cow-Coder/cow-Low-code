@@ -1,9 +1,9 @@
-import { parseActionChildren } from '@cow-code-low-code/event-action/src/utils/util'
+import { parseActionChildren } from '@cow-low-code/event-action/src/utils/util'
 import type {
   ActionHandlerSchema,
   LibraryComponent,
   LibraryComponentInstanceData,
-} from '@cow-code-low-code/types'
+} from '@cow-low-code/types'
 
 const allModules = import.meta.glob<ActionHandlerSchema>(`./src/actions/*/index.(tsx|ts)`, {
   import: 'default',

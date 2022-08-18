@@ -1,1 +1,1 @@
-export * from '@cow-code-low-code/types/src/library-component'
+export * from '@cow-low-code/types/src/library-component'

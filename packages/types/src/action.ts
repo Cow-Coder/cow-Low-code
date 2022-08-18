@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import { getActionHandleDefaultProps } from '@cow-code-low-code/utils'
+import { getActionHandleDefaultProps } from '@cow-low-code/utils'
 import type { LibraryComponent, LibraryComponentInstanceData } from './library-component'
 
 /**

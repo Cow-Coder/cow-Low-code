@@ -1,4 +1,4 @@
-import type { LibraryComponent, LibraryComponentPropItem } from '@cow-code-low-code/types'
+import type { LibraryComponent, LibraryComponentPropItem } from '@cow-low-code/types'
 
 /**
  * 快速定义物料组件

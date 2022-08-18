@@ -1,1 +1,1 @@
-export * from '@cow-code-low-code/types/src/event-trigger'
+export * from '@cow-low-code/types/src/event-trigger'

@@ -22,11 +22,11 @@ import {
   AttributePanelsEnum,
   LibraryComponentFormItemLabelPositionEnum,
   LibraryPanelTabEnum,
-} from '@cow-code-low-code/types'
+} from '@cow-low-code/types'
 import {
   createLibraryComponentPropItem,
   defineLibraryComponent,
-} from '@cow-code-low-code/library/src/utils/library'
+} from '@cow-low-code/library/src/utils/library'
 import preview from './components/preview.vue'
 
 export default defineComponent({

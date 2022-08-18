@@ -3,7 +3,7 @@ import type {
   ActionHandlerSchema,
   LibraryComponent,
   LibraryComponentInstanceData,
-} from '@cow-code-low-code/types'
+} from '@cow-low-code/types'
 
 export function parseActionChildren(modules: Record<string, ActionHandlerSchema>) {
   return Object.entries(modules)
