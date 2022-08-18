@@ -3,9 +3,11 @@
   "packageManager": "pnpm@7.3.0",
   "scripts": {
     "dev:editor": "pnpm -C packages/editor dev",
+    "dev:preview": "pnpm -C packages/preview dev",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json --max-warnings 0 && pretty-quick --check",
     "lint:fix": "eslint --fix . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json && pretty-quick",
     "build:editor": "pnpm -C packages/editor build-only",
+    "build:preview": "pnpm -C packages/preview build-only",
     "cz": "czg",
     "format": "prettier --write .",
     "stub": "pnpm run -r --parallel stub",
