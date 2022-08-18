@@ -30,6 +30,7 @@ importers:
   packages/editor:
     specifiers:
       '@arco-design/web-vue': ^2.34.0
+      '@cow-code-low-code/library': workspace:*
       '@cow-low-code/vite-plugin-monaco-editor-nls': ^2.0.1
       '@cow-low-code/vscode-language-pack-zh-hans': ^1.70.0
       '@icon-park/vue-next': ^1.4.2
@@ -49,7 +50,6 @@ importers:
       consola: ^2.15.3
       element-plus: ^2.2.12
       json-stringify-pretty-compact: ^4.0.0
-      lodash: ^4.17.21
       lodash-es: ^4.17.21
       monaco-editor: ^0.33.0
       npm-run-all: ^4.1.5
@@ -78,6 +78,7 @@ importers:
       vuedraggable: ^4.1.0
     dependencies:
       '@arco-design/web-vue': 2.35.0_vue@3.2.37
+      '@cow-code-low-code/library': link:../library
       '@icon-park/vue-next': 1.4.2_vue@3.2.37
       '@vant/touch-emulator': 1.4.0
       '@vueuse/core': 9.1.0_vue@3.2.37
@@ -85,7 +86,6 @@ importers:
       colorpicker-v3: 2.10.2
       element-plus: 2.2.13_vue@3.2.37
       json-stringify-pretty-compact: 4.0.0
-      lodash: 4.17.21
       lodash-es: 4.17.21
       monaco-editor: 0.33.0
       pinia: 2.0.18_j6bzmzd4ujpabbp5objtwxyjp4
@@ -125,6 +125,45 @@ importers:
       vite-plugin-style-import: 2.0.0_vite@3.0.8
       vite-plugin-webpackchunkname: 0.1.1_vite@3.0.8
       vue-tsc: 0.38.9_typescript@4.7.4
+
+  packages/library:
+    specifiers:
+      '@icon-park/vue-next': ^1.4.2
+      '@vitejs/plugin-vue': ^3.0.1
+      '@vitejs/plugin-vue-jsx': ^2.0.0
+      '@vueuse/core': ^9.0.2
+      autoprefixer: ^10.4.8
+      lodash-es: ^4.17.21
+      postcss: ^8.4.16
+      sass: ^1.54.0
+      tailwindcss: ^3.1.8
+      typescript: ^4.6.4
+      unplugin-auto-import: ^0.10.3
+      unplugin-vue-components: ^0.21.2
+      unplugin-vue-define-options: ^0.7.3
+      unplugin-vue-macros: ^0.7.3
+      vant: ^3.5.3
+      vite: ^3.0.1
+      vue: ^3.2.37
+    dependencies:
+      '@icon-park/vue-next': 1.4.2_vue@3.2.37
+      '@vueuse/core': 9.1.0_vue@3.2.37
+      lodash-es: 4.17.21
+      vant: 3.5.4_vue@3.2.37
+      vue: 3.2.37
+    devDependencies:
+      '@vitejs/plugin-vue': 3.0.3_vite@3.0.8+vue@3.2.37
+      '@vitejs/plugin-vue-jsx': 2.0.0_vite@3.0.8+vue@3.2.37
+      autoprefixer: 10.4.8_postcss@8.4.16
+      postcss: 8.4.16
+      sass: 1.54.4
+      tailwindcss: 3.1.8
+      typescript: 4.7.4
+      unplugin-auto-import: 0.10.3_obmlko6hceoahr6itoucrugfeu
+      unplugin-vue-components: 0.21.2_vite@3.0.8+vue@3.2.37
+      unplugin-vue-define-options: 0.7.3_vite@3.0.8+vue@3.2.37
+      unplugin-vue-macros: 0.7.3_vite@3.0.8+vue@3.2.37
+      vite: 3.0.8_sass@1.54.4
 
 packages:
   /@ampproject/remapping/2.2.0:
