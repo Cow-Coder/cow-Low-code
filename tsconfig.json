@@ -6,7 +6,6 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "jsx": "preserve",
     "types": ["unplugin-vue-macros/macros-global", "unplugin-icons/types/vue"]
   },
   "references": [
