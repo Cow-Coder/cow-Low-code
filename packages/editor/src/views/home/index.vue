@@ -82,6 +82,16 @@ function resetAll() {
   codeStore.clear()
   ElMessage.success('清空所有数据成功')
 }
+
+// 刷新/退出页面确认
+useEventListener(window, 'beforeunload', (event) => {
+  // Cancel the event as stated by the standard.
+  event.preventDefault()
+  // Chrome requires returnValue to be set.
+  event.returnValue = ''
+  // Other Browsers requires return.
+  return ''
+})
 </script>
 
 <style lang="scss" scoped>
