@@ -1,7 +1,7 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: github page
+name: Deploy Docs
 
 on:
   push:
@@ -37,16 +37,30 @@ jobs:
           registry-url: https://registry.npmjs.com/
           cache: 'pnpm'
 
+      - name: Cache ~/.pnpm-store
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-pnpm-store
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ matrix.node-version }}-docs-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.node-version }}-docs-${{ env.cache-name }}-
+            ${{ runner.os }}-${{ matrix.node-version }}-docs-
+            ${{ runner.os }}-
+
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
 
       - name: Build
-        run: pnpm run build:editor
+        run: pnpm run build:docs
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to Doc Repository
         uses: JamesIves/github-pages-deploy-action@v4.4.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          folder: dist/editor
+          token: ${{ secrets.DEPLOY_DOCS_COW_LOW_CODE }}
+          branch: main
+          folder: docs/.vitepress/dist
+          repository-name: Cow-Coder/docs-cow-low-code
           git-config-name: github-actions[bot]
           git-config-email: github-actions[bot]@users.noreply.github.com
