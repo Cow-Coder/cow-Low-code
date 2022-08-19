@@ -114,9 +114,11 @@ importers:
 
   docs:
     specifiers:
+      vite: ^3.0.1
       vitepress: 1.0.0-alpha.8
       vue: ^3.2.37
     devDependencies:
+      vite: 3.0.8
       vitepress: 1.0.0-alpha.8
       vue: 3.2.37
 
@@ -213,6 +215,9 @@ packages:
     peerDependencies:
       '@algolia/client-search': ^4.9.1
       algoliasearch: ^4.9.1
+    peerDependenciesMeta:
+      '@algolia/client-search':
+        optional: true
     dependencies:
       '@algolia/autocomplete-shared': 1.7.1
       algoliasearch: 4.14.2
