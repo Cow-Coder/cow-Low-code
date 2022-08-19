@@ -1,0 +1,11 @@
+{
+  "name": "@cow-low-code/library",
+  "version": "0.1.0",
+  "main": "index.ts",
+  "peerDependencies": {
+    "vite": "^3.0.1"
+  },
+  "dependencies": {
+    "vant": "^3.5.3"
+  }
+}
