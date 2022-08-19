@@ -128,7 +128,7 @@ export default defineConfig({
               link: '/development/coding-style',
             },
             {
-              text: '目录规范',
+              text: '目录/命名规范',
               link: '/development/dictionary-style',
             },
             {
