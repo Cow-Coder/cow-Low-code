@@ -5,7 +5,6 @@ import type { AttributePanelFormItemSchema } from '@/types/panel'
 import { AttributePanelFormItemInputTypeEnum } from '@/types/panel'
 import IndefiniteNumberInputBox from '@/views/home/components/home-right/components/attribute-panel/components/form-render/components/form-item-list/components/IndefiniteNumberInputBox'
 import { SwitchWithSlots } from '@/views/home/components/home-right/components/attribute-panel/components/form-render/components/form-item-list/components/SwitchWithSlots'
-import { Stepper } from '@/views/home/components/home-right/components/attribute-panel/components/form-render/components/form-item-list/components/Stepper'
 import { LibraryComponentFormItemLabelPositionEnum } from '@/types/library-component'
 
 const formItemChildRender = (
@@ -68,10 +67,6 @@ const formItemChildRender = (
   //colorPicker
   if (formItemSchema.formType === AttributePanelFormItemInputTypeEnum.colorPicker) {
     return <colorPicker class="flex-1" v-model:hex={propsData[formItemSchema.name]}></colorPicker>
-  }
-  //stepper
-  if (formItemSchema.formType === AttributePanelFormItemInputTypeEnum.stepper) {
-    return <Stepper v-model={propsData[formItemSchema.name]}></Stepper>
   }
   return undefined
 }
