@@ -111,6 +111,10 @@ export default defineConfig({
               link: '/development/style-design',
             },
             {
+              text: '图标',
+              link: '/development/icon',
+            },
+            {
               text: '构建与部署',
               link: '/development/build',
             },
@@ -134,6 +138,19 @@ export default defineConfig({
           ],
         },
         {
+          text: '进阶',
+          items: [
+            {
+              text: '物料组件',
+              link: '/development/add-library-component',
+            },
+            {
+              text: '动作执行器',
+              link: '/development/add-event-action',
+            },
+          ],
+        },
+        {
           text: '质量',
           items: [
             {
@@ -147,19 +164,6 @@ export default defineConfig({
             {
               text: '测试',
               link: '/development/unit-test',
-            },
-          ],
-        },
-        {
-          text: '编写',
-          items: [
-            {
-              text: '物料组件',
-              link: '/development/add-library-component',
-            },
-            {
-              text: '动作执行器',
-              link: '/development/add-event-action',
             },
           ],
         },
