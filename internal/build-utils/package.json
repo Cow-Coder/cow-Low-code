@@ -1,0 +1,15 @@
+{
+  "name": "@cow-low-code/build-utils",
+  "private": true,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "unbuild",
+    "dev": "pnpm run stub",
+    "stub": "unbuild --stub"
+  },
+  "devDependencies": {
+    "unbuild": "^0.7.4"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "@cow-low-code/docs",
+  "private": true,
+  "scripts": {
+    "dev": "vitepress dev .",
+    "build": "vitepress build .",
+    "serve": "vitepress serve ."
+  },
+  "devDependencies": {
+    "vitepress": "1.0.0-alpha.8",
+    "vue": "^3.2.37"
+  }
+}

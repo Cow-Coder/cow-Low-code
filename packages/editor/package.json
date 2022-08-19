@@ -1,0 +1,24 @@
+{
+  "name": "@cow-low-code/editor",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite --config ./config/vite.config.dev.ts",
+    "build": "vue-tsc --noEmit && vite build --config ./config/vite.config.prod.ts",
+    "build-only": "vite build --config ./config/vite.config.prod.ts",
+    "preview": "pnpm run build-only && vite preview --port 4173"
+  },
+  "dependencies": {
+    "@arco-design/web-vue": "^2.34.0",
+    "@vant/touch-emulator": "^1.3.2",
+    "colorpicker-v3": "^2.10.2",
+    "monaco-editor": "^0.33.0",
+    "vuedraggable": "^4.1.0"
+  },
+  "devDependencies": {
+    "@cow-low-code/vite-plugin-monaco-editor-nls": "workspace:*",
+    "@cow-low-code/vscode-language-pack-zh-hans": "workspace:*",
+    "@iconify-json/ep": "^1.1.6",
+    "vite": "^3.0.1"
+  }
+}

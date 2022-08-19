@@ -1,7 +1,7 @@
 <div align="center">
 
 <a href='https://cow-coder.github.io/cow-Low-code/'> 
-<img width="500" src='./src/assets/images/logo.svg' />
+<img width="500" src='./packages/editor/src/assets/images/logo.svg' />
 </a>
 
   <h1 align="center">CowLowCode</h1>
