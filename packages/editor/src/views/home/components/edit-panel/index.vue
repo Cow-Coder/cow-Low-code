@@ -12,6 +12,7 @@
           @touchstart.capture="onTouchEvent"
           @touchmove.capture="onTouchEvent"
           @touchend.capture="onTouchEvent"
+          @contextmenu.capture.prevent="onContextMenu($event, element)"
         >
           <component :is="parseLibraryComponent(element)" />
         </div>
@@ -26,7 +27,7 @@
 <script lang="tsx" setup>
 import { ref } from 'vue'
 import { cloneDeep, isEqual } from 'lodash-es'
-import { dispatchEventBatch } from '@cow-low-code/utils'
+import { $$dropdown, DropdownOption, dispatchEventBatch } from '@cow-low-code/utils'
 import PreviewDragged from './components/preview-dragged'
 import type { Draggable } from '@/components/base-ui/kzy-draggable/types'
 import type { LibraryComponentInstanceData } from '@/types/library-component'
@@ -113,6 +114,26 @@ function isFocusComponent(data: LibraryComponentInstanceData) {
 
 function onTouchEvent(e: TouchEvent) {
   if (!isDownSpace.value) e.stopPropagation()
+}
+
+// 右键菜单
+const onContextMenu = (e: MouseEvent, data: LibraryComponentInstanceData) => {
+  $$dropdown({
+    reference: e,
+    content: () => (
+      <>
+        <DropdownOption
+          label="删除节点"
+          icon="el-icon-delete"
+          {...{
+            onClick: () => {
+              codeStore.dispatchDelete(data.uuid)
+            },
+          }}
+        />
+      </>
+    ),
+  })
 }
 
 useEventListener(window, 'keydown', (e) => {
