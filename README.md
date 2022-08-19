@@ -16,9 +16,9 @@
 
 </div>
 
-| 主页 :house:                                         | 演示 :beers:                                      |
-| ---------------------------------------------------- | ------------------------------------------------- |
-| [website](https://github.com/Cow-Coder/cow-Low-code) | [demo](https://cow-coder.github.io/cow-Low-code/) |
+| 主页 :house:                                         | 演示 :beers:                                      | 文档 :memo:                                            |
+| ---------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------------ |
+| [website](https://github.com/Cow-Coder/cow-Low-code) | [demo](https://cow-coder.github.io/cow-Low-code/) | [docs](https://cow-coder.github.io/docs-cow-low-code/) |
 
 # :sparkles: 特性
 

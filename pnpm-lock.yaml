@@ -114,9 +114,14 @@ importers:
 
   docs:
     specifiers:
+      medium-zoom: ^1.0.6
+      vite: ^3.0.1
       vitepress: 1.0.0-alpha.8
       vue: ^3.2.37
+    dependencies:
+      medium-zoom: 1.0.6
     devDependencies:
+      vite: 3.0.8
       vitepress: 1.0.0-alpha.8
       vue: 3.2.37
 
@@ -213,6 +218,9 @@ packages:
     peerDependencies:
       '@algolia/client-search': ^4.9.1
       algoliasearch: ^4.9.1
+    peerDependenciesMeta:
+      '@algolia/client-search':
+        optional: true
     dependencies:
       '@algolia/autocomplete-shared': 1.7.1
       algoliasearch: 4.14.2
@@ -6061,6 +6069,13 @@ packages:
         integrity: sha512-AW4DRS3QbBayY/jJmD8437V1Gombjf8RSOUCMFBuo5iHi58AGEgVCKQ+ezHkZZDpAQS75hcBMpLqjpJTjtUL7w==,
       }
     dev: true
+
+  /medium-zoom/1.0.6:
+    resolution:
+      {
+        integrity: sha512-UdiUWfvz9fZMg1pzf4dcuqA0W079o0mpqbTnOz5ip4VGYX96QjmbM+OgOU/0uOzAytxC0Ny4z+VcYQnhdifimg==,
+      }
+    dev: false
 
   /memoize-one/6.0.0:
     resolution:

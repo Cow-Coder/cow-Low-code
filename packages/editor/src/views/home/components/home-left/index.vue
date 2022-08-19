@@ -1,9 +1,9 @@
 <template>
-  <div class="home-header panel panel-left">
+  <div ref="panelRef" class="home-header panel panel-left">
     <a-resize-box
       v-model:width="panelWidth"
       :directions="['right']"
-      class="panel-wrapper"
+      class="panel-wrapper panel-left-wrapper"
       @moving-start="panelResizeBarOpacity = 1"
       @moving-end="panelResizeBarOpacity = 0"
     >
@@ -26,6 +26,32 @@
           <code-panel />
         </el-tab-pane>
       </el-tabs>
+      <div class="other-icons">
+        <a-space direction="vertical" size="large">
+          <div class="docs icon">
+            <el-tooltip placement="right" content="查看文档">
+              <el-link
+                :underline="false"
+                href="https://cow-coder.github.io/docs-cow-low-code/"
+                target="_blank"
+              >
+                <icon-doc-detail theme="outline" size="19" :stroke-width="4" />
+              </el-link>
+            </el-tooltip>
+          </div>
+          <div class="about icon">
+            <el-tooltip placement="right" content="关于项目">
+              <el-link
+                :underline="false"
+                href="https://github.com/Cow-Coder/cow-Low-code"
+                target="_blank"
+              >
+                <icon-info theme="outline" size="19" :stroke-width="4" />
+              </el-link>
+            </el-tooltip>
+          </div>
+        </a-space>
+      </div>
     </a-resize-box>
   </div>
 </template>
@@ -33,6 +59,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { ElTabPane } from 'element-plus'
+import { DocDetail as IconDocDetail, Info as IconInfo } from '@icon-park/vue-next'
 import libraryPanels from './components/library-category-tab-panes'
 import CodePanel from '@/views/home/components/home-left/components/code-tab-pane.vue'
 import OutlinePanel from '@/views/home/components/home-left/components/outline-panel.vue'
@@ -40,6 +67,17 @@ import { useTabResizeStore } from '@/stores/tab-resize'
 
 defineOptions({
   name: 'HomeLeft',
+})
+
+const panelRef = ref<HTMLElement>()
+// 左下角about等图标居中处理
+const tabsNavWidth = ref<string>()
+onMounted(() => {
+  nextTick(() => {
+    const tabsNav = ref<HTMLElement>(panelRef.value!.querySelector('.el-tabs__nav-wrap')!)
+    const tabsNavSize = useElementBounding(tabsNav)
+    tabsNavWidth.value = `${tabsNavSize.width.value}px`
+  })
 })
 
 const currentTab = ref('0')
@@ -74,6 +112,20 @@ const panelWidth = computed({
       @apply h-full;
       .el-tab-pane {
         @apply h-full;
+      }
+    }
+  }
+
+  .panel-left-wrapper {
+    @apply relative;
+    --tabs-nav-width: v-bind(tabsNavWidth);
+    .other-icons {
+      @apply absolute;
+      left: calc(var(--tabs-nav-width) / 2);
+      transform: translateX(-50%);
+      bottom: 30px;
+      .icon {
+        color: rgba(0, 0, 0, 0.5);
       }
     }
   }

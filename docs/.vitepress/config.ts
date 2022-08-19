@@ -7,6 +7,7 @@ const ogTitle = '牛搭'
 const ogUrl = 'https://github.com/Cow-Coder/cow-Low-code'
 
 export default defineConfig({
+  base: '/docs-cow-low-code/',
   title: ogTitle,
   description: ogDescription,
   lang: 'zh',
