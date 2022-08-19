@@ -86,7 +86,8 @@
       "ignoreMissing": [
         "rollup",
         "vue",
-        "vite"
+        "vite",
+        "@algolia/client-search"
       ]
     }
   },

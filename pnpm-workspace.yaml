@@ -2,3 +2,4 @@ packages:
   - packages/*
   - packages/library/playground
   - internal/*
+  - docs
