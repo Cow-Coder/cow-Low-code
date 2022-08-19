@@ -53,10 +53,6 @@ export default defineConfig({
               text: '介绍',
               link: '/guide/summary',
             },
-            {
-              text: '常见问题',
-              link: '/guide/question',
-            },
           ],
         },
         {
@@ -77,6 +73,15 @@ export default defineConfig({
             {
               text: '样式',
               link: '/guide/style',
+            },
+          ],
+        },
+        {
+          text: '其他',
+          items: [
+            {
+              text: '常见问题',
+              link: '/guide/question',
             },
           ],
         },
