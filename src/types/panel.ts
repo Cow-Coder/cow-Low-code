@@ -51,10 +51,6 @@ export enum AttributePanelFormItemInputTypeEnum {
    * 颜色选择器
    */
   colorPicker = 'colorPicker',
-  /**
-   * 步进器
-   */
-  stepper = 'stepper',
 }
 
 /**
