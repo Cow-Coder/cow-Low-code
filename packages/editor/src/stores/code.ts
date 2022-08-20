@@ -104,6 +104,13 @@ export const useCodeStore = defineStore(
       draggedElement.value = undefined
     }
 
+    // 删除单个组件
+    function dispatchDelete(uuid: string) {
+      const newJsonCode = jsonCode.value.filter((item) => item.uuid !== uuid)
+      jsonCode.value = newJsonCode
+      return jsonCode
+    }
+
     // 监听 jsonSchemes 的变化。给大纲数据赋值
     const outlineData: ComputedRef<OutlineData[]> = computed(() => {
       return jsonCode.value.map((item) => {
@@ -134,6 +141,7 @@ export const useCodeStore = defineStore(
       updateDraggedElement,
       removeDraggedElement: removeDraggedElementAndCompId,
       updateJsonCodeAtDragged,
+      dispatchDelete,
     }
   },
   {
