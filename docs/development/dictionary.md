@@ -2,6 +2,15 @@
 
 牛搭采用 `monorepo` 架构实现物料组件（libraryComponent）和动作处理器（actionHander）在编辑器（editor）和预览模块（preview）等多个包之间共用
 
+下面的图示将更好的帮助您理解
+
+<zoom-img src='/monorepo.svg' />
+
+::: details 细节
+了解更多 `monorepo` 相关，请参阅：
+[Monorepo 是什么，为什么大家都在用？](https://zhuanlan.zhihu.com/p/77577415)
+:::
+
 ## 概览
 
 ```text
