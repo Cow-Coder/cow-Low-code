@@ -27,6 +27,10 @@ export default defineConfig({
   themeConfig: {
     logo: { src: '/logo.svg', alt: '牛搭' },
     siteTitle: false,
+    editLink: {
+      pattern: 'https://github.com/Cow-Coder/cow-Low-code/tree/main/docs/:path',
+      text: '为此页提供修改建议',
+    },
 
     socialLinks: [{ icon: 'github', link: 'https://github.com/Cow-Coder/cow-Low-code' }],
 
@@ -36,8 +40,8 @@ export default defineConfig({
     },
 
     nav: [
-      { text: '指南', link: '/guide/summary' },
-      { text: '开发', link: '/development/' },
+      { text: '指南', link: '/guide/summary', activeMatch: '/guide/' },
+      { text: '开发', link: '/development/prepare', activeMatch: '/development/' },
       {
         text: '相关链接',
         items: [{ text: 'Team', link: '/team' }],
@@ -58,10 +62,6 @@ export default defineConfig({
         {
           text: '概念',
           items: [
-            {
-              text: '配置',
-              link: '/guide/configuration',
-            },
             {
               text: '物料组件',
               link: '/guide/component',
@@ -88,15 +88,91 @@ export default defineConfig({
       ],
       '/development/': [
         {
-          text: '项目概览',
+          text: '起航',
           items: [
             {
-              text: '目录结构',
+              text: '准备工作',
+              link: '/development/prepare',
+            },
+            {
+              text: '开始',
+              link: '/development/start',
+            },
+            {
+              text: '文件夹结构',
               link: '/development/dictionary',
             },
             {
-              text: '目录规范',
+              text: '样式',
+              link: '/development/style-design',
+            },
+            {
+              text: '图标',
+              link: '/development/icon',
+            },
+            {
+              text: '构建与部署',
+              link: '/development/build',
+            },
+          ],
+        },
+        {
+          text: '规范',
+          items: [
+            {
+              text: '代码规范',
+              link: '/development/coding-style',
+            },
+            {
+              text: '目录/命名规范',
               link: '/development/dictionary-style',
+            },
+            {
+              text: 'Git提交规范',
+              link: '/development/git-style',
+            },
+          ],
+        },
+        {
+          text: '进阶',
+          items: [
+            {
+              text: '开发物料组件',
+              link: '/development/add-library-component',
+            },
+            {
+              text: '开发动作执行器',
+              link: '/development/add-event-action',
+            },
+          ],
+        },
+        {
+          text: '质量',
+          items: [
+            {
+              text: 'Lint',
+              link: '/development/lint',
+            },
+            {
+              text: 'TypeScript',
+              link: '/development/typescript',
+            },
+            {
+              text: '测试',
+              link: '/development/unit-test',
+            },
+          ],
+        },
+        {
+          text: '其他',
+          items: [
+            {
+              text: '通过Git更新',
+              link: '/development/update-by-git',
+            },
+            {
+              text: '常见问题',
+              link: '/development/question',
             },
           ],
         },
