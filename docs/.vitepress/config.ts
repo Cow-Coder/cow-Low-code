@@ -116,6 +116,10 @@ export default defineConfig({
               text: '构建与部署',
               link: '/development/build',
             },
+            {
+              text: '贡献文档',
+              link: '/development/docs',
+            },
           ],
         },
         {
@@ -128,6 +132,10 @@ export default defineConfig({
             {
               text: '目录/命名规范',
               link: '/development/dictionary-style',
+            },
+            {
+              text: '文案规范',
+              link: '/development/copywriting-style',
             },
             {
               text: 'Git提交规范',
