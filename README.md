@@ -38,6 +38,6 @@
 ```bash
 $ git clone https://github.com/Cow-Coder/cow-Low-code.git
 $ cd cow-Low-code
-$ npm i
-$ npm run dev
+$ pnpm i
+$ pnpm run dev:editor
 ```
