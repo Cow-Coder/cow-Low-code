@@ -8,6 +8,8 @@
 这里是示例，可以帮助您更好的理解：https://boardmix.cn/app/editor/Wldc0peQxM_G5R7Z_M9VMQ
 :::
 
+总体上，我们命名使用全称。尽量避免使用缩写。
+
 ## 组件文件名
 
 中划线
@@ -127,3 +129,32 @@ library
 
 - 组件名任何情况下不得缩写，参考[完整单词的组件名强烈推荐](https://v2.cn.vuejs.org/v2/style-guide/#%E5%AE%8C%E6%95%B4%E5%8D%95%E8%AF%8D%E7%9A%84%E7%BB%84%E4%BB%B6%E5%90%8D%E5%BC%BA%E7%83%88%E6%8E%A8%E8%8D%90)
 - 文件夹名称任何情况下不得缩写
+
+## 属性
+
+- 初始化属性，命名方式为： default + 属性名
+- 强制渲染属性： forceRender
+  - 强制渲染子组件： force + 子组件名 + Render
+- 数据源： dataSource
+- children :
+  - 主要展示区域内容 ，避免额外的属性名称
+  - 选项相关诸如 Option 、TreeNode
+  - 自定义包裹组件可以考虑 coponent 如果 children 会存在它用的情况
+- 展示相关命名方式为： show + 属性名
+- 功能相关命名方式为： 属性名 + able
+- 禁用子组件功能： disabled + 子组件名
+- 主图标： icon
+  - 多个图标： 功能 + Icon
+- 触发点： trigger
+  - 子功能触发： 子功能 + Trigger
+  - 在触发某个时间时处理某件事情： xxx + On + 事件名 （例：destroyOnClose）
+
+## 事件
+
+- 触发事件： on + 事件名
+- 在触发之前的事件： before + 事件名
+- 在触发之后的事件： after + 事件名
+
+::: details 细节
+[属性](#属性) 和 [事件](#事件) 部分参考自：[Ant Design](https://github.com/ant-design/ant-design/wiki/API-Naming-rules)
+:::
