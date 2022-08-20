@@ -1,5 +1,7 @@
 # 文件夹结构
 
+牛搭采用 `monorepo` 架构实现物料组件（libraryComponent）和动作处理器（actionHander）在编辑器（editor）和预览模块（preview）等多个包之间共用
+
 ## 概览
 
 ```text
