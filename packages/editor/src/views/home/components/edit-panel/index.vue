@@ -128,6 +128,9 @@ const onContextMenu = (e: MouseEvent, data: LibraryComponentInstanceData) => {
           {...{
             onClick: () => {
               codeStore.dispatchDelete(data.uuid)
+              // 删除节点后，取消选中
+              focusData.value = undefined
+              ElMessage.success('节点删除成功')
             },
           }}
         />
