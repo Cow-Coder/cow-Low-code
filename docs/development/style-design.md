@@ -93,3 +93,13 @@ export default {
 }
 </style>
 ```
+
+::: tip 提示
+上面只对 CSS Modules 进行了最基础的介绍，有兴趣可以参考其他文档：
+
+[github/css-modules](https://github.com/css-modules/css-modules)
+
+[CSS Modules 用法教程](http://www.ruanyifeng.com/blog/2016/06/css_modules.html)
+
+[CSS Modules 详解及 React 中实践](https://github.com/camsong/blog/issues/5)
+:::

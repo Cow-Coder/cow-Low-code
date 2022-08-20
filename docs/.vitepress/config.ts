@@ -141,11 +141,11 @@ export default defineConfig({
           text: '进阶',
           items: [
             {
-              text: '物料组件',
+              text: '开发物料组件',
               link: '/development/add-library-component',
             },
             {
-              text: '动作执行器',
+              text: '开发动作执行器',
               link: '/development/add-event-action',
             },
           ],
