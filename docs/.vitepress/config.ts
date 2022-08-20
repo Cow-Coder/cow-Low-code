@@ -63,10 +63,6 @@ export default defineConfig({
           text: '概念',
           items: [
             {
-              text: '配置',
-              link: '/guide/configuration',
-            },
-            {
               text: '物料组件',
               link: '/guide/component',
             },
