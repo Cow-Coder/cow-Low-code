@@ -26,7 +26,7 @@ importers:
       consola: ^2.15.3
       cz-git: ^1.3.10
       czg: ^1.3.10
-      element-plus: ^2.2.12
+      element-plus: ^2.2.14
       eslint: ^8.21.0
       eslint-plugin-markdown: ^3.0.0
       husky: ^8.0.0
@@ -65,7 +65,7 @@ importers:
       '@icon-park/vue-next': 1.4.2_vue@3.2.37
       '@vueuse/core': 9.1.0_vue@3.2.37
       '@vueuse/integrations': 9.1.0_vue@3.2.37
-      element-plus: 2.2.13_vue@3.2.37
+      element-plus: 2.2.14_vue@3.2.37
       json-stringify-pretty-compact: 4.0.0
       lodash-es: 4.17.21
       pinia: 2.0.19_j6bzmzd4ujpabbp5objtwxyjp4
@@ -114,12 +114,12 @@ importers:
 
   docs:
     specifiers:
-      medium-zoom: ^1.0.6
+      element-plus: ^2.2.14
       vite: ^3.0.1
       vitepress: 1.0.0-alpha.4
       vue: ^3.2.37
     dependencies:
-      medium-zoom: 1.0.6
+      element-plus: 2.2.14_vue@3.2.37
     devDependencies:
       vite: 3.0.8
       vitepress: 1.0.0-alpha.4
@@ -1681,6 +1681,7 @@ packages:
       {
         integrity: sha512-5d2RhCard1nQUC3aHcq/gHzWYO6K0WJmAbjO7mQJgCQKtZpgXxv1rOM6O/dBDhDYYVutk1sciOgNSe+5YyfM8A==,
       }
+    dev: true
 
   /@types/web-bluetooth/0.0.15:
     resolution:
@@ -2162,6 +2163,7 @@ packages:
       '@vueuse/shared': 8.9.4_vue@3.2.37
       vue: 3.2.37
       vue-demi: 0.13.8_vue@3.2.37
+    dev: true
 
   /@vueuse/core/9.1.0_vue@3.2.37:
     resolution:
@@ -2228,6 +2230,7 @@ packages:
       {
         integrity: sha512-IwSfzH80bnJMzqhaapqJl9JRIiyQU0zsRGEgnxN6jhq7992cPUJIRfV+JHRIZXjYqbwt07E1gTEp0R0zPJ1aqw==,
       }
+    dev: true
 
   /@vueuse/metadata/9.1.0:
     resolution:
@@ -2269,6 +2272,7 @@ packages:
     dependencies:
       vue: 3.2.37
       vue-demi: 0.13.8_vue@3.2.37
+    dev: true
 
   /@vueuse/shared/9.1.0_vue@3.2.37:
     resolution:
@@ -3552,10 +3556,10 @@ packages:
       }
     dev: true
 
-  /element-plus/2.2.13_vue@3.2.37:
+  /element-plus/2.2.14_vue@3.2.37:
     resolution:
       {
-        integrity: sha512-dKQ7BPZC8deUPhv+6s4GgOL0GyGj3KpUarywxm6s1nWnHjH6FqeZlUcxPqBvJd7W/d81POayx3B13GP+rfkG9g==,
+        integrity: sha512-V5Pis0OHhePg1RgVogZrcefaVl8vjVn4Pn9Qsh/t2CbFgjg9kKOYFqf/tuP3ObSXGm3X89hpe0W+nLVAsaFnpw==,
       }
     peerDependencies:
       vue: ^3.2.0
@@ -3569,7 +3573,7 @@ packages:
       '@popperjs/core': /@sxzz/popperjs-es/2.11.7
       '@types/lodash': 4.14.183
       '@types/lodash-es': 4.17.6
-      '@vueuse/core': 8.9.4_vue@3.2.37
+      '@vueuse/core': 9.1.0_vue@3.2.37
       async-validator: 4.2.5
       dayjs: 1.11.5
       escape-html: 1.0.3
@@ -6065,13 +6069,6 @@ packages:
         integrity: sha512-AW4DRS3QbBayY/jJmD8437V1Gombjf8RSOUCMFBuo5iHi58AGEgVCKQ+ezHkZZDpAQS75hcBMpLqjpJTjtUL7w==,
       }
     dev: true
-
-  /medium-zoom/1.0.6:
-    resolution:
-      {
-        integrity: sha512-UdiUWfvz9fZMg1pzf4dcuqA0W079o0mpqbTnOz5ip4VGYX96QjmbM+OgOU/0uOzAytxC0Ny4z+VcYQnhdifimg==,
-      }
-    dev: false
 
   /memoize-one/6.0.0:
     resolution:

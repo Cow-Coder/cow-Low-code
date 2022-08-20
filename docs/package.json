@@ -7,7 +7,7 @@
     "serve": "vitepress serve ."
   },
   "dependencies": {
-    "medium-zoom": "^1.0.6"
+    "element-plus": "^2.2.14"
   },
   "devDependencies": {
     "vite": "^3.0.1",

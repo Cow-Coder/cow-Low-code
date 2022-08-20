@@ -6,8 +6,10 @@ const ogDescription =
 const ogTitle = '牛搭'
 const ogUrl = 'https://github.com/Cow-Coder/cow-Low-code'
 
+const base = '/docs-cow-low-code/'
+
 export default defineConfig({
-  base: '/docs-cow-low-code/',
+  base,
   title: ogTitle,
   description: ogDescription,
   lang: 'zh',
@@ -15,7 +17,7 @@ export default defineConfig({
   lastUpdated: true,
 
   head: [
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/icon.svg' }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: `${base}icon.svg` }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:title', content: ogTitle }],
     // ['meta', { property: 'og:image', content: ogImage }],
@@ -114,6 +116,10 @@ export default defineConfig({
               text: '构建与部署',
               link: '/development/build',
             },
+            {
+              text: '贡献文档',
+              link: '/development/docs',
+            },
           ],
         },
         {
@@ -126,6 +132,10 @@ export default defineConfig({
             {
               text: '目录/命名规范',
               link: '/development/dictionary-style',
+            },
+            {
+              text: '文案规范',
+              link: '/development/copywriting-style',
             },
             {
               text: 'Git提交规范',

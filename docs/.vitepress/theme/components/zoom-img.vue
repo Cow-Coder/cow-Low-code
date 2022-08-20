@@ -1,35 +1,21 @@
 <script setup>
-import { onMounted, ref } from 'vue'
 import { withBase } from 'vitepress'
-import mediumZoom from 'medium-zoom'
+import { ElImage } from 'element-plus'
+import 'element-plus/theme-chalk/base.css'
+import 'element-plus/theme-chalk/el-image.css'
+import 'element-plus/theme-chalk/el-image-viewer.css'
 
 defineProps({
   src: String,
-})
-
-const imgRef = ref(null)
-
-onMounted(() => {
-  mediumZoom(imgRef.value, { background: 'var(--vp-c-bg)' })
 })
 </script>
 
 <template>
   <p>
-    <img ref="imgRef" :src="withBase(src)" />
+    <el-image :src="withBase(src)" :preview-src-list="[withBase(src)]" :hide-on-click-modal="true"
+      >{{}}</el-image
+    >
   </p>
 </template>
 
-<style>
-.medium-zoom-overlay {
-  z-index: 200;
-}
-
-.medium-zoom-image {
-  z-index: 9;
-}
-
-.medium-zoom-image--opened {
-  z-index: 201;
-}
-</style>
+<style></style>
