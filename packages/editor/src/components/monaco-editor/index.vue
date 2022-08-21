@@ -60,7 +60,7 @@ const props = defineProps({
     default: false,
   },
 })
-const emit = defineEmits(['update:modelValue', 'update:fullscreen'])
+const emit = defineEmits(['update:modelValue', 'update:fullscreen', 'fullscreen'])
 const modelValue = useVModel(props, 'modelValue', emit, { passive: true })
 
 const codeContainerRef = ref<InstanceType<typeof HTMLElement>>()
@@ -104,6 +104,7 @@ function onToggleFullscreen() {
     editorInstanceRef.value?.updateOptions({ minimap: { enabled: true } })
   }
   fullscreen.value = !fullscreen.value
+  emit('fullscreen', fullscreen.value)
 }
 
 watch(

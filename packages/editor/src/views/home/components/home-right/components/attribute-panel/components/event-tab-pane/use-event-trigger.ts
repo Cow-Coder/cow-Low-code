@@ -59,17 +59,17 @@ const emit = instance.emit`
     (val) => {
       const dialogRootEl: HTMLElement = (val.$ as ComponentInternalInstance).vnode.el as any
 
-      const dialogHeaderEl = dialogRootEl.querySelector('header.el-dialog__header')!
-      dialogRootEl.style.setProperty(
-        '--el-dialog-header-height',
-        `${dialogHeaderEl.getBoundingClientRect().height}px`
-      )
-
-      const dialogFooterEl = dialogRootEl.querySelector('footer.el-dialog__footer')!
-      dialogRootEl.style.setProperty(
-        '--el-dialog-footer-height',
-        `${dialogFooterEl.getBoundingClientRect().height}px`
-      )
+      // const dialogHeaderEl = dialogRootEl.querySelector('header.el-dialog__header')!
+      // dialogRootEl.style.setProperty(
+      //   '--el-dialog-header-height',
+      //   `${dialogHeaderEl.getBoundingClientRect().height}px`
+      // )
+      //
+      // const dialogFooterEl = dialogRootEl.querySelector('footer.el-dialog__footer')!
+      // dialogRootEl.style.setProperty(
+      //   '--el-dialog-footer-height',
+      //   `${dialogFooterEl.getBoundingClientRect().height}px`
+      // )
 
       const dialogBodyEl: HTMLDivElement = dialogRootEl.querySelector('div.el-dialog__body')!
       dialogBodyEl.style.height =

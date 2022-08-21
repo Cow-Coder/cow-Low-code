@@ -3,6 +3,7 @@ import { ElForm, ElFormItem, ElInput } from 'element-plus'
 import copy from 'copy-to-clipboard'
 import { Toast } from 'vant'
 import { defineActionHandler, getActionHandleDefaultProps } from '../../../utils/util'
+import useMergePropsAndConfig from '../../../hooks/use-merge-props-and-config'
 import type { FormItemRule } from 'element-plus'
 import 'vant/es/toast/style'
 
@@ -21,6 +22,7 @@ export default defineActionHandler<Config>({
       },
       setup: (props, { expose }) => {
         const config = ref<Config>({ content: '' })
+        useMergePropsAndConfig(config)
         const render = () => (
           <ElForm model={config.value}>
             <ElFormItem

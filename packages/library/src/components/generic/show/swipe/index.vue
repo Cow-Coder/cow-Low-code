@@ -1,5 +1,6 @@
 <template>
   <van-swipe
+    ref="swipeRef"
     :autoplay="autoplay"
     :duration="duration"
     :initial-swipe="initialSwipe"
@@ -14,7 +15,7 @@
 </template>
 
 <script lang="tsx">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { ElIcon } from 'element-plus'
 import { Image as VanImage } from 'vant'
 import {
@@ -28,6 +29,7 @@ import {
   defineLibraryComponent,
 } from '@cow-low-code/library/src/utils/library'
 import preview from './components/preview.vue'
+import type { Swipe } from 'vant'
 
 export default defineComponent({
   ...defineLibraryComponent({
@@ -123,7 +125,11 @@ export default defineComponent({
       type: Boolean,
     }),
   },
-  setup(props) {
+  setup(props, { expose }) {
+    const swipeRef = ref<InstanceType<typeof Swipe>>()
+    expose({
+      swipeRef,
+    })
     function renderItem(maybeLink: string) {
       const isLink = maybeLink.indexOf('http') === 0
       if (isLink) {
@@ -141,6 +147,7 @@ export default defineComponent({
     }
     return {
       renderItem,
+      swipeRef,
     }
   },
 })
