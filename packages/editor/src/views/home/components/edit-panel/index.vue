@@ -1,8 +1,8 @@
 <template>
   <div class="edit">
     <page-draggable
-      :draggable-config="editDraggableConfigRef"
       :data-list="editableInstancedLibraryComponentData"
+      :draggable-config="editDraggableConfigRef"
     >
       <template #item="{ element }">
         <div
@@ -56,10 +56,10 @@ const { jsonCode: editableInstancedLibraryComponentData, focusData } = storeToRe
 
 // 根据名称解析物料组件库内的组件，这里没有注册全局组件是避免污染全局组件名称
 const libraryComponentPropTriggersCacheMap = new Map<
-  // uuid
   string,
   LibraryComponentInstanceEventTriggers
 >()
+
 function parseLibraryComponent(data: LibraryComponentInstanceData) {
   const component = libraryMap[data.componentName]
   if (!component) throw new Error(`library component: ${data.libraryName} not found`)
@@ -100,6 +100,7 @@ function parseLibraryComponent(data: LibraryComponentInstanceData) {
 }
 
 const isDownSpace = ref(false)
+
 function onChoose(data: LibraryComponentInstanceData) {
   isDownSpace.value || codeStore.dispatchFocus(data.uuid)
 }
@@ -164,6 +165,7 @@ const { draggedElement } = storeToRefs(store)
   @apply outline-2 outline #{!important};
   outline-color: var(--el-color-primary);
 }
+
 .edit {
   @apply flex flex-col;
   :deep(.default-drag) {
@@ -173,6 +175,7 @@ const { draggedElement } = storeToRefs(store)
 
 .edit-component-item {
   margin: 2px 0;
+
   &:hover {
     @apply outline-1 outline-dashed;
     outline-color: var(--el-color-primary);
