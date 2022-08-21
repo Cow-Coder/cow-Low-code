@@ -3,5 +3,8 @@
   "main": "index.ts",
   "peerDependencies": {
     "vite": "^3.0.1"
+  },
+  "dependencies": {
+    "copy-to-clipboard": "^3.3.2"
   }
 }
