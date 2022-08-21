@@ -44,6 +44,7 @@ export default defineConfig({
     nav: [
       { text: '指南', link: '/guide/summary', activeMatch: '/guide/' },
       { text: '开发', link: '/development/prepare', activeMatch: '/development/' },
+      { text: '文档', link: '/document/start', activeMatch: '/document/' },
       {
         text: '相关链接',
         items: [{ text: 'Team', link: '/team' }],
@@ -75,6 +76,32 @@ export default defineConfig({
             {
               text: '样式',
               link: '/guide/style',
+            },
+          ],
+        },
+        {
+          text: '基础',
+          items: [
+            {
+              text: '预览页面',
+              link: '/guide/preview',
+            },
+            {
+              text: '预设',
+              link: '/guide/preset',
+            },
+          ],
+        },
+        {
+          text: '高级',
+          items: [
+            {
+              text: '自定义动作执行器',
+              link: '/guide/custom-action',
+            },
+            {
+              text: '自定义事件触发器',
+              link: '/guide/custom-trigger',
             },
           ],
         },
@@ -115,10 +142,6 @@ export default defineConfig({
             {
               text: '构建与部署',
               link: '/development/build',
-            },
-            {
-              text: '贡献文档',
-              link: '/development/docs',
             },
           ],
         },
@@ -183,6 +206,21 @@ export default defineConfig({
             {
               text: '常见问题',
               link: '/development/question',
+            },
+          ],
+        },
+      ],
+      '/document/': [
+        {
+          text: '文档编写',
+          items: [
+            {
+              text: '开始',
+              link: '/document/start',
+            },
+            {
+              text: '部分划分',
+              link: '/document/divide',
             },
           ],
         },
