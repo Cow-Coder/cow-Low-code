@@ -43,10 +43,10 @@ jobs:
           cache-name: cache-pnpm-store
         with:
           path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ matrix.node-version }}-docs-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-${{ matrix.node-version }}-deploy-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-${{ matrix.node-version }}-docs-${{ env.cache-name }}-
-            ${{ runner.os }}-${{ matrix.node-version }}-docs-
+            ${{ runner.os }}-${{ matrix.node-version }}-deploy-${{ env.cache-name }}-
+            ${{ runner.os }}-${{ matrix.node-version }}-deploy-
             ${{ runner.os }}-
 
       - name: Install dependencies

@@ -25,7 +25,13 @@
         <el-tab-pane label="代码" name="code-tab-pane" lazy>
           <code-panel />
         </el-tab-pane>
+        <!-- 设置面板 -->
+        <el-tab-pane label="设置" name="setting-pane" lazy>
+          <setting-panel />
+        </el-tab-pane>
       </el-tabs>
+
+      <!--      底部提示-->
       <div class="other-icons">
         <a-space direction="vertical" size="large">
           <div class="docs icon">
@@ -61,15 +67,14 @@ import { computed, ref } from 'vue'
 import { ElTabPane } from 'element-plus'
 import { DocDetail as IconDocDetail, Info as IconInfo } from '@icon-park/vue-next'
 import libraryPanels from './components/library-category-tab-panes'
+import CodePanel from './components/code-tab-pane.vue'
+import OutlinePanel from './components/outline-panel.vue'
+import SettingPanel from './components/setting-panel.vue'
 import { useTabResizeStore } from '@/stores/tab-resize'
 
 defineOptions({
   name: 'HomeLeft',
 })
-
-// 异步组件
-const CodePanel = defineAsyncComponent(() => import('./components/code-tab-pane.vue'))
-const OutlinePanel = defineAsyncComponent(() => import('./components/outline-panel.vue'))
 
 const panelRef = ref<HTMLElement>()
 // 左下角about等图标居中处理
