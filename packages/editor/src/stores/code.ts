@@ -5,7 +5,8 @@ import type {
   LibraryComponentsInstanceTree,
   OutlineData,
 } from '@cow-low-code/types'
-import type { ComputedRef } from 'vue'
+import type { ComponentPublicInstance, ComputedRef } from 'vue'
+import type { getDefineComponent } from '@/utils/type'
 import { libraryMap, libraryRecord } from '@/library'
 import { arrResort } from '@/utils/map-schemes-2-outline'
 
@@ -13,6 +14,10 @@ export const useCodeStore = defineStore(
   'CodeStore',
   () => {
     const jsonCode = ref<LibraryComponentsInstanceTree>([])
+    /**
+     * 存储 物料组件ref 键值对
+     */
+    const componentRefMap = new Map<string, ComponentPublicInstance>()
     /**
      * 想到三种方案
      * 1. 在原本组件实例数据上根据 focus:true 自动去找是哪个组件被选中了
@@ -134,6 +139,7 @@ export const useCodeStore = defineStore(
       focusData,
       draggedElement,
       outlineData,
+      componentRefMap,
       dispatchFocus,
       getLibraryComponentInstanceDataAndSchema,
       clear,

@@ -17,6 +17,7 @@ import {
   GET_LIBRARY_COMPONENT_JSON_TREE,
   SET_LIBRARY_COMPONENT_JSON_TREE,
 } from '@cow-low-code/constant/src/message'
+import type { ComponentPublicInstance } from 'vue'
 import type { LibraryComponentInstanceData } from '@cow-low-code/types'
 import type { MessageData } from '@cow-low-code/types/src/message'
 import { useCodeStore } from '@/stores/code'
@@ -27,16 +28,23 @@ defineOptions({
 
 const codeStore = useCodeStore()
 const { libraryTree } = storeToRefs(codeStore)
+const componentRefMap = codeStore.componentRefMap
 
 const isFrame = computed(() => top !== self)
 
 function parseLibraryComponent(data: LibraryComponentInstanceData) {
   const component = libraryMap[data.componentName]
   if (!component) throw new Error(`library component: ${data.libraryName} not found`)
+
+  function bindComponentRef(el: ComponentPublicInstance | null) {
+    if (!el && componentRefMap.has(data.uuid)) componentRefMap.delete(data.uuid)
+    else componentRefMap.set(data.uuid, el!)
+  }
   return (
     <component
+      ref={bindComponentRef}
       onDispatchEvent={(eventTriggerName: string) =>
-        dispatchEventBatch(data, eventTriggerName, codeStore.libraryTree)
+        dispatchEventBatch(data, eventTriggerName, codeStore.libraryTree, componentRefMap)
       }
       {...data.props}
     ></component>
