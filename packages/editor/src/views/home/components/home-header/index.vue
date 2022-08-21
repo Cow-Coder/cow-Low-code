@@ -19,21 +19,25 @@
             <el-option v-for="val in presetList" :key="val.label" :value="val.label" />
           </el-select>
           <el-button type="danger" @click="handleResetAll">重置</el-button>
-          <el-button type="primary">预览</el-button>
+          <el-button type="primary" @click="preview.onTogglePreviewDialog">预览</el-button>
         </a-space>
       </el-col>
     </el-row>
   </div>
+  <component :is="preview.previewComponent" />
 </template>
 
 <script lang="ts" setup>
 import usePresetEvent from './use-preset-event'
 import type { Preset } from './type'
 import { useCodeStore } from '@/stores/code'
+import usePreview from '@/views/home/components/home-header/use-preview'
 
 defineOptions({
   name: 'HomeHeader',
 })
+
+const preview = usePreview()
 
 interface HeaderProps {
   styleHeaderHeight?: string

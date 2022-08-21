@@ -12,6 +12,7 @@
     "@arco-design/web-vue": "^2.34.0",
     "@vant/touch-emulator": "^1.3.2",
     "colorpicker-v3": "^2.10.2",
+    "copy-to-clipboard": "^3.3.2",
     "monaco-editor": "^0.33.0",
     "vuedraggable": "^4.1.0"
   },

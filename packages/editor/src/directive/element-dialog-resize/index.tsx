@@ -42,7 +42,7 @@ function handle(el: HTMLElement, binding: DirectiveBinding, vnode: any) {
  * element-plus dialog组件大小缩放功能
  * @param draggable Boolean
  * @example
- *   <div v-element-dialog-resize="{ draggable: true }">
+ *   <div v-element-dialog-resize="{ draggable: true, fullscreen: true }">
  *     <el-dialog v-model="dialogVisible" title="Tips" width="30%">
  *     </el-dialog>
  *   </div>
