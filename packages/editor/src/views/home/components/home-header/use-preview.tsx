@@ -1,13 +1,16 @@
 import { ElButton, ElDialog, ElTooltip } from 'element-plus'
 import { SET_LIBRARY_COMPONENT_JSON_TREE } from '@cow-low-code/constant/src/message'
+import { Info as IconInfo } from '@icon-park/vue-next'
 import style from './use-preview.module.scss'
 import type { MessageData } from '@cow-low-code/types/src/message'
 import { useCodeStore } from '@/stores/code'
+import { useSettingStore } from '@/stores/setting'
 
 export default function usePreview() {
-  const isShowDialog = ref(true)
+  const isShowDialog = ref(false)
   const iframeRef = ref<HTMLIFrameElement>()
   const codeStore = useCodeStore()
+  const settingStore = useSettingStore()
 
   function onTogglePreviewDialog() {
     isShowDialog.value = !isShowDialog.value
@@ -21,6 +24,7 @@ export default function usePreview() {
         '*'
       )
   }
+
   return {
     onTogglePreviewDialog,
     previewComponent: defineComponent({
@@ -42,6 +46,13 @@ export default function usePreview() {
           console.log(`e.data`, e.data)
           if (timer && e.data.msg) clearInterval(timer)
         })
+
+        //   <ElTooltip>
+        //   {{
+        //   default: () => <div class="el-dialog__title">预览页面</div>,
+        //       content: () => <div>请先运行preview子项目</div>,
+        //   }}
+        // </ElTooltip>
         return () => (
           <div v-element-dialog-resize={{ draggable: true, fullscreen: true }}>
             <ElDialog
@@ -55,17 +66,34 @@ export default function usePreview() {
             >
               {{
                 header: () => (
-                  <ElTooltip>
-                    {{
-                      default: () => <div class="el-dialog__title">预览页面</div>,
-                      content: () => <div>请先运行preview子项目</div>,
-                    }}
-                  </ElTooltip>
+                  <div class="flex items-center">
+                    <span role="heading" class="el-dialog__title">
+                      效果预览
+                    </span>
+                    <ElTooltip>
+                      {{
+                        content: () => (
+                          <div style="font-size: 14px">
+                            <p>请先正确配置预览服务地址之后再查看预览效果</p>
+                          </div>
+                        ),
+                        default: () => (
+                          <IconInfo
+                            theme="outline"
+                            size="16"
+                            fill="#333"
+                            stroke-width={4}
+                            class="ml-3"
+                          />
+                        ),
+                      }}
+                    </ElTooltip>
+                  </div>
                 ),
                 default: () => (
                   <iframe
                     ref={iframeRef}
-                    src="http://127.0.0.1:5173"
+                    src={settingStore.setting.previewUrl}
                     style={{ height: 'calc(100vh - 20vh)', width: '100%' }}
                   ></iframe>
                 ),
