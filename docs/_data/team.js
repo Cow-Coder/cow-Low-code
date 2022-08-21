@@ -5,7 +5,7 @@ export const core = [
     title: '开发者',
     org: 'Cow-Coder',
     orgLink: 'https://github.com/Cow-Coder',
-    desc: '巴拉巴拉的介绍',
+    desc: '牛搭团队',
     links: [{ icon: 'github', link: 'https://github.com/Yziyan' }],
   },
   {
@@ -14,7 +14,7 @@ export const core = [
     title: '开发者',
     org: 'Cow-Coder',
     orgLink: 'https://github.com/Cow-Coder',
-    desc: '巴拉巴拉的介绍',
+    desc: '牛搭团队',
     links: [{ icon: 'github', link: 'https://github.com/james-curtis' }],
   },
   {
@@ -23,7 +23,7 @@ export const core = [
     title: '开发者',
     org: 'Cow-Coder',
     orgLink: 'https://github.com/Cow-Coder',
-    desc: '巴拉巴拉的介绍',
+    desc: '牛搭团队',
     links: [{ icon: 'github', link: 'https://github.com/20empty' }],
   },
   {
@@ -32,7 +32,7 @@ export const core = [
     title: '开发者',
     org: 'Cow-Coder',
     orgLink: 'https://github.com/Cow-Coder',
-    desc: '巴拉巴拉的介绍',
+    desc: '牛搭团队',
     links: [{ icon: 'github', link: 'https://github.com/zcxspace' }],
   },
   {
@@ -41,7 +41,7 @@ export const core = [
     title: '开发者',
     org: 'Cow-Coder',
     orgLink: 'https://github.com/Cow-Coder',
-    desc: '巴拉巴拉的介绍',
+    desc: '牛搭团队',
     links: [{ icon: 'github', link: 'https://github.com/Julian0197' }],
   },
 ]

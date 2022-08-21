@@ -15,7 +15,6 @@
       "packages/*": ["../packages/*"],
       "~/*": ["./.vitepress/vitepress/*"]
     },
-    "types": ["../typings/components"],
     "jsx": "preserve"
   },
   "include": ["**/*", ".vitepress/**/*"],
