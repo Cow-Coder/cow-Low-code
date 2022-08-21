@@ -71,7 +71,10 @@ module.exports = {
     breaklineChar: '|',
     skipQuestions: [],
     issuePrefixs: [
-      // 如果使用 gitee 作为开发管理
+      /**
+       * Linking a pull request to an issue
+       * @link https://docs.github.com/cn/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue
+       */
       { value: 'link', name: 'link:     链接 ISSUES 进行中' },
       { value: 'closed', name: 'closed:   标记 ISSUES 已完成' },
     ],
