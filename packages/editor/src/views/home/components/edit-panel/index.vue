@@ -29,9 +29,11 @@ import { ref } from 'vue'
 import { cloneDeep, isEqual } from 'lodash-es'
 import { $$dropdown, DropdownOption, dispatchEventBatch } from '@cow-low-code/utils'
 import PreviewDragged from './components/preview-dragged'
+import type { ComponentPublicInstance, Ref } from 'vue'
 import type { Draggable } from '@/components/base-ui/kzy-draggable/types'
 import type { LibraryComponentInstanceData } from '@/types/library-component'
 import type { LibraryComponentInstanceEventTriggers } from '@/types/event-trigger'
+import type { getDefineComponent } from '@/utils/type'
 import { libraryMap } from '@/library'
 import { useCodeStore } from '@/stores/code'
 import PageDraggable from '@/components/page-draggable/index.vue'
@@ -52,6 +54,7 @@ const editDraggableConfigRef = ref<Draggable>({
 })
 
 const codeStore = useCodeStore()
+const componentRefMap = codeStore.componentRefMap
 const { jsonCode: editableInstancedLibraryComponentData, focusData } = storeToRefs(codeStore)
 
 // 根据名称解析物料组件库内的组件，这里没有注册全局组件是避免污染全局组件名称
@@ -89,10 +92,17 @@ function parseLibraryComponent(data: LibraryComponentInstanceData) {
         data.indexId = uuid()
     }
   }
+
+  function bindComponentRef(el: ComponentPublicInstance | null) {
+    if (!el && componentRefMap.has(data.uuid)) componentRefMap.delete(data.uuid)
+    else componentRefMap.set(data.uuid, el!)
+  }
+
   return (
     <component
+      ref={bindComponentRef}
       onDispatchEvent={(eventTriggerName: string) =>
-        dispatchEventBatch(data, eventTriggerName, codeStore.jsonCode)
+        dispatchEventBatch(data, eventTriggerName, codeStore.jsonCode, componentRefMap)
       }
       {...props}
     ></component>

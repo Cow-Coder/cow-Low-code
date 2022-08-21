@@ -1,6 +1,7 @@
+import EventTab from './components/event-tab-pane/index.vue'
+import GenericTabPane from './components/generic-tab-pane.vue'
 import type { DefineComponent } from '@/types/library-component'
 import { AttributePanelsEnum } from '@/types/panel'
-import EventTab from '@/views/home/components/home-right/components/attribute-panel/components/event-tab-pane/index.vue'
 
 /**
  * 单个子tab配置
@@ -24,6 +25,7 @@ export const panelList: AttributePanelTabConfig[] = [
   {
     title: '常规',
     name: AttributePanelsEnum.generic,
+    component: GenericTabPane,
   },
   {
     title: '外观',

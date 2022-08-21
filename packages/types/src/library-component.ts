@@ -143,7 +143,7 @@ export interface LibraryComponentInstanceData {
   /**
    * 全局唯一ID
    */
-  uuid: string
+  uuid: Readonly<string>
   /**
    * 是否选中当前物料组件实例
    * @deprecated
@@ -152,11 +152,11 @@ export interface LibraryComponentInstanceData {
   /**
    * 物料库标识符
    */
-  libraryName: LibraryPanelTabEnum
+  libraryName: Readonly<LibraryPanelTabEnum>
   /**
    * 在vue中组件名
    */
-  componentName: string
+  componentName: Readonly<string>
   /**
    *右侧属性面板可编辑参数
    */

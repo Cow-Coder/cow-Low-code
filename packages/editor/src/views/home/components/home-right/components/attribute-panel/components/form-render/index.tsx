@@ -11,11 +11,13 @@ import FormItemList from '@/views/home/components/home-right/components/attribut
  * @param propsSchema
  * @param propsData
  * @param cursorPanel
+ * @param withElFormWrapper 返回是否包裹 ElForm
  */
 export default function formRender(
   propsData: LibraryComponentInstanceProps,
   cursorPanel: AttributePanelsEnum,
-  propsSchema: LibraryComponentProps | undefined
+  propsSchema: LibraryComponentProps | undefined,
+  withElFormWrapper = true
 ) {
   if (!propsSchema) return undefined
 
@@ -31,11 +33,13 @@ export default function formRender(
       return previousValue
     }, [] as AttributePanelFormItemSchema[])
 
-  return (
-    <>
-      <ElForm class={$style.attitudePanelInner} model={propsData}>
-        {FormItemList(propsData, cursorPropsArray)}
-      </ElForm>
-    </>
-  )
+  if (withElFormWrapper)
+    return (
+      <>
+        <ElForm class={$style.attitudePanelInner} model={propsData}>
+          {FormItemList(propsData, cursorPropsArray)}
+        </ElForm>
+      </>
+    )
+  else return <>{FormItemList(propsData, cursorPropsArray)}</>
 }

@@ -2,6 +2,7 @@ import { dispatchActionHandle } from '@cow-low-code/event-action'
 import { libraryMap } from '@cow-low-code/library'
 import { CUSTOM_EVENT_TRIGGER_NAME } from '@cow-low-code/constant'
 import { v4 as uuid } from 'uuid'
+import type { ComponentPublicInstance } from 'vue'
 import type {
   LibraryComponentInstanceActionItem,
   LibraryComponentInstanceData,
@@ -13,12 +14,14 @@ import type {
  * @param libraryData
  * @param eventTriggerName
  * @param libraryComponentsInstanceTree
+ * @param libraryComponentInstanceRefMap
  * @param isSync
  */
 export async function dispatchEventBatch(
   libraryData: LibraryComponentInstanceData,
   eventTriggerName: string,
   libraryComponentsInstanceTree: LibraryComponentsInstanceTree,
+  libraryComponentInstanceRefMap: Map<string, ComponentPublicInstance>,
   isSync = true
 ) {
   if (!libraryData.eventTriggers) return undefined
@@ -33,6 +36,7 @@ export async function dispatchEventBatch(
         action.actionName,
         libraryComponentsInstanceTree,
         libraryMap,
+        libraryComponentInstanceRefMap,
         action.config
       )
     else
@@ -40,6 +44,7 @@ export async function dispatchEventBatch(
         action.actionName,
         libraryComponentsInstanceTree,
         libraryMap,
+        libraryComponentInstanceRefMap,
         action.config
       )
   }

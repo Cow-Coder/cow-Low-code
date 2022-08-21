@@ -1,5 +1,6 @@
 import { defineComponent } from 'vue'
 import { getActionHandleDefaultProps } from '@cow-low-code/utils'
+import type { ComponentPublicInstance } from 'vue'
 import type { LibraryComponent, LibraryComponentInstanceData } from './library-component'
 
 /**
@@ -34,7 +35,8 @@ export type ActionHandlerSchema<T = any> = {
   handler?: (
     config: T,
     libraryComponentInstanceTree: LibraryComponentInstanceData[],
-    libraryComponentSchemaMap: Record<string, LibraryComponent>
+    libraryComponentSchemaMap: Record<string, LibraryComponent>,
+    libraryComponentInstanceRefMap: Map<string, ComponentPublicInstance>
   ) => any
   /**
    * 配置界面
@@ -49,7 +51,8 @@ export type ActionHandlerSchema<T = any> = {
   parseTip?: (
     config: T,
     libraryComponentInstanceTree: LibraryComponentInstanceData[],
-    libraryComponentSchemaMap: Record<string, LibraryComponent>
+    libraryComponentSchemaMap: Record<string, LibraryComponent>,
+    libraryComponentInstanceRefMap: Map<string, ComponentPublicInstance>
   ) => string | (() => JSX.Element)
   /**
    * 如果有children字段说明是可展开的节点
