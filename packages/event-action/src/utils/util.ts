@@ -1,4 +1,4 @@
-import type { PropType } from 'vue'
+import type { ComponentPublicInstance, PropType } from 'vue'
 import type {
   ActionHandlerSchema,
   LibraryComponent,
@@ -29,6 +29,13 @@ export function getActionHandleDefaultProps<T>() {
     },
     libraryComponentSchemaMap: {
       type: Object as PropType<Record<string, LibraryComponent>>,
+      required: true,
+    },
+    monacoEditorComponent: {
+      type: Object,
+    },
+    libraryComponentInstanceRefMap: {
+      type: Object as PropType<Map<string, ComponentPublicInstance>>,
       required: true,
     },
   }

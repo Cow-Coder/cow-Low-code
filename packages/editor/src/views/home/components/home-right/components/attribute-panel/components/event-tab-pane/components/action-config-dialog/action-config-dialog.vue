@@ -1,58 +1,57 @@
 <template>
-  <el-dialog
-    v-model="actionDialogVisible"
-    :close-on-click-modal="false"
-    :close-on-press-escape="false"
-    :custom-class="$style.actionConfigDialog"
-    :fullscreen="fullscreen"
-    draggable
-    title="动作配置"
-    width="800px"
-    :lock-scroll="false"
-  >
-    <div class="layout">
-      <div class="actions">
-        <el-tree
-          ref="treeRef"
-          :data="actionList"
-          :default-expand-all="true"
-          :expand-on-click-node="false"
-          :highlight-current="true"
-          node-key="name"
-          @current-change="onCurrentChange"
-        />
-      </div>
-      <div v-if="chooseAction && !chooseAction?.children" class="config">
-        <div class="config-item">
-          <div class="config-title">动作说明</div>
-          <div class="config-description config-main">{{ chooseAction.description }}</div>
+  <div v-element-dialog-resize="{ draggable: true, fullscreen: true }">
+    <el-dialog
+      v-model="actionDialogVisible"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :custom-class="$style.actionConfigDialog"
+      :lock-scroll="false"
+      title="动作配置"
+    >
+      <div class="layout">
+        <div class="actions">
+          <el-tree
+            ref="treeRef"
+            :data="actionList"
+            :default-expand-all="true"
+            :expand-on-click-node="false"
+            :highlight-current="true"
+            node-key="name"
+            @current-change="onCurrentChange"
+          />
         </div>
-        <div class="config-item">
-          <div class="config-title">基础设置</div>
-          <div class="config-main">
-            <component
-              :is="chooseAction.configPanel"
-              ref="configPanelRef"
-              v-bind="configPanelProps"
-            />
+        <div v-if="chooseAction && !chooseAction?.children" class="config">
+          <div class="config-item">
+            <div class="config-title">动作说明</div>
+            <div class="config-description config-main">{{ chooseAction.description }}</div>
+          </div>
+          <div class="config-item flex-grow flex flex-col">
+            <div class="config-title">基础设置</div>
+            <div class="config-main flex-grow">
+              <component
+                :is="chooseAction.configPanel"
+                ref="configPanelRef"
+                v-bind="configPanelProps"
+              />
+            </div>
           </div>
         </div>
+        <el-empty v-else class="config" />
       </div>
-      <el-empty v-else class="config" />
-    </div>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button plain @click="cancelAction">取消</el-button>
-        <el-button type="primary" @click="submitAction">确认</el-button>
-      </span>
-    </template>
-  </el-dialog>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button plain @click="cancelAction">取消</el-button>
+          <el-button type="primary" @click="submitAction">确认</el-button>
+        </span>
+      </template>
+    </el-dialog>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { ElTree } from 'element-plus'
+import { ElDialog, ElTree } from 'element-plus'
 import { commonActions } from '@cow-low-code/event-action'
 import type { ComponentPublicInstance, ComputedRef } from 'vue'
 import type { ActionConfigResult } from './types'
@@ -60,6 +59,8 @@ import type { ActionHandlerSchema } from '@cow-low-code/types'
 import type { getActionHandleDefaultProps } from '@cow-low-code/event-action/src/utils/util'
 import { useCodeStore } from '@/stores/code'
 import { libraryMap } from '@/library'
+
+const MonacoEditor = defineAsyncComponent(() => import('@/components/monaco-editor/index.vue'))
 
 defineOptions({
   name: 'ActionConfigDialog',
@@ -94,7 +95,6 @@ const configPanelRef = shallowRef<
   }>
 >()
 
-const fullscreen = ref(false)
 const codeStore = useCodeStore()
 
 const chooseAction = shallowRef<ActionHandlerSchema>()
@@ -104,8 +104,11 @@ const configPanelProps = {
   ),
   libraryComponentInstanceTree: toRaw(codeStore.jsonCode),
   libraryComponentSchemaMap: libraryMap,
+  monacoEditorComponent: markRaw(MonacoEditor),
+  libraryComponentInstanceRefMap: codeStore.componentRefMap,
 } as Record<keyof ReturnType<typeof getActionHandleDefaultProps>, any>
 if (props.actionConfig) configPanelProps.actionConfig = toRaw(props.actionConfig)
+
 function onCurrentChange(data: ActionHandlerSchema) {
   chooseAction.value = data
 }
@@ -142,8 +145,8 @@ function cancelAction() {
 
 <style lang="scss" scoped>
 .layout {
-  @apply flex border border-solid border-gray-200;
-  height: 400px;
+  @apply flex border border-solid border-gray-200 h-full;
+  min-height: 400px;
   color: var(--el-text-color-primary);
 
   .actions {
@@ -152,7 +155,7 @@ function cancelAction() {
   }
 
   .config {
-    @apply flex-grow border-l border-solid border-gray-200;
+    @apply flex flex-col flex-grow border-l border-solid border-gray-200;
     padding: 10px;
 
     .config-description {
@@ -161,6 +164,7 @@ function cancelAction() {
 
     .config-item {
       .config-main {
+        @apply flex flex-col;
         margin: 15px 15px 15px 2rem;
       }
     }

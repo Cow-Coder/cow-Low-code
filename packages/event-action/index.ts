@@ -1,4 +1,5 @@
 import { parseActionChildren } from '@cow-low-code/event-action/src/utils/util'
+import type { ComponentPublicInstance } from 'vue'
 import type {
   ActionHandlerSchema,
   LibraryComponent,
@@ -43,17 +44,24 @@ export function getActionHandle(actionName: string) {
  * @param libraryComponentInstanceTree
  * @param libraryComponentSchemaMap
  * @param actionConfig
+ * @param libraryComponentInstanceRefMap
  */
 export function dispatchActionHandle(
   actionName: string,
   libraryComponentInstanceTree: LibraryComponentInstanceData[],
   libraryComponentSchemaMap: Record<string, LibraryComponent>,
+  libraryComponentInstanceRefMap: Map<string, ComponentPublicInstance>,
   actionConfig?: any
 ) {
   const actionHandle = getActionHandle(actionName)
   if (!actionHandle || !actionHandle.handler)
     throw new TypeError(`actionHandle: ${actionName} not found`)
   return Promise.resolve(
-    actionHandle.handler(actionConfig, libraryComponentInstanceTree, libraryComponentSchemaMap)
+    actionHandle.handler(
+      actionConfig,
+      libraryComponentInstanceTree,
+      libraryComponentSchemaMap,
+      libraryComponentInstanceRefMap
+    )
   )
 }
