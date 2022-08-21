@@ -63,14 +63,14 @@ useEventListener('message', (e: MessageEvent<MessageData>) => {
       window.parent.postMessage(
         {
           msg: SET_LIBRARY_COMPONENT_JSON_TREE,
-          data: libraryTree.value,
+          data: JSON.stringify(toRaw(libraryTree.value)),
         } as MessageData,
         '*'
       )
       break
 
     case SET_LIBRARY_COMPONENT_JSON_TREE:
-      libraryTree.value = dataSource.data
+      libraryTree.value = JSON.parse(dataSource.data)
       window.parent.postMessage({ msg: 'ok' } as MessageData, '*')
       break
   }

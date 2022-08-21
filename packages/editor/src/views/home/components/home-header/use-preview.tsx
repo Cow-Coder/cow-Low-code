@@ -12,17 +12,20 @@ export default function usePreview() {
   const codeStore = useCodeStore()
   const settingStore = useSettingStore()
 
+  function postMessage() {
+    iframeRef.value?.contentWindow?.postMessage(
+      {
+        msg: SET_LIBRARY_COMPONENT_JSON_TREE,
+        data: JSON.stringify(toRaw(codeStore.jsonCode)),
+      } as MessageData,
+      '*'
+    )
+  }
+
   function onTogglePreviewDialog() {
     isShowDialog.value = !isShowDialog.value
 
-    if (isShowDialog.value)
-      iframeRef.value?.contentWindow?.postMessage(
-        {
-          msg: SET_LIBRARY_COMPONENT_JSON_TREE,
-          data: toRaw(codeStore.jsonCode),
-        } as MessageData,
-        '*'
-      )
+    if (isShowDialog.value) postMessage()
   }
 
   return {
@@ -31,19 +34,11 @@ export default function usePreview() {
       setup: () => {
         let timer: NodeJS.Timer | undefined = undefined
         onMounted(() => {
-          timer = setInterval(() => {
-            iframeRef.value?.contentWindow?.postMessage(
-              {
-                msg: SET_LIBRARY_COMPONENT_JSON_TREE,
-                data: toRaw(codeStore.jsonCode),
-              } as MessageData,
-              '*'
-            )
-          }, 200)
+          timer = setInterval(postMessage, 200)
         })
         useEventListener('message', (e: MessageEvent<MessageData>) => {
           if (!e.source || e.source === self) return undefined
-          console.log(`e.data`, e.data)
+          // console.log(`e.data`, e.data)
           if (timer && e.data.msg) clearInterval(timer)
         })
 
