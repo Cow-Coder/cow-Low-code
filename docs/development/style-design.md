@@ -2,9 +2,9 @@
 
 ## 介绍
 
-主要介绍如何在项目中使用和规划样式文件。
+本节主要介绍如何在项目中使用和规划样式文件。
 
-默认使用 scss 作为预处理语言，建议在使用前或者遇到疑问时学习一下 [Scss](https://sass-lang.com/) 的相关特性（如果想获取基础的 CSS 知识或查阅属性，请参考 MDN 文档）。
+牛搭默认使用 scss 作为预处理语言，建议在使用前或者遇到疑问时学习一下 [Scss](https://sass-lang.com/) 的相关特性（如果想获取基础的 CSS 知识或查阅属性，请参考 MDN 文档）。
 
 一般项目中使用的通用样式，都存放于 `src/assets/style` 下面。
 
@@ -25,6 +25,14 @@ global.scss 这个文件会被全局注入到所有文件，所以在页面内�
 // 这里已经隐式注入了 global.scss
 </style>
 ```
+
+### 物料组件样式
+
+左侧物料区我们采用 [IconPark](https://iconpark.oceanengine.com/home) 的图标和 [tailwindcss](https://tailwindcss.com/docs) 样式。
+
+### 编辑区样式
+
+由于牛搭的是一款应用在移动端的低代码平台，所以我们在 UI 上选择了 [Vant](https://vant-contrib.gitee.io/vant/#/zh-CN/home)，所以在物料组件中我们应该尽量向 Vant 的风格看齐。
 
 ## tailwindcss
 
