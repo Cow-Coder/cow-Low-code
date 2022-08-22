@@ -149,4 +149,14 @@ const panelWidth = computed({
     @apply opacity-100;
   }
 }
+
+.el-tabs--border-card {
+  & > :deep(.el-tabs__content) {
+    @apply p-0;
+  }
+}
+
+:deep(.el-tabs__header.is-left) {
+  @apply mr-0;
+}
 </style>
