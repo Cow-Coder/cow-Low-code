@@ -1,6 +1,8 @@
 {
+  "scss.lint.unknownAtRules": "ignore",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
     "source.fixAll.stylelint": true
-  }
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
