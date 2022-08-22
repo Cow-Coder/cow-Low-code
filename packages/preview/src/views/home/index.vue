@@ -1,6 +1,6 @@
 <template>
   <div class="layout" :class="{ 'is-frame': isFrame }">
-    <div class="phone">
+    <div class="phone" :class="{ preview: __APP_PREVIEW__ }">
       <div class="content">
         <div v-for="instance in libraryTree" :key="instance.uuid" class="library-component">
           <component :is="parseLibraryComponent(instance)" />
@@ -27,7 +27,7 @@ defineOptions({
 })
 
 const codeStore = useCodeStore()
-const { libraryTree } = storeToRefs(codeStore)
+const { libraryTree, __APP_PREVIEW__ } = storeToRefs(codeStore)
 const componentRefMap = codeStore.componentRefMap
 
 const isFrame = computed(() => top !== self)
@@ -95,15 +95,19 @@ useEventListener('message', (e: MessageEvent<MessageData>) => {
   }
 
   .phone {
-    @apply flex-grow flex-col flex bg-center bg-no-repeat bg-contain;
-    background-image: url('@/assets/images/phone.png');
-    padding: 55px 14px 47px;
-    margin: var(--phone-mockup-margin) 0;
-    width: calc(
-      calc(100vh - var(--phone-mockup-margin) * 2) * var(--phone-mockup-width-height-ratio)
-    );
+    @apply flex-grow flex-col flex w-full;
+    &.preview {
+      @apply bg-center bg-no-repeat bg-contain;
+      background-image: url('@/assets/images/phone.png');
+      padding: 55px 14px 47px;
+      margin: var(--phone-mockup-margin) 0;
+      width: calc(
+        calc(100vh - var(--phone-mockup-margin) * 2) * var(--phone-mockup-width-height-ratio)
+      );
+    }
+
     .content {
-      @apply flex-grow flex-col flex overflow-y-auto overflow-x-hidden;
+      @apply flex-grow flex-col flex overflow-y-auto overflow-x-hidden w-full;
       //background-color: #9dddff;
     }
   }
