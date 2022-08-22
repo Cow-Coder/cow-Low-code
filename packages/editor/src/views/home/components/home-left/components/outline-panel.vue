@@ -1,5 +1,5 @@
 <template>
-  <div class="outline-panel">
+  <div class="outline-panel" style="padding: 15px">
     <div class="outline-filter">
       <el-input v-model="filterText" placeholder="搜索" />
     </div>

@@ -41,11 +41,13 @@
           </el-select>
           <el-button type="danger" @click="handleResetAll">重置</el-button>
           <el-button type="primary" @click="onTogglePreviewDialog">预览</el-button>
+          <el-button @click="togglePublishDialog">发布</el-button>
         </a-space>
       </el-col>
     </el-row>
   </div>
   <component :is="previewComponent" />
+  <component :is="publishComponent" />
 </template>
 
 <script lang="ts" setup>
@@ -53,6 +55,7 @@ import { Redo as IconRedo, Undo as IconUndo } from '@icon-park/vue-next'
 import usePreset from './use-preset'
 import usePreview from '@/views/home/components/home-header/use-preview'
 import useStateShot from '@/views/home/components/home-header/use-stateshot'
+import usePublish from '@/views/home/components/home-header/use-publish'
 
 defineOptions({
   name: 'HomeHeader',
@@ -77,6 +80,7 @@ const handleResetAll = () => {
 const { undo: onUndo, redo: onRedo } = useStateShot()
 const { previewComponent, onTogglePreviewDialog } = usePreview()
 const { presetList, choosePreset, onPresetSelectChange } = usePreset()
+const { publishComponent, togglePublishDialog } = usePublish()
 </script>
 
 <style lang="scss" scoped>

@@ -21,3 +21,20 @@
 
 如果端口冲突，那么 vite 会自动向后+1 个端口号，比如：`5174`、`5175`
 :::
+
+当一切准备就绪之后，您应该能够看到如下页面：
+
+<zoom-img src='https://tva1.sinaimg.cn/large/008d89Swgy1h5fk2j23ctj30il0oomzm.jpg' />
+
+## 常见问题
+
+1. 为什么预览页面没有显示手机壳模型？
+   <zoom-img src='https://tva1.sinaimg.cn/large/008d89Swgy1h5fjdvnzd4j30jo0gj0uo.jpg' />
+
+这种情况是由于您在 `preview` 模块中设置了发布的代码，导致 preview 以真实的手机环境在运行
+
+此时您只需要把 `packages/preview/src/setting.ts` 文件中的内容替换成默认的空设置即可
+
+```javascript
+export default {}
+```

@@ -5,15 +5,30 @@ import type {
   LibraryComponentsInstanceTree,
   OutlineData,
 } from '@cow-low-code/types'
-import type { ComponentPublicInstance, ComputedRef } from 'vue'
-import type { getDefineComponent } from '@/utils/type'
+import type { ComponentPublicInstance, ComputedRef, WritableComputedRef } from 'vue'
+import type { PageSetting } from '@cow-low-code/types/src/page'
 import { libraryMap, libraryRecord } from '@/library'
 import { arrResort } from '@/utils/map-schemes-2-outline'
 
 export const useCodeStore = defineStore(
   'CodeStore',
   () => {
+    /**
+     * 物料组件JSON树
+     */
     const jsonCode = ref<LibraryComponentsInstanceTree>([])
+
+    /**
+     * 页面设置
+     */
+    const pageSetting = ref<PageSetting>({ title: '' })
+    watch(
+      () => pageSetting.value.title,
+      (title) => {
+        title !== '' ? useTitle(title) : undefined
+      }
+    )
+
     /**
      * 存储 物料组件ref 键值对
      */
@@ -135,6 +150,7 @@ export const useCodeStore = defineStore(
     }
 
     return {
+      pageSetting,
       jsonCode,
       focusData,
       draggedElement,
@@ -156,7 +172,7 @@ export const useCodeStore = defineStore(
       strategies: [
         {
           storage: sessionStorage,
-          paths: ['jsonCode', 'outlineData'],
+          paths: ['jsonCode', 'pageSetting', 'outlineData'],
         },
       ],
     },

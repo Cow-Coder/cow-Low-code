@@ -2,6 +2,7 @@
   <monaco-editor
     ref="codeContainerRef"
     v-model="modelValue"
+    style="padding: 15px"
     class="code-container"
     :monaco-options="monacoOptions"
   />
