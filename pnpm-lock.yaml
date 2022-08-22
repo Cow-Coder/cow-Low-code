@@ -163,6 +163,7 @@ importers:
       colorpicker-v3: ^2.10.2
       copy-to-clipboard: ^3.3.2
       monaco-editor: ^0.33.0
+      stateshot: ^1.3.4
       vite: ^3.0.1
       vuedraggable: ^4.1.0
     dependencies:
@@ -171,6 +172,7 @@ importers:
       colorpicker-v3: 2.10.2
       copy-to-clipboard: 3.3.2
       monaco-editor: 0.33.0
+      stateshot: 1.3.4
       vuedraggable: 4.1.0
     devDependencies:
       '@cow-low-code/vite-plugin-monaco-editor-nls': link:../../internal/vite-plugin-monaco-editor-nls
@@ -7784,6 +7786,13 @@ packages:
     dependencies:
       readable-stream: 3.6.0
     dev: true
+
+  /stateshot/1.3.4:
+    resolution:
+      {
+        integrity: sha512-SMAppWTzS1YaiIqy04IWQB9I7uaq7u1HHM9vgab2WPWCgHHbTIKalf/rP/WWg5cxWg3EET7kcz2cfOHl+PPs1Q==,
+      }
+    dev: false
 
   /string-argv/0.3.1:
     resolution:
