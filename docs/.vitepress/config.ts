@@ -83,12 +83,16 @@ export default defineConfig({
           text: '基础',
           items: [
             {
+              text: '预设',
+              link: '/guide/preset',
+            },
+            {
               text: '预览页面',
               link: '/guide/preview',
             },
             {
-              text: '预设',
-              link: '/guide/preset',
+              text: '发布页面',
+              link: '/guide/publish',
             },
           ],
         },

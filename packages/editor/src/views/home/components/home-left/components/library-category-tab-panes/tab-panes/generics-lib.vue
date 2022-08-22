@@ -1,5 +1,9 @@
 <template>
-  <library-panel-base :current-modules="currentModules" :vm-options="vmOptions" />
+  <library-panel-base
+    :current-modules="currentModules"
+    :vm-options="vmOptions"
+    style="padding: 15px 15px 15px calc(15px + 10px)"
+  />
 </template>
 
 <script lang="tsx">

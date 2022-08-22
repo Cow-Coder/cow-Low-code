@@ -1,0 +1,20 @@
+.onlineAddress {
+  @apply flex;
+  :global {
+    .item {
+      @apply flex-grow flex flex-col;
+      padding: 0 20px 0;
+
+      .title {
+        @apply text-center;
+        font-size: var(--el-font-size-medium);
+      }
+
+      .image-form-item {
+        .el-form-item__content {
+          @apply flex justify-center;
+        }
+      }
+    }
+  }
+}
