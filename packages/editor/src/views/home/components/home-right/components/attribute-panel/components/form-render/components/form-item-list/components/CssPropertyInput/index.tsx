@@ -2,6 +2,7 @@ import { ElButton, ElCard, ElCheckbox, ElForm, ElFormItem, ElInput, ElTooltip } 
 import { Popover } from '@arco-design/web-vue'
 import { Setting } from '@element-plus/icons-vue'
 import $style from './index.module.scss'
+import CssPanel from './components/css-panel/index.vue'
 import type { PropType } from 'vue'
 import $popoverStyle from '@/assets/style/popover.module.scss'
 export default defineComponent({
@@ -21,7 +22,6 @@ export default defineComponent({
       for (const item1 in cssArray.value) {
         tempCss.push(cssArray.value[item1][0])
       }
-      console.log(tempCss)
       return tempCss
     })
     return () => (
@@ -38,7 +38,7 @@ export default defineComponent({
                       }}
                     </ElButton>
                   ),
-                  content: () => <div></div>,
+                  content: () => <CssPanel v-model={cssArray.value}></CssPanel>,
                 }}
               </Popover>
             ),
