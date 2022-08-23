@@ -18,6 +18,7 @@ import {
 export default {
   ...defineLibraryComponent({
     name: 'WidgetImage',
+    widgetType: 'generics',
     libraryName: LibraryPanelTabEnum.generics,
     tabName: 'show',
     order: 2,

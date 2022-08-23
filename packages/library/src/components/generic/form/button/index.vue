@@ -32,6 +32,7 @@ enum EventTriggersEnum {
 export default defineComponent({
   ...defineLibraryComponent({
     name: 'WidgetButton',
+    widgetType: 'generics',
     libraryName: LibraryPanelTabEnum.generics,
     tabName: 'form',
     order: 1,

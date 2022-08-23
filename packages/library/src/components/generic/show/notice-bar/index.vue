@@ -27,6 +27,7 @@ import {
 export default {
   ...defineLibraryComponent({
     name: 'WidgetNoticeBar',
+    widgetType: 'generics',
     libraryName: LibraryPanelTabEnum.generics,
     tabName: 'show',
     order: 6,

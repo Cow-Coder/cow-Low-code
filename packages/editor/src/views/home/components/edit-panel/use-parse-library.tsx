@@ -37,16 +37,14 @@ export default function useParseLibrary(isDownSpace: Ref<boolean>) {
   >()
 
   function parseLibraryComponent(data: LibraryComponentInstanceData) {
+    // 组件
     const component = libraryMap[data.componentName]
     if (!component) throw new Error(`library component: ${data.libraryName} not found`)
-    /*
-     * "props": {
-     *       "title": "按钮"
-     *     }
-     */
-    const props = cloneDeep(data.props)
+
+    // 配置【并且将其变成响应式的】
+    const props = computed(() => cloneDeep(data.props))
     if (
-      props &&
+      props.value &&
       component.props &&
       CUSTOM_EVENT_TRIGGER_NAME in component.props &&
       data.eventTriggers
@@ -56,7 +54,7 @@ export default function useParseLibrary(isDownSpace: Ref<boolean>) {
           isCustomEventTriggerName(triggerName)
         )
       )
-      props[CUSTOM_EVENT_TRIGGER_NAME] = customTriggers
+      props.value[CUSTOM_EVENT_TRIGGER_NAME] = customTriggers
       if (!libraryComponentPropTriggersCacheMap.has(data.indexId))
         libraryComponentPropTriggersCacheMap.set(data.indexId, customTriggers)
       else {
@@ -66,20 +64,11 @@ export default function useParseLibrary(isDownSpace: Ref<boolean>) {
       }
     }
 
-    function bindComponentRef(el: ComponentPublicInstance | null) {
-      if (!el && componentRefMap.has(data.uuid)) componentRefMap.delete(data.uuid)
-      else componentRefMap.set(data.uuid, el!)
+    // 事件
+    const handleDispatchEvent = (eventTriggerName: string) => {
+      dispatchEventBatch(data, eventTriggerName, codeStore.jsonCode, componentRefMap)
     }
-
-    return (
-      <component
-        ref={bindComponentRef}
-        onDispatchEvent={(eventTriggerName: string) =>
-          dispatchEventBatch(data, eventTriggerName, codeStore.jsonCode, componentRefMap)
-        }
-        {...props}
-      ></component>
-    )
+    return [component, props, handleDispatchEvent]
   }
 
   function isFocusComponent(data: LibraryComponentInstanceData) {
