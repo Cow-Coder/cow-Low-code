@@ -142,8 +142,14 @@ export default {
         props.defaultData = newV
       },
     })
-
-    const compCss = ref(props.widgetCss)
+    const compCss = computed({
+      get() {
+        return props.widgetCss
+      },
+      set(newV) {
+        props.widgetCss = newV
+      },
+    })
     //初始化css数组
     const widgetCssArr = computed(() => {
       const tempCss = []
