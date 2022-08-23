@@ -1,6 +1,6 @@
 <template>
   <div class="home-header">
-    <el-row :style="{ height: props.styleHeaderHeight, 'line-height': props.styleHeaderHeight }">
+    <el-row :style="{ height: styleHeaderHeight, 'line-height': styleHeaderHeight }">
       <el-col :span="10">
         <a-space class="edit-action-area" size="large">
           <div class="edit-action">
@@ -17,13 +17,18 @@
       </el-col>
       <el-col :span="4">
         <div class="logo-wrapper">
-          <a href="https://github.com/Cow-Coder/cow-Low-code" title="牛搭项目地址" target="_blank">
+          <a
+            href="https://github.com/Cow-Coder/cow-Low-code"
+            title="牛搭项目地址"
+            target="_blank"
+            draggable="false"
+          >
             <img
               src="@/assets/images/logo.svg"
               alt="牛搭项目地址"
               title="牛搭项目地址"
               class="logo"
-              @dragstart.prevent
+              draggable="false"
             />
           </a>
         </div>
@@ -39,7 +44,7 @@
           >
             <el-option v-for="val in presetList" :key="val.label" :value="val.label" />
           </el-select>
-          <el-button type="danger" @click="handleResetAll">重置</el-button>
+          <el-button type="danger" @click="onResetAll">重置</el-button>
           <el-button type="primary" @click="onTogglePreviewDialog">预览</el-button>
           <el-button @click="togglePublishDialog">发布</el-button>
         </a-space>
@@ -56,25 +61,23 @@ import usePreset from './use-preset'
 import usePreview from '@/views/home/components/home-header/use-preview'
 import useStateShot from '@/views/home/components/home-header/use-stateshot'
 import usePublish from '@/views/home/components/home-header/use-publish'
+import { useCodeStore } from '@/stores/code'
 
 defineOptions({
   name: 'HomeHeader',
 })
 
-interface HeaderProps {
-  styleHeaderHeight?: string
-}
-
-const props = withDefaults(defineProps<HeaderProps>(), {
-  styleHeaderHeight: '60px',
+defineProps({
+  styleHeaderHeight: {
+    type: String,
+    default: '60px',
+  },
 })
 
-const emits = defineEmits<{
-  (e: 'handleResetAll'): void
-}>()
-
-const handleResetAll = () => {
-  emits('handleResetAll')
+const codeStore = useCodeStore()
+const onResetAll = () => {
+  codeStore.clear()
+  ElMessage.success('清空所有数据成功')
 }
 
 const { undo: onUndo, redo: onRedo } = useStateShot()
