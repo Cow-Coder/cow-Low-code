@@ -13,7 +13,7 @@
 
 <script lang="tsx">
 import { Image as VanImage } from 'vant'
-import { ElIcon } from 'element-plus'
+import { TopBar } from '@icon-park/vue-next'
 import {
   AttributePanelFormItemInputTypeEnum,
   AttributePanelsEnum,
@@ -32,13 +32,7 @@ export default {
     order: 6,
     libraryPanelShowDetail: {
       title: '通知栏',
-      icon: () => (
-        <>
-          <ElIcon size={16}>
-            <i-ep-minus />
-          </ElIcon>
-        </>
-      ),
+      icon: () => <TopBar theme="outline" size="16" fill="#333" strokeWidth={3} />,
     },
     tips: {
       title: '通知栏',
