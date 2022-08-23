@@ -22,7 +22,6 @@ export default defineComponent({
       checkList.value.push({ name: '', value: '', checked: false, isEdit: false })
     const changeCallback = (index: number) => {
       checkList.value[index].checked = !checkList.value[index].checked
-      console.log(index)
     }
     const editChangeCallback = (el: any) => {
       el.isEdit = !el.isEdit
