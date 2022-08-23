@@ -8,13 +8,24 @@
         <div
           :class="{ 'focus-component': isFocusComponent(element) }"
           class="edit-component-item"
-          @mousedown.capture.stop="onChoose(element)"
+          @mousedown.stop="onChoose(element)"
           @touchstart.capture="onTouchEvent"
           @touchmove.capture="onTouchEvent"
           @touchend.capture="onTouchEvent"
           @contextmenu.capture.prevent="onContextMenu($event, element)"
         >
-          <component :is="parseLibraryComponent(element)" />
+          <widget-render :widget-element="element" :is-down-space="isDownSpace">
+            <template v-for="(value, slotKey) in element.props?.slots" :key="slotKey" #[slotKey]>
+              <slot-item
+                :children="value.children"
+                :slot-key="slotKey"
+                :is-down-space="isDownSpace"
+                :on-touch-event="onTouchEvent"
+                :on-choose="onChoose"
+                :container="element"
+              />
+            </template>
+          </widget-render>
         </div>
       </template>
     </page-draggable>
@@ -26,6 +37,8 @@ import useContentMenu from './use-content-menu'
 import useParseLibrary from './use-parse-library'
 import usePreventTouch from './use-prevent-touch'
 import useDragPreview from './use-drag-preview'
+import SlotItem from './components/slot-item.vue'
+import WidgetRender from './components/widget-render.vue'
 import PageDraggable from '@/components/page-draggable/index.vue'
 
 defineOptions({

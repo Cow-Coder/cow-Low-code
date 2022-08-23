@@ -1,5 +1,5 @@
 <template>
-  <div class="outline-panel" style="padding: 15px">
+  <div class="outline-panel">
     <div class="outline-filter">
       <el-input v-model="filterText" placeholder="搜索" />
     </div>
@@ -7,7 +7,8 @@
       <el-tree
         ref="treeRef"
         :allow-drop="allowDrop"
-        :data="outline"
+        :allow-drag="allowDrag"
+        :data="outlineData"
         highlight-current
         :draggable="true"
         default-expand-all
@@ -23,11 +24,10 @@
 
 <script lang="ts" setup>
 import { ElTree } from 'element-plus'
+import type { DropType, NodeDropType } from 'element-plus/es/components/tree/src/tree.type'
 import type Node from 'element-plus/es/components/tree/src/model/node'
-import type { NodeDropType } from 'element-plus/es/components/tree/src/tree.type'
 import type { TreeData } from '@/utils/map-schemes-2-outline'
 import { useCodeStore } from '@/stores/code'
-import { mapSchemes2Outline } from '@/utils/map-schemes-2-outline'
 
 defineOptions({
   name: 'OutlinePanel',
@@ -36,11 +36,12 @@ defineOptions({
 // 获取大纲数据
 const store = useCodeStore()
 const { outlineData } = storeToRefs(store)
-const outline = computed(() => mapSchemes2Outline(outlineData.value))
 
-//TODO: 嵌套大纲
-// 是否允许放入
-const allowDrop = (draggingNode: Node, dropNode: Node, type: NodeDropType) => type !== 'inner'
+// 是否允许放入【只允许放入Layout容器组件里面，其余的只能放前后】
+const allowDrop = (draggingNode: Node, dropNode: Node, type: NodeDropType) => {
+  const treeData = dropNode.data as TreeData
+  return treeData.compType !== 'container' ? type !== 'inner' : true
+}
 const filterText = ref('')
 const treeRef = ref<InstanceType<typeof ElTree>>()
 
@@ -55,18 +56,24 @@ const filterNode = (value: string, data: TreeData) => {
 }
 
 // 拖拽成功放入时，将其组件顺序修改
-const handleDrop = (draggingNode: Node, dropNode: Node) => {
+const handleDrop = (draggingNode: Node, dropNode: Node, dropType: DropType) => {
   // 拖拽后给选中项赋值
   setTimeout(() => {
     treeRef.value?.setCurrentKey(draggingNode.data.uuid)
   }, 0)
   handleCurrentChange(draggingNode.data as TreeData)
-  store.updateJsonCodeAtDragged(draggingNode.data.uuid, dropNode.data.uuid)
+  store.updateJsonCodeAtDragged(draggingNode.data.uuid, dropNode.data.uuid, dropType)
 }
 
 // 选中时，给聚焦组件的属性栏赋值
 const handleCurrentChange = (data: TreeData) => {
   store.dispatchFocus(data.uuid!)
+}
+
+// 只允许外层节点拖动
+const allowDrag = (draggingNode: Node) => {
+  const parent = treeRef.value?.getNode(draggingNode.data.uuid)?.parent.data
+  return Array.isArray(parent)
 }
 </script>
 

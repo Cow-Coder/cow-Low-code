@@ -1,22 +1,60 @@
-import type { OutlineData } from '@/types/library-component'
+import type {
+  LibraryComponentInstanceData,
+  SlotItemValue,
+  WidgetType,
+} from '@/types/library-component'
+import { libraryMap } from '@/library'
 
 export interface TreeData {
-  uuid?: string
+  uuid: string
   label: string
+  compType: WidgetType
   children?: TreeData[]
 }
 /**
  * 映射大纲数据 -> 变成树状结构。
- * @param outlineData
+ * @param jsonSchemas
  */
-export const mapSchemes2Outline = (outlineData: OutlineData[]) => {
-  const doneOutline: TreeData[] = outlineData?.map((item) => {
-    return {
+export const mapSchemes2Outline = (jsonSchemas: LibraryComponentInstanceData[]) => {
+  if (jsonSchemas.length === 0) return
+  // 返回的树结构
+  const doneTreeData = [] as TreeData[]
+  const tempTreeDataMap: any = {}
+  // 先构建一级节点
+  jsonSchemas.forEach((item) => {
+    // 先将一级节点放入中 tempTreeDataMap
+    const libraryInfo = libraryMap[item.componentName]
+    const tempTreeData: TreeData = {
       uuid: item.uuid,
-      label: item.title,
+      label: libraryInfo.libraryPanelShowDetail.title,
+      compType: libraryInfo.widgetType,
+    }
+    tempTreeDataMap[item.uuid] = tempTreeData
+    doneTreeData.push(tempTreeData)
+  })
+
+  // 构建子节点
+  jsonSchemas.forEach((item) => {
+    const libraryInfo = libraryMap[item.componentName]
+    if (libraryInfo.widgetType === 'container') {
+      const slots = item?.props?.slots as SlotItemValue
+      // 收集该容器中的所有插槽
+      let slotCompSum: LibraryComponentInstanceData[] = []
+      Object.values(slots)
+        ?.filter((filterItem) => typeof filterItem !== 'string')
+        .forEach((fItem: SlotItemValue) => {
+          if (fItem?.children?.length) {
+            slotCompSum = [...slotCompSum, ...fItem.children]
+          }
+        })
+      const parent = tempTreeDataMap[item.uuid] as TreeData
+      if (!parent?.children) {
+        parent.children = []
+      }
+      parent.children = mapSchemes2Outline(slotCompSum)
     }
   })
-  return doneOutline
+  return doneTreeData
 }
 /**
  * 使数组重新排序

@@ -1,4 +1,4 @@
-import type { LibraryComponent, LibraryComponentPropItem } from '@cow-low-code/types'
+import type { LibraryComponent, LibraryComponentPropItem, SlotItemValue } from '@cow-low-code/types'
 
 /**
  * 快速定义物料组件
@@ -14,4 +14,24 @@ export function defineLibraryComponent(libraryComponent: LibraryComponent) {
  */
 export function createLibraryComponentPropItem(data: LibraryComponentPropItem) {
   return data
+}
+
+/**
+ * 构建列选项
+ * @param str
+ */
+export const createSlots = (str: string): SlotItemValue => {
+  const test = str.split(':').reduce(
+    (prev, curr, index) => {
+      // @ts-ignore
+      prev[`slot${index}`] = {
+        key: `slot${index}`,
+        span: curr,
+        children: [],
+      }
+      return prev
+    },
+    { value: str }
+  )
+  return test
 }

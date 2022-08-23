@@ -30,6 +30,7 @@ import 'vant/es/circle/style'
 export default {
   ...defineLibraryComponent({
     name: 'WidgetCircle',
+    widgetType: 'generics',
     libraryName: LibraryPanelTabEnum.generics,
     tabName: 'show',
     order: 8,

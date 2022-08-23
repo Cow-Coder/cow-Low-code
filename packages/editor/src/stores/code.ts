@@ -1,14 +1,18 @@
+// @ts-ignore
+import type { DropType } from 'element-plus/es/components/tree/src/tree.type'
 import type {
   LibraryComponent,
   LibraryComponentInstanceData,
   LibraryComponentInstanceFocus,
   LibraryComponentsInstanceTree,
-  OutlineData,
+  SlotItemValue,
 } from '@cow-low-code/types'
-import type { ComponentPublicInstance, ComputedRef, WritableComputedRef } from 'vue'
+import type { ComponentPublicInstance, ComputedRef } from 'vue'
+import type { TreeData } from '@/utils/map-schemes-2-outline'
 import type { PageSetting } from '@cow-low-code/types/src/page'
-import { libraryMap, libraryRecord } from '@/library'
-import { arrResort } from '@/utils/map-schemes-2-outline'
+import { libraryRecord } from '@/library'
+import { arrResort, mapSchemes2Outline } from '@/utils/map-schemes-2-outline'
+import { useRecurseQuerySchema } from '@/hooks/use-recurse-query-schema'
 
 export const useCodeStore = defineStore(
   'CodeStore',
@@ -50,10 +54,11 @@ export const useCodeStore = defineStore(
     const draggedElement = ref<LibraryComponent>()
 
     /**
-     * 大纲数据
+     * 容器组件映射
      */
-    //const outlineData = ref<OutlineData[]>([])
-
+    const containerMap = ref<{
+      [key: string]: LibraryComponentInstanceData
+    }>({})
     /**
      * store恢复初始状态
      * Q: 为什么不用 store.$reset() ?
@@ -62,6 +67,7 @@ export const useCodeStore = defineStore(
     function clear() {
       jsonCode.value = []
       focusData.value = undefined
+      containerMap.value = {}
     }
 
     function dispatchFocus(uuid: string, path?: string) {
@@ -88,17 +94,13 @@ export const useCodeStore = defineStore(
       /**
        * TODO: 这里应该加缓存，记录已经找到过的组件的uuid，缓存进键值对
        */
-      let focusedLibraryComponentInstanceData: LibraryComponentInstanceData | undefined = undefined
-      for (const jsonCodeElement of jsonCode.value) {
-        if (jsonCodeElement?.uuid === focusData_.uuid) {
-          focusedLibraryComponentInstanceData = jsonCodeElement
-          break
-        }
-      }
+      // 拿到对应的组件实例
+      const focusedCompInstanceType = useRecurseQuerySchema(focusData_?.uuid)
 
-      if (!focusedLibraryComponentInstanceData)
+      if (!focusedCompInstanceType)
         throw new Error(`not found focusedLibraryComponentData(uuid): ${focusData_.uuid}`)
-
+      const focusedLibraryComponentInstanceData =
+        focusedCompInstanceType as LibraryComponentInstanceData
       let focusedLibraryComponentSchema = undefined
       for (const e of libraryRecord[focusedLibraryComponentInstanceData.libraryName]) {
         if (e.name == focusedLibraryComponentInstanceData.componentName) {
@@ -132,21 +134,41 @@ export const useCodeStore = defineStore(
     }
 
     // 监听 jsonSchemes 的变化。给大纲数据赋值
-    const outlineData: ComputedRef<OutlineData[]> = computed(() => {
-      return jsonCode.value.map((item) => {
-        const tempEle = libraryMap[item.componentName]
-        return {
-          uuid: item.uuid,
-          title: tempEle.libraryPanelShowDetail.title,
-        }
-      })
-    })
+    const outlineData: ComputedRef<TreeData[] | undefined> = computed(() =>
+      mapSchemes2Outline(jsonCode.value)
+    )
 
     // 拖拽大纲顺序时，修改 jsonCode
-    const updateJsonCodeAtDragged = (draggingNodeId: string, dropNodeId: string) => {
-      const oldIndex = jsonCode.value.findIndex((item) => item.uuid === draggingNodeId)
-      const newIndex = jsonCode.value.findIndex((item) => item.uuid === dropNodeId)
-      arrResort(jsonCode.value, oldIndex, newIndex)
+    const updateJsonCodeAtDragged = (
+      draggingNodeId: string,
+      dropNodeId: string,
+      dropType: DropType
+    ) => {
+      let oldIndex = 0
+      let newIndex = 0
+      const oldComp = jsonCode.value.find((item, index) => {
+        oldIndex = index
+        return item.uuid === draggingNodeId
+      })
+      if (oldComp) {
+        // 说明是从外层开始拖拽的
+        if (dropType === 'inner') {
+          // 说明是拖拽到容器组件里了
+          const newComp = jsonCode.value.find((item, index) => {
+            newIndex = index
+            return item.uuid === dropNodeId
+          })
+          const newSlots = newComp?.props?.slots as SlotItemValue
+          newSlots?.slot0?.children.push(oldComp)
+          jsonCode.value.splice(oldIndex, 1)
+        } else {
+          // 重新排序即可
+          arrResort(jsonCode.value, oldIndex, newIndex)
+        }
+      } else {
+        //TODO: 从树的子节点拖动时，重新渲染画布
+        // 说明是从内层开始拖拽的
+      }
     }
 
     return {
@@ -156,6 +178,7 @@ export const useCodeStore = defineStore(
       draggedElement,
       outlineData,
       componentRefMap,
+      containerMap,
       dispatchFocus,
       getLibraryComponentInstanceDataAndSchema,
       clear,

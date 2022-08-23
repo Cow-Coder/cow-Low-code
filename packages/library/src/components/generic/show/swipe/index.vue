@@ -32,6 +32,7 @@ import type { Swipe } from 'vant'
 export default defineComponent({
   ...defineLibraryComponent({
     name: 'WidgetSwipe',
+    widgetType: 'generics',
     libraryName: LibraryPanelTabEnum.generics,
     tabName: 'show',
     order: 3,
