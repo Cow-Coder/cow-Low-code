@@ -9,7 +9,8 @@
 import { defineComponent, ref } from 'vue'
 import { Button, Dialog } from 'vant'
 import 'vant/es/dialog/style'
-import { ElIcon } from 'element-plus'
+import { LinkFour as IconLinkFour } from '@icon-park/vue-next'
+import { ElSpace } from 'element-plus'
 import {
   AttributePanelFormItemInputTypeEnum,
   AttributePanelsEnum,
@@ -20,8 +21,8 @@ import {
   defineLibraryComponent,
 } from '@cow-low-code/library/src/utils/library'
 import { useMultiClick } from '@cow-low-code/library/src/hooks/use-multi-click'
-import { CUSTOM_EVENT_EMIT_NAME } from '@cow-low-code/constant'
 import useLibraryComponentCustomTrigger from '@cow-low-code/library/src/hooks/use-library-component-custom-trigger'
+import { CUSTOM_EVENT_EMIT_NAME } from '@cow-low-code/constant'
 
 enum EventTriggersEnum {
   click = 'click',
@@ -32,29 +33,23 @@ export default defineComponent({
   ...defineLibraryComponent({
     name: 'WidgetButton',
     libraryName: LibraryPanelTabEnum.generics,
-    tabName: 'show',
+    tabName: 'form',
     order: 1,
     libraryPanelShowDetail: {
       title: '按钮',
-      icon: () => (
-        <>
-          <ElIcon size={16}>
-            <i-ep-aim />
-          </ElIcon>
-        </>
-      ),
+      icon: () => <IconLinkFour theme="outline" size="16" strokeWidth={4} />,
     },
     tips: {
       title: '按钮',
       desc: '用来展示一个按钮，你可以配置不同的展示样式，配置不同的点击行为。',
       preview: () => (
-        <>
-          <Button>按钮jsx</Button>
-          <Button type="primary">按钮jsx</Button>
+        <ElSpace size="large">
+          <Button>按钮1</Button>
+          <Button type="primary">按钮2</Button>
           <Button type="success" plain>
-            按钮jsx
+            按钮3
           </Button>
-        </>
+        </ElSpace>
       ),
     },
     eventTriggers: {
