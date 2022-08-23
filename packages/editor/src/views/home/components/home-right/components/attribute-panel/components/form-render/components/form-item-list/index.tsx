@@ -8,6 +8,7 @@ import Stepper from '@/views/home/components/home-right/components/attribute-pan
 import { SwitchWithSlots } from '@/views/home/components/home-right/components/attribute-panel/components/form-render/components/form-item-list/components/SwitchWithSlots'
 import { LibraryComponentFormItemLabelPositionEnum } from '@/types/library-component'
 import IndefiniteNumberCheckBoxes from '@/views/home/components/home-right/components/attribute-panel/components/form-render/components/form-item-list/components/IndefiniteNumberCheckBoxes'
+import CssPropertyInput from '@/views/home/components/home-right/components/attribute-panel/components/form-render/components/form-item-list/components/CssPropertyInput'
 
 const formItemChildRender = (
   //根据prop名称渲染组件
@@ -42,6 +43,11 @@ const formItemChildRender = (
   if (formItemSchema.formType === AttributePanelFormItemInputTypeEnum.indefiniteNumberCheckBoxes) {
     const checkList = propsData[formItemSchema.name] as any
     return <IndefiniteNumberCheckBoxes modelValue={checkList}></IndefiniteNumberCheckBoxes>
+  }
+  //CssPropertyInput
+  if (formItemSchema.formType === AttributePanelFormItemInputTypeEnum.cssPropertyInput) {
+    const cssArr = propsData[formItemSchema.name] as any
+    return <CssPropertyInput modelValue={cssArr}></CssPropertyInput>
   }
   //switch
   if (formItemSchema.formType === AttributePanelFormItemInputTypeEnum.switch) {

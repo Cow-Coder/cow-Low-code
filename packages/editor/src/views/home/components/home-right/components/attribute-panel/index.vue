@@ -9,10 +9,6 @@
           :component-schema="componentSchema"
           :cursor-panel="panelItem.name"
         />
-        <component
-          :is="formRender(componentDataProps, panelItem.name, componentSchemaProps)"
-          v-else
-        />
       </keep-alive>
     </el-tab-pane>
   </el-tabs>

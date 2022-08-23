@@ -59,6 +59,10 @@ export enum AttributePanelFormItemInputTypeEnum {
    *  不定个数复选框
    */
   indefiniteNumberCheckBoxes = 'indefiniteNumberCheckBoxes',
+  /**
+   * css样式输入框
+   */
+  cssPropertyInput = 'cssPropertyInput',
 }
 
 /**
