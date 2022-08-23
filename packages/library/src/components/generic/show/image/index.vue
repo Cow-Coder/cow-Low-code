@@ -4,7 +4,7 @@
 
 <script lang="tsx">
 import { Image as VanImage } from 'vant'
-import { ElIcon } from 'element-plus'
+import { Pic } from '@icon-park/vue-next'
 import {
   createLibraryComponentPropItem,
   defineLibraryComponent,
@@ -23,13 +23,7 @@ export default {
     order: 2,
     libraryPanelShowDetail: {
       title: '图片展示',
-      icon: () => (
-        <>
-          <ElIcon size={16}>
-            <i-ep-aim />
-          </ElIcon>
-        </>
-      ),
+      icon: () => <Pic theme="outline" size="16" fill="#333" strokeWidth={3} />,
     },
     tips: {
       title: '图片展示',

@@ -1,5 +1,5 @@
 <template>
-  <el-collapse v-model="collapseOpenArr">
+  <el-collapse ref="collapseContainer" v-model="collapseOpenArr">
     <!-- 表单组件 -->
     <el-collapse-item
       v-for="(tabItemVal, tabItemKey) in currentModules"
@@ -21,11 +21,13 @@
 </template>
 
 <script lang="tsx" setup>
+import { type Ref, toRef } from 'vue'
+import { useEventListener } from '@vueuse/core'
 import { leftDraggableConfig } from '../config'
 import LibraryItem from './library-item.vue'
-import type { PropType } from 'vue'
+import type { ComponentPublicInstance, PropType } from 'vue'
 import type { LibraryComponent } from '@/types/library-component'
-import type { LibraryPanel } from '../types'
+import type { LibraryPanel, TabList } from '../types'
 import PageDraggable from '@/components/page-draggable/index.vue'
 
 defineOptions({
@@ -43,10 +45,33 @@ const props = defineProps({
   },
 })
 
-const tabsList = toRef(props.vmOptions, 'tabsList')
+const tabsList = toRef(props.vmOptions, 'tabsList') as Ref<TabList>
 
 // 保持折叠面板默认打开
 const collapseOpenArr = ref(Object.keys(props.vmOptions.tabsList ?? {}) ?? [])
+
+// 禁止拖拽出去又拽回来
+const collapseContainer = ref<ComponentPublicInstance>()
+onMounted(() => {
+  useEventListener(
+    collapseContainer.value!.$el,
+    'dragover',
+    (e: DragEvent) => {
+      e.stopPropagation()
+      e.stopImmediatePropagation()
+    },
+    { capture: true }
+  )
+  useEventListener(
+    collapseContainer.value!.$el,
+    'dragenter',
+    (e: DragEvent) => {
+      e.stopPropagation()
+      e.stopImmediatePropagation()
+    },
+    { capture: true }
+  )
+})
 </script>
 
 <style lang="scss" scoped>

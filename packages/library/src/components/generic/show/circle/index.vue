@@ -14,7 +14,6 @@
 
 <script lang="tsx">
 import { computed, ref } from 'vue'
-import { ElIcon } from 'element-plus'
 import {
   AttributePanelFormItemInputTypeEnum,
   AttributePanelsEnum,
@@ -24,6 +23,10 @@ import {
   createLibraryComponentPropItem,
   defineLibraryComponent,
 } from '@cow-low-code/library/src/utils/library'
+import { PieTwo as IconPieTwo } from '@icon-park/vue-next'
+import { Circle as VantCircle } from 'vant'
+import 'vant/es/circle/style'
+
 export default {
   ...defineLibraryComponent({
     name: 'WidgetCircle',
@@ -32,22 +35,12 @@ export default {
     order: 8,
     libraryPanelShowDetail: {
       title: '圆形进度条',
-      icon: () => (
-        <>
-          <ElIcon size={16}>
-            <i-ep-PieChart />
-          </ElIcon>
-        </>
-      ),
+      icon: () => <IconPieTwo theme="outline" size="16" fill="#333" strokeWidth={3} />,
     },
     tips: {
       title: '圆形进度条',
       desc: '圆环形的进度条组件，支持进度渐变动画。',
-      preview: () => (
-        <>
-          <van-circle rate="30" speed="100" Stext="text" />
-        </>
-      ),
+      preview: () => <VantCircle currentRate={95} speed="100" text="圆形进度条" />,
     },
     eventTriggers: {
       click: {

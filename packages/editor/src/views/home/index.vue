@@ -2,7 +2,7 @@
   <el-container class="app-container">
     <!-- 顶栏 -->
     <el-header :height="styleHeaderHeight" class="shadow bg-white fixed top-0 z-20 w-full">
-      <home-header :style-header-height="styleHeaderHeight" @handle-reset-all="resetAll" />
+      <home-header :style-header-height="styleHeaderHeight" />
     </el-header>
 
     <!--    左中右操作区-->
@@ -76,11 +76,6 @@ watch(attributePanelRect, () =>
 const codeStore = useCodeStore()
 function freeFocus() {
   codeStore.freeFocus()
-}
-
-function resetAll() {
-  codeStore.clear()
-  ElMessage.success('清空所有数据成功')
 }
 </script>
 

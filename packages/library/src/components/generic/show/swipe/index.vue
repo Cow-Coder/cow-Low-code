@@ -8,16 +8,13 @@
     :show-indicators="showIndicators"
     :lazy-render="lazyRender"
   >
-    <van-swipe-item v-for="(url, index) in urlList" :key="index">
-      <component :is="renderItem(url)" />
-    </van-swipe-item>
+    <component :is="renderItemInner" />
   </van-swipe>
 </template>
 
 <script lang="tsx">
-import { defineComponent, ref } from 'vue'
-import { ElIcon } from 'element-plus'
-import { Image as VanImage } from 'vant'
+import { defineComponent, onMounted, ref } from 'vue'
+import { Image as VanImage, SwipeItem as VantSwipeItem } from 'vant'
 import {
   AttributePanelFormItemInputTypeEnum,
   AttributePanelsEnum,
@@ -28,6 +25,7 @@ import {
   createLibraryComponentPropItem,
   defineLibraryComponent,
 } from '@cow-low-code/library/src/utils/library'
+import { Carousel } from '@icon-park/vue-next'
 import preview from './components/preview.vue'
 import type { Swipe } from 'vant'
 
@@ -35,17 +33,11 @@ export default defineComponent({
   ...defineLibraryComponent({
     name: 'WidgetSwipe',
     libraryName: LibraryPanelTabEnum.generics,
-    tabName: 'form',
+    tabName: 'show',
     order: 3,
     libraryPanelShowDetail: {
       title: '轮播图',
-      icon: () => (
-        <>
-          <ElIcon size={16}>
-            <i-ep-copy-document />
-          </ElIcon>
-        </>
-      ),
+      icon: () => <Carousel theme="outline" size="16" fill="#333" strokeWidth={3} />,
     },
     tips: {
       title: '图片展示',
@@ -145,9 +137,26 @@ export default defineComponent({
       }
       return <>{maybeLink}</>
     }
+    const isMounted = ref(false)
+    onMounted(() => {
+      isMounted.value = true
+    })
+    /**
+     * 这个没办法只能这么子写，因为VantSwipeItem里面用的这种奇葩操作。导致这里动态渲染会出现一个奇葩的bug
+     */
+    const renderItemInner = () => {
+      if (!isMounted.value) return <div></div>
+      return props.urlList.map((url: string) => (
+        <VantSwipeItem key={url}>
+          {{
+            default: () => renderItem(url),
+          }}
+        </VantSwipeItem>
+      ))
+    }
     return {
-      renderItem,
       swipeRef,
+      renderItemInner,
     }
   },
 })
