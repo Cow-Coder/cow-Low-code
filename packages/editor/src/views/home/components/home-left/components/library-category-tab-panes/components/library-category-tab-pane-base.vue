@@ -22,11 +22,10 @@
 
 <script lang="tsx" setup>
 import { type Ref, toRef } from 'vue'
-import { ElCollapse } from 'element-plus'
 import { useEventListener } from '@vueuse/core'
 import { leftDraggableConfig } from '../config'
 import LibraryItem from './library-item.vue'
-import type { PropType } from 'vue'
+import type { ComponentPublicInstance, PropType } from 'vue'
 import type { LibraryComponent } from '@/types/library-component'
 import type { LibraryPanel, TabList } from '../types'
 import PageDraggable from '@/components/page-draggable/index.vue'
@@ -52,7 +51,7 @@ const tabsList = toRef(props.vmOptions, 'tabsList') as Ref<TabList>
 const collapseOpenArr = ref(Object.keys(props.vmOptions.tabsList ?? {}) ?? [])
 
 // 禁止拖拽出去又拽回来
-const collapseContainer = ref<InstanceType<typeof ElCollapse>>()
+const collapseContainer = ref<ComponentPublicInstance>()
 onMounted(() => {
   useEventListener(
     collapseContainer.value!.$el,
