@@ -8,16 +8,14 @@
     :show-indicators="showIndicators"
     :lazy-render="lazyRender"
   >
-    <van-swipe-item v-for="(url, index) in urlList" :key="index">
-      <component :is="renderItem(url)" />
-    </van-swipe-item>
+    <component :is="renderItemInner" />
   </van-swipe>
 </template>
 
 <script lang="tsx">
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent, onMounted, ref } from 'vue'
 import { ElIcon } from 'element-plus'
-import { Image as VanImage } from 'vant'
+import { Image as VanImage, SwipeItem as VantSwipeItem } from 'vant'
 import {
   AttributePanelFormItemInputTypeEnum,
   AttributePanelsEnum,
@@ -145,9 +143,26 @@ export default defineComponent({
       }
       return <>{maybeLink}</>
     }
+    const isMounted = ref(false)
+    onMounted(() => {
+      isMounted.value = true
+    })
+    /**
+     * 这个没办法只能这么子写，因为VantSwipeItem里面用的这种奇葩操作。导致这里动态渲染会出现一个奇葩的bug
+     */
+    const renderItemInner = () => {
+      if (!isMounted.value) return <div></div>
+      return props.urlList.map((url: string) => (
+        <VantSwipeItem key={url}>
+          {{
+            default: () => renderItem(url),
+          }}
+        </VantSwipeItem>
+      ))
+    }
     return {
-      renderItem,
       swipeRef,
+      renderItemInner,
     }
   },
 })

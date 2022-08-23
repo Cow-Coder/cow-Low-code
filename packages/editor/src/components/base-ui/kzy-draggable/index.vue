@@ -27,7 +27,6 @@
 <script lang="ts" setup>
 import Draggable from 'vuedraggable'
 import type { CloneDrag, GroupDrag, MoveDrag } from '@/components/base-ui/kzy-draggable/types'
-import type { LibraryComponent } from '@/types/library-component'
 import { DRAGGABLE_GROUP_NAME } from '@//constant'
 
 defineOptions({
@@ -35,7 +34,7 @@ defineOptions({
 })
 
 interface DragProps {
-  dataList: Record<string, LibraryComponent[]>
+  dataList: unknown[]
   group?: GroupDrag
   itemKey?: string
   sort?: boolean
