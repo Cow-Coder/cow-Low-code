@@ -30,6 +30,7 @@ export const panelList: AttributePanelTabConfig[] = [
   {
     title: '外观',
     name: AttributePanelsEnum.appearance,
+    component: GenericTabPane,
   },
   {
     title: '事件',
