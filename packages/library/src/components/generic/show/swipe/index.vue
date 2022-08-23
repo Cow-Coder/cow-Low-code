@@ -13,8 +13,7 @@
 </template>
 
 <script lang="tsx">
-import { computed, defineComponent, onMounted, ref } from 'vue'
-import { ElIcon } from 'element-plus'
+import { defineComponent, onMounted, ref } from 'vue'
 import { Image as VanImage, SwipeItem as VantSwipeItem } from 'vant'
 import {
   AttributePanelFormItemInputTypeEnum,
@@ -26,6 +25,7 @@ import {
   createLibraryComponentPropItem,
   defineLibraryComponent,
 } from '@cow-low-code/library/src/utils/library'
+import { Carousel } from '@icon-park/vue-next'
 import preview from './components/preview.vue'
 import type { Swipe } from 'vant'
 
@@ -33,17 +33,11 @@ export default defineComponent({
   ...defineLibraryComponent({
     name: 'WidgetSwipe',
     libraryName: LibraryPanelTabEnum.generics,
-    tabName: 'form',
+    tabName: 'show',
     order: 3,
     libraryPanelShowDetail: {
       title: '轮播图',
-      icon: () => (
-        <>
-          <ElIcon size={16}>
-            <i-ep-copy-document />
-          </ElIcon>
-        </>
-      ),
+      icon: () => <Carousel theme="outline" size="16" fill="#333" strokeWidth={3} />,
     },
     tips: {
       title: '图片展示',
