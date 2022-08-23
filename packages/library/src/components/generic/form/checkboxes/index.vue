@@ -10,7 +10,7 @@
       <van-checkbox v-show="choseAll" :shape="shape" @click="checkAll">全选/全不选</van-checkbox>
       <van-checkbox
         v-for="item of defaultData"
-        :key="item"
+        :key="item.value"
         :shape="shape"
         :name="item.checked ? item : ''"
         >{{ item.name }}</van-checkbox
@@ -20,6 +20,8 @@
 </template>
 
 <script lang="tsx">
+import { reactive } from '@vue/reactivity'
+import { computed } from '@vue/runtime-core'
 import { Checkbox, CheckboxGroup } from 'vant'
 import { ElIcon } from 'element-plus'
 import {
@@ -38,8 +40,7 @@ export default {
     name: 'WidgetCheckboxes',
     libraryName: LibraryPanelTabEnum.generics,
     tabName: 'form',
-    order: 5,
-    showOrigin: false,
+    order: 9,
     libraryPanelShowDetail: {
       title: '复选框',
       icon: () => (
@@ -72,7 +73,6 @@ export default {
       },
     },
   }),
-
   props: {
     field: createLibraryComponentPropItem({
       title: '字段值',
@@ -134,7 +134,15 @@ export default {
   setup(props) {
     //通过实例获取refs
     const instance = getCurrentInstance()
-    const checkList = ref(props.defaultData)
+    const checkList = computed({
+      get() {
+        return props.defaultData
+      },
+      set(newV) {
+        props.defaultData = newV
+      },
+    })
+
     const compCss = ref(props.widgetCss)
     //初始化css数组
     const widgetCssArr = computed(() => {
@@ -144,9 +152,11 @@ export default {
       }
       return tempCss
     })
+
     const checkAll = () => {
       instance?.refs.checkboxGroupRef?.toggleAll(true)
     }
+
     return {
       checkAll,
       checkList,
