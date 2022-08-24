@@ -127,6 +127,8 @@ export const useCodeStore = defineStore(
 
     // 删除单个组件
     function dispatchDelete(uuid: string) {
+      const wantDeleteComp = useRecurseQuerySchema(uuid)
+      //TODO: 删除子元素
       const newJsonCode = jsonCode.value.filter((item) => item.uuid !== uuid)
       jsonCode.value = newJsonCode
       return jsonCode

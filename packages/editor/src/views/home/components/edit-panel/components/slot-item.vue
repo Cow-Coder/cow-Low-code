@@ -14,6 +14,7 @@
           @touchstart.capture="onTouchEvent"
           @touchmove.capture="onTouchEvent"
           @touchend.capture="onTouchEvent"
+          @contextmenu.prevent.stop="onContextMenu($event, element)"
         >
           <widget-render :widget-element="element" :container-map="containerMap">
             <template
@@ -27,6 +28,7 @@
                 :on-touch-event="onTouchEvent"
                 :on-choose="onChoose"
                 :is-down-space="isDownSpace"
+                :on-context-menu="onContextMenu"
                 :container="element"
               />
             </template>
@@ -55,6 +57,7 @@ interface SlotItemProps {
   isDownSpace?: boolean
   onChoose: (data: LibraryComponentInstanceData) => void
   onTouchEvent: (e: TouchEvent) => void
+  onContextMenu: (e: MouseEvent, data: LibraryComponentInstanceData) => void
 }
 const props = withDefaults(defineProps<SlotItemProps>(), {
   children: () => [],
