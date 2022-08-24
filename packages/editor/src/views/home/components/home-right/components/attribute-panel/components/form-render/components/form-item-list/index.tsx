@@ -97,10 +97,14 @@ export default (
     if (propItem.labelPosition === LibraryComponentFormItemLabelPositionEnum.top) {
       style['display'] = 'block'
     }
-    return (
-      <ElFormItem label={propItem.title} key={propItem.name} style={style}>
-        {formItemChildRender(propsData, propItem)}
-      </ElFormItem>
-    )
+    if (!propItem.isNotShowRight) {
+      return (
+        <ElFormItem label={propItem.title} key={propItem.name} style={style}>
+          {formItemChildRender(propsData, propItem)}
+        </ElFormItem>
+      )
+    } else {
+      return undefined
+    }
   })
 }
