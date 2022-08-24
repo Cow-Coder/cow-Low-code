@@ -52,7 +52,6 @@
     "@vue/tsconfig": "^0.1.3",
     "autoprefixer": "^10.4.8",
     "consola": "^2.15.3",
-    "cz-git": "^1.3.10",
     "czg": "^1.3.10",
     "eslint": "^8.21.0",
     "eslint-define-config": "^1.6.0",
@@ -81,11 +80,6 @@
   "engines": {
     "node": ">= 16",
     "pnpm": ">=7"
-  },
-  "config": {
-    "commitizen": {
-      "path": "node_modules/cz-git"
-    }
   },
   "pnpm": {
     "peerDependencyRules": {
