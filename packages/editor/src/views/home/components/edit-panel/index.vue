@@ -14,7 +14,11 @@
           @touchend.capture="onTouchEvent"
           @contextmenu.capture.prevent="onContextMenu($event, element)"
         >
-          <widget-render :widget-element="element" :is-down-space="isDownSpace">
+          <widget-render
+            :widget-element="element"
+            :is-down-space="isDownSpace"
+            :container-map="containerMap"
+          >
             <template v-for="(value, slotKey) in element.props?.slots" :key="slotKey" #[slotKey]>
               <slot-item
                 :children="value.children"
@@ -40,6 +44,7 @@ import useDragPreview from './use-drag-preview'
 import SlotItem from './components/slot-item.vue'
 import WidgetRender from './components/widget-render.vue'
 import PageDraggable from '@/components/page-draggable/index.vue'
+import { useCodeStore } from '@/stores/code'
 
 defineOptions({
   name: 'EditPanel',
@@ -47,13 +52,12 @@ defineOptions({
 
 const { isDownSpace, onTouchEvent, onChoose } = usePreventTouch()
 const { onContextMenu } = useContentMenu()
-const {
-  editDraggableConfigRef,
-  isFocusComponent,
-  parseLibraryComponent,
-  editableInstancedLibraryComponentData,
-} = useParseLibrary(isDownSpace)
-const { editCanvasRef } = useDragPreview()
+const { editDraggableConfigRef, isFocusComponent, editableInstancedLibraryComponentData } =
+  useParseLibrary(isDownSpace)
+//TODO: fix：The node to be removed is not a child of this node.
+// const { editCanvasRef } = useDragPreview()
+const store = useCodeStore()
+const { containerMap } = storeToRefs(store)
 </script>
 
 <style lang="scss" scoped>
