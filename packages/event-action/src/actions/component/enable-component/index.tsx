@@ -28,7 +28,7 @@ export default defineActionHandler<Props>({
   },
   handler(config) {
     // TODO: 待开发
-    console.log(11)
+    console.warn(`待开发`)
   },
   configPanel: markRaw(
     defineComponent({

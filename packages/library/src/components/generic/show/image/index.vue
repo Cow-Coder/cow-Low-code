@@ -5,6 +5,7 @@
 </template>
 
 <script lang="tsx">
+import { computed, defineComponent } from 'vue'
 import { Image as VanImage } from 'vant'
 import { Pic } from '@icon-park/vue-next'
 import {
@@ -16,8 +17,9 @@ import {
   AttributePanelsEnum,
   LibraryPanelTabEnum,
 } from '@cow-low-code/types'
+import { useVModel } from '@vueuse/core'
 
-export default {
+export default defineComponent({
   ...defineLibraryComponent({
     name: 'WidgetImage',
     libraryName: LibraryPanelTabEnum.generics,
@@ -93,15 +95,9 @@ export default {
       belongToPanel: AttributePanelsEnum.appearance,
     }),
   },
-  setup(props) {
-    const compCss = computed({
-      get() {
-        return props.widgetCss
-      },
-      set(newV) {
-        props.widgetCss = newV
-      },
-    })
+  emits: ['update:widgetCss'],
+  setup(props, { emit }) {
+    const compCss = useVModel(props, 'widgetCss', emit, { passive: true })
     //初始化css数组
     const widgetCssArr = computed(() => {
       const tempCss = []
@@ -112,7 +108,7 @@ export default {
     })
     return { widgetCssArr }
   },
-}
+})
 </script>
 
 <style scoped></style>

@@ -71,11 +71,6 @@ const onEndCallback = () => {
   store.removeDraggedElement()
 }
 
-const log = function (evt: any) {
-  window.console.log(evt)
-  console.log('change：', evt)
-}
-
 export const leftDraggableConfig: Draggable = {
   draggableProp: {
     group: { name: DRAGGABLE_GROUP_NAME, pull: 'clone', put: false },
@@ -85,6 +80,5 @@ export const leftDraggableConfig: Draggable = {
     handleClone: onCloneCallback,
     handleMove: onMoveCallback,
   },
-  handleChange: log,
   handleEnd: onEndCallback,
 }
