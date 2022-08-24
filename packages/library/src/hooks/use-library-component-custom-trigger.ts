@@ -22,12 +22,12 @@ function createCustomEventTriggerProp() {
  * 应用自定义事件触发器
  * @param context setup函数return返回的对象，这里也传一份
  */
-function applyCustomEventTriggers(context: any) {
+function applyCustomEventTriggers<T>(context: T): T {
   const instance = getCurrentInstance()!
   const props = instance.props as Readonly<
     ExtractPropTypes<ReturnType<typeof createCustomEventTriggerProp>>
   >
-  if (!props[CUSTOM_EVENT_TRIGGER_NAME]) return undefined
+  if (!props[CUSTOM_EVENT_TRIGGER_NAME]) return context
   Object.entries(props.customEventTrigger).forEach(([name, trigger]) => {
     const execFun = new Function(
       `context`,
@@ -38,6 +38,7 @@ function applyCustomEventTriggers(context: any) {
     )
     execFun(context, getCurrentInstance, CUSTOM_EVENT_EMIT_NAME, name)
   })
+  return context
 }
 
 export default {

@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div :class="widgetCssArr">
     <van-button :type="buttonType" :size="buttonSize" :url="url" @click="onClick">{{
       title
     }}</van-button>
   </div>
 </template>
 <script lang="tsx">
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { Button, Dialog } from 'vant'
 import 'vant/es/dialog/style'
 import { LinkFour as IconLinkFour } from '@icon-park/vue-next'
@@ -23,6 +23,7 @@ import {
 import { useMultiClick } from '@cow-low-code/library/src/hooks/use-multi-click'
 import useLibraryComponentCustomTrigger from '@cow-low-code/library/src/hooks/use-library-component-custom-trigger'
 import { CUSTOM_EVENT_EMIT_NAME } from '@cow-low-code/constant'
+import { useVModel } from '@vueuse/core'
 
 enum EventTriggersEnum {
   click = 'click',
@@ -118,6 +119,12 @@ export default defineComponent({
       belongToPanel: AttributePanelsEnum.generic,
       type: String,
     }),
+    widgetCss: createLibraryComponentPropItem({
+      title: '控件样式',
+      default: {},
+      formType: AttributePanelFormItemInputTypeEnum.cssPropertyInput,
+      belongToPanel: AttributePanelsEnum.appearance,
+    }),
     /**
      * 声明该组件支持自定义事件
      */
@@ -126,7 +133,7 @@ export default defineComponent({
   /**
    * 所有物料组件触发事件都用dispatchEvent
    */
-  emits: [CUSTOM_EVENT_EMIT_NAME],
+  emits: [CUSTOM_EVENT_EMIT_NAME, 'update:widgetCss'],
   setup(props, { emit }) {
     const show = ref(false)
 
@@ -136,10 +143,10 @@ export default defineComponent({
         show.value = true
         Dialog.confirm({ message: tips })
           .then((e) => {
-            console.log(e)
+            console.warn(e)
           })
           .catch((err) => {
-            console.log(err)
+            console.error(err)
           })
       }
     }
@@ -156,16 +163,23 @@ export default defineComponent({
       else if (count === 2) onDoubleClick()
     }
     const onMultiClick = ref(useMultiClick(dispatchClick, 200))
-    const returnContext = {
+    const compCss = useVModel(props, 'widgetCss', emit, { passive: true })
+    const widgetCssArr = computed(() => {
+      const tempCss = []
+      for (const item1 in compCss.value) {
+        tempCss.push(compCss.value[item1]?.[0])
+      }
+      return tempCss
+    })
+
+    return useLibraryComponentCustomTrigger.applyCustomEventTriggers({
       showTips,
       show,
       onClick: onMultiClick.value,
       dispatchClick,
       useMultiClick,
-    }
-
-    useLibraryComponentCustomTrigger.applyCustomEventTriggers(returnContext)
-    return returnContext
+      widgetCssArr,
+    })
   },
 })
 </script>

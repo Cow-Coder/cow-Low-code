@@ -1,5 +1,5 @@
 <template>
-  <div class="collapse">
+  <div class="collapse" :class="widgetCssArr">
     <van-collapse v-model="activeNames">
       <van-collapse-item :title="title" name="1">
         {{ content }}
@@ -9,7 +9,7 @@
 </template>
 
 <script lang="tsx">
-import { defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import { ElIcon } from 'element-plus'
 import { useVModel } from '@vueuse/core'
 import {
@@ -21,6 +21,7 @@ import {
   createLibraryComponentPropItem,
   defineLibraryComponent,
 } from '@cow-low-code/library/src/utils/library'
+import { MenuFoldOne } from '@icon-park/vue-next'
 import Preview from './components/preview.vue'
 
 export default defineComponent({
@@ -32,13 +33,7 @@ export default defineComponent({
     order: 5,
     libraryPanelShowDetail: {
       title: '折叠面板',
-      icon: () => (
-        <>
-          <ElIcon size={16}>
-            <i-ep-Fold />
-          </ElIcon>
-        </>
-      ),
+      icon: () => <MenuFoldOne theme="outline" size="16" strokeWidth={3} />,
     },
     tips: {
       title: '折叠面板',
@@ -68,13 +63,29 @@ export default defineComponent({
       type: String,
       default: 'Display constant！',
     }),
+    widgetCss: createLibraryComponentPropItem({
+      title: '控件样式',
+      default: {},
+      formType: AttributePanelFormItemInputTypeEnum.cssPropertyInput,
+      belongToPanel: AttributePanelsEnum.appearance,
+    }),
   },
+  emits: ['update:widgetCss'],
   setup(props, { emit }) {
     const activeNames = ref<string[]>(['1'])
     watch(useVModel(props, 'defaultFold', emit), (newValue) => {
       activeNames.value = newValue ? ['1'] : []
     })
-    return { activeNames }
+    const compCss = useVModel(props, 'widgetCss', emit, { passive: true })
+    //初始化css数组
+    const widgetCssArr = computed(() => {
+      const tempCss = []
+      for (const item1 in compCss.value) {
+        tempCss.push(compCss.value[item1]?.[0])
+      }
+      return tempCss
+    })
+    return { activeNames, widgetCssArr }
   },
 })
 </script>

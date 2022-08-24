@@ -1,19 +1,21 @@
 <template>
-  <van-circle
-    v-model:current-rate="currentRate"
-    :rate="rate"
-    :text="text"
-    :color="color"
-    :layer-color="layerColor"
-    :fill="fill"
-    :speed="speed"
-    :stroke-width="strokeWidth"
-    :clockwise="clockwise"
-  />
+  <div :class="widgetCssArr">
+    <van-circle
+      v-model:current-rate="currentRate"
+      :rate="rate"
+      :text="text"
+      :color="color"
+      :layer-color="layerColor"
+      :fill="fill"
+      :speed="speed"
+      :stroke-width="strokeWidth"
+      :clockwise="clockwise"
+    />
+  </div>
 </template>
 
 <script lang="tsx">
-import { computed, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import {
   AttributePanelFormItemInputTypeEnum,
   AttributePanelsEnum,
@@ -26,8 +28,9 @@ import {
 import { PieTwo as IconPieTwo } from '@icon-park/vue-next'
 import { Circle as VantCircle } from 'vant'
 import 'vant/es/circle/style'
+import { useVModel } from '@vueuse/core'
 
-export default {
+export default defineComponent({
   ...defineLibraryComponent({
     name: 'WidgetCircle',
     widgetType: 'generics',
@@ -104,16 +107,32 @@ export default {
       type: Boolean,
       default: true,
     }),
+    widgetCss: createLibraryComponentPropItem({
+      title: '控件样式',
+      default: {},
+      formType: AttributePanelFormItemInputTypeEnum.cssPropertyInput,
+      belongToPanel: AttributePanelsEnum.appearance,
+    }),
   },
-  setup() {
+  emits: ['update:widgetCss'],
+  setup(props, { emit }) {
     const currentRate = ref(0)
     const text = computed(() => `${currentRate.value.toFixed(0)}%`)
+    const compCss = useVModel(props, 'widgetCss', emit, { passive: true })
+    const widgetCssArr = computed(() => {
+      const tempCss = []
+      for (const item1 in compCss.value) {
+        tempCss.push(compCss.value[item1]?.[0])
+      }
+      return tempCss
+    })
     return {
       currentRate,
       text,
+      widgetCssArr,
     }
   },
-}
+})
 </script>
 
 <style scoped></style>

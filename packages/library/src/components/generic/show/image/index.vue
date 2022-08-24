@@ -1,8 +1,11 @@
 <template>
-  <van-image :height="height" :width="width" :src="url" :fit="fit" :radius="radius" />
+  <div :class="widgetCssArr">
+    <van-image :height="height" :width="width" :src="url" :fit="fit" :radius="radius" />
+  </div>
 </template>
 
 <script lang="tsx">
+import { computed, defineComponent } from 'vue'
 import { Image as VanImage } from 'vant'
 import { Pic } from '@icon-park/vue-next'
 import {
@@ -14,8 +17,9 @@ import {
   AttributePanelsEnum,
   LibraryPanelTabEnum,
 } from '@cow-low-code/types'
+import { useVModel } from '@vueuse/core'
 
-export default {
+export default defineComponent({
   ...defineLibraryComponent({
     name: 'WidgetImage',
     widgetType: 'generics',
@@ -85,8 +89,27 @@ export default {
       belongToPanel: AttributePanelsEnum.generic,
       default: 'contain',
     }),
+    widgetCss: createLibraryComponentPropItem({
+      title: '控件样式',
+      default: {},
+      formType: AttributePanelFormItemInputTypeEnum.cssPropertyInput,
+      belongToPanel: AttributePanelsEnum.appearance,
+    }),
   },
-}
+  emits: ['update:widgetCss'],
+  setup(props, { emit }) {
+    const compCss = useVModel(props, 'widgetCss', emit, { passive: true })
+    //初始化css数组
+    const widgetCssArr = computed(() => {
+      const tempCss = []
+      for (const item1 in compCss.value) {
+        tempCss.push(compCss.value[item1]?.[0])
+      }
+      return tempCss
+    })
+    return { widgetCssArr }
+  },
+})
 </script>
 
 <style scoped></style>

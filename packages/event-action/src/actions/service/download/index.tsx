@@ -11,6 +11,6 @@ export default {
     </>
   ),
   handler: () => {
-    console.log(`自定义JS handler触发`)
+    console.warn(`自定义JS handler触发`)
   },
 } as ActionHandlerSchema
