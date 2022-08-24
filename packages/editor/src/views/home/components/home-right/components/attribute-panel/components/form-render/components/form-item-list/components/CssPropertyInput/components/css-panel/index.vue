@@ -237,6 +237,7 @@ const cssPanelData = [
     @apply border-2 border-gray-300;
     transform: scale(1.09);
     transition: all ease 0.5s;
+    cursor: pointer;
   }
 }
 .activeButton {
