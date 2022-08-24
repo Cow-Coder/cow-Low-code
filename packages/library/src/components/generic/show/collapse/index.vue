@@ -1,5 +1,5 @@
 <template>
-  <div class="collapse">
+  <div class="collapse" :class="widgetCssArr">
     <van-collapse v-model="activeNames">
       <van-collapse-item :title="title" name="1">
         {{ content }}
@@ -67,13 +67,35 @@ export default defineComponent({
       type: String,
       default: 'Display constant！',
     }),
+    widgetCss: createLibraryComponentPropItem({
+      title: '控件样式',
+      default: {},
+      formType: AttributePanelFormItemInputTypeEnum.cssPropertyInput,
+      belongToPanel: AttributePanelsEnum.appearance,
+    }),
   },
   setup(props, { emit }) {
     const activeNames = ref<string[]>(['1'])
     watch(useVModel(props, 'defaultFold', emit), (newValue) => {
       activeNames.value = newValue ? ['1'] : []
     })
-    return { activeNames }
+    const compCss = computed({
+      get() {
+        return props.widgetCss
+      },
+      set(newV) {
+        props.widgetCss = newV
+      },
+    })
+    //初始化css数组
+    const widgetCssArr = computed(() => {
+      const tempCss = []
+      for (const item1 in compCss.value) {
+        tempCss.push(compCss.value[item1]?.[0])
+      }
+      return tempCss
+    })
+    return { activeNames, widgetCssArr }
   },
 })
 </script>
