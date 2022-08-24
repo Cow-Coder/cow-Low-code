@@ -1,19 +1,21 @@
 <template>
-  <van-swipe
-    ref="swipeRef"
-    :autoplay="autoplay"
-    :duration="duration"
-    :initial-swipe="initialSwipe"
-    :loop="loop"
-    :show-indicators="showIndicators"
-    :lazy-render="lazyRender"
-  >
-    <component :is="renderItemInner" />
-  </van-swipe>
+  <div :class="widgetCssArr">
+    <van-swipe
+      ref="swipeRef"
+      :autoplay="autoplay"
+      :duration="duration"
+      :initial-swipe="initialSwipe"
+      :loop="loop"
+      :show-indicators="showIndicators"
+      :lazy-render="lazyRender"
+    >
+      <component :is="renderItemInner" />
+    </van-swipe>
+  </div>
 </template>
 
 <script lang="tsx">
-import { defineComponent, onMounted, ref } from 'vue'
+import { computed, defineComponent, onMounted, ref } from 'vue'
 import { Image as VanImage, SwipeItem as VantSwipeItem } from 'vant'
 import {
   AttributePanelFormItemInputTypeEnum,
@@ -26,6 +28,7 @@ import {
   defineLibraryComponent,
 } from '@cow-low-code/library/src/utils/library'
 import { Carousel } from '@icon-park/vue-next'
+import { useVModel } from '@vueuse/core'
 import preview from './components/preview.vue'
 import type { Swipe } from 'vant'
 
@@ -117,8 +120,15 @@ export default defineComponent({
       default: false,
       type: Boolean,
     }),
+    widgetCss: createLibraryComponentPropItem({
+      title: '控件样式',
+      default: {},
+      formType: AttributePanelFormItemInputTypeEnum.cssPropertyInput,
+      belongToPanel: AttributePanelsEnum.appearance,
+    }),
   },
-  setup(props, { expose }) {
+  emits: ['update:widgetCss'],
+  setup(props, { expose, emit }) {
     const swipeRef = ref<InstanceType<typeof Swipe>>()
     expose({
       swipeRef,
@@ -155,9 +165,20 @@ export default defineComponent({
         </VantSwipeItem>
       ))
     }
+    const compCss = useVModel(props, 'widgetCss', emit, { passive: true })
+    //初始化css数组
+    const widgetCssArr = computed(() => {
+      const tempCss = []
+      for (const item1 in compCss.value) {
+        tempCss.push(compCss.value[item1]?.[0])
+      }
+      return tempCss
+    })
+
     return {
       swipeRef,
       renderItemInner,
+      widgetCssArr,
     }
   },
 })

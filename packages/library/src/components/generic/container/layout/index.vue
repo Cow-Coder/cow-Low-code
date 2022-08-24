@@ -1,6 +1,6 @@
 <template>
-  <div class="layout">
-    <van-row :gutter="gutter" :align="align" :justify="justify">
+  <div class="layout" :class="widgetCssArr">
+    <van-row v-model="activeNames" :gutter="gutter" :align="align" :justify="justify">
       <template v-for="item in colValue" :key="item.slotName">
         <van-col :span="item.span">
           <slot :name="item.slotName" />
@@ -11,7 +11,7 @@
 </template>
 
 <script lang="tsx">
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import { ElIcon } from 'element-plus'
 import {
   createLibraryComponentPropItem,
@@ -23,6 +23,7 @@ import {
   AttributePanelsEnum,
   LibraryPanelTabEnum,
 } from '@cow-low-code/types'
+import { useVModel } from '@vueuse/core'
 import type { PropType } from 'vue'
 import type { ContainerMap, LibraryComponentInstanceData, SlotItemValue } from '@cow-low-code/types'
 
@@ -102,16 +103,38 @@ export default defineComponent({
       ],
       default: 'center',
     }),
-    containerMap: {
+    widgetCss: createLibraryComponentPropItem({
+      title: '控件样式',
+      default: {},
+      formType: AttributePanelFormItemInputTypeEnum.cssPropertyInput,
+      belongToPanel: AttributePanelsEnum.appearance,
+    }),
+    containerMap: createLibraryComponentPropItem({
       type: Object as PropType<ContainerMap>,
       default: () => ({}),
-    },
-    containerSchema: {
+      isNotShowRight: true,
+    }),
+    containerSchema: createLibraryComponentPropItem({
       type: Object as PropType<LibraryComponentInstanceData>,
-    },
+      isNotShowRight: true,
+    }),
   },
-  emits: ['update:slots'],
-  setup(props, { attrs }) {
+  emits: ['update:slots', 'update:widgetCss'],
+  setup(props, { attrs, emit }) {
+    const activeNames = ref<string[]>(['1'])
+    watch(useVModel(props, 'defaultFold', emit), (newValue) => {
+      activeNames.value = newValue ? ['1'] : []
+    })
+    const compCss = useVModel(props, 'widgetCss', emit, { passive: true })
+    //初始化css数组
+    const widgetCssArr = computed(() => {
+      const tempCss = []
+      for (const item1 in compCss.value) {
+        tempCss.push(compCss.value[item1]?.[0])
+      }
+      return tempCss
+    })
+
     const compId = attrs[`comp-id`] as string
     // 监听列比例的变化，保留上一次的物料给新的slot
     watch(
@@ -143,7 +166,7 @@ export default defineComponent({
           }
         })
     )
-    return { colValue }
+    return { colValue, activeNames, widgetCssArr }
   },
 })
 </script>

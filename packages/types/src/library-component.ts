@@ -30,11 +30,11 @@ export type LibraryComponentPropItem = {
   /**
    * 表单类型
    */
-  formType: AttributePanelFormItemInputTypeEnum
+  formType?: AttributePanelFormItemInputTypeEnum
   /**
    * 描述标题
    */
-  title: string
+  title?: string
   /**
    * 提示信息
    */
@@ -50,7 +50,7 @@ export type LibraryComponentPropItem = {
   /**
    * 当前属性应该显示在哪个面板
    */
-  belongToPanel: AttributePanelsEnum
+  belongToPanel?: AttributePanelsEnum
   /**
    * select选项
    */
