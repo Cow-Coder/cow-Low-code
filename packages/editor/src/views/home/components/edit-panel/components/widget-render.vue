@@ -1,6 +1,12 @@
 <template>
   <div class="widget-render">
-    <widget-item :comp-id="element.uuid" v-bind="widgetProps" @dispatch-event="handleDispatchEvent">
+    <widget-item
+      :comp-id="element.uuid"
+      :container-schema="element"
+      v-bind="widgetProps"
+      :container-map="containerMap"
+      @dispatch-event="handleDispatchEvent"
+    >
       <!-- 使用里面的插槽并且重新派发给edit使用 -->
       <template v-for="(value, slotKey) in element.props?.slots" :key="slotKey" #[slotKey]>
         <slot :name="slotKey" />
@@ -10,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { LibraryComponentInstanceData } from '@/types/library-component'
+import type { ContainerMap, LibraryComponentInstanceData } from '@/types/library-component'
 import type { PropType } from 'vue'
 import useParseLibrary from '@/views/home/components/edit-panel/use-parse-library'
 
@@ -24,6 +30,10 @@ const props = defineProps({
   isDownSpace: {
     type: Boolean,
     default: false,
+  },
+  containerMap: {
+    type: Object as PropType<ContainerMap>,
+    default: () => ({}),
   },
 })
 const emits = defineEmits(['update:widgetElement'])

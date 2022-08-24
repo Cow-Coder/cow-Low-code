@@ -1,6 +1,7 @@
 // @ts-ignore
 import type { DropType } from 'element-plus/es/components/tree/src/tree.type'
 import type {
+  ContainerMap,
   LibraryComponent,
   LibraryComponentInstanceData,
   LibraryComponentInstanceFocus,
@@ -56,9 +57,7 @@ export const useCodeStore = defineStore(
     /**
      * 容器组件映射
      */
-    const containerMap = ref<{
-      [key: string]: LibraryComponentInstanceData
-    }>({})
+    const containerMap = ref<ContainerMap>({})
     /**
      * store恢复初始状态
      * Q: 为什么不用 store.$reset() ?

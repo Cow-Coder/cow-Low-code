@@ -13,7 +13,6 @@
 <script lang="tsx">
 import { computed, defineComponent } from 'vue'
 import { ElIcon } from 'element-plus'
-
 import {
   createLibraryComponentPropItem,
   createSlots,
@@ -24,8 +23,8 @@ import {
   AttributePanelsEnum,
   LibraryPanelTabEnum,
 } from '@cow-low-code/types'
-
-import type { SlotItemValue } from '@cow-low-code/types'
+import type { PropType } from 'vue'
+import type { ContainerMap, LibraryComponentInstanceData, SlotItemValue } from '@cow-low-code/types'
 
 export default defineComponent({
   ...defineLibraryComponent({
@@ -103,20 +102,23 @@ export default defineComponent({
       ],
       default: 'center',
     }),
+    containerMap: {
+      type: Object as PropType<ContainerMap>,
+      default: () => ({}),
+    },
+    containerSchema: {
+      type: Object as PropType<LibraryComponentInstanceData>,
+    },
   },
   emits: ['update:slots'],
   setup(props, { attrs }) {
     const compId = attrs[`comp-id`] as string
-
-    /*    const store = useCodeStore()
-    const { containerMap } = storeToRefs(store)
-
     // 监听列比例的变化，保留上一次的物料给新的slot
     watch(
       () => props.slots.value,
       () => {
-        const oldSlots = containerMap.value[compId]?.props?.slots as SlotItemValue
-        const containerSchema = recurseQuerySchema(compId)
+        const oldSlots = props.containerMap[compId]?.props?.slots as SlotItemValue
+        const containerSchema = props.containerSchema
         if (!containerSchema) return
         const containerSchemaSlots = containerSchema.props?.slots as SlotItemValue
         if (Object.keys(containerSchemaSlots).length) {
@@ -127,7 +129,7 @@ export default defineComponent({
           })
         }
       }
-    )*/
+    )
 
     // 列属性【插槽名、栅格列数】
     const colValue = computed(() =>

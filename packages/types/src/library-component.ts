@@ -55,6 +55,10 @@ export type LibraryComponentPropItem = {
    * select选项
    */
   selectOptions?: SelectOption[]
+  /**
+   * 是否不要展示在右侧属性栏
+   */
+  isNotShowRight?: boolean
 } & Prop<any>
 
 /**
@@ -189,4 +193,8 @@ export interface LibraryComponentInstanceFocus {
 export interface SlotItemValue {
   value: string
   [prop: string]: any
+}
+
+export interface ContainerMap {
+  [key: string]: LibraryComponentInstanceData
 }

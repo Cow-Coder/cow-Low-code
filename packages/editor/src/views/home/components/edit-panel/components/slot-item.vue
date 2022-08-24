@@ -15,7 +15,7 @@
           @touchmove.capture="onTouchEvent"
           @touchend.capture="onTouchEvent"
         >
-          <widget-render :widget-element="element">
+          <widget-render :widget-element="element" :container-map="containerMap">
             <template
               v-for="(value, slotNameK) in element.props?.slots"
               :key="slotNameK"
@@ -66,16 +66,16 @@ const slotChildren = useVModel(props, 'children', emits)
 
 // 添加容器组件为一组映射
 const attr = useAttrs()
+//TODO: 将容器映射、递归查找函数传入LayOut容器中
 const store = useCodeStore()
+const { containerMap } = storeToRefs(store)
 watch(
   slotChildren,
   () => {
     const container = cloneDeep<LibraryComponentInstanceData>(
       attr['container'] as LibraryComponentInstanceData
     )
-    store.$patch((state) => {
-      state.containerMap[container?.uuid] = container
-    })
+    containerMap.value[container?.uuid] = container
   },
   { deep: true, immediate: true }
 )
