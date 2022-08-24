@@ -15,7 +15,7 @@
 </template>
 
 <script lang="tsx">
-import { computed, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import {
   AttributePanelFormItemInputTypeEnum,
   AttributePanelsEnum,
@@ -28,8 +28,9 @@ import {
 import { PieTwo as IconPieTwo } from '@icon-park/vue-next'
 import { Circle as VantCircle } from 'vant'
 import 'vant/es/circle/style'
+import { useVModel } from '@vueuse/core'
 
-export default {
+export default defineComponent({
   ...defineLibraryComponent({
     name: 'WidgetCircle',
     libraryName: LibraryPanelTabEnum.generics,
@@ -112,17 +113,11 @@ export default {
       belongToPanel: AttributePanelsEnum.appearance,
     }),
   },
-  setup(props) {
+  emits: ['update:widgetCss'],
+  setup(props, { emit }) {
     const currentRate = ref(0)
     const text = computed(() => `${currentRate.value.toFixed(0)}%`)
-    const compCss = computed({
-      get() {
-        return props.widgetCss
-      },
-      set(newV) {
-        props.widgetCss = newV
-      },
-    })
+    const compCss = useVModel(props, 'widgetCss', emit, { passive: true })
     const widgetCssArr = computed(() => {
       const tempCss = []
       for (const item1 in compCss.value) {
@@ -136,7 +131,7 @@ export default {
       widgetCssArr,
     }
   },
-}
+})
 </script>
 
 <style scoped></style>
