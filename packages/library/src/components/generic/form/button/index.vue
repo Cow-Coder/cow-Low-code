@@ -132,7 +132,7 @@ export default defineComponent({
   /**
    * 所有物料组件触发事件都用dispatchEvent
    */
-  emits: [CUSTOM_EVENT_EMIT_NAME],
+  emits: [CUSTOM_EVENT_EMIT_NAME, 'update:widgetCss'],
   setup(props, { emit }) {
     const show = ref(false)
 

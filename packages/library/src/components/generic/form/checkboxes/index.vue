@@ -20,8 +20,7 @@
 </template>
 
 <script lang="tsx">
-import { reactive } from '@vue/reactivity'
-import { computed } from '@vue/runtime-core'
+import { computed, defineComponent, ref } from 'vue'
 import { Checkbox, CheckboxGroup } from 'vant'
 import { ElIcon } from 'element-plus'
 import {
@@ -34,8 +33,10 @@ import {
   defineLibraryComponent,
 } from '@cow-low-code/library/src/utils/library'
 import { LibraryComponentFormItemLabelPositionEnum } from '@cow-low-code/types'
+import { useVModel } from '@vueuse/core'
 import type { CheckboxGroupInstance } from 'vant'
-export default {
+
+export default defineComponent({
   ...defineLibraryComponent({
     name: 'WidgetCheckboxes',
     libraryName: LibraryPanelTabEnum.generics,
@@ -131,25 +132,12 @@ export default {
       belongToPanel: AttributePanelsEnum.appearance,
     }),
   },
-  setup(props) {
+  emits: ['update:defaultData', 'update:widgetCss'],
+  setup(props, { emit }) {
     //通过实例获取refs
-    const instance = getCurrentInstance()
-    const checkList = computed({
-      get() {
-        return props.defaultData
-      },
-      set(newV) {
-        props.defaultData = newV
-      },
-    })
-    const compCss = computed({
-      get() {
-        return props.widgetCss
-      },
-      set(newV) {
-        props.widgetCss = newV
-      },
-    })
+    const checkboxGroupRef = ref<CheckboxGroupInstance>()
+    const checkList = useVModel(props, 'defaultData', emit, { passive: true })
+    const compCss = useVModel(props, 'widgetCss', emit, { passive: true })
     //初始化css数组
     const widgetCssArr = computed(() => {
       const tempCss = []
@@ -158,18 +146,18 @@ export default {
       }
       return tempCss
     })
-
     const checkAll = () => {
-      instance?.refs.checkboxGroupRef?.toggleAll(true)
+      checkboxGroupRef.value?.toggleAll(true)
     }
 
     return {
       checkAll,
       checkList,
       widgetCssArr,
+      checkboxGroupRef,
     }
   },
-}
+})
 </script>
 
 <style lang="scss" scoped>
