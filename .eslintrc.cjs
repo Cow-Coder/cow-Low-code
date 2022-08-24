@@ -1,6 +1,5 @@
-const { defineConfig } = require('eslint-define-config')
-
-module.exports = defineConfig({
+/** @type {import("eslint-define-config").EslintConfig} */
+module.exports = {
   root: true,
   extends: ['@element-plus/eslint-config'],
   overrides: [
@@ -19,4 +18,4 @@ module.exports = defineConfig({
     '@typescript-eslint/no-unused-vars': 'off',
     'vue/one-component-per-file': 'off',
   },
-})
+}
