@@ -55,6 +55,14 @@ export enum AttributePanelFormItemInputTypeEnum {
    * 步进器
    */
   stepper = 'stepper',
+  /**
+   *  不定个数复选框
+   */
+  indefiniteNumberCheckBoxes = 'indefiniteNumberCheckBoxes',
+  /**
+   * css样式输入框
+   */
+  cssPropertyInput = 'cssPropertyInput',
 }
 
 /**

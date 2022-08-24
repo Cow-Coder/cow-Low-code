@@ -1,5 +1,6 @@
 import EventTab from './components/event-tab-pane/index.vue'
 import GenericTabPane from './components/generic-tab-pane.vue'
+import AppearanceTabPane from './components/appearance-tab-pane.vue'
 import type { DefineComponent } from '@/types/library-component'
 import { AttributePanelsEnum } from '@/types/panel'
 
@@ -30,6 +31,7 @@ export const panelList: AttributePanelTabConfig[] = [
   {
     title: '外观',
     name: AttributePanelsEnum.appearance,
+    component: AppearanceTabPane,
   },
   {
     title: '事件',

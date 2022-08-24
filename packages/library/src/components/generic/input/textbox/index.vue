@@ -1,5 +1,5 @@
 <template>
-  <div class="textbox">
+  <div class="textbox" :class="widgetCssArr">
     <van-cell-group inset>
       <van-field
         v-model="defaultValue"
@@ -105,10 +105,32 @@ export default defineComponent({
       type: String,
       default: 'Please input content!',
     }),
+    widgetCss: createLibraryComponentPropItem({
+      title: '控件样式',
+      default: {},
+      formType: AttributePanelFormItemInputTypeEnum.cssPropertyInput,
+      belongToPanel: AttributePanelsEnum.appearance,
+    }),
   },
   setup(props, { emit }) {
     const defaultValue = useVModel(props, 'value', emit)
-    return { defaultValue }
+    const compCss = computed({
+      get() {
+        return props.widgetCss
+      },
+      set(newV) {
+        props.widgetCss = newV
+      },
+    })
+    const widgetCssArr = computed(() => {
+      const tempCss = []
+      for (const item1 in compCss.value) {
+        tempCss.push(compCss.value[item1]?.[0])
+      }
+      return tempCss
+    })
+
+    return { defaultValue, widgetCssArr }
   },
 })
 </script>
