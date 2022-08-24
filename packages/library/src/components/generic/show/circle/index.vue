@@ -33,6 +33,7 @@ import { useVModel } from '@vueuse/core'
 export default defineComponent({
   ...defineLibraryComponent({
     name: 'WidgetCircle',
+    widgetType: 'generics',
     libraryName: LibraryPanelTabEnum.generics,
     tabName: 'show',
     order: 8,

@@ -31,6 +31,7 @@ import { useVModel } from '@vueuse/core'
 export default defineComponent({
   ...defineLibraryComponent({
     name: 'WidgetNoticeBar',
+    widgetType: 'generics',
     libraryName: LibraryPanelTabEnum.generics,
     tabName: 'show',
     order: 6,

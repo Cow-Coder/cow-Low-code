@@ -30,6 +30,7 @@ import { Notes } from '@icon-park/vue-next'
 export default defineComponent({
   ...defineLibraryComponent({
     name: 'WidgetTextbox',
+    widgetType: 'generics',
     libraryName: LibraryPanelTabEnum.generics,
     tabName: 'form',
     order: 4,

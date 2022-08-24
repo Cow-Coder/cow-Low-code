@@ -30,11 +30,11 @@ export type LibraryComponentPropItem = {
   /**
    * 表单类型
    */
-  formType: AttributePanelFormItemInputTypeEnum
+  formType?: AttributePanelFormItemInputTypeEnum
   /**
    * 描述标题
    */
-  title: string
+  title?: string
   /**
    * 提示信息
    */
@@ -50,11 +50,15 @@ export type LibraryComponentPropItem = {
   /**
    * 当前属性应该显示在哪个面板
    */
-  belongToPanel: AttributePanelsEnum
+  belongToPanel?: AttributePanelsEnum
   /**
    * select选项
    */
   selectOptions?: SelectOption[]
+  /**
+   * 是否不要展示在右侧属性栏
+   */
+  isNotShowRight?: boolean
 } & Prop<any>
 
 /**
@@ -70,7 +74,11 @@ export type DefineComponent = (() => JSX.Element) | Component
 /**
  * 所在lib->tab面板中的name
  */
-export type TabName = 'form' | 'show'
+export type TabName = 'form' | 'show' | 'container'
+/**
+ * 物料的类型
+ */
+export type WidgetType = 'container' | 'generics'
 /**
  * 物料组件
  */
@@ -129,6 +137,10 @@ export interface LibraryComponent extends ComponentOptions {
    * 定义触发事件的情况
    */
   eventTriggers?: EventTriggerSchema
+  /**
+   * 物料类型
+   */
+  widgetType: WidgetType
 }
 
 /**
@@ -176,9 +188,13 @@ export interface LibraryComponentInstanceFocus {
 }
 
 /**
- * 大纲数据类型
+ * 插槽类型
  */
-export interface OutlineData {
-  uuid?: string
-  title: string
+export interface SlotItemValue {
+  value: string
+  [prop: string]: any
+}
+
+export interface ContainerMap {
+  [key: string]: LibraryComponentInstanceData
 }

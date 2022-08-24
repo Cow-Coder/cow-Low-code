@@ -27,6 +27,7 @@ import Preview from './components/preview.vue'
 export default defineComponent({
   ...defineLibraryComponent({
     name: 'WidgetCollapse',
+    widgetType: 'generics',
     libraryName: LibraryPanelTabEnum.generics,
     tabName: 'show',
     order: 5,
