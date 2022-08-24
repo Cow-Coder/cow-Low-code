@@ -1,5 +1,5 @@
 import { History } from 'stateshot'
-import { cloneDeep } from 'lodash-es'
+import { cloneDeep, isEqual } from 'lodash-es'
 import { useCodeStore } from '@/stores/code'
 
 export default function useStateShot() {
@@ -9,12 +9,13 @@ export default function useStateShot() {
   const codeHistory = new History<typeof jsonCode.value>({ useChunks: false })
   watch(
     jsonCode,
-    (value) => {
+    (value, oldValue) => {
       const val = toRaw(value)
       if (isUndoOrRedoing) {
         isUndoOrRedoing = false
         return undefined
       }
+      if (isEqual(value, oldValue)) return undefined
       codeHistory.push(cloneDeep(val))
     },
     { immediate: true, deep: true }

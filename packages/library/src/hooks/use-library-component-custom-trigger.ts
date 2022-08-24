@@ -1,8 +1,12 @@
-import { getCurrentInstance } from 'vue'
+import { getCurrentInstance, toRef, toRefs } from 'vue'
 import { CUSTOM_EVENT_EMIT_NAME, CUSTOM_EVENT_TRIGGER_NAME } from '@cow-low-code/constant'
-import type { PropType } from 'vue'
+import { isUndefined } from 'lodash-es'
+import { isCustomEventTriggerName } from '@cow-low-code/utils'
+import { createLibraryComponentPropItem } from '../utils/library'
+import type { PropType, Ref } from 'vue'
 import type {
   LibraryComponentInstanceCustomEventTriggerData,
+  LibraryComponentInstanceData,
   LibraryComponentInstanceEventTriggers,
 } from '@cow-low-code/types'
 import type { ExtractPropTypes } from '@vue/runtime-core'
@@ -12,9 +16,13 @@ import type { ExtractPropTypes } from '@vue/runtime-core'
  */
 function createCustomEventTriggerProp() {
   return {
-    [CUSTOM_EVENT_TRIGGER_NAME]: {
-      type: Object as PropType<LibraryComponentInstanceEventTriggers>,
-    },
+    myInstanceData: createLibraryComponentPropItem({
+      type: Object as PropType<LibraryComponentInstanceData>,
+    }),
+    // 只是个开关，用于事件面板显示还是隐藏自定义事件按钮
+    [CUSTOM_EVENT_TRIGGER_NAME]: createLibraryComponentPropItem({
+      type: Object,
+    }),
   }
 }
 
@@ -27,8 +35,14 @@ function applyCustomEventTriggers<T>(context: T): T {
   const props = instance.props as Readonly<
     ExtractPropTypes<ReturnType<typeof createCustomEventTriggerProp>>
   >
-  if (!props[CUSTOM_EVENT_TRIGGER_NAME]) return context
-  Object.entries(props.customEventTrigger).forEach(([name, trigger]) => {
+  const myInstanceData = toRef(
+    props,
+    'myInstanceData'
+  )! as unknown as Ref<LibraryComponentInstanceData>
+  if (isUndefined(myInstanceData.value.eventTriggers)) return context
+
+  Object.entries(myInstanceData.value.eventTriggers).forEach(([name, trigger]) => {
+    if (!isCustomEventTriggerName(name)) return undefined
     const execFun = new Function(
       `context`,
       `getCurrentInstance`,
@@ -36,7 +50,11 @@ function applyCustomEventTriggers<T>(context: T): T {
       `THIS_EMIT_NAME`,
       (trigger as LibraryComponentInstanceCustomEventTriggerData).execCode
     )
-    execFun(context, getCurrentInstance, CUSTOM_EVENT_EMIT_NAME, name)
+    try {
+      execFun(context, getCurrentInstance, CUSTOM_EVENT_EMIT_NAME, name)
+    } catch (e) {
+      console.error(`${myInstanceData.value.componentName}自定事件触发器[${name}]执行失败`, e)
+    }
   })
   return context
 }
