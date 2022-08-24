@@ -12,7 +12,7 @@
           @touchstart.capture="onTouchEvent"
           @touchmove.capture="onTouchEvent"
           @touchend.capture="onTouchEvent"
-          @contextmenu.capture.prevent="onContextMenu($event, element)"
+          @contextmenu.prevent="onContextMenu($event, element)"
         >
           <widget-render
             :widget-element="element"
@@ -26,6 +26,7 @@
                 :is-down-space="isDownSpace"
                 :on-touch-event="onTouchEvent"
                 :on-choose="onChoose"
+                :on-context-menu="onContextMenu"
                 :container="element"
               />
             </template>
