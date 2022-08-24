@@ -6,7 +6,7 @@
   </div>
 </template>
 <script lang="tsx">
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { Button, Dialog } from 'vant'
 import 'vant/es/dialog/style'
 import { LinkFour as IconLinkFour } from '@icon-park/vue-next'
@@ -23,6 +23,7 @@ import {
 import { useMultiClick } from '@cow-low-code/library/src/hooks/use-multi-click'
 import useLibraryComponentCustomTrigger from '@cow-low-code/library/src/hooks/use-library-component-custom-trigger'
 import { CUSTOM_EVENT_EMIT_NAME } from '@cow-low-code/constant'
+import { useVModel } from '@vueuse/core'
 
 enum EventTriggersEnum {
   click = 'click',
@@ -161,14 +162,7 @@ export default defineComponent({
       else if (count === 2) onDoubleClick()
     }
     const onMultiClick = ref(useMultiClick(dispatchClick, 200))
-    const compCss = computed({
-      get() {
-        return props.widgetCss
-      },
-      set(newV) {
-        props.widgetCss = newV
-      },
-    })
+    const compCss = useVModel(props, 'widgetCss', emit, { passive: true })
     const widgetCssArr = computed(() => {
       const tempCss = []
       for (const item1 in compCss.value) {
@@ -176,17 +170,15 @@ export default defineComponent({
       }
       return tempCss
     })
-    const returnContext = {
+
+    return useLibraryComponentCustomTrigger.applyCustomEventTriggers({
       showTips,
       show,
       onClick: onMultiClick.value,
       dispatchClick,
       useMultiClick,
       widgetCssArr,
-    }
-
-    useLibraryComponentCustomTrigger.applyCustomEventTriggers(returnContext)
-    return returnContext
+    })
   },
 })
 </script>

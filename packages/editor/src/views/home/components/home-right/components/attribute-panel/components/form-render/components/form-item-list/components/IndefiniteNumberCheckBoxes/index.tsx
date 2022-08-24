@@ -1,4 +1,4 @@
-import { ElButton, ElCard, ElCheckbox, ElForm, ElFormItem, ElInput, ElTooltip } from 'element-plus'
+import { ElButton, ElCheckbox, ElForm, ElFormItem, ElInput } from 'element-plus'
 import { Popover } from '@arco-design/web-vue'
 import Draggable from 'vuedraggable'
 import { CloseBold, MoreFilled, Rank } from '@element-plus/icons-vue'
@@ -26,12 +26,16 @@ export default defineComponent({
     const editChangeCallback = (el: any) => {
       el.isEdit = !el.isEdit
     }
+    const propObj = {
+      handle: '.handle',
+      animation: 200,
+    }
     return () => (
       <>
         <Draggable
           list={checkList.value}
           itemKey={''}
-          handle=".handle"
+          {...propObj}
           class={$style.indefiniteNumberCheckBoxes__dragableDiv}
         >
           {{
