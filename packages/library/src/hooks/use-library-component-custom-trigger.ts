@@ -27,8 +27,7 @@ function applyCustomEventTriggers<T>(context: T): T {
   const props = instance.props as Readonly<
     ExtractPropTypes<ReturnType<typeof createCustomEventTriggerProp>>
   >
-  if (!props[CUSTOM_EVENT_TRIGGER_NAME])
-    throw new TypeError('props[CUSTOM_EVENT_TRIGGER_NAME] 不能为空')
+  if (!props[CUSTOM_EVENT_TRIGGER_NAME]) return context
   Object.entries(props.customEventTrigger).forEach(([name, trigger]) => {
     const execFun = new Function(
       `context`,
