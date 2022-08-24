@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="widgetCssArr">
     <van-button :type="buttonType" :size="buttonSize" :url="url" @click="onClick">{{
       title
     }}</van-button>
@@ -117,6 +117,12 @@ export default defineComponent({
       belongToPanel: AttributePanelsEnum.generic,
       type: String,
     }),
+    widgetCss: createLibraryComponentPropItem({
+      title: '控件样式',
+      default: {},
+      formType: AttributePanelFormItemInputTypeEnum.cssPropertyInput,
+      belongToPanel: AttributePanelsEnum.appearance,
+    }),
     /**
      * 声明该组件支持自定义事件
      */
@@ -155,12 +161,28 @@ export default defineComponent({
       else if (count === 2) onDoubleClick()
     }
     const onMultiClick = ref(useMultiClick(dispatchClick, 200))
+    const compCss = computed({
+      get() {
+        return props.widgetCss
+      },
+      set(newV) {
+        props.widgetCss = newV
+      },
+    })
+    const widgetCssArr = computed(() => {
+      const tempCss = []
+      for (const item1 in compCss.value) {
+        tempCss.push(compCss.value[item1]?.[0])
+      }
+      return tempCss
+    })
     const returnContext = {
       showTips,
       show,
       onClick: onMultiClick.value,
       dispatchClick,
       useMultiClick,
+      widgetCssArr,
     }
 
     useLibraryComponentCustomTrigger.applyCustomEventTriggers(returnContext)
