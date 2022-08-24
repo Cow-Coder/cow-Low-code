@@ -106,7 +106,7 @@ const emit = instance.emit`
     ] = {
       ...customEventTriggerData.value,
       actions: currentEditEventTriggerName.value
-        ? componentInstanceEventTriggers.value![currentEditEventTriggerName.value].actions
+        ? componentInstanceEventTriggers.value![currentEditEventTriggerName.value]?.actions
         : [],
     } as LibraryComponentInstanceCustomEventTriggerData
 
