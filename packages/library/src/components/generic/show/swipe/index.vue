@@ -15,7 +15,7 @@
 </template>
 
 <script lang="tsx">
-import { defineComponent, onMounted, ref } from 'vue'
+import { computed, defineComponent, onMounted, ref } from 'vue'
 import { Image as VanImage, SwipeItem as VantSwipeItem } from 'vant'
 import {
   AttributePanelFormItemInputTypeEnum,
@@ -28,6 +28,7 @@ import {
   defineLibraryComponent,
 } from '@cow-low-code/library/src/utils/library'
 import { Carousel } from '@icon-park/vue-next'
+import { useVModel } from '@vueuse/core'
 import preview from './components/preview.vue'
 import type { Swipe } from 'vant'
 
@@ -125,7 +126,8 @@ export default defineComponent({
       belongToPanel: AttributePanelsEnum.appearance,
     }),
   },
-  setup(props, { expose }) {
+  emits: ['update:widgetCss'],
+  setup(props, { expose, emit }) {
     const swipeRef = ref<InstanceType<typeof Swipe>>()
     expose({
       swipeRef,
@@ -162,14 +164,7 @@ export default defineComponent({
         </VantSwipeItem>
       ))
     }
-    const compCss = computed({
-      get() {
-        return props.widgetCss
-      },
-      set(newV) {
-        props.widgetCss = newV
-      },
-    })
+    const compCss = useVModel(props, 'widgetCss', emit, { passive: true })
     //初始化css数组
     const widgetCssArr = computed(() => {
       const tempCss = []

@@ -142,10 +142,10 @@ export default defineComponent({
         show.value = true
         Dialog.confirm({ message: tips })
           .then((e) => {
-            console.log(e)
+            console.warn(e)
           })
           .catch((err) => {
-            console.log(err)
+            console.error(err)
           })
       }
     }

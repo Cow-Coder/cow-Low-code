@@ -34,6 +34,7 @@ import {
 } from '@cow-low-code/library/src/utils/library'
 import { LibraryComponentFormItemLabelPositionEnum } from '@cow-low-code/types'
 import { useVModel } from '@vueuse/core'
+import { CheckCorrect } from '@icon-park/vue-next'
 import type { CheckboxGroupInstance } from 'vant'
 
 export default defineComponent({
@@ -44,13 +45,7 @@ export default defineComponent({
     order: 9,
     libraryPanelShowDetail: {
       title: '复选框',
-      icon: () => (
-        <>
-          <ElIcon size={16}>
-            <i-ep-aim />
-          </ElIcon>
-        </>
-      ),
+      icon: () => <CheckCorrect theme="outline" size="16" strokeWidth={3} />,
     },
     tips: {
       title: '复选框',

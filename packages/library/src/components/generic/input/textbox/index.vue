@@ -13,7 +13,7 @@
 </template>
 
 <script lang="tsx">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { ElIcon, ElInput } from 'element-plus'
 import { useVModel } from '@vueuse/core'
 import {
@@ -25,6 +25,7 @@ import {
   AttributePanelsEnum,
   LibraryPanelTabEnum,
 } from '@cow-low-code/types'
+import { Notes } from '@icon-park/vue-next'
 
 export default defineComponent({
   ...defineLibraryComponent({
@@ -34,13 +35,7 @@ export default defineComponent({
     order: 4,
     libraryPanelShowDetail: {
       title: '文本框',
-      icon: () => (
-        <>
-          <ElIcon size={16}>
-            <i-ep-document />
-          </ElIcon>
-        </>
-      ),
+      icon: () => <Notes theme="outline" size="16" strokeWidth={3} />,
     },
     tips: {
       title: '单行文本框',
@@ -112,16 +107,10 @@ export default defineComponent({
       belongToPanel: AttributePanelsEnum.appearance,
     }),
   },
+  emits: ['update:widgetCss'],
   setup(props, { emit }) {
     const defaultValue = useVModel(props, 'value', emit)
-    const compCss = computed({
-      get() {
-        return props.widgetCss
-      },
-      set(newV) {
-        props.widgetCss = newV
-      },
-    })
+    const compCss = useVModel(props, 'widgetCss', emit, { passive: true })
     const widgetCssArr = computed(() => {
       const tempCss = []
       for (const item1 in compCss.value) {
