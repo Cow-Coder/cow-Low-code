@@ -1,15 +1,17 @@
 <template>
-  <van-swipe
-    ref="swipeRef"
-    :autoplay="autoplay"
-    :duration="duration"
-    :initial-swipe="initialSwipe"
-    :loop="loop"
-    :show-indicators="showIndicators"
-    :lazy-render="lazyRender"
-  >
-    <component :is="renderItemInner" />
-  </van-swipe>
+  <div :class="widgetCssArr">
+    <van-swipe
+      ref="swipeRef"
+      :autoplay="autoplay"
+      :duration="duration"
+      :initial-swipe="initialSwipe"
+      :loop="loop"
+      :show-indicators="showIndicators"
+      :lazy-render="lazyRender"
+    >
+      <component :is="renderItemInner" />
+    </van-swipe>
+  </div>
 </template>
 
 <script lang="tsx">
@@ -116,6 +118,12 @@ export default defineComponent({
       default: false,
       type: Boolean,
     }),
+    widgetCss: createLibraryComponentPropItem({
+      title: '控件样式',
+      default: {},
+      formType: AttributePanelFormItemInputTypeEnum.cssPropertyInput,
+      belongToPanel: AttributePanelsEnum.appearance,
+    }),
   },
   setup(props, { expose }) {
     const swipeRef = ref<InstanceType<typeof Swipe>>()
@@ -154,9 +162,27 @@ export default defineComponent({
         </VantSwipeItem>
       ))
     }
+    const compCss = computed({
+      get() {
+        return props.widgetCss
+      },
+      set(newV) {
+        props.widgetCss = newV
+      },
+    })
+    //初始化css数组
+    const widgetCssArr = computed(() => {
+      const tempCss = []
+      for (const item1 in compCss.value) {
+        tempCss.push(compCss.value[item1]?.[0])
+      }
+      return tempCss
+    })
+
     return {
       swipeRef,
       renderItemInner,
+      widgetCssArr,
     }
   },
 })

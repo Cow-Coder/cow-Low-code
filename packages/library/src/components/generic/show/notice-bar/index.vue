@@ -1,14 +1,16 @@
 <template>
-  <van-notice-bar
-    :text="text"
-    :color="color"
-    :scrollable="scrollable"
-    :wrapable="wrapable"
-    :mode="mode"
-    :background="background"
-    :speed="speed"
-    :left-icon="leftIcon"
-  />
+  <div :class="widgetCssArr">
+    <van-notice-bar
+      :text="text"
+      :color="color"
+      :scrollable="scrollable"
+      :wrapable="wrapable"
+      :mode="mode"
+      :background="background"
+      :speed="speed"
+      :left-icon="leftIcon"
+    />
+  </div>
 </template>
 
 <script lang="tsx">
@@ -124,6 +126,34 @@ export default {
       type: String,
       default: 'volume-o',
     }),
+    widgetCss: createLibraryComponentPropItem({
+      title: '控件样式',
+      default: {},
+      formType: AttributePanelFormItemInputTypeEnum.cssPropertyInput,
+      belongToPanel: AttributePanelsEnum.appearance,
+    }),
+  },
+  setup(props) {
+    const compCss = computed({
+      get() {
+        return props.widgetCss
+      },
+      set(newV) {
+        props.widgetCss = newV
+      },
+    })
+    //初始化css数组
+    const widgetCssArr = computed(() => {
+      const tempCss = []
+      for (const item1 in compCss.value) {
+        tempCss.push(compCss.value[item1]?.[0])
+      }
+      return tempCss
+    })
+
+    return {
+      widgetCssArr,
+    }
   },
 }
 </script>

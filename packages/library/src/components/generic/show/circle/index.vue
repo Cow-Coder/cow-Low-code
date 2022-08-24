@@ -1,15 +1,17 @@
 <template>
-  <van-circle
-    v-model:current-rate="currentRate"
-    :rate="rate"
-    :text="text"
-    :color="color"
-    :layer-color="layerColor"
-    :fill="fill"
-    :speed="speed"
-    :stroke-width="strokeWidth"
-    :clockwise="clockwise"
-  />
+  <div :class="widgetCssArr">
+    <van-circle
+      v-model:current-rate="currentRate"
+      :rate="rate"
+      :text="text"
+      :color="color"
+      :layer-color="layerColor"
+      :fill="fill"
+      :speed="speed"
+      :stroke-width="strokeWidth"
+      :clockwise="clockwise"
+    />
+  </div>
 </template>
 
 <script lang="tsx">
@@ -103,13 +105,35 @@ export default {
       type: Boolean,
       default: true,
     }),
+    widgetCss: createLibraryComponentPropItem({
+      title: '控件样式',
+      default: {},
+      formType: AttributePanelFormItemInputTypeEnum.cssPropertyInput,
+      belongToPanel: AttributePanelsEnum.appearance,
+    }),
   },
-  setup() {
+  setup(props) {
     const currentRate = ref(0)
     const text = computed(() => `${currentRate.value.toFixed(0)}%`)
+    const compCss = computed({
+      get() {
+        return props.widgetCss
+      },
+      set(newV) {
+        props.widgetCss = newV
+      },
+    })
+    const widgetCssArr = computed(() => {
+      const tempCss = []
+      for (const item1 in compCss.value) {
+        tempCss.push(compCss.value[item1]?.[0])
+      }
+      return tempCss
+    })
     return {
       currentRate,
       text,
+      widgetCssArr,
     }
   },
 }

@@ -1,5 +1,7 @@
 <template>
-  <van-image :height="height" :width="width" :src="url" :fit="fit" :radius="radius" />
+  <div :class="widgetCssArr">
+    <van-image :height="height" :width="width" :src="url" :fit="fit" :radius="radius" />
+  </div>
 </template>
 
 <script lang="tsx">
@@ -84,6 +86,31 @@ export default {
       belongToPanel: AttributePanelsEnum.generic,
       default: 'contain',
     }),
+    widgetCss: createLibraryComponentPropItem({
+      title: '控件样式',
+      default: {},
+      formType: AttributePanelFormItemInputTypeEnum.cssPropertyInput,
+      belongToPanel: AttributePanelsEnum.appearance,
+    }),
+  },
+  setup(props) {
+    const compCss = computed({
+      get() {
+        return props.widgetCss
+      },
+      set(newV) {
+        props.widgetCss = newV
+      },
+    })
+    //初始化css数组
+    const widgetCssArr = computed(() => {
+      const tempCss = []
+      for (const item1 in compCss.value) {
+        tempCss.push(compCss.value[item1]?.[0])
+      }
+      return tempCss
+    })
+    return { widgetCssArr }
   },
 }
 </script>
