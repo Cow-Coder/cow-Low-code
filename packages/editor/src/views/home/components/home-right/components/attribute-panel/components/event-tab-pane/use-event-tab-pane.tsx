@@ -1,5 +1,6 @@
 import { computed, ref, toRefs } from 'vue'
 import { getActionHandle } from '@cow-low-code/event-action'
+import { isString } from 'lodash-es'
 import type {
   EventTriggerSchema,
   LibraryComponentInstanceActionItem,
@@ -74,8 +75,13 @@ export default function useEventTabPane() {
       console.error(`actionHandle '${action.actionName}' method 'parseTip' not found`)
       throw new TypeError(`actionHandle '${action.actionName}' method 'parseTip' not found`)
     }
-    let tip = actionHandle.parseTip(action.config, codeStore.jsonCode, libraryMap)
-    if (tip instanceof String) {
+    let tip = actionHandle.parseTip(
+      action.config,
+      codeStore.jsonCode,
+      libraryMap,
+      codeStore.componentRefMap
+    )
+    if (isString(tip)) {
       tip = () => <>{tip}</>
     }
     return {

@@ -1,8 +1,10 @@
+import { isArray, isObject } from 'lodash-es'
 import type { ComponentPublicInstance, PropType } from 'vue'
 import type {
   ActionHandlerSchema,
   LibraryComponent,
   LibraryComponentInstanceData,
+  LibraryComponentsInstanceTree,
 } from '@cow-low-code/types'
 
 export function parseActionChildren(modules: Record<string, ActionHandlerSchema>) {
@@ -20,7 +22,7 @@ export function getActionHandleDefaultProps<T>() {
       type: Object as PropType<T>,
     },
     libraryComponentInstanceTree: {
-      type: Object as PropType<LibraryComponentInstanceData[]>,
+      type: Object as PropType<LibraryComponentsInstanceTree>,
       required: true,
     },
     focusedLibraryComponentInstanceData: {
@@ -56,23 +58,30 @@ export function defineActionHandler<T>(action: ActionHandlerSchema<T>) {
  */
 export function mixLibraryComponentInstanceDataWidthLibraryComponentSchemaLabel(
   libraryComponentSchemaMap: Record<string, LibraryComponent>,
-  libraryComponentInstanceTree: LibraryComponentInstanceData[]
+  libraryComponentInstanceTree: LibraryComponentsInstanceTree
 ) {
-  type ProxyLibraryComponentInstanceData = LibraryComponentInstanceData & {
+  type ProxyLibraryComponentInstanceData = {
     /**
      * 组件中文名，对应LibraryComponent.libraryPanelShowDetail.title
      */
     label: string
+    children?: ProxyLibraryComponentInstanceData
+    uuid: string
   }
-  function proxyGet(target: Record<any, any>, property: any): any {
+  function proxyGet(target: any, property: any): any {
+    if (isArray(target) || property === 'children') {
+      if (isObject(target[property]) || isArray(target[property]))
+        return new Proxy(target[property], { get: proxyGet })
+      else return target[property]
+    }
+
     if (property === 'label') {
       return libraryComponentSchemaMap![(target as LibraryComponentInstanceData).componentName]
         .libraryPanelShowDetail.title
-    } else if (target[property] === undefined) return undefined
-    else if (typeof target[property] !== 'object') return target[property]
-    else return new Proxy(target[property], { get: proxyGet })
+    } else if (property === 'uuid') return target[property]
+    else return undefined
   }
-  return new Proxy(libraryComponentInstanceTree!, {
+  return new Proxy(libraryComponentInstanceTree, {
     get: proxyGet,
-  }) as ProxyLibraryComponentInstanceData[]
+  }) as unknown as ProxyLibraryComponentInstanceData[]
 }

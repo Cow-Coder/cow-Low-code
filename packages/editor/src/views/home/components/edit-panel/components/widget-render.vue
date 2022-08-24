@@ -1,9 +1,10 @@
 <template>
   <div class="widget-render">
     <widget-item
-      :comp-id="element.uuid"
-      :container-schema="element"
       v-bind="widgetProps"
+      :ref="bindComponentRef"
+      :comp-id="element.uuid"
+      :my-instance-data="element"
       :container-map="containerMap"
       @dispatch-event="handleDispatchEvent"
     >
@@ -42,7 +43,9 @@ const element = useVModel(props, 'widgetElement', emits)
 const { parseLibraryComponent } = useParseLibrary(toRef(props, 'isDownSpace'))
 
 // 拿到物料的 【组件、属性、分发事件】
-const [WidgetItem, widgetProps, handleDispatchEvent] = parseLibraryComponent(element.value)
+const { WidgetItem, widgetProps, handleDispatchEvent, bindComponentRef } = parseLibraryComponent(
+  element.value
+)
 
 // 拿到动态插槽的名字
 </script>
