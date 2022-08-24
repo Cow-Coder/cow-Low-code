@@ -4,7 +4,7 @@ import type { LibraryComponent, LibraryComponentPropItem } from '@cow-low-code/t
  * 快速定义物料组件
  * @param libraryComponent
  */
-export function defineLibraryComponent(libraryComponent: LibraryComponent) {
+export function defineLibraryComponent(libraryComponent: Omit<LibraryComponent, 'props'>) {
   return libraryComponent
 }
 
