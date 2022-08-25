@@ -37,18 +37,6 @@ jobs:
           registry-url: https://registry.npmjs.com/
           cache: 'pnpm'
 
-      - name: Cache ~/.pnpm-store
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-pnpm-store
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ matrix.node-version }}-deploy-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.node-version }}-deploy-${{ env.cache-name }}-
-            ${{ runner.os }}-${{ matrix.node-version }}-deploy-
-            ${{ runner.os }}-
-
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
 
