@@ -24,6 +24,7 @@ import {
   LibraryPanelTabEnum,
 } from '@cow-low-code/types'
 import { useVModel } from '@vueuse/core'
+import { HorizontalTidyUp } from '@icon-park/vue-next'
 import type { PropType } from 'vue'
 import type { ContainerMap, LibraryComponentInstanceData, SlotItemValue } from '@cow-low-code/types'
 
@@ -35,24 +36,26 @@ export default defineComponent({
     tabName: 'container',
     order: 6,
     libraryPanelShowDetail: {
-      title: 'Layout容器',
-      icon: () => (
-        <>
-          <ElIcon size={16}>
-            <i-ep-box />
-          </ElIcon>
-        </>
-      ),
+      title: '分栏',
+      icon: () => <HorizontalTidyUp theme="outline" size="16" fill="#333" strokeWidth={3} />,
     },
     tips: {
       title: '布局容器',
       desc: '通过基础的 24 分栏，迅速简便地创建布局。',
       preview: () => (
-        <el-row gutter={20}>
-          <el-col span={6}>span: 6</el-col>
-          <el-col span={6}>span: 6</el-col>
-          <el-col span={6}>span: 6</el-col>
-          <el-col span={6}>span: 6</el-col>
+        <el-row gutter={20} style={{ margin: 0 }}>
+          <el-col span={6} style={{ backgroundColor: 'skyblue' }}>
+            span: 6
+          </el-col>
+          <el-col span={6} style={{ backgroundColor: 'pink' }}>
+            span: 6
+          </el-col>
+          <el-col span={6} style={{ backgroundColor: 'palevioletred' }}>
+            span: 6
+          </el-col>
+          <el-col span={6} style={{ backgroundColor: 'green' }}>
+            span: 6
+          </el-col>
         </el-row>
       ),
     },
@@ -109,22 +112,24 @@ export default defineComponent({
       formType: AttributePanelFormItemInputTypeEnum.cssPropertyInput,
       belongToPanel: AttributePanelsEnum.appearance,
     }),
-    containerMap: createLibraryComponentPropItem({
+    containerMap: {
       type: Object as PropType<ContainerMap>,
       default: () => ({}),
-      isNotShowRight: true,
-    }),
-    containerSchema: createLibraryComponentPropItem({
+    },
+    myInstanceData: {
       type: Object as PropType<LibraryComponentInstanceData>,
-      isNotShowRight: true,
-    }),
+    },
+    compId: {
+      type: String,
+      required: true,
+    },
   },
-  emits: ['update:slots', 'update:widgetCss'],
+  emits: ['update:slots', 'update:widgetCss', 'update:defaultFold'],
   setup(props, { attrs, emit }) {
     const activeNames = ref<string[]>(['1'])
-    watch(useVModel(props, 'defaultFold', emit), (newValue) => {
-      activeNames.value = newValue ? ['1'] : []
-    })
+    // watch(useVModel(props, 'defaultFold', emit), (newValue) => {
+    //   activeNames.value = newValue ? ['1'] : []
+    // })
     const compCss = useVModel(props, 'widgetCss', emit, { passive: true })
     //初始化css数组
     const widgetCssArr = computed(() => {
@@ -135,15 +140,14 @@ export default defineComponent({
       return tempCss
     })
 
-    const compId = attrs[`comp-id`] as string
     // 监听列比例的变化，保留上一次的物料给新的slot
     watch(
       () => props.slots.value,
       () => {
-        const oldSlots = props.containerMap[compId]?.props?.slots as SlotItemValue
-        const containerSchema = props.containerSchema
-        if (!containerSchema) return
-        const containerSchemaSlots = containerSchema.props?.slots as SlotItemValue
+        const oldSlots = props.containerMap[props.compId]?.props?.slots as SlotItemValue
+        const myInstanceData = props.myInstanceData
+        if (!myInstanceData) return
+        const containerSchemaSlots = myInstanceData.props?.slots as SlotItemValue
         if (Object.keys(containerSchemaSlots).length) {
           Object.entries<SlotItemValue>(containerSchemaSlots).forEach(([key, slot]) => {
             if (oldSlots[key]?.children) {

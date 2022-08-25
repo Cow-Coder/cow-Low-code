@@ -1,5 +1,4 @@
-// @ts-ignore
-import type { DropType } from 'element-plus/es/components/tree/src/tree.type'
+import type { NodeDropType } from 'element-plus/es/components/tree/src/tree.type'
 import type {
   ContainerMap,
   LibraryComponent,
@@ -143,7 +142,7 @@ export const useCodeStore = defineStore(
     const updateJsonCodeAtDragged = (
       draggingNodeId: string,
       dropNodeId: string,
-      dropType: DropType
+      dropType: NodeDropType
     ) => {
       let oldIndex = 0
       let newIndex = 0

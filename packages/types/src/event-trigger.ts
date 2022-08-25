@@ -22,15 +22,17 @@ export type EventTriggerSchema = {
 /**
  * 物料组件实例的事件触发器
  */
-export type LibraryComponentInstanceEventTriggers = {
+export type LibraryComponentInstanceEventTriggers<
+  T =
+    | LibraryComponentInstanceCommonEventTriggerData
+    | LibraryComponentInstanceCustomEventTriggerData
+> = {
   /**
    * 事件标识符
    * @name name
    * @see IEventTrigger
    */
-  [name: string]:
-    | LibraryComponentInstanceCommonEventTriggerData
-    | LibraryComponentInstanceCustomEventTriggerData
+  [name: string]: T
 }
 
 /**
