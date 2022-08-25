@@ -44,6 +44,7 @@ import usePreventTouch from './use-prevent-touch'
 import useDragPreview from './use-drag-preview'
 import SlotItem from './components/slot-item.vue'
 import WidgetRender from './components/widget-render.vue'
+import type { LibraryComponentInstanceData } from '@cow-low-code/types'
 import PageDraggable from '@/components/page-draggable/index.vue'
 import { useCodeStore } from '@/stores/code'
 

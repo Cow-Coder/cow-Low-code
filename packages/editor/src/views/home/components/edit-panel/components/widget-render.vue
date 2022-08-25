@@ -48,6 +48,8 @@ const { parseLibraryComponent } = useParseLibrary(toRef(props, 'isDownSpace'))
 const { WidgetItem, widgetProps, handleDispatchEvent, bindComponentRef } = parseLibraryComponent(
   element.value
 )
+
+// 只有从函数返回的动态组件才响应整个根节点的替换
 function renderFn() {
   const widgetComponent = WidgetItem as unknown as JSX.Element
   function dynamicSlotFn() {
