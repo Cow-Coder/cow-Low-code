@@ -53,12 +53,12 @@ function renderFn() {
   function dynamicSlotFn() {
     const result = element.value.props?.slots
       ? Object.entries(element.value.props?.slots as any).reduce((prev, cursor, index) => {
-          console.log(`element.value.props`, prev, cursor)
+          // console.log(`element.value.props`, prev, cursor)
           prev[cursor[0]] = () => <slot key={cursor[0]} v-slot={cursor[0]} />
           return prev
         }, {} as Record<string, any>)
       : undefined
-    console.log(`result`, result, element.value.props?.slots)
+    // console.log(`result`, result, element.value.props?.slots)
     return result
   }
   return (
