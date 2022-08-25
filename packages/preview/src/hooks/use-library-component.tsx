@@ -16,15 +16,16 @@ export default function useLibraryComponent() {
         if (!el && componentRefMap.has(data.uuid)) componentRefMap.delete(data.uuid)
         else componentRefMap.set(data.uuid, el!)
       }
-      return (
-        <component
-          ref={bindComponentRef}
-          onDispatchEvent={(eventTriggerName: string) =>
-            dispatchEventBatch(data, eventTriggerName, codeStore.libraryTree, componentRefMap)
-          }
-          {...data.props}
-        ></component>
-      )
+      // 事件
+      const handleDispatchEvent = (eventTriggerName: string) => {
+        dispatchEventBatch(data, eventTriggerName, codeStore.libraryTree, componentRefMap)
+      }
+      return {
+        WidgetItem: component,
+        widgetProps: data.props,
+        handleDispatchEvent,
+        bindComponentRef,
+      }
     },
   }
 }
