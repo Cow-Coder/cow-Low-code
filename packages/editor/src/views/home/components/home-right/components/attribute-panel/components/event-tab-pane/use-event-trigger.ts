@@ -1,20 +1,36 @@
 import { ref } from 'vue'
 import { generateCustomEventTriggerName } from '@cow-low-code/utils'
+import type { ExtractPropTypes } from '@vue/runtime-core'
 import type { ElDialog } from 'element-plus'
-import type { ComponentInternalInstance, WritableComputedRef } from 'vue'
+import type { ComponentInternalInstance, SetupContext, WritableComputedRef } from 'vue'
 import type {
   CommonEventTriggerSchemaData,
   LibraryComponentInstanceCommonEventTriggerData,
   LibraryComponentInstanceCustomEventTriggerData,
   LibraryComponentInstanceEventTriggers,
 } from '@/types/event-trigger'
+import type {
+  createCustomAttributeTabEmits,
+  createCustomAttributeTabProps,
+} from '@/views/home/components/home-right/components/attribute-panel/util'
 import { CUSTOM_EVENT_TRIGGER_NAME } from '@/constant'
+import { uuid } from '@/utils/library'
 
 export default function useEventTrigger(
   componentInstanceEventTriggers: WritableComputedRef<
     LibraryComponentInstanceEventTriggers | undefined
   >
 ) {
+  const instance = getCurrentInstance()!
+  const props = instance.props as Readonly<
+    ExtractPropTypes<ReturnType<typeof createCustomAttributeTabProps>>
+  >
+  const emit = instance.emit as SetupContext<
+    ReturnType<typeof createCustomAttributeTabEmits>
+  >['emit']
+
+  const componentInstanceData = useVModel(props, 'componentInstanceData', emit)
+
   const initExecCode = `
 // 这里的代码会在对应组件setup中的一个匿名函数里执行
 // 本函数有四个参数，分别是
@@ -90,9 +106,12 @@ const emit = instance.emit`
     ] = {
       ...customEventTriggerData.value,
       actions: currentEditEventTriggerName.value
-        ? componentInstanceEventTriggers.value![currentEditEventTriggerName.value].actions
+        ? componentInstanceEventTriggers.value![currentEditEventTriggerName.value]?.actions
         : [],
     } as LibraryComponentInstanceCustomEventTriggerData
+
+    // 修改v-for键值，强制销毁重来
+    componentInstanceData.value!.indexId = uuid()
     dialogIsShowCustomEventTrigger.value = false
   }
 

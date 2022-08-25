@@ -1,5 +1,6 @@
 import { History } from 'stateshot'
-import { cloneDeep } from 'lodash-es'
+import { cloneDeep, isEqual } from 'lodash-es'
+import type { LibraryComponentsInstanceTree } from '@cow-low-code/types'
 import { useCodeStore } from '@/stores/code'
 
 export default function useStateShot() {
@@ -7,15 +8,18 @@ export default function useStateShot() {
   const { jsonCode } = storeToRefs(codeStore)
   let isUndoOrRedoing = false
   const codeHistory = new History<typeof jsonCode.value>({ useChunks: false })
+  let lastJsonCode: undefined | LibraryComponentsInstanceTree = undefined
   watch(
     jsonCode,
     (value) => {
-      const val = toRaw(value)
+      const rawValue = toRaw(value)
       if (isUndoOrRedoing) {
         isUndoOrRedoing = false
         return undefined
       }
-      codeHistory.push(cloneDeep(val))
+      if (isEqual(rawValue, lastJsonCode)) return undefined
+      lastJsonCode = cloneDeep(rawValue)
+      codeHistory.push(lastJsonCode)
     },
     { immediate: true, deep: true }
   )
@@ -28,7 +32,7 @@ export default function useStateShot() {
       }
       isUndoOrRedoing = true
       codeHistory.undo()
-      jsonCode.value = codeHistory.get()
+      jsonCode.value = reactive(cloneDeep(codeHistory.get()))
     },
     redo: () => {
       if (!codeHistory.hasRedo) {
@@ -37,7 +41,7 @@ export default function useStateShot() {
       }
       isUndoOrRedoing = true
       codeHistory.redo()
-      jsonCode.value = codeHistory.get()
+      jsonCode.value = reactive(cloneDeep(codeHistory.get()))
     },
   }
 }

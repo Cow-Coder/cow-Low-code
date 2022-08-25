@@ -1,10 +1,10 @@
 <template>
-  <div class="outline-panel">
+  <div class="outline-panel" style="padding: 15px">
     <div class="outline-filter">
       <el-input v-model="filterText" placeholder="搜索" />
     </div>
     <div class="outline-tree">
-      <el-tree
+      <ElTree
         ref="treeRef"
         :allow-drop="allowDrop"
         :allow-drag="allowDrag"
@@ -24,7 +24,7 @@
 
 <script lang="ts" setup>
 import { ElTree } from 'element-plus'
-import type { DropType, NodeDropType } from 'element-plus/es/components/tree/src/tree.type'
+import type { NodeDropType } from 'element-plus/es/components/tree/src/tree.type'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import type { TreeData } from '@/utils/map-schemes-2-outline'
 import { useCodeStore } from '@/stores/code'
@@ -56,7 +56,7 @@ const filterNode = (value: string, data: TreeData) => {
 }
 
 // 拖拽成功放入时，将其组件顺序修改
-const handleDrop = (draggingNode: Node, dropNode: Node, dropType: DropType) => {
+const handleDrop = (draggingNode: Node, dropNode: Node, dropType: NodeDropType) => {
   // 拖拽后给选中项赋值
   setTimeout(() => {
     treeRef.value?.setCurrentKey(draggingNode.data.uuid)

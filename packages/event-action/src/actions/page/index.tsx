@@ -9,6 +9,6 @@ const modules = import.meta.glob<ActionHandlerSchema>(`./*/index.(tsx|ts)`, {
 export default {
   name: 'Page',
   label: '页面',
-  order: 1,
+  order: 10,
   children: parseActionChildren(modules),
 } as ActionHandlerSchema

@@ -2,8 +2,12 @@
   <div class="layout" :class="{ 'is-frame': isFrame }">
     <div class="phone" :class="{ preview: isPreview }">
       <div class="content">
-        <div v-for="instance in libraryTree" :key="instance.uuid" class="library-component">
-          <component :is="parseLibraryComponent(instance)" />
+        <div v-for="element in libraryTree" :key="element.uuid" class="library-component">
+          <widget-render :widget-element="element" :container-map="containerMap">
+            <template v-for="(value, slotKey) in element.props?.slots" :key="slotKey" #[slotKey]>
+              <slot-item :children="value.children" :slot-key="slotKey" :container="element" />
+            </template>
+          </widget-render>
         </div>
       </div>
     </div>
@@ -22,12 +26,15 @@ import type { MessageData } from '@cow-low-code/types/src/message'
 import { useCodeStore } from '@/stores/code'
 import useLibraryComponent from '@/hooks/use-library-component'
 import usePreventDrag from '@/hooks/use-prevent-drag'
+import SlotItem from '@/components/slot-item.vue'
+import WidgetRender from '@/components/widget-render.vue'
+
 defineOptions({
   name: 'HomeView',
 })
 
 const codeStore = useCodeStore()
-const { libraryTree, __APP_PREVIEW__, pageSetting } = storeToRefs(codeStore)
+const { libraryTree, __APP_PREVIEW__, pageSetting, containerMap } = storeToRefs(codeStore)
 const { parseLibraryComponent } = useLibraryComponent()
 usePreventDrag()
 
@@ -65,8 +72,8 @@ if (__APP_PREVIEW__) {
     const { hash } = useRoute()
     const json = CryptoJS.enc.Base64.parse(hash.slice(1)).toString(CryptoJS.enc.Utf8)
     codeStore.dispatchPageJson(JSON.parse(json))
-  } catch (e) {
-    console.error('解码失败', e)
+  } catch {
+    // console.error('解码失败', e)
   }
 }
 </script>
@@ -82,6 +89,8 @@ if (__APP_PREVIEW__) {
 
   .phone {
     @apply flex-grow flex-col flex w-full;
+    height: 730px;
+    width: 360px;
     &.preview {
       @apply bg-center bg-no-repeat bg-contain;
       background-image: url('@/assets/images/phone.png');

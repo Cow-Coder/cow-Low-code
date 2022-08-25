@@ -92,6 +92,10 @@ export interface LibraryComponent extends ComponentOptions {
    */
   libraryName: LibraryPanelTabEnum
   /**
+   * 物料类型
+   */
+  widgetType: WidgetType
+  /**
    *  所在lib->tab面板中的name
    */
   tabName: TabName
@@ -137,10 +141,6 @@ export interface LibraryComponent extends ComponentOptions {
    * 定义触发事件的情况
    */
   eventTriggers?: EventTriggerSchema
-  /**
-   * 物料类型
-   */
-  widgetType: WidgetType
 }
 
 /**
@@ -177,6 +177,11 @@ export interface LibraryComponentInstanceData {
    * 事件触发器
    */
   eventTriggers?: LibraryComponentInstanceEventTriggers
+  /**
+   * 如果是容器组件的话会有子组件在这里
+   * @deprecated
+   */
+  children?: LibraryComponentInstanceData[]
 }
 
 /**

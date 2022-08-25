@@ -2,7 +2,7 @@
   <div class="home-header">
     <el-row :style="{ height: styleHeaderHeight, 'line-height': styleHeaderHeight }">
       <el-col :span="10">
-        <a-space class="edit-action-area" size="large">
+        <a-space v-if="false" class="edit-action-area" size="large">
           <div class="edit-action">
             <el-link :underline="false" title="撤销" @click="onUndo">
               <icon-undo theme="outline" size="19" :stroke-width="3" />
@@ -14,9 +14,25 @@
             </el-link>
           </div>
         </a-space>
+        <div class="logo-wrapper">
+          <a
+            href="https://github.com/Cow-Coder/cow-Low-code"
+            title="牛搭项目地址"
+            target="_blank"
+            draggable="false"
+          >
+            <img
+              src="@/assets/images/logo.svg"
+              alt="牛搭项目地址"
+              title="牛搭项目地址"
+              class="logo"
+              draggable="false"
+            />
+          </a>
+        </div>
       </el-col>
       <el-col :span="4">
-        <div class="logo-wrapper">
+        <div v-if="false" class="logo-wrapper">
           <a
             href="https://github.com/Cow-Coder/cow-Low-code"
             title="牛搭项目地址"
@@ -88,7 +104,9 @@ const { publishComponent, togglePublishDialog } = usePublish()
 
 <style lang="scss" scoped>
 .logo-wrapper {
-  @apply flex items-center justify-center;
+  @apply flex items-center;
+  //@apply justify-center;
+  @apply justify-start;
   height: var(--style-header-height);
   line-height: var(--style-header-height);
   .logo {

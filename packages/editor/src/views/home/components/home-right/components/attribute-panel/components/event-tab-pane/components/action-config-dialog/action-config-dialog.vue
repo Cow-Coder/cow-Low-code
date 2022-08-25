@@ -51,8 +51,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { ElDialog, ElTree } from 'element-plus'
 import { commonActions } from '@cow-low-code/event-action'
+import { ElTree } from 'element-plus'
 import type { ComponentPublicInstance, ComputedRef } from 'vue'
 import type { ActionConfigResult } from './types'
 import type { ActionHandlerSchema } from '@cow-low-code/types'

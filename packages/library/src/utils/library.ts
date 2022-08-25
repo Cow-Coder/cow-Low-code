@@ -21,9 +21,8 @@ export function createLibraryComponentPropItem(data: LibraryComponentPropItem) {
  * @param str
  */
 export const createSlots = (str: string): SlotItemValue => {
-  const test = str.split(':').reduce(
+  return str.split(':').reduce(
     (prev, curr, index) => {
-      // @ts-ignore
       prev[`slot${index}`] = {
         key: `slot${index}`,
         span: curr,
@@ -31,7 +30,6 @@ export const createSlots = (str: string): SlotItemValue => {
       }
       return prev
     },
-    { value: str }
+    { value: str } as SlotItemValue
   )
-  return test
 }
