@@ -1,7 +1,7 @@
 import { cloneDeep } from 'lodash-es'
 import Setting from '../setting'
+import type { ContainerMap, LibraryComponentsInstanceTree } from '@cow-low-code/types'
 import type { ComponentPublicInstance } from 'vue'
-import type { LibraryComponentsInstanceTree } from '@cow-low-code/types'
 import type { PageJson, PageSetting } from '@cow-low-code/types/src/page'
 
 export const useCodeStore = defineStore('CodeStore', () => {
@@ -11,6 +11,10 @@ export const useCodeStore = defineStore('CodeStore', () => {
   const libraryTree = ref<LibraryComponentsInstanceTree>(init)
   const componentRefMap = new Map<string, ComponentPublicInstance>()
   const pageSetting = ref<PageSetting>()
+  /**
+   * 容器组件映射
+   */
+  const containerMap = ref<ContainerMap>({})
 
   watch(
     () => pageSetting.value?.title,
@@ -30,6 +34,7 @@ export const useCodeStore = defineStore('CodeStore', () => {
     componentRefMap,
     __APP_PREVIEW__,
     pageSetting,
+    containerMap,
     dispatchPageJson,
   }
 })
