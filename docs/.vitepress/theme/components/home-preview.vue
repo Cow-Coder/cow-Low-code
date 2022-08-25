@@ -1,5 +1,21 @@
 <script setup>
 import { withBase } from 'vitepress'
+import { ElImage } from 'element-plus'
+import 'element-plus/theme-chalk/base.css'
+import 'element-plus/theme-chalk/el-image.css'
+import 'element-plus/theme-chalk/el-image-viewer.css'
+const list = [
+  '/img.png',
+  '/img_1.png',
+  '/img_2.png',
+  '/img_8.png',
+  '/img_3.png',
+  '/img_4.png',
+  '/img_6.png',
+  '/img_5.png',
+  '/img_7.png',
+]
+const imgList = list.map((img) => withBase(img))
 </script>
 
 <template>
@@ -7,32 +23,15 @@ import { withBase } from 'vitepress'
     <div class="home-preview">
       <h2>截图预览</h2>
       <div class="items">
-        <div class="item">
-          <zoom-img src="/img.png" />
-        </div>
-        <div class="item">
-          <zoom-img src="/img_1.png" />
-        </div>
-        <div class="item">
-          <zoom-img src="/img_2.png" />
-        </div>
-        <div class="item">
-          <zoom-img src="/img_8.png" />
-        </div>
-        <div class="item">
-          <zoom-img src="/img_3.png" />
-        </div>
-        <div class="item">
-          <zoom-img src="/img_4.png" />
-        </div>
-        <div class="item">
-          <zoom-img src="/img_6.png" />
-        </div>
-        <div class="item">
-          <zoom-img src="/img_5.png" />
-        </div>
-        <div class="item">
-          <zoom-img src="/img_7.png" />
+        <div v-for="(img, index) in imgList" :key="index" class="item">
+          <p>
+            <el-image
+              :src="img"
+              :preview-src-list="imgList"
+              :hide-on-click-modal="true"
+              :initial-index="index"
+            />
+          </p>
         </div>
       </div>
     </div>
