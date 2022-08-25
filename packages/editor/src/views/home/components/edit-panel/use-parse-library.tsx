@@ -33,9 +33,6 @@ export default function useParseLibrary(isDownSpace: Ref<boolean>) {
     const component = libraryMap[data.componentName]
     if (!component) throw new Error(`library component: ${data.libraryName} not found`)
 
-    // 配置【并且将其变成响应式的】
-    const props = computed(() => cloneDeep(data.props))
-
     // 绑定每个组件ref，自定义动作需要拿到ref对物料组件进行操作
     function bindComponentRef(el: ComponentPublicInstance | null) {
       if (!el && componentRefMap.has(data.uuid)) componentRefMap.delete(data.uuid)
@@ -46,7 +43,7 @@ export default function useParseLibrary(isDownSpace: Ref<boolean>) {
     const handleDispatchEvent = (eventTriggerName: string) => {
       dispatchEventBatch(data, eventTriggerName, codeStore.jsonCode, componentRefMap)
     }
-    return { WidgetItem: component, widgetProps: props, handleDispatchEvent, bindComponentRef }
+    return { WidgetItem: component, widgetProps: data.props, handleDispatchEvent, bindComponentRef }
   }
 
   function isFocusComponent(data: LibraryComponentInstanceData) {
