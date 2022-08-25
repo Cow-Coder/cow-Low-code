@@ -57,7 +57,7 @@ const { onContextMenu } = useContentMenu()
 const { editDraggableConfigRef, isFocusComponent, editableInstancedLibraryComponentData } =
   useParseLibrary(isDownSpace)
 //TODO: fix：The node to be removed is not a child of this node.
-// const { editCanvasRef } = useDragPreview()
+const { editCanvasRef } = useDragPreview()
 const store = useCodeStore()
 const { containerMap } = storeToRefs(store)
 </script>

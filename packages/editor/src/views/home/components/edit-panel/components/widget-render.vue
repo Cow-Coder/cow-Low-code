@@ -4,7 +4,6 @@
       v-if="true"
       v-bind="widgetProps"
       :ref="bindComponentRef"
-      :comp-id="element.uuid"
       :my-instance-data="element"
       :container-map="containerMap"
       @dispatch-event="handleDispatchEvent"
