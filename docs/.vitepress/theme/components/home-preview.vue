@@ -17,13 +17,22 @@ import { withBase } from 'vitepress'
           <zoom-img src="/img_2.png" />
         </div>
         <div class="item">
+          <zoom-img src="/img_8.png" />
+        </div>
+        <div class="item">
           <zoom-img src="/img_3.png" />
         </div>
         <div class="item">
           <zoom-img src="/img_4.png" />
         </div>
         <div class="item">
+          <zoom-img src="/img_6.png" />
+        </div>
+        <div class="item">
           <zoom-img src="/img_5.png" />
+        </div>
+        <div class="item">
+          <zoom-img src="/img_7.png" />
         </div>
       </div>
     </div>
