@@ -17,8 +17,11 @@ export default function useDragPreview() {
     if (!el && ghostStash && ghostLibraryComponentContainer) {
       // drop时刻，el为undefined
       ;(ghostStash.children[0] as HTMLElement).style.display = ''
+      // 兼容容器组件。容器组件在拖拽时刻暂时没有渲染出真实组件
+      if (ghostStash.children.length === 1) return undefined
       ghostStash.removeChild(ghostLibraryComponentContainer)
     }
+    if (el?.widgetType === 'container') return undefined
 
     const ghost: HTMLElement | null = editCanvasRef.value.querySelector(
       '.edit-canvas-sortable-ghost'
