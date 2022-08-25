@@ -12,7 +12,8 @@
 ![language](https://img.shields.io/github/languages/top/Cow-Coder/cow-Low-code)
 ![last](https://img.shields.io/github/last-commit/Cow-Coder/cow-Low-code)
 
-![cow-coder github io_cow-Low-code_](https://user-images.githubusercontent.com/49338067/184282705-849fa1f6-2535-453c-b224-b237d760b2ff.png)
+![image](https://user-images.githubusercontent.com/49338067/186590858-b5af2520-3a65-46a5-8c48-0d29f34e5ef4.png)
+
 
 </div>
 
