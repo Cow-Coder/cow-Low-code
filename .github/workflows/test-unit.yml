@@ -27,9 +27,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      #      - name: Add dev branch
-      #        run: git branch dev origin/main
-
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
 
@@ -38,18 +35,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
-
-      - name: Cache ~/.pnpm-store
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-pnpm-store
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ matrix.node-version }}-deploy-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.node-version }}-deploy-${{ env.cache-name }}-
-            ${{ runner.os }}-${{ matrix.node-version }}-deploy-
-            ${{ runner.os }}-
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
