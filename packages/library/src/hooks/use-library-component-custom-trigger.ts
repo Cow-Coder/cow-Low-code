@@ -35,13 +35,11 @@ function applyCustomEventTriggers<T>(context: T): T {
   const props = instance.props as Readonly<
     ExtractPropTypes<ReturnType<typeof createCustomEventTriggerProp>>
   >
-  const myInstanceData = toRef(
-    props,
-    'myInstanceData'
-  )! as unknown as Ref<LibraryComponentInstanceData>
-  if (isUndefined(myInstanceData.value.eventTriggers)) return context
-
-  Object.entries(myInstanceData.value.eventTriggers).forEach(([name, trigger]) => {
+  const myInstanceData = toRef(props, 'myInstanceData')! as unknown as Ref<
+    LibraryComponentInstanceData | undefined
+  >
+  if (isUndefined(myInstanceData.value?.eventTriggers)) return context
+  Object.entries(myInstanceData.value!.eventTriggers).forEach(([name, trigger]) => {
     if (!isCustomEventTriggerName(name)) return undefined
     const execFun = new Function(
       `context`,
@@ -53,7 +51,7 @@ function applyCustomEventTriggers<T>(context: T): T {
     try {
       execFun(context, getCurrentInstance, CUSTOM_EVENT_EMIT_NAME, name)
     } catch (e) {
-      console.error(`${myInstanceData.value.componentName}自定事件触发器[${name}]执行失败`, e)
+      console.error(`${myInstanceData.value!.componentName}自定事件触发器[${name}]执行失败`, e)
     }
   })
   return context
