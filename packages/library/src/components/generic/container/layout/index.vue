@@ -25,6 +25,7 @@ import {
 } from '@cow-low-code/types'
 import { useVModel } from '@vueuse/core'
 import { HorizontalTidyUp } from '@icon-park/vue-next'
+import { isUndefined } from 'lodash-es'
 import type { PropType } from 'vue'
 import type { ContainerMap, LibraryComponentInstanceData, SlotItemValue } from '@cow-low-code/types'
 
@@ -119,12 +120,8 @@ export default defineComponent({
     myInstanceData: {
       type: Object as PropType<LibraryComponentInstanceData>,
     },
-    compId: {
-      type: String,
-      required: true,
-    },
   },
-  emits: ['update:slots', 'update:widgetCss', 'update:defaultFold'],
+  emits: ['update:slots', 'update:widgetCss'],
   setup(props, { attrs, emit }) {
     const activeNames = ref<string[]>(['1'])
     // watch(useVModel(props, 'defaultFold', emit), (newValue) => {
@@ -144,7 +141,9 @@ export default defineComponent({
     watch(
       () => props.slots.value,
       () => {
-        const oldSlots = props.containerMap[props.compId]?.props?.slots as SlotItemValue
+        if (isUndefined(props.myInstanceData)) return undefined
+        const oldSlots = props.containerMap[props.myInstanceData.uuid]?.props
+          ?.slots as SlotItemValue
         const myInstanceData = props.myInstanceData
         if (!myInstanceData) return
         const containerSchemaSlots = myInstanceData.props?.slots as SlotItemValue
