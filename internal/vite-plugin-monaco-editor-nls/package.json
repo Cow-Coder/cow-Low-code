@@ -5,7 +5,7 @@
   ],
   "main": "dist/index.js",
   "scripts": {
-    "build": "rimraf dist && tsc -p . && pnpm exec copy src/locale/* dist/locale"
+    "build": "rimraf dist && tsc -p . && npx copyfiles src/locale/* dist/locale"
   },
   "peerDependencies": {
     "vite": ">=2.3.0"
